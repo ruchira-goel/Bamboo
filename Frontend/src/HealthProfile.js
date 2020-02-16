@@ -6,6 +6,7 @@ import {
   View,
   ScrollView,
   TextInput,
+  TouchableOpacity,
 } from 'react-native';
 
 export default class HealthProfile extends Component {
@@ -47,6 +48,9 @@ export default class HealthProfile extends Component {
                 maxLength={20}
               />
             </View>
+            <TouchableOpacity style={styles.saveButton}>
+              <Text style={styles.saveButtonText}>Edit</Text>
+            </TouchableOpacity>
           </ScrollView>
         </View>
       </View>
@@ -74,5 +78,17 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 18,
+  },
+  saveButton: {
+    borderWidth: 1,
+    borderColor: '#007BFF',
+    backgroundColor: '#007BFF',
+    padding: 15,
+    margin: 5,
+  },
+  saveButtonText: {
+    color: '#FFFFFF',
+    fontSize: 20,
+    textAlign: 'center',
   },
 });
