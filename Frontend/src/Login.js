@@ -1,22 +1,23 @@
 import React from 'react';
-import {View, Text, TextInput, Button, Alert} from 'react-native';
+import {View, Text, TextInput, Button, Alert, StyleSheet} from 'react-native';
 
-type Props = {
-  changePageHandler: string => any,
-};
-
-export default class Login extends Component<Props> {
+export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
+      email: '',
       encryptedPassword: '',
     };
   }
 
+  static navigationOptions = {
+    header: {
+      visible: false,
+    },
+  };
+
   login = () => {
     const {email, encryptedPassword} = this.state;
-    const {changePageHandler} = this.props;
     fetch(
       `http://localhost:8080/User/login?email=${email}&encryptedPassword=${encryptedPassword}`,
     )
@@ -26,7 +27,6 @@ export default class Login extends Component<Props> {
           Alert.alert('Error', responseJson.message, [{text: 'OK'}]);
         } else {
           console.log('Success');
-          changePageHandler('characteristics');
           //go to characteristics page
         }
       });
@@ -36,30 +36,68 @@ export default class Login extends Component<Props> {
     return (
       <View style={styles.heading}>
         <Text>Bamboo.</Text>
+        <View style={styles.spacingHigh} />
         <TextInput
-          style={styles.input}
+          style={styles.fieldText}
+          autoCapitalize="none"
+          placeholder="Enter email"
           onChangeText={email => this.setState({email})}
         />
+        <View style={styles.spacingSmall} />
+        <Text>{'       '}</Text>
         <TextInput
-          style={styles.input}
+          style={styles.fieldText}
+          autoCapitalize="none"
+          placeholder="Enter password"
           secureTextEntry={true}
           onChangeText={encryptedPassword => this.setState({encryptedPassword})}
         />
+        <Text> {'  '}</Text>
+        <View style={styles.spacingSmall} />
         <View>
-          <Button title={'Login'} onPress={() => this.login()} />
+          <Button title={'Login'} onPress={this.loginUser} />
         </View>
       </View>
     );
   }
 }
 
-const styles = {
+const styles = StyleSheet.create({
   heading: {
     fontSize: 24,
+    fontWeight: '500',
+    textAlign: 'center',
+    flex: 1,
+    //justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '35%',
   },
-  input: {
-    width: '70%',
-    autoCapitalize: 'none',
-    placeholder: 'Email',
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-};
+  spacingHigh: {
+    padding: 15,
+  },
+  spacingSmall: {
+    padding: 0,
+  },
+  fieldText: {
+    fontSize: 16,
+    textAlign: 'center',
+    alignItems: 'center',
+    marginLeft: '31%',
+    marginRight: '31%',
+  },
+  alignLeftView: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  btnStyle: {
+    backgroundColor: 'black',
+    color: 'white',
+    borderRadius: 2,
+  },
+});

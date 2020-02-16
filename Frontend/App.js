@@ -6,42 +6,24 @@
  * @flow
  */
 
-import React from 'react';
-import {StyleSheet, View} from 'react-native';
-
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import * as React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import Login from './src/Login';
-import EnterCharacteristics from './src/EnterCharacteristics';
 
-//const App: () => React$Node = () => {
-type Props = {
-  changePageHandler: string => any,
-};
+const Stack = createStackNavigator();
 
-export default class App extends Component<Props> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentPage: 'login',
-    };
-  }
-
-  changePage = page => {
-    this.setState(page);
-  };
-
-  renderPage = () => {
-    switch (this.state.currentPage) {
-      case 'login':
-        return <Login changePageHandler={this.changePage} />;
-      case 'characteristics':
-        return <EnterCharacteristics changePageHandler={this.changePage} />;
-    }
-  };
-  render() {
-    return <View>{this.renderPage}</View>;
-  }
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen name="Login" component={Login} headerrShown="false" />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
+
+export default App;
 
 /*const styles = StyleSheet.create({
   scrollView: {
