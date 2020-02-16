@@ -12,17 +12,22 @@ import {
 export default class HealthProfile extends Component {
   constructor(props) {
     super(props);
-    this.state = {buttonValue: 'Edit'};
+    this.state = {
+      buttonValue: 'Edit',
+      editable: false,
+    };
   }
 
   onPress = () => {
     if (this.state.buttonValue === 'Edit') {
       this.setState({
         buttonValue: 'Save',
+        editable: true,
       });
     } else {
       this.setState({
         buttonValue: 'Edit',
+        editable: false,
       });
     }
   };
@@ -38,6 +43,8 @@ export default class HealthProfile extends Component {
               <TextInput
                 style={[styles.textInput, styles.text]}
                 placeholder="Height"
+                placeholderTextColor="#007BFF"
+                editable={this.state.editable}
                 maxLength={20}
               />
             </View>
@@ -46,6 +53,8 @@ export default class HealthProfile extends Component {
               <TextInput
                 style={[styles.textInput, styles.text]}
                 placeholder="Weight"
+                placeholderTextColor="#007BFF"
+                editable={this.state.editable}
                 maxLength={20}
               />
             </View>
@@ -54,6 +63,8 @@ export default class HealthProfile extends Component {
               <TextInput
                 style={[styles.textInput, styles.text]}
                 placeholder="Age"
+                placeholderTextColor="#007BFF"
+                editable={this.state.editable}
                 maxLength={20}
               />
             </View>
@@ -62,6 +73,8 @@ export default class HealthProfile extends Component {
               <TextInput
                 style={[styles.textInput, styles.text]}
                 placeholder="Sex"
+                placeholderTextColor="#007BFF"
+                editable={this.state.editable}
                 maxLength={20}
               />
             </View>
