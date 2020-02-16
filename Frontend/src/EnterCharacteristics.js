@@ -1,15 +1,31 @@
-import {Text, View, StyleSheet} from 'react-native';
-import {Dimensions} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Dimensions,
+  TextInput,
+  Switch,
+} from 'react-native';
+import Constants from 'expo-constants';
 import React, {Component} from 'react';
-import {Switch} from 'react-native';
+//import MaterialSwitch from "./components/MaterialSwitch";
 
-let {height, width} = Dimensions.get('window');
+var {height, width} = Dimensions.get('window');
 
 export default class EnterCharacteristics extends React.Component {
-  state = {switchValue: false};
+  state = {
+    switchValue: false,
+  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      height: '',
+    };
+  }
   toggleSwitch = value => {
     this.setState({switchValue: value});
   };
+
   render() {
     return (
       <View style={styles.container}>
@@ -18,8 +34,16 @@ export default class EnterCharacteristics extends React.Component {
           {'\n'}...
           {'\n'}...
         </Text>
+        <TextInput
+          value={this.state.height}
+          onChangeText={height => this.setState({height})}
+          placeholder={'Enter Height'}
+          style={styles.input}
+        />
+        <Text>{this.state.switchValue ? 'inch' : 'cm'}</Text>
         <Text>{this.state.switchValue ? 'Imperial' : 'Metric'}</Text>
         <Switch
+          style={{}}
           onValueChange={this.toggleSwitch}
           value={this.state.switchValue}
         />
@@ -41,5 +65,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  input: {
+    width: width * 0.8,
+    height: height * 0.05,
+    padding: 8,
+    marginBottom: 10,
+    backgroundColor: '#ecf0f1',
   },
 });
