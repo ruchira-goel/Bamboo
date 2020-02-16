@@ -1,6 +1,7 @@
 import * as React from 'react';
-import {Text, View, StyleSheet, TextInput} from 'react-native';
+import {Text, View, StyleSheet, TextInput, Button} from 'react-native';
 import Constants from 'expo-constants';
+import DoneButton from 'react-native-keyboard-done-button';
 
 // You can import from local files
 import AssetExample from './components/AssetExample';
@@ -26,7 +27,9 @@ export default class App extends React.Component {
           }}
           autoCorrect="false"
           placeholder="name"
+          autoCompleteType="name"
           returnKeyLabel="Done"
+          autoCapitalize="words"
         />
         <TextInput
           style={{
@@ -40,6 +43,7 @@ export default class App extends React.Component {
           }}
           autoCorrect="false"
           placeholder="email@example.com"
+          returnKeyLabel="Done"
         />
         <TextInput
           style={{
@@ -52,12 +56,14 @@ export default class App extends React.Component {
             borderBottomWidth: 1,
           }}
           autoCorrect="false"
+          autoCompleteType="email"
           placeholder="password"
+          returnKeyLabel="Done"
         />
         <TextInput
           style={{
             height: 20,
-            marginBottom: 15,
+            marginBottom: 25,
             marginTop: 15,
             marginLeft: 30,
             marginRight: 30,
@@ -65,8 +71,24 @@ export default class App extends React.Component {
             borderBottomWidth: 1,
           }}
           autoCorrect="false"
+          autoCompleteType="password"
           placeholder="confirm password"
+          returnKeyLabel="Done"
         />
+        <DoneButton
+          title="Done" //not required, default value = `Done`
+          style={{backgroundColor: 'lightgrey'}} //not required
+          doneStyle={{color: '#147efb'}} //not required
+        />
+        <Button
+          onPress={() => {
+            alert('You tapped the button!');
+          }}
+          title="Sign Up"
+          color="black"
+          backgroundColor="green"
+        />
+        <Text style={styles.paragraph}>Already have an account?</Text>
       </View>
     );
   }
