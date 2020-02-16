@@ -10,6 +10,23 @@ import {
 } from 'react-native';
 
 export default class HealthProfile extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {buttonValue: 'Edit'};
+  }
+
+  onPress = () => {
+    if (this.state.buttonValue === 'Edit') {
+      this.setState({
+        buttonValue: 'Save',
+      });
+    } else {
+      this.setState({
+        buttonValue: 'Edit',
+      });
+    }
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -50,8 +67,8 @@ export default class HealthProfile extends Component {
             </View>
           </ScrollView>
         </View>
-        <TouchableOpacity style={styles.saveButton}>
-          <Text style={styles.saveButtonText}>Edit</Text>
+        <TouchableOpacity style={styles.saveButton} onPress={this.onPress}>
+          <Text style={styles.saveButtonText}>{this.state.buttonValue}</Text>
         </TouchableOpacity>
       </View>
     );
