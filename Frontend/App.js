@@ -7,72 +7,43 @@
  */
 
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import Login from './src/Login';
+import EnterCharacteristics from './src/EnterCharacteristics';
 
-const App: () => React$Node = () => {
-  return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
-  );
+//const App: () => React$Node = () => {
+type Props = {
+  changePageHandler: string => any,
 };
 
-const styles = StyleSheet.create({
+export default class App extends Component<Props> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentPage: 'login',
+    };
+  }
+
+  changePage = page => {
+    this.setState(page);
+  };
+
+  renderPage = () => {
+    switch (this.state.currentPage) {
+      case 'login':
+        return <Login changePageHandler={this.changePage} />;
+      case 'characteristics':
+        return <EnterCharacteristics changePageHandler={this.changePage} />;
+    }
+  };
+  render() {
+    return <View>{this.renderPage}</View>;
+  }
+}
+
+/*const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: Colors.lighter,
   },
@@ -109,6 +80,4 @@ const styles = StyleSheet.create({
     paddingRight: 12,
     textAlign: 'right',
   },
-});
-
-export default App;
+});*/
