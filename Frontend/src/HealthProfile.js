@@ -13,8 +13,8 @@ export default class HealthProfile extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View>
-          <Text style={styles.header}>Name's Health Profile</Text>
+        <View style={styles.contentContainer}>
+          <Text style={styles.header}>[Name]'s Health Profile</Text>
           <ScrollView>
             <View style={styles.inputContainer}>
               <Text style={[styles.text, {padding: 12}]}>Height:</Text>
@@ -48,11 +48,11 @@ export default class HealthProfile extends Component {
                 maxLength={20}
               />
             </View>
-            <TouchableOpacity style={styles.saveButton}>
-              <Text style={styles.saveButtonText}>Edit</Text>
-            </TouchableOpacity>
           </ScrollView>
         </View>
+        <TouchableOpacity style={styles.saveButton}>
+          <Text style={styles.saveButtonText}>Edit</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -64,6 +64,9 @@ const styles = StyleSheet.create({
     paddingTop: 45,
     backgroundColor: '#F5FCFF',
   },
+  contentContainer: {
+    flex: 1,
+  },
   header: {
     fontSize: 25,
     textAlign: 'center',
@@ -73,11 +76,11 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignSelf: 'center',
-    paddingTop: 45,
+    paddingTop: 35,
     backgroundColor: '#F5FCFF',
   },
   text: {
-    fontSize: 18,
+    fontSize: 20,
   },
   saveButton: {
     borderWidth: 1,
