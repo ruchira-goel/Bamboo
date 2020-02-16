@@ -9,12 +9,20 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+// TODO:
+// 1. put user's name in header
+// 2. fill inputs with user data
+// 3. update database data on 'Save' click
+// 4. validate inputs
+// 5. display units
+
 export default class HealthProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
       buttonValue: 'Edit',
       editable: false,
+      inputStyle: styles.text,
     };
   }
 
@@ -23,11 +31,13 @@ export default class HealthProfile extends Component {
       this.setState({
         buttonValue: 'Save',
         editable: true,
+        inputStyle: styles.textEdit,
       });
     } else {
       this.setState({
         buttonValue: 'Edit',
         editable: false,
+        inputStyle: styles.text,
       });
     }
   };
@@ -41,9 +51,14 @@ export default class HealthProfile extends Component {
             <View style={styles.inputContainer}>
               <Text style={[styles.text, {padding: 12}]}>Height:</Text>
               <TextInput
-                style={[styles.textInput, styles.text]}
-                placeholder="Height"
-                placeholderTextColor="#007BFF"
+                style={[
+                  styles.textInput,
+                  this.state.inputStyle,
+                  styles.text,
+                  {width: 80},
+                ]}
+                placeholder="165 cm"
+                placeholderTextColor="#000000"
                 editable={this.state.editable}
                 maxLength={20}
               />
@@ -51,9 +66,14 @@ export default class HealthProfile extends Component {
             <View style={styles.inputContainer}>
               <Text style={[styles.text, {padding: 12}]}>Weight:</Text>
               <TextInput
-                style={[styles.textInput, styles.text]}
-                placeholder="Weight"
-                placeholderTextColor="#007BFF"
+                style={[
+                  styles.textInput,
+                  this.state.inputStyle,
+                  styles.text,
+                  {width: 80},
+                ]}
+                placeholder="50 kg"
+                placeholderTextColor="#000000"
                 editable={this.state.editable}
                 maxLength={20}
               />
@@ -61,9 +81,14 @@ export default class HealthProfile extends Component {
             <View style={styles.inputContainer}>
               <Text style={[styles.text, {padding: 12}]}>Age:</Text>
               <TextInput
-                style={[styles.textInput, styles.text]}
-                placeholder="Age"
-                placeholderTextColor="#007BFF"
+                style={[
+                  styles.textInput,
+                  this.state.inputStyle,
+                  styles.text,
+                  {width: 80},
+                ]}
+                placeholder="20"
+                placeholderTextColor="#000000"
                 editable={this.state.editable}
                 maxLength={20}
               />
@@ -71,9 +96,14 @@ export default class HealthProfile extends Component {
             <View style={styles.inputContainer}>
               <Text style={[styles.text, {padding: 12}]}>Sex:</Text>
               <TextInput
-                style={[styles.textInput, styles.text]}
-                placeholder="Sex"
-                placeholderTextColor="#007BFF"
+                style={[
+                  styles.textInput,
+                  this.state.inputStyle,
+                  styles.text,
+                  {width: 80},
+                ]}
+                placeholder="Female"
+                placeholderTextColor="#000000"
                 editable={this.state.editable}
                 maxLength={20}
               />
@@ -103,6 +133,9 @@ const styles = StyleSheet.create({
     margin: 10,
     fontWeight: 'bold',
   },
+  textEdit: {
+    borderBottomWidth: 2,
+  },
   inputContainer: {
     flexDirection: 'row',
     alignSelf: 'center',
@@ -111,6 +144,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
+    width: 100,
   },
   saveButton: {
     borderWidth: 1,
