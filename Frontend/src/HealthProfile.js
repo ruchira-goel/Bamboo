@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {
-  Button,
   StyleSheet,
   Text,
   View,
@@ -13,7 +12,7 @@ import {
 // 1. put user's name in header
 // 2. fill inputs with user data
 // 3. update database data on 'Save' click
-// 4. validate inputs
+// 4. validate inputs, display errors
 // 5. display units
 
 export default class HealthProfile extends Component {
