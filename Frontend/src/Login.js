@@ -1,5 +1,13 @@
 import React from 'react';
-import {View, Text, TextInput, Button, Alert, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  Alert,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -10,23 +18,17 @@ export default class Login extends React.Component {
     };
   }
 
-  static navigationOptions = {
-    header: {
-      visible: false,
-    },
-  };
-
   login = () => {
     const {email, encryptedPassword} = this.state;
     fetch(
       `http://localhost:8080/User/login?email=${email}&encryptedPassword=${encryptedPassword}`,
     )
-      .then(response => response.json())
-      .then(responseJson => {
-        if (responseJson.error) {
-          Alert.alert('Error', responseJson.message, [{text: 'OK'}]);
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        if (data.error) {
+          Alert.alert('Error', data.message, [{text: 'OK'}]);
         } else {
-          console.log('Success');
           //go to characteristics page
         }
       });
@@ -35,7 +37,7 @@ export default class Login extends React.Component {
   render() {
     return (
       <View style={styles.heading}>
-        <Text>Bamboo.</Text>
+        <Text style={{textAlign: 'center'}}>Bamboo.</Text>
         <View style={styles.spacingHigh} />
         <TextInput
           style={styles.fieldText}
@@ -43,7 +45,6 @@ export default class Login extends React.Component {
           placeholder="Enter email"
           onChangeText={email => this.setState({email})}
         />
-        <View style={styles.spacingSmall} />
         <Text>{'       '}</Text>
         <TextInput
           style={styles.fieldText}
@@ -54,8 +55,10 @@ export default class Login extends React.Component {
         />
         <Text> {'  '}</Text>
         <View style={styles.spacingSmall} />
-        <View>
-          <Button title={'Login'} onPress={this.loginUser} />
+        <View style={styles.container}>
+          <TouchableOpacity onPress={this.login} style={styles.btnStyle}>
+            <Text> Login</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -66,29 +69,30 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 24,
     fontWeight: '500',
-    textAlign: 'center',
     flex: 1,
-    //justifyContent: 'center',
-    alignItems: 'center',
     marginTop: '35%',
   },
   container: {
     flex: 1,
-    justifyContent: 'center',
+    width: '40%',
+    height: '20%',
     alignItems: 'center',
+    alignContent: 'center',
+    marginLeft: '30%',
   },
   spacingHigh: {
     padding: 15,
   },
   spacingSmall: {
-    padding: 0,
+    padding: 10,
   },
   fieldText: {
     fontSize: 16,
-    textAlign: 'center',
+    justifyContent: 'center',
     alignItems: 'center',
     marginLeft: '31%',
     marginRight: '31%',
+    borderBottomWidth: 0.5,
   },
   alignLeftView: {
     flex: 1,
@@ -96,8 +100,14 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   btnStyle: {
-    backgroundColor: 'black',
-    color: 'white',
+    backgroundColor: '#3eb245',
+    color: 'black',
     borderRadius: 2,
+    borderColor: '#3eb245',
+    width: '40%',
+    height: '7%',
+    justifyContent: 'center', //text in the middle of the button
+    alignItems: 'center', //text in the middle of the button
   },
+  /*textalign for the text to be in the center for "bamboo."*/
 });
