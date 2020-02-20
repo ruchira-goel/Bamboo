@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   Alert,
   StyleSheet,
   TouchableOpacity,
@@ -18,8 +17,9 @@ export default class Login extends React.Component {
     };
   }
 
-  login = () => {
+  login = ({navigation}) => {
     const {email, encryptedPassword} = this.state;
+    //sending request to retrieve the corresponding user object for login
     fetch(
       `http://localhost:8080/User/login?email=${email}&encryptedPassword=${encryptedPassword}`,
     )
@@ -27,9 +27,18 @@ export default class Login extends React.Component {
       .then(data => {
         console.log(data);
         if (data.error) {
-          Alert.alert('Error', data.message, [{text: 'OK'}]);
+          //throwing error when login fails - wrong password / email not registered yet
+          if (data.message === "This email isn't registered yet") {
+            Alert.alert('Not registered', data.message, [{text: 'OK'}]);
+          } else if (data.message === 'You entered the wrong password!') {
+            Alert.alert('Incorrect password', data.message, [{text: 'OK'}]);
+          }
         } else {
-          //go to characteristics page
+          //going to home screen
+          navigation.navigate('Details', {
+            email: email,
+            encryptedPassword: encryptedPassword,
+          });
         }
       });
   };
@@ -37,13 +46,13 @@ export default class Login extends React.Component {
   render() {
     return (
       <View style={styles.heading}>
-        <Text style={{textAlign: 'center'}}>Bamboo.</Text>
+        <Text style={{textAlign: 'center', fontSize: 20}}>Bamboo.</Text>
         <View style={styles.spacingHigh} />
         <TextInput
           style={styles.fieldText}
           autoCapitalize="none"
           placeholder="Enter email"
-          onChangeText={email => this.setState({email})}
+          onChangeText={email => this.setState({email})} //setting the email when user enters it
         />
         <Text>{'       '}</Text>
         <TextInput
@@ -51,7 +60,7 @@ export default class Login extends React.Component {
           autoCapitalize="none"
           placeholder="Enter password"
           secureTextEntry={true}
-          onChangeText={encryptedPassword => this.setState({encryptedPassword})}
+          onChangeText={encryptedPassword => this.setState({encryptedPassword})} //setting the password when user enters it, not encrypted yet
         />
         <Text> {'  '}</Text>
         <View style={styles.spacingSmall} />
