@@ -19,8 +19,8 @@ public class UserHandler {
             throw new IllegalAccessException("This email isn't registered yet");
         }
         if (!user.get().getEncryptedPassword().equals(password)) {
-            throw new IllegalAccessException("Wrong password");
+            throw new IllegalAccessException("You entered the wrong password!");
         }
-        return new User(email, password);
+        return user.get();
     }
 }
