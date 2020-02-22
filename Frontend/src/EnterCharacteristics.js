@@ -11,7 +11,7 @@ import Constants from 'expo-constants';
 import React, {Component} from 'react';
 import {Dropdown} from 'react-native-material-dropdown';
 
-var {screenHeight, screenWidth} = Dimensions.get('window');
+let {screenHeight, screenWidth} = Dimensions.get('window');
 
 export default class EnterCharacteristics extends React.Component {
   state = {
@@ -34,7 +34,7 @@ export default class EnterCharacteristics extends React.Component {
   };
 
   renderHeight() {
-    if (this.state.switchValue) {
+    if (!this.state.switchValue) {
       return (
         <View style={styles.flexRowContainer}>
           <TextInput
@@ -53,26 +53,25 @@ export default class EnterCharacteristics extends React.Component {
       return (
         <View style={styles.flexRowContainer}>
           <TextInput
-            value={this.feet}
-            onChangeText={height => this.setState({height})}
+            value={this.state.feet}
+            onChangeText={feet => this.setState({feet})}
             placeholder={'Enter feet'}
             keyboardType={'numeric'}
             autoCorrect="false"
             returnKeyType="done"
-            style={styles.input}
+            style={styles.smallInput}
           />
           <Text>{'feet'}</Text>
           <TextInput
-            value={this.inches}
-            onChangeText={height => this.setState({height})}
+            value={this.state.inches}
+            onChangeText={inches => this.setState({inches})}
             placeholder={'Enter inches'}
             keyboardType={'numeric'}
             autoCorrect="false"
             returnKeyType="done"
-            style={styles.input}
+            style={styles.smallInput}
           />
-          <Text>{'feet'}</Text>
-          this.height = ((this.feet * 12) + this.inches) * 2.54
+          <Text>{'inches'}</Text>
         </View>
       );
     }
@@ -80,25 +79,14 @@ export default class EnterCharacteristics extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={styles.fullContainer}>
         <Text style={styles.paragraph}>
           Bamboo does ...
           {'\n'}...
           {'\n'}...
         </Text>
-        <View style={styles.flexRowContainer}>
-          <TextInput
-            value={this.state.height}
-            onChangeText={height => this.setState({height})}
-            placeholder={'Enter Height'}
-            keyboardType={'numeric'}
-            autoCorrect="false"
-            returnKeyType="done"
-            style={styles.input}
-          />
-          <Text>{this.state.switchValue ? 'inch' : 'cm'}</Text>
-        </View>
 
+        <View style={styles.flexRowContainer}>{this.renderHeight()}</View>
         <View style={styles.flexRowContainer}>
           <TextInput
             value={this.state.weight}
@@ -122,7 +110,7 @@ export default class EnterCharacteristics extends React.Component {
             returnKeyType="done"
             style={styles.input}
           />
-          <Text>{'years'}</Text>
+          <Text>years</Text>
         </View>
 
         <Dropdown
@@ -143,14 +131,15 @@ export default class EnterCharacteristics extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  fullContainer: {
     flex: 1,
     backgroundColor: '#ecf0f1',
-    padding: 8,
-    paddingTop: screenHeight * 0.1,
+    padding: '10%',
     textAlign: 'center',
+    alignItems: 'center',
   },
   flexRowContainer: {
+    width: '90%',
     flexDirection: 'row',
     textAlign: 'center',
   },
@@ -161,11 +150,20 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   input: {
-    width: screenWidth * 0.8,
+    width: '80%',
     height: screenHeight * 0.05,
     marginBottom: 10,
     borderBottomWidth: 1,
     backgroundColor: '#ecf0f1',
+    textAlign: 'center',
+  },
+  smallInput: {
+    width: '50%',
+    height: screenHeight * 0.05,
+    marginBottom: 10,
+    borderBottomWidth: 1,
+    backgroundColor: '#ecf0f1',
+    textAlign: 'center',
   },
   switch: {
     textAlign: 'center',
