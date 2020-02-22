@@ -20,4 +20,11 @@ public class UserController {
                       @RequestParam(value = "encryptedPassword") String encryptedPassword) throws IllegalAccessException {
         return userHandler.loginUser(email, encryptedPassword);
     }
+
+    @RequestMapping("/User/signup")          //login request
+    public User signup(@RequestParam(value = "name") String name,
+                       @RequestParam(value = "email") String email,
+                       @RequestParam(value = "password") String password) throws IllegalAccessException {
+        return userHandler.signupUser(name, email, password);
+    }
 }

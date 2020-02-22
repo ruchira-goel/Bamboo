@@ -1,9 +1,79 @@
 import * as React from 'react';
-import {Text, View, StyleSheet, TextInput, Button} from 'react-native';
+import {Text, View, StyleSheet, TextInput, Button, Alert} from 'react-native';
 import DoneButton from 'react-native-keyboard-done-button';
 import Constants from 'expo-constants';
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    };
+  }
+
+  signUp = () => {
+    const {name, email, password, confirmPassword} = this.state;
+    if (!name) {
+      Alert.alert('Name Empty', 'Please enter a name.', [{text: 'OK'}]);
+      return;
+    }
+    if (!email) {
+      Alert.alert('Email Empty', 'Please enter an email address.', [
+        {text: 'OK'},
+      ]);
+      return;
+    }
+    if (!password) {
+      Alert.alert('Password Empty', 'Please enter a password.', [{text: 'OK'}]);
+      return;
+    }
+    if (!confirmPassword) {
+      Alert.alert(
+        'Confirm Password Empty',
+        'Please enter confirm your password.',
+        [{text: 'OK'}],
+      );
+      return;
+    }
+    if (password !== confirmPassword) {
+      Alert.alert('Passwords Do Not Match', 'Please enter the same password.', [
+        {text: 'OK'},
+      ]);
+      return;
+    }
+    //sending request to retrieve the corresponding user object for login
+    fetch(
+      `http://localhost:8080/User/signup?name=${name}&email=${email}&password=${password}`,
+    )
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        if (data.error) {
+          //throwing error when signup fails - email already registered / invalid password
+          if (
+            data.message ===
+            'This email is already registered. Try the login page instead'
+          ) {
+            Alert.alert('Already registered', data.message, [{text: 'OK'}]);
+          } else if (
+            data.message === 'Your password is not valid! Make sure it ___'
+          ) {
+            Alert.alert('Invalid password', data.message, [{text: 'OK'}]);
+          }
+        } else {
+          //going to enter characteristics screen
+          this.props.navigation.navigate('EnterCharacteristics', {
+            name: name,
+            email: email,
+            password: password,
+          });
+        }
+      });
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -24,6 +94,7 @@ export default class App extends React.Component {
           autoCompleteType="name"
           returnKeyLabel="Done"
           autoCapitalize="words"
+          onChangeText={name => this.setState({name})}
         />
         <TextInput
           style={{
@@ -38,6 +109,7 @@ export default class App extends React.Component {
           autoCorrect="false"
           placeholder="email@example.com"
           returnKeyLabel="Done"
+          onChangeText={email => this.setState({email})}
         />
         <TextInput
           style={{
@@ -53,6 +125,7 @@ export default class App extends React.Component {
           autoCompleteType="email"
           placeholder="password"
           returnKeyLabel="Done"
+          onChangeText={password => this.setState({password})}
         />
         <TextInput
           style={{
@@ -68,6 +141,7 @@ export default class App extends React.Component {
           autoCompleteType="password"
           placeholder="confirm password"
           returnKeyLabel="Done"
+          onChangeText={confirmPassword => this.setState({confirmPassword})}
         />
         <DoneButton
           title="Done" //not required, default value = `Done`
@@ -76,7 +150,7 @@ export default class App extends React.Component {
         />
         <Button
           onPress={() => {
-            alert('You tapped the button!');
+            this.signUp();
           }}
           title="Sign Up"
           color="black"

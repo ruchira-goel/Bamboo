@@ -23,4 +23,18 @@ public class UserHandler {
         }
         return user.get();
     }
+
+    //new user signup
+    public User signupUser(String name, String email, String password) throws IllegalAccessException {
+        Optional<User> user = this.userRepo.findByEmail(email);
+        if (user.isPresent()) {
+            throw new IllegalAccessException("This email is already registered. Try the login page instead");
+        }
+        if (password.length() < 8) {
+            throw new IllegalAccessException("Your password is not valid! Make sure it ___");
+        }
+        User newUser = new User(email, password);
+        newUser.setName(name);
+        return this.userRepo.save(newUser);
+    }
 }
