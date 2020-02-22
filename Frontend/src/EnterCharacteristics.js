@@ -5,31 +5,78 @@ import {
   Dimensions,
   TextInput,
   Switch,
-  Picker,
   Button,
 } from 'react-native';
 import Constants from 'expo-constants';
 import React, {Component} from 'react';
 import {Dropdown} from 'react-native-material-dropdown';
 
-var {height, width} = Dimensions.get('window');
+var {screenHeight, screenWidth} = Dimensions.get('window');
 
-export default class App extends React.Component {
+export default class EnterCharacteristics extends React.Component {
   state = {
     switchValue: false,
   };
   constructor(props) {
     super(props);
     this.state = {
-      height: '',
-      weight: '',
+      height: '', //stored in cm
+      weight: '', //stored in kg
       age: '',
       sex: '',
+      feet: '',
+      inches: '',
     };
   }
+
   toggleSwitch = value => {
     this.setState({switchValue: value});
   };
+
+  renderHeight() {
+    if (this.state.switchValue) {
+      return (
+        <View style={styles.flexRowContainer}>
+          <TextInput
+            value={this.state.height}
+            onChangeText={height => this.setState({height})}
+            placeholder={'Enter Height'}
+            keyboardType={'numeric'}
+            autoCorrect="false"
+            returnKeyType="done"
+            style={styles.input}
+          />
+          <Text>{this.state.switchValue ? 'inch' : 'cm'}</Text>
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.flexRowContainer}>
+          <TextInput
+            value={this.feet}
+            onChangeText={height => this.setState({height})}
+            placeholder={'Enter feet'}
+            keyboardType={'numeric'}
+            autoCorrect="false"
+            returnKeyType="done"
+            style={styles.input}
+          />
+          <Text>{'feet'}</Text>
+          <TextInput
+            value={this.inches}
+            onChangeText={height => this.setState({height})}
+            placeholder={'Enter inches'}
+            keyboardType={'numeric'}
+            autoCorrect="false"
+            returnKeyType="done"
+            style={styles.input}
+          />
+          <Text>{'feet'}</Text>
+          this.height = ((this.feet * 12) + this.inches) * 2.54
+        </View>
+      );
+    }
+  }
 
   render() {
     return (
@@ -98,10 +145,9 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     backgroundColor: '#ecf0f1',
     padding: 8,
-    paddingTop: height * 0.1,
+    paddingTop: screenHeight * 0.1,
     textAlign: 'center',
   },
   flexRowContainer: {
@@ -115,8 +161,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   input: {
-    width: width * 0.8,
-    height: height * 0.05,
+    width: screenWidth * 0.8,
+    height: screenHeight * 0.05,
     marginBottom: 10,
     borderBottomWidth: 1,
     backgroundColor: '#ecf0f1',
