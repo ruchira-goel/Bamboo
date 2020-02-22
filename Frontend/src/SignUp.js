@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {Text, View, StyleSheet, TextInput, Button} from 'react-native';
 import DoneButton from 'react-native-keyboard-done-button';
+import Constants from 'expo-constants';
 
 export default class App extends React.Component {
   render() {
