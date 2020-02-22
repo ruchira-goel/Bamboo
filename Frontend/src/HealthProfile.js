@@ -45,7 +45,7 @@ export default class HealthProfile extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.contentContainer}>
-          <Text style={styles.header}>[Name]'s Health Profile</Text>
+          {/*<Text style={styles.header}>[Name]'s Health Profile</Text>*/}
           <ScrollView>
             <View style={styles.inputContainer}>
               <Text style={[styles.text, {padding: 12}]}>Height:</Text>
@@ -121,7 +121,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 45,
-    backgroundColor: '#F5FCFF',
   },
   contentContainer: {
     flex: 1,
@@ -139,7 +138,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignSelf: 'center',
     paddingTop: 35,
-    backgroundColor: '#F5FCFF',
   },
   text: {
     fontSize: 20,
@@ -147,8 +145,8 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     borderWidth: 1,
-    borderColor: '#007BFF',
-    backgroundColor: '#007BFF',
+    borderColor: '#00cc00',
+    backgroundColor: '#00cc00',
     padding: 15,
     margin: 5,
   },

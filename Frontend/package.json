@@ -14,17 +14,20 @@
     "@react-navigation/native": "^5.0.7",
     "@react-navigation/stack": "^5.0.8",
     "expo": "^36.0.0",
+    "native-base": "^2.13.8",
     "react": "16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.1.tar.gz",
     "react-native-gesture-handler": "~1.5.0",
     "react-native-reanimated": "~1.4.0",
     "react-native-safe-area-context": "0.6.0",
-    "react-native-screens": "2.0.0-alpha.12"
+    "react-native-screens": "2.0.0-alpha.12",
+    "react-native-vector-icons": "^6.6.0"
   },
   "devDependencies": {
     "@babel/core": "7.8.4",
     "@babel/runtime": "7.8.4",
     "@react-native-community/eslint-config": "0.0.5",
+    "@react-navigation/drawer": "^5.0.7",
     "babel-jest": "24.9.0",
     "eslint": "6.8.0",
     "jest": "24.9.0",
