@@ -8,9 +8,12 @@
 
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createStackNavigator, HeaderBackground} from '@react-navigation/stack';
+import {View} from 'react-native';
 import Login from './src/Login';
 import HomeScreen from './src/HomeScreen';
+import SignUp from './src/SignUp';
+import EnterMealDailyInput from './src/EnterMealDailyInput';
 
 const Stack = createStackNavigator();
 
@@ -19,7 +22,17 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={Login} headerShown="false" />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} headerShown="false" />
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          headerShown="false"
+        />
+        <Stack.Screen name="SignUp" component={SignUp} headerShown="false" />
+        <Stack.Screen
+          name="MealInput"
+          component={EnterMealDailyInput}
+          headerShown="false"
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

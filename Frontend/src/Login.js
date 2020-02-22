@@ -17,8 +17,16 @@ export default class Login extends React.Component {
     };
   }
 
-  login = ({navigation}) => {
+  login = () => {
     const {email, encryptedPassword} = this.state;
+    if (!email) {
+      Alert.alert('Email Empty', 'Please enter an email address.', [
+        {text: 'OK'},
+      ]);
+    }
+    if (!encryptedPassword) {
+      Alert.alert('Password Empty', 'Please enter a password.', [{text: 'OK'}]);
+    }
     //sending request to retrieve the corresponding user object for login
     fetch(
       `http://localhost:8080/User/login?email=${email}&encryptedPassword=${encryptedPassword}`,
@@ -35,7 +43,7 @@ export default class Login extends React.Component {
           }
         } else {
           //going to home screen
-          navigation.navigate('Details', {
+          this.props.navigation.navigate('HomeScreen', {
             email: email,
             encryptedPassword: encryptedPassword,
           });
