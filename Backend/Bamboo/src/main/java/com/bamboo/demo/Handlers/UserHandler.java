@@ -3,6 +3,7 @@ package com.bamboo.demo.Handlers;
 import com.bamboo.demo.Models.User;
 import com.bamboo.demo.Repos.UserRepo;
 
+import java.util.List;
 import java.util.Optional;
 
 public class UserHandler {
@@ -36,5 +37,10 @@ public class UserHandler {
         User newUser = new User(email, password);
         newUser.setName(name);
         return this.userRepo.save(newUser);
+
+    }
+
+    public List<User> display() {
+        return this.userRepo.findAll();
     }
 }
