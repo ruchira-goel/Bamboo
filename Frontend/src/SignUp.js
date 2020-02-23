@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Text, View, StyleSheet, TextInput, Button, Alert} from 'react-native';
 import DoneButton from 'react-native-keyboard-done-button';
 import Constants from 'expo-constants';
+import EnterCharacteristics from './EnterCharacteristics';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -65,7 +66,7 @@ export default class App extends React.Component {
           }
         } else {
           //going to enter characteristics screen
-          this.props.navigation.navigate('EnterCharacteristics', {
+          this.props.navigation.navigate(EnterCharacteristics, {
             name: name,
             email: email,
             password: password,

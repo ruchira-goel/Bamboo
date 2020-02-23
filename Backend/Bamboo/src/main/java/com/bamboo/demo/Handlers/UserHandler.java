@@ -40,6 +40,20 @@ public class UserHandler {
 
     }
 
+
+    //new user add characteristics
+    public User addCharacteristics(String email, double height, double weight, int age, com.bamboo.demo.Models.Sex sex) throws IllegalAccessException {
+        Optional<User> user = this.userRepo.findByEmail(email);
+        if (!user.isPresent()) {
+            throw new IllegalAccessException("There was an error locating your account, please try signing up again");
+        }
+        user.get().setHeight(height);
+        user.get().setWeight(weight);
+        user.get().setAge(age);
+        user.get().setSex(sex);
+        return user.get();
+    }
+
     public List<User> display() {
         return this.userRepo.findAll();
     }

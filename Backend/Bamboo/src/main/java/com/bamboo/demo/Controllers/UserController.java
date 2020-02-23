@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import java.util.List;
 
 @RestController
@@ -23,11 +24,21 @@ public class UserController {
         return userHandler.loginUser(email, encryptedPassword);
     }
 
-    @RequestMapping("/User/signup")          //login request
+    @RequestMapping("/User/signup")          //signup request
     public User signup(@RequestParam(value = "name") String name,
                        @RequestParam(value = "email") String email,
                        @RequestParam(value = "password") String password) throws IllegalAccessException {
         return userHandler.signupUser(name, email, password);
+    }
+
+    @RequestMapping("/User/addCharacteristics")          //add health characteristics request
+    public User signup(@RequestParam(value = "email") String email,
+                       @RequestParam(value = "height") double height,
+                       @RequestParam(value = "weight") double weight,
+                       @RequestParam(value = "age") int age,
+                       @RequestParam(value = "sex") com.bamboo.demo.Models.Sex sex)throws IllegalAccessException {
+        //TODO: sex should be enum but not sure if this is how to do it
+        return userHandler.addCharacteristics(email, height, weight, age, sex);
     }
 
     @RequestMapping("/User/all")
