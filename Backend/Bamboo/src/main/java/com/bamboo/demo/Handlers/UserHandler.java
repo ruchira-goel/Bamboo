@@ -47,11 +47,12 @@ public class UserHandler {
         if (!user.isPresent()) {
             throw new IllegalAccessException("There was an error locating your account, please try signing up again");
         }
-        user.get().setHeight(height);
-        user.get().setWeight(weight);
-        user.get().setAge(age);
-        user.get().setSex(sex);
-        return user.get();
+        User userObj = user.get();
+        userObj.setHeight(height);
+        userObj.setWeight(weight);
+        userObj.setAge(age);
+        userObj.setSex(sex);
+        return userObj;
     }
 
     public List<User> display() {
