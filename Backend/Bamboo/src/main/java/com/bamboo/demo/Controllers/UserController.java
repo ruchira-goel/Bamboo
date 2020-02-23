@@ -32,7 +32,7 @@ public class UserController {
     }
 
     @RequestMapping("/User/addCharacteristics")          //add health characteristics request
-    public User signup(@RequestParam(value = "email") String email,
+    public User addCharacteristics(@RequestParam(value = "email") String email,
                        @RequestParam(value = "height") double height,
                        @RequestParam(value = "weight") double weight,
                        @RequestParam(value = "age") int age,
