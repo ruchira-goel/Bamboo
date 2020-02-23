@@ -1,11 +1,5 @@
 import * as React from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  StyleSheet,
-} from 'react-native';
+import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {
   createDrawerNavigator,
@@ -105,9 +99,13 @@ const Drawer = createDrawerNavigator();
 
 function MyDrawer() {
   return (
-    <Drawer.Navigator drawerContent={props => CustomDrawerContent(props)}>
+    <Drawer.Navigator
+      drawerContent={props => CustomDrawerContent(props)}
+      drawerContentOptions={{
+        activeTintColor: '#00c880',
+      }}>
       <Drawer.Screen name="Home" component={Home} />
-      <Drawer.Screen name="Profile" component={Profile} />
+      <Drawer.Screen name="Health Profile" component={Profile} />
       <Drawer.Screen name="Settings" component={Settings} />
     </Drawer.Navigator>
   );
@@ -123,10 +121,11 @@ export default function DrawerNav() {
 
 const styles = StyleSheet.create({
   navBar: {
-    height: 60,
+    height: 70,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: '#aaddaa',
   },
   leftContainer: {
     flex: 1,
