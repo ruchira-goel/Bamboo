@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import COLORS from './styles/colors';
 
 // TODO:
 // 1. put user's name in header
@@ -146,8 +147,8 @@ const styles = StyleSheet.create({
   saveButton: {
     borderWidth: 1,
     borderRadius: 20,
-    borderColor: '#00c880',
-    backgroundColor: '#00c880',
+    borderColor: COLORS.secondaryColor,
+    backgroundColor: COLORS.secondaryColor,
     padding: 15,
     margin: 5,
   },

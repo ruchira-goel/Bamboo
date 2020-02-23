@@ -13,6 +13,7 @@ import Constants from 'expo-constants';
 import HomePage from './Home';
 import HealthProfile from './HealthProfile';
 import SettingsPage from './Settings';
+import COLORS from './styles/colors';
 
 function Header({screenName}) {
   const nav = useNavigation();
@@ -22,7 +23,7 @@ function Header({screenName}) {
       <View style={styles.leftContainer}>
         <TouchableOpacity onPress={() => nav.toggleDrawer()}>
           <Image
-            source={require('../images/menu.png')}
+            source={require('./images/menu.png')}
             style={{
               marginTop: Constants.statusBarHeight,
               marginLeft: 10,
@@ -45,7 +46,7 @@ function Header({screenName}) {
       </View>
       <View style={styles.rightContainer}>
         <Image
-          source={require('../images/bamboo-icon.png')}
+          source={require('./images/bamboo-icon.png')}
           style={{
             marginTop: Constants.statusBarHeight,
             marginRight: 10,
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#aaddaa',
+    backgroundColor: COLORS.primaryColor,
   },
   leftContainer: {
     flex: 1,
