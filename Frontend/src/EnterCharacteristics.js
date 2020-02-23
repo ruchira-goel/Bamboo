@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import React, {Component} from 'react';
 import {Dropdown} from 'react-native-material-dropdown';
-import HomeScreen from './HomeScreen';
 
 let {screenHeight, screenWidth} = Dimensions.get('window');
 
@@ -21,7 +20,7 @@ export default class EnterCharacteristics extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userEmail: props.navigation.state.params.email,
+      userEmail: 'dummy',
       height: '', //stored in cm
       weight: '', //stored in kg
       age: '',
@@ -31,7 +30,7 @@ export default class EnterCharacteristics extends React.Component {
     };
   }
 
-  addCharcteristics = () => {
+  addCharacteristics = () => {
     let {userEmail, height, weight, age, sex, feet, inches} = this.state;
     if (!height && feet && inches) {
       height = (feet * 12 + inches) * 2.54;
@@ -70,26 +69,23 @@ export default class EnterCharacteristics extends React.Component {
     }
     //sending request to retrieve the corresponding user object for login
     fetch(
-      `http://localhost:8080/User/addCharacteristics?email=${userEmail}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
+        `http://localhost:8080/User/addCharacteristics?email=${userEmail}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
     )
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-        if (data.error) {
-          //throwing error when addCharacteristics fails (invalid email)
-          if (
-            data.message ===
-            'There was an error locating your account, please try signing up again'
-          ) {
-            Alert.alert('User Not Found', data.message, [{text: 'OK'}]);
+        .then(res => res.json())
+        .then(data => {
+          console.log(data);
+          if (data.error) {
+            //throwing error when addCharacteristics fails (invalid email)
+            if (
+                data.message ===
+                'There was an error locating your account, please try signing up again'
+            ) {
+              Alert.alert('User Not Found', data.message, [{text: 'OK'}]);
+            }
+          } else {
+            //going to home screen
           }
-        } else {
-          //going to home screen
-          this.props.navigation.navigate(HomeScreen, {
-            email: userEmail,
-          });
-        }
-      });
+        });
   };
 
   toggleSwitch = value => {
@@ -99,103 +95,98 @@ export default class EnterCharacteristics extends React.Component {
   renderHeight() {
     if (!this.state.switchValue) {
       return (
-        <View style={styles.flexRowContainer}>
-          <TextInput
-            value={this.state.height}
-            onChangeText={height => this.setState({height})}
-            placeholder={'Enter Height'}
-            keyboardType={'numeric'}
-            autoCorrect="false"
-            returnKeyType="done"
-            style={styles.input}
-          />
-          <Text>{this.state.switchValue ? 'inch' : 'cm'}</Text>
-        </View>
+          <View style={styles.flexRowContainer}>
+            <TextInput
+                onChangeText={height => this.setState({height})}
+                placeholder={'Enter Height'}
+                keyboardType={'numeric'}
+                autoCorrect="false"
+                returnKeyType="done"
+                style={styles.input}
+            />
+            <Text>{this.state.switchValue ? 'inch' : 'cm'}</Text>
+          </View>
       );
     } else {
       return (
-        <View style={styles.flexRowContainer}>
-          <TextInput
-            value={this.state.feet}
-            onChangeText={feet => this.setState({feet})}
-            placeholder={'Enter feet'}
-            keyboardType={'numeric'}
-            autoCorrect="false"
-            returnKeyType="done"
-            style={styles.smallInput}
-          />
-          <Text>{'feet'}</Text>
-          <TextInput
-            value={this.state.inches}
-            onChangeText={inches => this.setState({inches})}
-            placeholder={'Enter inches'}
-            keyboardType={'numeric'}
-            autoCorrect="false"
-            returnKeyType="done"
-            style={styles.smallInput}
-          />
-          <Text>{'inches'}</Text>
-        </View>
+          <View style={styles.flexRowContainer}>
+            <TextInput
+                onChangeText={feet => this.setState({feet})}
+                placeholder={'Enter feet'}
+                keyboardType={'numeric'}
+                autoCorrect="false"
+                returnKeyType="done"
+                style={styles.smallInput}
+            />
+            <Text>{'feet'}</Text>
+            <TextInput
+                onChangeText={inches => this.setState({inches})}
+                placeholder={'Enter inches'}
+                keyboardType={'numeric'}
+                autoCorrect="false"
+                returnKeyType="done"
+                style={styles.smallInput}
+            />
+            <Text>{'inches'}</Text>
+          </View>
       );
     }
   }
 
   render() {
     return (
-      <View style={styles.fullContainer}>
-        <Text style={styles.paragraph}>
-          Bamboo does ...
-          {'\n'}...
-          {'\n'}...
-        </Text>
+        <View style={styles.fullContainer}>
+          <Text style={styles.paragraph}>
+            Bamboo does ...
+            {'\n'}...
+            {'\n'}...
+          </Text>
 
-        <View style={styles.flexRowContainer}>{this.renderHeight()}</View>
-        <View style={styles.flexRowContainer}>
-          <TextInput
-            value={this.state.weight}
-            onChangeText={weight => this.setState({weight})}
-            placeholder={'Enter Weight'}
-            keyboardType={'numeric'}
-            autoCorrect="false"
-            returnKeyType="done"
-            style={styles.input}
+          <View style={styles.flexRowContainer}>{this.renderHeight()}</View>
+          <View style={styles.flexRowContainer}>
+            <TextInput
+                onChangeText={weight => this.setState({weight})}
+                placeholder={'Enter Weight'}
+                keyboardType={'numeric'}
+                autoCorrect="false"
+                returnKeyType="done"
+                style={styles.input}
+            />
+            <Text>{this.state.switchValue ? 'lb' : 'kg'}</Text>
+          </View>
+
+          <View style={styles.flexRowContainer}>
+            <TextInput
+                onChangeText={age => this.setState({age})}
+                placeholder={'Enter Age'}
+                keyboardType={'numeric'}
+                autoCorrect="false"
+                returnKeyType="done"
+                style={styles.input}
+            />
+            <Text>years</Text>
+          </View>
+
+          <Dropdown
+              label="Sex"
+              data={[{value: 'Female'}, {value: 'Male'}, {value: 'Other'}]}
           />
-          <Text>{this.state.switchValue ? 'lb' : 'kg'}</Text>
-        </View>
 
-        <View style={styles.flexRowContainer}>
-          <TextInput
-            value={this.state.age}
-            onChangeText={age => this.setState({age})}
-            placeholder={'Enter Age'}
-            keyboardType={'numeric'}
-            autoCorrect="false"
-            returnKeyType="done"
-            style={styles.input}
+          <Text>{this.state.switchValue ? 'Imperial' : 'Metric'}</Text>
+          <Switch
+              style={styles.switch}
+              onValueChange={this.toggleSwitch}
+              value={this.state.switchValue}
           />
-          <Text>years</Text>
+          <Button
+              onPress={() => {
+                this.addCharacteristics();
+              }}
+              title="Next"
+              color="black"
+              backgroundColor="green"
+          />
         </View>
-
-        <Dropdown
-          label="Sex"
-          data={[{value: 'Female'}, {value: 'Male'}, {value: 'Other'}]}
-        />
-
-        <Text>{this.state.switchValue ? 'Imperial' : 'Metric'}</Text>
-        <Switch
-          style={styles.switch}
-          onValueChange={this.toggleSwitch}
-          value={this.state.switchValue}
-        />
-        <Button
-          onPress={() => {
-            this.addCharacteristics();
-          }}
-          title="Next"
-          color="black"
-          backgroundColor="green"
-        />
-      </View>
     );
   }
 }
