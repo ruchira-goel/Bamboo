@@ -23,9 +23,11 @@ export default class Login extends React.Component {
       Alert.alert('Email Empty', 'Please enter an email address.', [
         {text: 'OK'},
       ]);
+      return;
     }
     if (!encryptedPassword) {
       Alert.alert('Password Empty', 'Please enter a password.', [{text: 'OK'}]);
+      return;
     }
     //sending request to retrieve the corresponding user object for login
     fetch(
@@ -74,7 +76,12 @@ export default class Login extends React.Component {
         <View style={styles.spacingSmall} />
         <View style={styles.container}>
           <TouchableOpacity onPress={this.login} style={styles.btnStyle}>
-            <Text> Login</Text>
+            <Text>Login</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.container}>
+          <TouchableOpacity onPress={() => this.props.navigation.replace('SignUp')} style={styles.btnStyle}>
+            <Text>Signup</Text>
           </TouchableOpacity>
         </View>
       </View>
