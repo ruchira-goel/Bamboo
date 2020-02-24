@@ -34,9 +34,9 @@ export default class HomeScreen extends React.Component {
     const {route} = this.props;
     const {email} = route.params;
     let usEmail = email.substring(1, email.length - 1);
-    console.log("usEmail: " + usEmail);
+    console.log('usEmail: ' + usEmail);
     return (
-      <View style={{flex:1}}>
+      <View style={{flex: 1}}>
         <TouchableOpacity
           onPress={() =>
             this.props.navigation.navigate('MealInput', {
@@ -45,6 +45,11 @@ export default class HomeScreen extends React.Component {
           }
           style={styles.btnStyle}>
           <Text>Save Meal</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => this.props.navigation.replace('Login')}
+          style={styles.btnStyle}>
+          <Text>Logout</Text>
         </TouchableOpacity>
       </View>
     );
