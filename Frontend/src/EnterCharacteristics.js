@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import React, {Component} from 'react';
 import {Dropdown} from 'react-native-material-dropdown';
-import {useRoute} from '@react-navigation/native';
 
 let {screenHeight, screenWidth} = Dimensions.get('window');
 
@@ -20,7 +19,6 @@ export default class EnterCharacteristics extends React.Component {
   };
   constructor(props) {
     super(props);
-    //const {email} = this.state;
     this.state = {
       userEmail: '',
       height: '', //stored in cm
@@ -41,8 +39,6 @@ export default class EnterCharacteristics extends React.Component {
     console.log('jsonemail: ' + JSON.stringify(email));
     console.log('usemail: ' + usEmail);
     console.log(this.state.userEmail);
-    // const {email} = this.state;
-    //this.setState({email: email});
     let userEmail = JSON.stringify(email);
     let {height, weight, age, sex, feet, inches} = this.state;
     if (!height && feet && inches) {
@@ -99,6 +95,9 @@ export default class EnterCharacteristics extends React.Component {
           }
         } else {
           //going to home screen
+          this.props.navigation.replace('HomeScreen', {
+            email: JSON.stringify(email),
+          });
         }
       });
   };

@@ -24,6 +24,8 @@ export default class EnterMealDailyInput extends React.Component {
   };
 
   render() {
+    const {route} = this.props;
+    const {email} = route.params;
     const {pickerSelection} = this.state;
     return (
       <View style={styles.heading}>
