@@ -7,7 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import COLORS from './styles/colors';
+import BUTTONS from './styles/buttons';
 
 // TODO:
 // 1. put user's name in header
@@ -110,8 +110,10 @@ export default class HealthProfile extends Component {
             </View>
           </ScrollView>
         </View>
-        <TouchableOpacity style={styles.saveButton} onPress={this.onPress}>
-          <Text style={styles.saveButtonText}>{this.state.buttonValue}</Text>
+        <TouchableOpacity style={BUTTONS.primaryButton} onPress={this.onPress}>
+          <Text style={BUTTONS.primaryButtonText}>
+            {this.state.buttonValue}
+          </Text>
         </TouchableOpacity>
       </View>
     );
@@ -143,18 +145,5 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     width: 100,
-  },
-  saveButton: {
-    borderWidth: 1,
-    borderRadius: 20,
-    borderColor: COLORS.secondaryColor,
-    backgroundColor: COLORS.secondaryColor,
-    padding: 15,
-    margin: 5,
-  },
-  saveButtonText: {
-    color: '#FFFFFF',
-    fontSize: 20,
-    textAlign: 'center',
   },
 });

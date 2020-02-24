@@ -1,6 +1,15 @@
 import * as React from 'react';
-import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  Button,
+} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -13,6 +22,7 @@ import Constants from 'expo-constants';
 import HomePage from './Home';
 import HealthProfile from './HealthProfile';
 import SettingsPage from './Settings';
+import ExercisePage from './ExerciseInput';
 import COLORS from './styles/colors';
 
 function Header({screenName}) {
@@ -59,12 +69,17 @@ function Header({screenName}) {
     </View>
   );
 }
+
 function Home() {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Header screenName={'Home'} />
       <HomePage />
     </View>
+    // <Stack.Navigator>
+    //   <Stack.Screen name="First" component={First} />
+    //   <Stack.Screen name="Second" component={Second} />
+    // </Stack.Navigator>
   );
 }
 function Profile() {
@@ -80,6 +95,15 @@ function Settings() {
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Header screenName={'Settings'} />
       <SettingsPage />
+    </View>
+  );
+}
+// TODO: temp
+function Exercise() {
+  return (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Header screenName={'Exercise Input'} />
+      <ExercisePage />
     </View>
   );
 }
@@ -103,12 +127,44 @@ function MyDrawer() {
     <Drawer.Navigator
       drawerContent={props => CustomDrawerContent(props)}
       drawerContentOptions={{
-        activeTintColor: '#00c880',
+        activeTintColor: COLORS.secondaryColor,
       }}>
       <Drawer.Screen name="Home" component={Home} />
       <Drawer.Screen name="Health Profile" component={Profile} />
       <Drawer.Screen name="Settings" component={Settings} />
+      <Drawer.Screen name="Exercise Input" component={Exercise} />
     </Drawer.Navigator>
+  );
+}
+function First({navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Button
+        title="Go to Profile"
+        onPress={() => navigation.navigate('Second')}
+      />
+      <Home />
+    </View>
+  );
+}
+function Second({navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Button
+        title="Go back to first"
+        onPress={() => navigation.navigate('First')}
+      />
+      <ExercisePage />
+    </View>
+  );
+}
+const Stack = createStackNavigator();
+function MyStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="First" component={First} />
+      <Stack.Screen name="Second" component={Second} />
+    </Stack.Navigator>
   );
 }
 
