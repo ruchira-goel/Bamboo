@@ -1,7 +1,15 @@
 import * as React from 'react';
-import {Text, View, StyleSheet, TextInput, Button, Alert} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TextInput,
+  Button,
+  Alert,
+  TouchableOpacity,
+} from 'react-native';
 import DoneButton from 'react-native-keyboard-done-button';
-import { useRoute } from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 import Constants from 'expo-constants';
 
 export default class App extends React.Component {
@@ -84,7 +92,7 @@ export default class App extends React.Component {
           style={{
             height: 20,
             marginBottom: 15,
-            marginTop: 15,
+            marginTop: 35,
             marginLeft: 30,
             marginRight: 30,
             borderColor: 'gray',
@@ -161,7 +169,17 @@ export default class App extends React.Component {
           color="black"
           backgroundColor="green"
         />
-        <Text style={styles.paragraph}>Already have an account?</Text>
+        <View style={{padding: '1%'}} />
+        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
+          <Text>Already have an account? </Text>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.replace('Login')}
+            style={styles.linkStyle}>
+            <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
+              Login!
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -174,6 +192,7 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     backgroundColor: '#ecf0f1',
     padding: 8,
+    marginTop: '20%',
   },
   paragraph: {
     margin: 24,
@@ -186,5 +205,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     textDecorationColor: 'gray',
+  },
+  linkStyle: {
+    marginBottom: '60%',
   },
 });

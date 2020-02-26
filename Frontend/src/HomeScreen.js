@@ -9,25 +9,12 @@ export default class HomeScreen extends React.Component {
     ]);
   };
 
-  logout = ({navigation}) => {
-    const {email, encryptedPassword} = this.state;
-    fetch(
-      `http://localhost:8080/User/logout?email=${email}&encryptedPassword=${encryptedPassword}`,
-    )
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-        if (data.error) {
-          //throwing error when logout fails
-          Alert.alert('Logout failed', data.message, [{text: 'OK'}]);
-        } else {
-          //going to SignUp screen
-          navigation.navigate('SignUp', {
-            email: email,
-            encryptedPassword: encryptedPassword,
-          });
-        }
-      });
+  logout = () => {
+    //const {email, encryptedPassword} = this.state;
+    Alert.alert('Confirm Logout', 'Are you sure you want to logout?', [
+      {text: 'Yes', onPress: () => this.props.navigation.replace('Login')},
+      {text: 'No'},
+    ]);
   };
 
   render() {
@@ -36,7 +23,7 @@ export default class HomeScreen extends React.Component {
     let usEmail = email.substring(1, email.length - 1);
     console.log('usEmail: ' + usEmail);
     return (
-      <View style={{flex: 1}}>
+      <View style={styles.heading}>
         <TouchableOpacity
           onPress={() =>
             this.props.navigation.navigate('MealInput', {
@@ -46,9 +33,8 @@ export default class HomeScreen extends React.Component {
           style={styles.btnStyle}>
           <Text>Save Meal</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.replace('Login')}
-          style={styles.btnStyle}>
+        <View style={{padding: '2%'}} />
+        <TouchableOpacity onPress={this.logout} style={styles.btnStyle}>
           <Text>Logout</Text>
         </TouchableOpacity>
       </View>
@@ -61,7 +47,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '500',
     flex: 1,
-    marginTop: '10%',
+    alignItems: 'center',
+    //alignContent: 'center',
+    //justifyContent: 'center',
+    //flexDirection: 'column',
+    marginTop: '70%',
+    //backgroundColor: 'blue',
   },
   container: {
     flex: 1,
@@ -69,7 +60,8 @@ const styles = StyleSheet.create({
     height: '20%',
     alignItems: 'center',
     alignContent: 'center',
-    marginLeft: '30%',
+    justifyContent: 'center',
+    marginLeft: '35%',
   },
   spacingHigh: {
     padding: 15,
@@ -93,17 +85,14 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   btnStyle: {
-    backgroundColor: 'darkseagreen',
+    backgroundColor: '#3eb245',
     color: 'black',
     borderRadius: 2,
     borderColor: '#3eb245',
-    width: '70%',
-    height: '10%',
-    //alignContent: 'center',
+    width: '75%',
+    height: '18%',
     justifyContent: 'center', //text in the middle of the button
-    alignItems: 'center', //text in the middle of the butto
-    //alignSelf: 'stretch',
-    //mar
+    alignItems: 'center', //text in the middle of the button
   },
   /*textalign for the text to be in the center for "bamboo."*/
   picker: {

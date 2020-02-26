@@ -57,6 +57,7 @@ export default class Login extends React.Component {
     return (
       <View style={styles.heading}>
         <Text style={{textAlign: 'center', fontSize: 20}}>Bamboo.</Text>
+        <View style={{padding: '2%'}} />
         <View style={styles.spacingHigh} />
         <TextInput
           style={styles.fieldText}
@@ -64,7 +65,7 @@ export default class Login extends React.Component {
           placeholder="Enter email"
           onChangeText={email => this.setState({email})} //setting the email when user enters it
         />
-        <Text>{'       '}</Text>
+        <View style={{padding: '3%'}} />
         <TextInput
           style={styles.fieldText}
           autoCapitalize="none"
@@ -72,17 +73,23 @@ export default class Login extends React.Component {
           secureTextEntry={true}
           onChangeText={encryptedPassword => this.setState({encryptedPassword})} //setting the password when user enters it, not encrypted yet
         />
-        <Text> {'  '}</Text>
+        <View style={{padding: '3%'}} />
         <View style={styles.spacingSmall} />
         <View style={styles.container}>
           <TouchableOpacity onPress={this.login} style={styles.btnStyle}>
             <Text>Login</Text>
           </TouchableOpacity>
-        </View>
-        <View style={styles.container}>
-          <TouchableOpacity onPress={() => this.props.navigation.replace('SignUp')} style={styles.btnStyle}>
-            <Text>Signup</Text>
-          </TouchableOpacity>
+          <View style={{padding: '2%'}} />
+          <View style={{flex: 1, flexDirection: 'row'}}>
+            <Text>Don't have an account? </Text>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.replace('SignUp')}
+              style={styles.linkStyle}>
+              <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
+                Signup!
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     );
@@ -98,11 +105,13 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    width: '40%',
-    height: '20%',
+    //width: '40%',
+    //height: '20%',
     alignItems: 'center',
     alignContent: 'center',
-    marginLeft: '30%',
+    //backgroundColor: 'blue',
+    //marginBottom: '70%',
+    //marginLeft: '30%',
   },
   spacingHigh: {
     padding: 15,
@@ -114,8 +123,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: '31%',
-    marginRight: '31%',
+    marginLeft: '15%',
+    marginRight: '15%',
     borderBottomWidth: 0.5,
   },
   alignLeftView: {
@@ -129,9 +138,12 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     borderColor: '#3eb245',
     width: '40%',
-    height: '7%',
+    height: '9%',
     justifyContent: 'center', //text in the middle of the button
     alignItems: 'center', //text in the middle of the button
+  },
+  linkStyle: {
+    marginBottom: '70%',
   },
   /*textalign for the text to be in the center for "bamboo."*/
 });
