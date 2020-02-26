@@ -90,7 +90,7 @@ export default class App extends React.Component {
             borderColor: 'gray',
             borderBottomWidth: 1,
           }}
-          autoCorrect="false"
+          autoCorrect={false}
           placeholder="name"
           autoCompleteType="name"
           returnKeyLabel="Done"
@@ -107,7 +107,7 @@ export default class App extends React.Component {
             borderColor: 'gray',
             borderBottomWidth: 1,
           }}
-          autoCorrect="false"
+          autoCorrect={false}
           placeholder="email@example.com"
           autoCompleteType="email"
           returnKeyLabel="Done"
@@ -124,7 +124,7 @@ export default class App extends React.Component {
             borderColor: 'gray',
             borderBottomWidth: 1,
           }}
-          autoCorrect="false"
+          autoCorrect={false}
           placeholder="password"
           returnKeyLabel="Done"
           secureTextEntry={true}
@@ -141,7 +141,7 @@ export default class App extends React.Component {
             borderColor: 'gray',
             borderBottomWidth: 1,
           }}
-          autoCorrect="false"
+          autoCorrect={false}
           placeholder="confirm password"
           returnKeyLabel="Done"
           secureTextEntry={true}
