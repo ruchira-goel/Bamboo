@@ -18,6 +18,11 @@ public class UserController {
     public UserController(UserRepo userRepo) {
         this.userHandler = new UserHandler(userRepo);
     }
+    
+    @RequestMapping("/User/test")          
+    public String test() throws IllegalAccessException {
+        return "Bamboo OK";
+    }
 
     @RequestMapping("/User/login")          //login request
     public User login(@RequestParam(value = "email") String email,
