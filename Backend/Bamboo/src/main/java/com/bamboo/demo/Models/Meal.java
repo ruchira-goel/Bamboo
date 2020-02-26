@@ -1,8 +1,13 @@
 package com.bamboo.demo.Models;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.Date;
 
+@Document(collection = "Meals")
 public class Meal {
+    @Id
     private String id;
     private String name;
     private NutritionInfo nutritionInfo;
