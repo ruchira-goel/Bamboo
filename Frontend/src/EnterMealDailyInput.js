@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from 'react-native';
 
 export default class EnterMealDailyInput extends React.Component {
@@ -17,7 +18,32 @@ export default class EnterMealDailyInput extends React.Component {
     };
   }
 
-  addMeal = () => {};
+  addMeal = () => {
+    const {pickerSelection, mealInfo} = this.state;
+    if (!mealInfo) {
+      Alert.alert('Meal Information Empty', 'Please enter meal information.', [
+        {text: 'OK'},
+      ]);
+      return;
+    }
+    if (pickerSelection === 'Enter link') {
+      fetch(`http://localhost:8080/Meal/infoFromLink?link=${mealInfo}`)
+        .then(res => res.json())
+        .then(data => {
+          console.log(data);
+          if (data.error) {
+            //throwing error when login fails - wrong password / email not registered yet
+            // if (data.message === "This email isn't registered yet") {
+            //   Alert.alert('Not registered', data.message, [{text: 'OK'}]);
+            // } else if (data.message === 'You entered the wrong password!') {
+            //   Alert.alert('Incorrect password', data.message, [{text: 'OK'}]);
+            // }
+          } else {
+            //going to home screen
+          }
+        });
+    }
+  };
 
   renderHomePage = () => {
     this.props.navigation.navigate('HomeScreen');
