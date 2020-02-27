@@ -65,9 +65,10 @@ public class MealHandler {
         HttpURLConnection con = (HttpURLConnection) nutritionURL.openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("Content-type", "application/json");
+
         BufferedReader input = new BufferedReader(new InputStreamReader(con.getInputStream()));
         JSONObject nutritionJson = new JSONObject(input.readLine());
-
+        con.setRequestProperty("User-agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
         //removing last character to get number for nutrition
         String fatStr = nutritionJson.get("fat").toString();
         double fat = Double.parseDouble(fatStr.substring(0, fatStr.length() - 1));
