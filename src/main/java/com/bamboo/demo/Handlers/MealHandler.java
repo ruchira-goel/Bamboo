@@ -13,7 +13,7 @@ import com.bamboo.demo.Models.User;
 import com.bamboo.demo.Repos.DailyInfoRepo;
 import com.bamboo.demo.Repos.MealRepo;
 import com.bamboo.demo.Repos.UserRepo;
-
+import org.json.JSONObject;
 
 
 public class MealHandler {
@@ -50,7 +50,9 @@ public class MealHandler {
         connection.setRequestProperty("Content-type", "application/json");
         BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String jsonText = in.readLine();
-        JSONObject
+        JSONObject json = new JSONObject(jsonText);
+        System.out.println("Title: " + json.get("title"));
+
 
     }
 
