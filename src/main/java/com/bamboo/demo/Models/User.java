@@ -19,6 +19,7 @@ public class User {
     private int age;                            //changes
     private Sex sex;
     private String goalIds[];
+    private boolean isMetric;
 
     public User(String email, String encryptedPassword) {
         this.email = email;
@@ -92,6 +93,14 @@ public class User {
 
     public void setSex(Sex sex) {
         this.sex = sex;
+    }
+
+    public boolean isMetric() {
+        return isMetric;
+    }
+
+    public void setMetric(boolean metric) {
+        isMetric = metric;
     }
 
     @Override
