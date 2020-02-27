@@ -38,9 +38,9 @@ export default class EnterCharacteristics extends React.Component {
     const usEmail = JSON.stringify(email);
     const stringMethod = String(email);
     this.setState({userEmail: stringMethod});
-    console.log('jsonemail: ' + JSON.stringify(email));
-    console.log('usemail: ' + usEmail);
-    console.log(this.state.userEmail);
+    // console.log('jsonemail: ' + JSON.stringify(email));
+    // console.log('usemail: ' + usEmail);
+    // console.log(this.state.userEmail);
     // const {email} = this.state;
     //this.setState({email: email});
     let userEmail = JSON.stringify(email);
@@ -88,7 +88,7 @@ export default class EnterCharacteristics extends React.Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        // console.log(data);
         if (data.error) {
           //throwing error when addCharacteristics fails (invalid email)
           if (

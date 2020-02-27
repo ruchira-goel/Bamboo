@@ -12,10 +12,8 @@ import BUTTONS from './styles/buttons';
 
 // TODO:
 // 1. put user's name in header
-// 2. fill inputs with user data
-// 3. update database data on 'Save' click
-// 4. validate inputs, display errors
-// 5. display units
+// 2. validate inputs, display errors
+// 3. display units
 
 export default class HealthProfile extends Component {
   constructor(props) {
@@ -36,7 +34,6 @@ export default class HealthProfile extends Component {
   UNSAFE_componentWillMount(): void {
     const {route} = this.props;
     const {email} = route.params;
-    console.log(email);
     fetch(
       `http://bamboo-testing.herokuapp.com/User/getCharacteristics?email=${JSON.stringify(
         email,
@@ -57,10 +54,7 @@ export default class HealthProfile extends Component {
     let {height, weight, age, sex, feet, inches} = this.state;
     const {route} = this.props;
     const {email} = route.params;
-    console.log(email);
-    console.log(route);
     const stringMethod = String(email);
-    console.log(stringMethod);
     this.setState({userEmail: stringMethod});
     if (!height && feet && inches) {
       height = (feet * 12 + inches) * 2.54;
@@ -90,7 +84,6 @@ export default class HealthProfile extends Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         if (data.error) {
           //throwing error when addCharacteristics fails (invalid email)
           if (
@@ -126,7 +119,6 @@ export default class HealthProfile extends Component {
     let {height, weight, age, sex, feet, inches} = this.state;
     const {route} = this.props;
     const {email} = route.params;
-    console.log(email);
     fetch(
       `http://bamboo-testing.herokuapp.com/User/getCharacteristics?email=${JSON.stringify(
         email,
@@ -134,17 +126,6 @@ export default class HealthProfile extends Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(
-          '=======================================================================',
-        );
-        height = data.height;
-        weight = data.weight;
-        age = data.age;
-        sex = data.sex;
-        console.log(data);
-        console.log(height);
-        console.log(weight);
-        console.log(email);
       });
     return (
       <View style={styles.container}>

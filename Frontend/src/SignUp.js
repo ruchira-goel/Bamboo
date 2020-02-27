@@ -60,7 +60,7 @@ export default class App extends React.Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        // console.log(data);
         if (data.error) {
           //throwing error when signup fails - email already registered / invalid password
           if (
