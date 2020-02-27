@@ -21,11 +21,70 @@ export default class HealthProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      userEmail: '',
+      height: '', //stored in cm
+      weight: '', //stored in kg
+      age: '',
+      sex: '',
+      feet: '',
+      inches: '',
       buttonValue: 'Edit',
       editable: false,
       inputStyle: styles.text,
     };
   }
+
+  onSave = () => {
+    let {height, weight, age, sex, feet, inches} = this.state;
+    const {route} = this.props;
+    const {email} = route.params;
+    console.log(email);
+    console.log(route);
+    const stringMethod = String(email);
+    console.log(stringMethod);
+    this.setState({userEmail: stringMethod});
+    if (!height && feet && inches) {
+      height = (feet * 12 + inches) * 2.54;
+    }
+
+    if (height < 0) {
+      Alert.alert('Invalid height', 'Please enter a valid height.', [
+        {text: 'OK'},
+      ]);
+      return;
+    }
+    if (weight < 0) {
+      Alert.alert('Invalid weight', 'Please enter a valid weight.', [
+        {text: 'OK'},
+      ]);
+      return;
+    }
+    if (age < 0) {
+      Alert.alert('Invalid age', 'Please enter a valid age.', [{text: 'OK'}]);
+      return;
+    }
+    //sending request to retrieve the corresponding user object for login
+    fetch(
+      `http://bamboo-testing.herokuapp.com/User/addCharacteristics?email=${JSON.stringify(
+        email,
+      )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
+    )
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        if (data.error) {
+          //throwing error when addCharacteristics fails (invalid email)
+          if (
+            data.message ===
+            'There was an error locating your account, please try signing up again'
+          ) {
+            Alert.alert('User Not Found', data.message, [{text: 'OK'}]);
+          }
+        } else {
+          //going to home screen
+        }
+      });
+  };
 
   onPress = () => {
     if (this.state.buttonValue === 'Edit') {
@@ -35,6 +94,7 @@ export default class HealthProfile extends Component {
         inputStyle: styles.textEdit,
       });
     } else {
+      this.onSave();
       this.setState({
         buttonValue: 'Edit',
         editable: false,
@@ -52,13 +112,17 @@ export default class HealthProfile extends Component {
             <View style={styles.inputContainer}>
               <Text style={[styles.text, {padding: 12}]}>Height:</Text>
               <TextInput
+                onChangeText={height => this.setState({height})}
+                keyboardType={'numeric'}
+                autoCorrect={false}
+                returnKeyType="done"
                 style={[
                   styles.textInput,
                   this.state.inputStyle,
                   styles.text,
                   {width: 80},
                 ]}
-                placeholder="165 cm"
+                placeholder={'165 cm'}
                 placeholderTextColor="#000000"
                 editable={this.state.editable}
                 maxLength={20}
@@ -67,6 +131,7 @@ export default class HealthProfile extends Component {
             <View style={styles.inputContainer}>
               <Text style={[styles.text, {padding: 12}]}>Weight:</Text>
               <TextInput
+                onChangeText={weight => this.setState({weight})}
                 style={[
                   styles.textInput,
                   this.state.inputStyle,
@@ -82,6 +147,7 @@ export default class HealthProfile extends Component {
             <View style={styles.inputContainer}>
               <Text style={[styles.text, {padding: 12}]}>Age:</Text>
               <TextInput
+                onChangeText={age => this.setState({age})}
                 style={[
                   styles.textInput,
                   this.state.inputStyle,
@@ -97,6 +163,7 @@ export default class HealthProfile extends Component {
             <View style={styles.inputContainer}>
               <Text style={[styles.text, {padding: 12}]}>Sex:</Text>
               <TextInput
+                onChangeText={sex => this.setState({sex})}
                 style={[
                   styles.textInput,
                   this.state.inputStyle,
