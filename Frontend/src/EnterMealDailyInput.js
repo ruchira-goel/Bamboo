@@ -27,7 +27,7 @@ export default class EnterMealDailyInput extends React.Component {
       return;
     }
     if (pickerSelection === 'Enter link') {
-      fetch(`http://localhost:8080/Meal/infoFromLink?link=${mealInfo}`)
+      fetch(`https://bamboo-307.herokuapp.com//Meal/infoFromLink?link=${mealInfo}`)
         .then(res => res.json())
         .then(data => {
           console.log(data);
