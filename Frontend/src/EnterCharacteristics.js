@@ -14,6 +14,7 @@ import {useRoute} from '@react-navigation/native';
 
 let {screenHeight, screenWidth} = Dimensions.get('window');
 
+
 export default class EnterCharacteristics extends React.Component {
   state = {
     switchValue: false,

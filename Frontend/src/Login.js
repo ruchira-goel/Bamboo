@@ -9,6 +9,13 @@ import {
 } from 'react-native';
 import BUTTONS from './styles/buttons';
 
+/*
+TODO:
+if user did not enter characteristics the first time they logged in,
+they should be shown the EnterCharacteristics page
+(e.g. check if they have data for height/weight etc.)
+ */
+
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
