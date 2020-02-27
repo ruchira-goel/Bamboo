@@ -14,6 +14,7 @@ import com.bamboo.demo.Models.User;
 import com.bamboo.demo.Repos.DailyInfoRepo;
 import com.bamboo.demo.Repos.MealRepo;
 import com.bamboo.demo.Repos.UserRepo;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -30,7 +31,7 @@ public class MealHandler {
     }
 
 
-    public Meal saveMealFromLink(String link, String email) throws IOException {
+    public Meal saveMealFromLink(String link, String email) throws IOException, JSONException {
 //        URL url = new URL("https://api.spoonacular.com/recipes/extract?apiKey=5ccdaac983d344338fe187bb2b7e5501&url=" + link);
 //        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 //        connection.setRequestMethod("GET");
