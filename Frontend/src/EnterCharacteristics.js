@@ -82,7 +82,7 @@ export default class EnterCharacteristics extends React.Component {
     }
     //sending request to retrieve the corresponding user object for login
     fetch(
-      `http://localhost:8080/User/addCharacteristics?email=${JSON.stringify(
+      `http://bamboo-testing.herokuapp.com/User/addCharacteristics?email=${JSON.stringify(
         email,
       )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
     )
@@ -115,7 +115,7 @@ export default class EnterCharacteristics extends React.Component {
             onChangeText={height => this.setState({height})}
             placeholder={'Enter Height'}
             keyboardType={'numeric'}
-            autoCorrect="false"
+            autoCorrect={false}
             returnKeyType="done"
             style={styles.input}
           />
@@ -129,7 +129,7 @@ export default class EnterCharacteristics extends React.Component {
             onChangeText={feet => this.setState({feet})}
             placeholder={'Enter feet'}
             keyboardType={'numeric'}
-            autoCorrect="false"
+            autoCorrect={false}
             returnKeyType="done"
             style={styles.smallInput}
           />
@@ -138,7 +138,7 @@ export default class EnterCharacteristics extends React.Component {
             onChangeText={inches => this.setState({inches})}
             placeholder={'Enter inches'}
             keyboardType={'numeric'}
-            autoCorrect="false"
+            autoCorrect={false}
             returnKeyType="done"
             style={styles.smallInput}
           />
@@ -163,7 +163,7 @@ export default class EnterCharacteristics extends React.Component {
             onChangeText={weight => this.setState({weight})}
             placeholder={'Enter Weight'}
             keyboardType={'numeric'}
-            autoCorrect="false"
+            autoCorrect={false}
             returnKeyType="done"
             style={styles.input}
           />
@@ -175,7 +175,7 @@ export default class EnterCharacteristics extends React.Component {
             onChangeText={age => this.setState({age})}
             placeholder={'Enter Age'}
             keyboardType={'numeric'}
-            autoCorrect="false"
+            autoCorrect={false}
             returnKeyType="done"
             style={styles.input}
           />

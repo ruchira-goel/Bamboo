@@ -31,7 +31,7 @@ export default class Login extends React.Component {
     }
     //sending request to retrieve the corresponding user object for login
     fetch(
-      `http://localhost:8080/User/login?email=${email}&encryptedPassword=${encryptedPassword}`,
+      `http://bamboo-testing.herokuapp.com/User/login?email=${email}&encryptedPassword=${encryptedPassword}`,
     )
       .then(res => res.json())
       .then(data => {

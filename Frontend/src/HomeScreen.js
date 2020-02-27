@@ -12,7 +12,7 @@ export default class HomeScreen extends React.Component {
   logout = ({navigation}) => {
     const {email, encryptedPassword} = this.state;
     fetch(
-      `http://localhost:8080/User/logout?email=${email}&encryptedPassword=${encryptedPassword}`,
+      `http://bamboo-testing.herokuapp.com/User/logout?email=${email}&encryptedPassword=${encryptedPassword}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -33,14 +33,14 @@ export default class HomeScreen extends React.Component {
   render() {
     const {route} = this.props;
     const {email} = route.params;
-    let usEmail = email.substring(1, email.length - 1);
-    console.log('usEmail: ' + usEmail);
+    // let usEmail = email.substring(1, email.length - 1);
+    // console.log('usEmail: ' + usEmail);
     return (
       <View style={{flex: 1}}>
         <TouchableOpacity
           onPress={() =>
             this.props.navigation.navigate('MealInput', {
-              email: usEmail,
+              email: email,
             })
           }
           style={styles.btnStyle}>
@@ -54,11 +54,20 @@ export default class HomeScreen extends React.Component {
         <TouchableOpacity
           onPress={() =>
             this.props.navigation.navigate('ExerciseInput', {
-              email: usEmail,
+              email: email,
             })
           }
           style={styles.btnStyle}>
           <Text>Save Exercise</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate('HealthProfile', {
+              email: email,
+            })
+          }
+          style={styles.btnStyle}>
+          <Text>Health Profile</Text>
         </TouchableOpacity>
       </View>
     );
