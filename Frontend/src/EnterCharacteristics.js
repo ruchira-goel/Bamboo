@@ -99,7 +99,9 @@ export default class EnterCharacteristics extends React.Component {
             Alert.alert('User Not Found', data.message, [{text: 'OK'}]);
           }
         } else {
-          //going to home screen
+          this.props.navigation.replace('HomeScreen', {
+            email: email,
+          });
         }
       });
   };

@@ -54,8 +54,8 @@ export default class App extends React.Component {
       ]);
       return;
     }
-    const expression = '^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$';
-    if (expression.test(String(email).toLowerCase())) {
+    const expression = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+    if (!expression.test(String(email).toLowerCase())) {
       Alert.alert(
         'Email Format Incorrect',
         'Ensure that the email is of the format email@example.com',

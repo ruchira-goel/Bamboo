@@ -39,17 +39,21 @@ export default class HomeScreen extends React.Component {
       <View style={{flex: 1}}>
         <TouchableOpacity
           onPress={() =>
+            this.props.navigation.navigate('HealthProfile', {
+              email: email,
+            })
+          }
+          style={styles.btnStyle}>
+          <Text>Health Profile</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
             this.props.navigation.navigate('MealInput', {
               email: email,
             })
           }
           style={styles.btnStyle}>
           <Text>Save Meal</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => this.props.navigation.replace('Login')}
-          style={styles.btnStyle}>
-          <Text>Logout</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() =>
@@ -61,13 +65,9 @@ export default class HomeScreen extends React.Component {
           <Text>Add Exercise</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() =>
-            this.props.navigation.navigate('HealthProfile', {
-              email: email,
-            })
-          }
+          onPress={() => this.props.navigation.replace('Login')}
           style={styles.btnStyle}>
-          <Text>Health Profile</Text>
+          <Text>Logout</Text>
         </TouchableOpacity>
       </View>
     );
@@ -115,8 +115,9 @@ const styles = StyleSheet.create({
     color: 'black',
     borderRadius: 2,
     borderColor: '#3eb245',
-    width: '70%',
+    // width: '70%',
     height: '10%',
+    marginBottom: 2,
     //alignContent: 'center',
     justifyContent: 'center', //text in the middle of the button
     alignItems: 'center', //text in the middle of the butto
