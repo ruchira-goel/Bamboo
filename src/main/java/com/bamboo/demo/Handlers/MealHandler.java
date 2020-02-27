@@ -48,8 +48,9 @@ public class MealHandler {
         User user = this.userRepo.findByEmail(email).get();
         String userId = user.getUserId();
 
-
+        System.out.println("before the first api call");
         URL url = new URL("https://api.spoonacular.com/recipes/extract?apiKey=5ccdaac983d344338fe187bb2b7e5501&url=" + link);
+        System.out.println("after the first api call");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Content-type", "application/json");
