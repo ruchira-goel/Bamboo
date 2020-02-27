@@ -9,6 +9,13 @@ public class DailyInfo {
     private ArrayList<String> meals;
     private ArrayList<String> activities;
 
+    public DailyInfo(String id, Date date, ArrayList<String> meals, ArrayList<String> activities) {
+        this.id = id;
+        this.date = date;
+        this.meals = meals;
+        this.activities = activities;
+    }
+
     public Date getDate() {
         return date;
     }
@@ -27,5 +34,9 @@ public class DailyInfo {
 
     public void addActivities(String activity) {
         activities.add(activity);
+    }
+
+    public String getId() {
+        return id;
     }
 }

@@ -23,6 +23,7 @@ public class User {
     public User(String email, String encryptedPassword) {
         this.email = email;
         this.encryptedPassword = encryptedPassword;
+        dailyInfo = new HashMap<>();
     }
 
     private HashMap<Date, String> dailyInfo;
@@ -104,5 +105,9 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(email, encryptedPassword);
+    }
+
+    public HashMap<Date, String> getDailyInfo() {
+        return dailyInfo;
     }
 }
