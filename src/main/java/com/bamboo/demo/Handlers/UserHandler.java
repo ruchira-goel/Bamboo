@@ -59,6 +59,16 @@ public class UserHandler {
         return userObj;
     }
 
+    public User getCharacteristics(String email) throws IllegalAccessException {
+        email = email.substring(1,email.length()-1);
+        Optional<User> user = this.userRepo.findByEmail(email);
+        if (!user.isPresent()) {
+            throw new IllegalAccessException("There was an error locating your account, please try signing up again");
+        }
+        User userObj = user.get();
+        return userObj;
+    }
+
     public User addDailyInfo(String email, DailyInfo dailyInfo) throws IllegalAccessException {
         Optional<User> user = this.userRepo.findByEmail(email);
         if (!user.isPresent()) {
