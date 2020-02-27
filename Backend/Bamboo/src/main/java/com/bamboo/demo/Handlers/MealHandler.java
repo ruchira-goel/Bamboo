@@ -3,7 +3,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
-import com.bamboo.demo.Models.User;
+import java.util.List;
+
+import com.bamboo.demo.Models.Meal;
 import com.bamboo.demo.Repos.MealRepo;
 
 public class MealHandler {
@@ -27,5 +29,9 @@ public class MealHandler {
         in.close();
         connection.disconnect();
 
+    }
+
+    public List<Meal> display() {
+        return this.mealRepo.findAll();
     }
 }

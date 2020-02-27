@@ -13,7 +13,7 @@ public class User {
     private String userId;
     private String name;
     private String email;
-    private String encryptedPassword;            //encrypted?
+    private String encryptedPassword;
     private double height;                       //unit - cms, kgs
     private double weight;
     private int age;                            //changes

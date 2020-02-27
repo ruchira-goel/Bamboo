@@ -16,24 +16,6 @@ import java.util.Optional;
 public class UserHandler {
     private UserRepo userRepo;
 
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
-//    @Autowired
-//    private UserDetailsService userDetailsService;
-//
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-//
-//    @Bean
-//    public DaoAuthenticationProvider authProvider() {
-//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-//        authProvider.setUserDetailsService(userDetailsService);
-//        authProvider.setPasswordEncoder(passwordEncoder);
-//        return authProvider;
-//    }
-
     public UserHandler(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
@@ -45,7 +27,6 @@ public class UserHandler {
             throw new IllegalAccessException("This email isn't registered yet");
         }
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        //String pass = ;
         if (!passwordEncoder.matches(password, user.get().getEncryptedPassword())) {
             throw new IllegalAccessException("You entered the wrong password!");
         }
@@ -67,7 +48,6 @@ public class UserHandler {
         return this.userRepo.save(newUser);
 
     }
-
 
     //new user add characteristics
     public User addCharacteristics(String email, double height, double weight, int age, Sex sex) throws IllegalAccessException {

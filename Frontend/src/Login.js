@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     borderColor: '#3eb245',
     width: '40%',
-    height: '9%',
+    height: '11%',
     justifyContent: 'center', //text in the middle of the button
     alignItems: 'center', //text in the middle of the button
   },
