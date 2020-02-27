@@ -103,16 +103,33 @@ export default class HealthProfile extends Component {
     }
   };
 
+  handleHeight = text => {
+    this.setState({height: text});
+  };
+
   render() {
+    let {email, height, weight, age, sex, feet, inches} = this.state;
+    fetch(
+      `http://bamboo-testing.herokuapp.com/User/addCharacteristics?email=${JSON.stringify(
+        email,
+      )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
+    )
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        console.log(height);
+        console.log(weight);
+        console.log(email);
+      });
     return (
       <View style={styles.container}>
         <View style={styles.contentContainer}>
           {/*<Text style={styles.header}>[Name]'s Health Profile</Text>*/}
           <ScrollView>
             <View style={styles.inputContainer}>
-              <Text style={[styles.text, {padding: 12}]}>Height:</Text>
+              <Text style={[styles.text, {padding: 2}]}>Height:</Text>
               <TextInput
-                onChangeText={height => this.setState({height})}
+                onChangeText={this.handleHeight}
                 keyboardType={'numeric'}
                 autoCorrect={false}
                 returnKeyType="done"
@@ -122,14 +139,14 @@ export default class HealthProfile extends Component {
                   styles.text,
                   {width: 80},
                 ]}
-                placeholder={'165 cm'}
+                defaultValue={height}
                 placeholderTextColor="#000000"
                 editable={this.state.editable}
                 maxLength={20}
               />
             </View>
             <View style={styles.inputContainer}>
-              <Text style={[styles.text, {padding: 12}]}>Weight:</Text>
+              <Text style={[styles.text, {padding: 2}]}>Weight:</Text>
               <TextInput
                 onChangeText={weight => this.setState({weight})}
                 style={[
@@ -138,14 +155,14 @@ export default class HealthProfile extends Component {
                   styles.text,
                   {width: 80},
                 ]}
-                placeholder="50 kg"
+                defaultValue={weight}
                 placeholderTextColor="#000000"
                 editable={this.state.editable}
                 maxLength={20}
               />
             </View>
             <View style={styles.inputContainer}>
-              <Text style={[styles.text, {padding: 12}]}>Age:</Text>
+              <Text style={[styles.text, {padding: 2}]}>Age:</Text>
               <TextInput
                 onChangeText={age => this.setState({age})}
                 style={[
@@ -154,14 +171,14 @@ export default class HealthProfile extends Component {
                   styles.text,
                   {width: 80},
                 ]}
-                placeholder="20"
+                defaultValue={age}
                 placeholderTextColor="#000000"
                 editable={this.state.editable}
                 maxLength={20}
               />
             </View>
             <View style={styles.inputContainer}>
-              <Text style={[styles.text, {padding: 12}]}>Sex:</Text>
+              <Text style={[styles.text, {padding: 2}]}>Sex:</Text>
               <TextInput
                 onChangeText={sex => this.setState({sex})}
                 style={[
@@ -170,7 +187,7 @@ export default class HealthProfile extends Component {
                   styles.text,
                   {width: 80},
                 ]}
-                placeholder="Female"
+                defaultValue={sex}
                 placeholderTextColor="#000000"
                 editable={this.state.editable}
                 maxLength={20}

@@ -1,7 +1,18 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View, Button} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  Button,
+  TextInput,
+  Platform,
+  ScrollView,
+} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
+import DatePicker from './DatePicker';
+import BUTTONS from './styles/buttons';
 
 // TODO:
 // 1. add new exercise
@@ -10,10 +21,46 @@ import {NavigationContainer} from '@react-navigation/native';
 export default class ExerciseInput extends Component {
   render() {
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text style={styles.header}>
-          What exercises did you complete today?
-        </Text>
+      <View style={styles.container}>
+        <View style={styles.contentContainer}>
+          <ScrollView>
+            <View style={styles.inputContainer}>
+              <Text style={[styles.text]}>Activity:</Text>
+              <TextInput
+                // onChangeText={this.handleHeight}
+                returnKeyType="done"
+                style={[styles.textInput, styles.text]}
+                placeholder="activity"
+                maxLength={20}
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <Text style={[styles.text, {paddingTop: 6}]}>Date:</Text>
+              <DatePicker />
+            </View>
+            <View style={styles.inputContainer}>
+              <Text style={[styles.text]}>Duration:</Text>
+              <TextInput
+                // onChangeText={age => this.setState({age})}
+                style={[styles.textInput, styles.text]}
+                placeholder="duration"
+                maxLength={20}
+              />
+            </View>
+            <View style={styles.inputContainer}>
+              <Text style={[styles.text]}>Calories:</Text>
+              <TextInput
+                // onChangeText={age => this.setState({age})}
+                style={[styles.textInput, styles.text]}
+                placeholder="calories"
+                maxLength={20}
+              />
+            </View>
+          </ScrollView>
+        </View>
+        <TouchableOpacity style={BUTTONS.primaryButton} onPress={this.onPress}>
+          <Text style={BUTTONS.primaryButtonText}>Add</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -26,14 +73,16 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
+    margin: 0,
   },
   header: {
     fontSize: 25,
     textAlign: 'center',
     margin: 10,
+    fontWeight: 'bold',
   },
-  buttonContainer: {
-    flexDirection: 'row',
+  textInput: {
+    borderBottomWidth: 2,
   },
   inputContainer: {
     flexDirection: 'row',
@@ -43,5 +92,8 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     width: 100,
+  },
+  button: {
+    margin: 0,
   },
 });

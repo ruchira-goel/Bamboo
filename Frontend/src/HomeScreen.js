@@ -58,7 +58,7 @@ export default class HomeScreen extends React.Component {
             })
           }
           style={styles.btnStyle}>
-          <Text>Save Exercise</Text>
+          <Text>Add Exercise</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() =>

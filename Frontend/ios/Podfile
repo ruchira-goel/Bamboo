@@ -34,6 +34,10 @@ target 'Frontend' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
+  pod 'RNDurationPicker', :path => '../node_modules/react-native-duration-picker'
+
+  pod 'react-native-date-picker', :path => '../node_modules/react-native-date-picker'
+
   target 'FrontendTests' do
     inherit! :search_paths
     # Pods for testing
