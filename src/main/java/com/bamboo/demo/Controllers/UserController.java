@@ -61,7 +61,7 @@ public class UserController {
     }
 
     @RequestMapping("/User/getCharacteristics")
-    public User addCharacteristics(@RequestParam(value = "email") String email)throws IllegalAccessException {
+    public User getCharacteristics(@RequestParam(value = "email") String email)throws IllegalAccessException {
         System.out.println("email is " + email);
         return userHandler.getCharacteristics(email);
     }
