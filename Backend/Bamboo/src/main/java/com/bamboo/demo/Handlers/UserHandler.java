@@ -3,12 +3,36 @@ package com.bamboo.demo.Handlers;
 import com.bamboo.demo.Models.Sex;
 import com.bamboo.demo.Models.User;
 import com.bamboo.demo.Repos.UserRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
 
 public class UserHandler {
     private UserRepo userRepo;
+
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
+//    @Autowired
+//    private UserDetailsService userDetailsService;
+//
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
+//
+//    @Bean
+//    public DaoAuthenticationProvider authProvider() {
+//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+//        authProvider.setUserDetailsService(userDetailsService);
+//        authProvider.setPasswordEncoder(passwordEncoder);
+//        return authProvider;
+//    }
 
     public UserHandler(UserRepo userRepo) {
         this.userRepo = userRepo;
@@ -20,7 +44,9 @@ public class UserHandler {
         if (!user.isPresent()) {
             throw new IllegalAccessException("This email isn't registered yet");
         }
-        if (!user.get().getEncryptedPassword().equals(password)) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        //String pass = ;
+        if (!passwordEncoder.matches(password, user.get().getEncryptedPassword())) {
             throw new IllegalAccessException("You entered the wrong password!");
         }
         return user.get();
@@ -35,7 +61,8 @@ public class UserHandler {
         if (password.length() < 8) {
             throw new IllegalAccessException("Your password is not valid! Make sure it ___");
         }
-        User newUser = new User(email, password);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        User newUser = new User(email, passwordEncoder.encode(password));
         newUser.setName(name);
         return this.userRepo.save(newUser);
 

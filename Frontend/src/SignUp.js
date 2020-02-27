@@ -74,7 +74,7 @@ export default class App extends React.Component {
           }
         } else {
           //going to enter characteristics screen
-          this.props.navigation.navigate('EnterCharacteristics', {
+          this.props.navigation.replace('EnterCharacteristics', {
             name: name,
             email: email,
             password: password,

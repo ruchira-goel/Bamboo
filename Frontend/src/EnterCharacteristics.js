@@ -118,7 +118,7 @@ export default class EnterCharacteristics extends React.Component {
             returnKeyType="done"
             style={styles.input}
           />
-          <Text>{this.state.switchValue ? 'inch' : 'cm'}</Text>
+          <Text>{this.state.switchValue ? ' inch' : ' cm'}</Text>
         </View>
       );
     } else {
@@ -132,7 +132,7 @@ export default class EnterCharacteristics extends React.Component {
             returnKeyType="done"
             style={styles.smallInput}
           />
-          <Text>{'feet'}</Text>
+          <Text>{' feet '}</Text>
           <TextInput
             onChangeText={inches => this.setState({inches})}
             placeholder={'Enter inches'}
@@ -141,7 +141,7 @@ export default class EnterCharacteristics extends React.Component {
             returnKeyType="done"
             style={styles.smallInput}
           />
-          <Text>{'inches'}</Text>
+          <Text>{' inches'}</Text>
         </View>
       );
     }
@@ -157,6 +157,7 @@ export default class EnterCharacteristics extends React.Component {
         </Text>
 
         <View style={styles.flexRowContainer}>{this.renderHeight()}</View>
+        <View style={{padding: '2%'}} />
         <View style={styles.flexRowContainer}>
           <TextInput
             onChangeText={weight => this.setState({weight})}
@@ -166,8 +167,9 @@ export default class EnterCharacteristics extends React.Component {
             returnKeyType="done"
             style={styles.input}
           />
-          <Text>{this.state.switchValue ? 'lb' : 'kg'}</Text>
+          <Text>{this.state.switchValue ? ' lb' : ' kg'}</Text>
         </View>
+        <View style={{padding: '2%'}} />
 
         <View style={styles.flexRowContainer}>
           <TextInput
@@ -178,16 +180,19 @@ export default class EnterCharacteristics extends React.Component {
             returnKeyType="done"
             style={styles.input}
           />
-          <Text>years</Text>
+          <Text> years</Text>
         </View>
 
-        <Dropdown
-          label="Sex"
-          data={[{value: 'Female'}, {value: 'Male'}, {value: 'Other'}]}
-          onChangeText={value => {
-            this.setState({sex: value});
-          }}
-        />
+        <View style={{flex: 0.3, width: '50%'}}>
+          <Dropdown
+            selectedItemColor='#3eb245'
+            label="Sex"
+            data={[{value: 'Female'}, {value: 'Male'}, {value: 'Other'}]}
+            onChangeText={value => {
+              this.setState({sex: value});
+            }}
+          />
+        </View>
 
         <Text>{this.state.switchValue ? 'Imperial' : 'Metric'}</Text>
         <Switch
@@ -217,9 +222,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   flexRowContainer: {
-    width: '90%',
+    width: '80%',
     flexDirection: 'row',
     textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   paragraph: {
     margin: 24,

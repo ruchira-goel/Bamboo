@@ -2,15 +2,7 @@ import React from 'react';
 import {Alert, View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 
 export default class HomeScreen extends React.Component {
-  logoutConfirm = () => {
-    Alert.alert('Confirm Logout', 'Are you sure you want to logout?', [
-      {text: 'Yes', onPress: this.logout},
-      {text: 'No'},
-    ]);
-  };
-
   logout = () => {
-    //const {email, encryptedPassword} = this.state;
     Alert.alert('Confirm Logout', 'Are you sure you want to logout?', [
       {text: 'Yes', onPress: () => this.props.navigation.replace('Login')},
       {text: 'No'},
