@@ -60,6 +60,12 @@ public class UserController {
         return userHandler.addCharacteristics(email, height, weight, age, sexEnum);
     }
 
+    @RequestMapping("/User/getCharacteristics")
+    public User addCharacteristics(@RequestParam(value = "email") String email)throws IllegalAccessException {
+        System.out.println("email is " + email);
+        return userHandler.getCharacteristics(email);
+    }
+
     @RequestMapping("/User/all")
     public List<User> users() {
         return userHandler.display();
