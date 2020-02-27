@@ -14,6 +14,10 @@ import {useRoute} from '@react-navigation/native';
 
 let {screenHeight, screenWidth} = Dimensions.get('window');
 
+/*
+TODO:
+set isMetric
+ */
 
 export default class EnterCharacteristics extends React.Component {
   state = {
@@ -30,6 +34,7 @@ export default class EnterCharacteristics extends React.Component {
       sex: '',
       feet: '',
       inches: '',
+      isMetric: '',
     };
   }
 
@@ -45,7 +50,7 @@ export default class EnterCharacteristics extends React.Component {
     // const {email} = this.state;
     //this.setState({email: email});
     let userEmail = JSON.stringify(email);
-    let {height, weight, age, sex, feet, inches} = this.state;
+    let {height, weight, age, sex, feet, inches, isMetric} = this.state;
     if (!height && feet && inches) {
       height = (feet * 12 + inches) * 2.54;
     }
@@ -85,7 +90,7 @@ export default class EnterCharacteristics extends React.Component {
     fetch(
       `http://bamboo-testing.herokuapp.com/User/addCharacteristics?email=${JSON.stringify(
         email,
-      )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
+      )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&isMetric=${isMetric}`,
     )
       .then(res => res.json())
       .then(data => {

@@ -42,9 +42,18 @@ export default class ExerciseInput extends Component {
               <Text style={[styles.text]}>Duration:</Text>
               <TextInput
                 // onChangeText={age => this.setState({age})}
-                style={[styles.textInput, styles.text]}
-                placeholder="duration"
-                maxLength={20}
+                style={[styles.textInput, {fontSize: 20}]}
+                keyboardType={'numeric'}
+                placeholder="hh"
+                maxLength={2}
+              />
+              <Text style={{fontSize: 20}}>:</Text>
+              <TextInput
+                // onChangeText={age => this.setState({age})}
+                style={[styles.textInput, {fontSize: 20}]}
+                keyboardType={'numeric'}
+                placeholder="mm"
+                maxLength={2}
               />
             </View>
             <View style={styles.inputContainer}>

@@ -26,6 +26,7 @@
     "react-native-safe-area-context": "^0.6.4",
     "react-native-screens": "2.0.0-alpha.12",
     "react-native-vector-icons": "^6.6.0",
+    "react-time-duration-input": "^1.1.1",
     "react-time-picker": "^3.9.0"
   },
   "devDependencies": {

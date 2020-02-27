@@ -13,7 +13,7 @@ import BUTTONS from './styles/buttons';
 // TODO:
 // 1. put user's name in header
 // 2. validate inputs, display errors
-// 3. display units
+// 3. display correct units
 
 export default class HealthProfile extends Component {
   constructor(props) {
@@ -26,6 +26,7 @@ export default class HealthProfile extends Component {
       sex: '',
       feet: '',
       inches: '',
+      isMetric: '',
       buttonValue: 'Edit',
       editable: false,
       inputStyle: styles.text,
@@ -46,6 +47,7 @@ export default class HealthProfile extends Component {
           weight: data.weight.toString(),
           age: data.age.toString(),
           sex: data.sex,
+          isMetric: data.isMetric,
         }),
       );
   }
@@ -116,7 +118,7 @@ export default class HealthProfile extends Component {
   };
 
   render() {
-    let {height, weight, age, sex, feet, inches} = this.state;
+    let {height, weight, age, sex, feet, inches, isMetric} = this.state;
     const {route} = this.props;
     const {email} = route.params;
     fetch(
@@ -150,6 +152,7 @@ export default class HealthProfile extends Component {
                 editable={this.state.editable}
                 maxLength={20}
               />
+              <Text style={[styles.text, {padding: 2}]}>cm</Text>
             </View>
             <View style={styles.inputContainer}>
               <Text style={[styles.text, {padding: 2}]}>Weight:</Text>
@@ -168,6 +171,7 @@ export default class HealthProfile extends Component {
                 editable={this.state.editable}
                 maxLength={20}
               />
+              <Text style={[styles.text, {padding: 2}]}>kg</Text>
             </View>
             <View style={styles.inputContainer}>
               <Text style={[styles.text, {padding: 2}]}>Age:</Text>
@@ -234,8 +238,9 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flexDirection: 'row',
-    alignSelf: 'center',
+    // alignSelf: 'center',
     paddingTop: 35,
+    paddingLeft: '20%',
   },
   text: {
     fontSize: 20,
