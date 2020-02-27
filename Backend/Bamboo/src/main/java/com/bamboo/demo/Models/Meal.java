@@ -1,5 +1,7 @@
 package com.bamboo.demo.Models;
 
+import com.bamboo.demo.Repos.DailyInfoRepo;
+import com.bamboo.demo.Repos.UserRepo;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -9,11 +11,54 @@ import java.util.Date;
 public class Meal {
     @Id
     private String id;
+    private String userId;
     private String name;
-    private NutritionInfo nutritionInfo;
+    private long calories;
+    private long fat;
+    private long carbs;
+    private long protein;
 
-    public void addToDate(Date date) {
-        //TODO
+
+    //private NutritionInfo nutritionInfo;
+
+    public long getCalories() {
+        return calories;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setCalories(long calories) {
+        this.calories = calories;
+    }
+
+    public long getFat() {
+        return fat;
+    }
+
+    public void setFat(long fat) {
+        this.fat = fat;
+    }
+
+    public long getCarbs() {
+        return carbs;
+    }
+
+    public void setCarbs(long carbs) {
+        this.carbs = carbs;
+    }
+
+    public long getProtein() {
+        return protein;
+    }
+
+    public void setProtein(long protein) {
+        this.protein = protein;
     }
 
     public String getId() {
@@ -32,11 +77,11 @@ public class Meal {
         this.name = name;
     }
 
-    public NutritionInfo getNutritionInfo() {
-        return nutritionInfo;
-    }
+    //public NutritionInfo getNutritionInfo() {
+//        return nutritionInfo;
+//    }
 
-    public void setNutritionInfo(NutritionInfo nutritionInfo) {
-        this.nutritionInfo = nutritionInfo;
-    }
+//    public void setNutritionInfo(NutritionInfo nutritionInfo) {
+//        this.nutritionInfo = nutritionInfo;
+//    }
 }

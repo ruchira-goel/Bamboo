@@ -1,5 +1,6 @@
 package com.bamboo.demo.Handlers;
 
+import com.bamboo.demo.Models.DailyInfo;
 import com.bamboo.demo.Models.Sex;
 import com.bamboo.demo.Models.User;
 import com.bamboo.demo.Repos.UserRepo;
@@ -61,6 +62,17 @@ public class UserHandler {
         userObj.setWeight(weight);
         userObj.setAge(age);
         userObj.setSex(sex);
+        this.userRepo.save(userObj);
+        return userObj;
+    }
+
+    public User addDailyInfo(String email, DailyInfo dailyInfo) throws IllegalAccessException {
+        Optional<User> user = this.userRepo.findByEmail(email);
+        if (!user.isPresent()) {
+            throw new IllegalAccessException("There was an error locating your account, please try signing up again");
+        }
+        User userObj = user.get();
+        userObj.getDailyInfo().put(dailyInfo.getDate(), dailyInfo.getId());
         this.userRepo.save(userObj);
         return userObj;
     }

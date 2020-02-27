@@ -3,6 +3,7 @@
 
 package com.bamboo.demo.Models;
 
+import com.bamboo.demo.Repos.DailyInfoRepo;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,15 +17,18 @@ public class DailyInfo {
     String userId;
     Date date;
     ArrayList<String> meals; //ids of meals
+    //private static DailyInfoRepo dailyInfoRepo;
 
     public DailyInfo(String userId, Date date) {
         this.userId = userId;
         this.date = date;
         this.meals = new ArrayList<>();
+        //this.dailyInfoRepo =
     }
 
     public void addMeal(String mealId) {
         this.meals.add(mealId);
+
     }
 
     public String getId() {

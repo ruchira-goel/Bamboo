@@ -3,6 +3,7 @@ package com.bamboo.demo.Models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.print.attribute.HashAttributeSet;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
@@ -19,15 +20,19 @@ public class User {
     private int age;                            //changes
     private Sex sex;
     private String goalIds[];
+    private HashMap<Date, String> dailyInfo;    //String is id of the daily info obj
+    private String saveMeals[];
+    private String savedExerciseRoutine[];
 
     public User(String email, String encryptedPassword) {
         this.email = email;
         this.encryptedPassword = encryptedPassword;
+        this.dailyInfo  =  new HashMap<>();
     }
 
-    private HashMap<Date, String> dailyInfo;
-    private String saveMeals[];
-    private String savedExerciseRoutine[];
+    public HashMap<Date, String> getDailyInfo() {
+        return dailyInfo;
+    }
 
     public String getUserId() {
         return userId;
