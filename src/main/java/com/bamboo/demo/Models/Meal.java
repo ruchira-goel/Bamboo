@@ -1,11 +1,7 @@
 package com.bamboo.demo.Models;
 
-import com.bamboo.demo.Repos.DailyInfoRepo;
-import com.bamboo.demo.Repos.UserRepo;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.Date;
 
 @Document(collection = "Meals")
 public class Meal {
@@ -13,15 +9,24 @@ public class Meal {
     private String id;
     private String userId;
     private String name;
-    private long calories;
-    private long fat;
-    private long carbs;
-    private long protein;
+    private double calories;
+    private double fat;
+    private double carbs;
+    private double protein;
+
+    public Meal(String userId, String name, double calories, double fat, double carbs, double protein) {
+        this.userId = userId;
+        this.name = name;
+        this.calories = calories;
+        this.fat = fat;
+        this.carbs = carbs;
+        this.protein = protein;
+    }
 
 
     //private NutritionInfo nutritionInfo;
 
-    public long getCalories() {
+    public double getCalories() {
         return calories;
     }
 
@@ -33,31 +38,31 @@ public class Meal {
         this.userId = userId;
     }
 
-    public void setCalories(long calories) {
+    public void setCalories(double calories) {
         this.calories = calories;
     }
 
-    public long getFat() {
+    public double getFat() {
         return fat;
     }
 
-    public void setFat(long fat) {
+    public void setFat(double fat) {
         this.fat = fat;
     }
 
-    public long getCarbs() {
+    public double getCarbs() {
         return carbs;
     }
 
-    public void setCarbs(long carbs) {
+    public void setCarbs(double carbs) {
         this.carbs = carbs;
     }
 
-    public long getProtein() {
+    public double getProtein() {
         return protein;
     }
 
-    public void setProtein(long protein) {
+    public void setProtein(double protein) {
         this.protein = protein;
     }
 

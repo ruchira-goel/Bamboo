@@ -22,9 +22,9 @@ public class MealController {
     }
 
     @RequestMapping("/Meal/infoFromLink")          //meal info from link
-    public void infoFromLink(@RequestParam(value = "link") String link,
+    public Meal infoFromLink(@RequestParam(value = "link") String link,
                              @RequestParam(value = "email") String email) throws IOException {
-        mealHandler.saveMealFromLink(link, email);
+        return mealHandler.saveMealFromLink(link, email);
     }
 
     @RequestMapping("/Meal/all")
