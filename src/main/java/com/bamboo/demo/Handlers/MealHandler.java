@@ -14,6 +14,8 @@ import com.bamboo.demo.Repos.DailyInfoRepo;
 import com.bamboo.demo.Repos.MealRepo;
 import com.bamboo.demo.Repos.UserRepo;
 
+
+
 public class MealHandler {
     private MealRepo mealRepo;
     private UserRepo userRepo;
@@ -28,18 +30,27 @@ public class MealHandler {
 
 
     public void saveMealFromLink(String link, String email) throws IOException {
+//        URL url = new URL("https://api.spoonacular.com/recipes/extract?apiKey=5ccdaac983d344338fe187bb2b7e5501&url=" + link);
+//        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//        connection.setRequestMethod("GET");
+//        connection.setRequestProperty("Content-type", "application/json");
+//        int status = connection.getResponseCode();
+//        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+//        String inputLine;
+//        while ((inputLine = in.readLine()) != null) {
+//            System.out.println(inputLine);
+//        }
+//        in.close();
+//        connection.disconnect();
+
+
         URL url = new URL("https://api.spoonacular.com/recipes/extract?apiKey=5ccdaac983d344338fe187bb2b7e5501&url=" + link);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Content-type", "application/json");
-        int status = connection.getResponseCode();
         BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        String inputLine;
-        while ((inputLine = in.readLine()) != null) {
-            System.out.println(inputLine);
-        }
-        in.close();
-        connection.disconnect();
+        String jsonText = in.readLine();
+        JSONObject
 
     }
 
