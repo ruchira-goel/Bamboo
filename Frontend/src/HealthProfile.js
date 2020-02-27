@@ -122,10 +122,6 @@ export default class HealthProfile extends Component {
     }
   };
 
-  handleHeight = text => {
-    this.setState({height: text});
-  };
-
   render() {
     let {height, weight, age, sex, feet, inches} = this.state;
     const {route} = this.props;
@@ -158,9 +154,8 @@ export default class HealthProfile extends Component {
             <View style={styles.inputContainer}>
               <Text style={[styles.text, {padding: 2}]}>Height:</Text>
               <TextInput
-                onChangeText={this.handleHeight}
+                onChangeText={height => this.setState({height})}
                 keyboardType={'numeric'}
-                autoCorrect={false}
                 returnKeyType="done"
                 style={[
                   styles.textInput,
@@ -179,6 +174,8 @@ export default class HealthProfile extends Component {
               <Text style={[styles.text, {padding: 2}]}>Weight:</Text>
               <TextInput
                 onChangeText={weight => this.setState({weight})}
+                keyboardType={'numeric'}
+                returnKeyType="done"
                 style={[
                   styles.textInput,
                   this.state.inputStyle,
@@ -195,6 +192,8 @@ export default class HealthProfile extends Component {
               <Text style={[styles.text, {padding: 2}]}>Age:</Text>
               <TextInput
                 onChangeText={age => this.setState({age})}
+                keyboardType={'numeric'}
+                returnKeyType="done"
                 style={[
                   styles.textInput,
                   this.state.inputStyle,

@@ -1,8 +1,17 @@
 import * as React from 'react';
-import {Text, View, StyleSheet, TextInput, Button, Alert} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TextInput,
+  Button,
+  Alert,
+  TouchableOpacity,
+} from 'react-native';
 import DoneButton from 'react-native-keyboard-done-button';
-import { useRoute } from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 import Constants from 'expo-constants';
+import COLORS from './styles/colors';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -161,7 +170,21 @@ export default class App extends React.Component {
           color="black"
           backgroundColor="green"
         />
-        <Text style={styles.paragraph}>Already have an account?</Text>
+        <TouchableOpacity
+          onPress={() => this.props.navigation.replace('Login')}
+          style={[{margin: 10}]}>
+          <View style={{flexDirection: 'row', margin: 4}}>
+            <Text>Already have an account?</Text>
+            <Text
+              style={{
+                marginLeft: 4,
+                color: 'white',
+                backgroundColor: COLORS.secondaryColor,
+              }}>
+              Login
+            </Text>
+          </View>
+        </TouchableOpacity>
       </View>
     );
   }

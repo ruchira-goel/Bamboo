@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+import BUTTONS from './styles/buttons';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -75,12 +76,14 @@ export default class Login extends React.Component {
         <Text> {'  '}</Text>
         <View style={styles.spacingSmall} />
         <View style={styles.container}>
-          <TouchableOpacity onPress={this.login} style={styles.btnStyle}>
-            <Text>Login</Text>
+          <TouchableOpacity onPress={this.login} style={BUTTONS.primaryButton}>
+            <Text style={BUTTONS.primaryButtonText}>Login</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.container}>
-          <TouchableOpacity onPress={() => this.props.navigation.replace('SignUp')} style={styles.btnStyle}>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.replace('SignUp')}
+            style={[{margin: 10}, styles.btnStyle]}>
             <Text>Signup</Text>
           </TouchableOpacity>
         </View>
