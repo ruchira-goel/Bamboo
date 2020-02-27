@@ -27,7 +27,9 @@ export default class EnterMealDailyInput extends React.Component {
       return;
     }
     if (pickerSelection === 'Enter link') {
-      fetch(`https://bamboo-testing.herokuapp.com//Meal/infoFromLink?link=${mealInfo}`)
+      fetch(
+        `https://bamboo-testing.herokuapp.com//Meal/infoFromLink?link=${mealInfo}`,
+      )
         .then(res => res.json())
         .then(data => {
           console.log(data);
@@ -39,6 +41,9 @@ export default class EnterMealDailyInput extends React.Component {
             //   Alert.alert('Incorrect password', data.message, [{text: 'OK'}]);
             // }
           } else {
+            Alert.alert('Meal Added', data.name + ' successfully added!', [
+              {text: 'OK'},
+            ]);
             //going to home screen
           }
         });
