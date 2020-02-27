@@ -54,6 +54,7 @@ public class MealHandler {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Content-type", "application/json");
+        connection.setRequestProperty("User-agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
         BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String jsonText = in.readLine();
         JSONObject json = new JSONObject(jsonText);
