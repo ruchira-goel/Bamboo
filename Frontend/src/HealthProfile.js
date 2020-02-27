@@ -33,6 +33,25 @@ export default class HealthProfile extends Component {
       inputStyle: styles.text,
     };
   }
+  UNSAFE_componentWillMount(): void {
+    const {route} = this.props;
+    const {email} = route.params;
+    console.log(email);
+    fetch(
+      `http://bamboo-testing.herokuapp.com/User/getCharacteristics?email=${JSON.stringify(
+        email,
+      )}`,
+    )
+      .then(res => res.json())
+      .then(data =>
+        this.setState({
+          height: data.height.toString(),
+          weight: data.weight.toString(),
+          age: data.age.toString(),
+          sex: data.sex,
+        }),
+      );
+  }
 
   onSave = () => {
     let {height, weight, age, sex, feet, inches} = this.state;
@@ -108,14 +127,24 @@ export default class HealthProfile extends Component {
   };
 
   render() {
-    let {email, height, weight, age, sex, feet, inches} = this.state;
+    let {height, weight, age, sex, feet, inches} = this.state;
+    const {route} = this.props;
+    const {email} = route.params;
+    console.log(email);
     fetch(
-      `http://bamboo-testing.herokuapp.com/User/addCharacteristics?email=${JSON.stringify(
+      `http://bamboo-testing.herokuapp.com/User/getCharacteristics?email=${JSON.stringify(
         email,
-      )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
+      )}`,
     )
       .then(res => res.json())
       .then(data => {
+        console.log(
+          '=======================================================================',
+        );
+        height = data.height;
+        weight = data.weight;
+        age = data.age;
+        sex = data.sex;
         console.log(data);
         console.log(height);
         console.log(weight);
@@ -140,6 +169,7 @@ export default class HealthProfile extends Component {
                   {width: 80},
                 ]}
                 defaultValue={height}
+                value={height}
                 placeholderTextColor="#000000"
                 editable={this.state.editable}
                 maxLength={20}
