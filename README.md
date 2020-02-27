@@ -1,6 +1,6 @@
 # Bamboo
 
-Purpose
+## Purpose
 Many people are interested in keeping track of their eating, exercise, and sleeping habits to monitor their progress with various health goals. While there are many existing health and lifestyle apps, they each have their drawbacks, including having a narrow set of features, a steep learning curve, or premium paywall. Existing apps that help monitor health goals are often specific to one aspect of health, like exercise, making it more work for the user to keep up with multiple platforms and enter a lot of data each day. This is time consuming and inconvenient, leaving most users frustrated with the options currently available.
 
 Bamboo will be an all-in-one mobile application to keep track of your health and wellness-related habits and find out the best way to go about achieving your goals.
