@@ -35,8 +35,13 @@ export default class EnterCharacteristics extends React.Component {
     const {route} = this.props;
     const {email} = route.params;
     let {height, weight, age, sex, feet, inches} = this.state;
-    if (!height && feet && inches) {
-      height = (feet * 12 + inches) * 2.54;
+    // if (!height && feet && inches) {
+    //   height = (feet * 12 + inches) * 2.54;
+    // }
+    if (this.state.switchValue) {
+      //imperial
+      height = (parseFloat(feet * 12) + parseFloat(inches)) * 2.54;
+      weight = parseFloat(weight) * 0.453592;
     }
     if (!height) {
       Alert.alert('Height Empty', 'Please enter your height.', [{text: 'OK'}]);
