@@ -20,7 +20,7 @@ public class User {
     private int age;                            //changes
     private Sex sex;
     private String goalIds[];
-    private HashMap<Date, String> dailyInfo;    //String is id of the daily info obj
+    private HashMap<String, String> dailyInfo;    //String is id of the daily info obj
     private String saveMeals[];
     private String savedExerciseRoutine[];
 
@@ -30,7 +30,7 @@ public class User {
         this.dailyInfo  =  new HashMap<>();
     }
 
-    public HashMap<Date, String> getDailyInfo() {
+    public HashMap<String, String> getDailyInfo() {
         return dailyInfo;
     }
 

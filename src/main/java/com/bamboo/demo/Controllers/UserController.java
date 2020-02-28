@@ -1,8 +1,11 @@
 package com.bamboo.demo.Controllers;
 
+import com.bamboo.demo.Handlers.DIHandler;
 import com.bamboo.demo.Handlers.UserHandler;
+import com.bamboo.demo.Models.DailyInfo;
 import com.bamboo.demo.Models.Sex;
 import com.bamboo.demo.Models.User;
+import com.bamboo.demo.Repos.DailyInfoRepo;
 import com.bamboo.demo.Repos.UserRepo;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,9 +17,12 @@ import java.util.List;
 @RestController
 public class UserController {
     private UserHandler userHandler;
+    private DIHandler di;
 
-    public UserController(UserRepo userRepo) {
+    public UserController(UserRepo userRepo, DailyInfoRepo di) {
         this.userHandler = new UserHandler(userRepo);
+        this.di=new DIHandler(di);
+
     }
 
     @RequestMapping("/User/login")          //login request
@@ -58,5 +64,10 @@ public class UserController {
     @RequestMapping("/User/all")
     public List<User> users() {
         return userHandler.display();
+    }
+
+    @RequestMapping("/DI/all")
+    public List<DailyInfo> di() {
+        return di.display();
     }
 }

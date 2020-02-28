@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -48,8 +49,9 @@ public class MealHandler {
         User user = this.userRepo.findByEmail(email).get();
         String userId = user.getUserId();
 
-
+        System.out.println("before the first api call");
         URL url = new URL("https://api.spoonacular.com/recipes/extract?apiKey=5ccdaac983d344338fe187bb2b7e5501&url=" + link);
+        System.out.println("after the first api call");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Content-type", "application/json");
@@ -62,8 +64,12 @@ public class MealHandler {
 
         URL nutritionURL = new URL("https://api.spoonacular.com/recipes/" + recipeId + "/nutritionWidget.json?apiKey=5ccdaac983d344338fe187bb2b7e5501");
         HttpURLConnection con = (HttpURLConnection) nutritionURL.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("Content-type", "application/json");
+
         BufferedReader input = new BufferedReader(new InputStreamReader(con.getInputStream()));
         JSONObject nutritionJson = new JSONObject(input.readLine());
+
         //removing last character to get number for nutrition
         String fatStr = nutritionJson.get("fat").toString();
         double fat = Double.parseDouble(fatStr.substring(0, fatStr.length() - 1));
@@ -75,20 +81,24 @@ public class MealHandler {
         Meal meal = new Meal(userId, mealName, calories, fat, carb, protein);
         this.mealRepo.save(meal);
 
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date currentDate = new Date(System.currentTimeMillis());
-        addToDate(currentDate, meal);
+        String date = formatter.format(currentDate);
+        System.out.println("Date: " + date);
+        addToDate(date, meal);
 
         return meal;
     }
 
 
-    public void addToDate(Date date, Meal meal) {
+    public void addToDate(String date, Meal meal) {
         String userId = meal.getUserId();
         User user = this.userRepo.findById(userId).get();
         String dailyInfoId;
         DailyInfo dailyInfo;
         if (!user.getDailyInfo().containsKey(date)) {
             dailyInfo = new DailyInfo(userId, date);
+            this.dailyInfoRepo.save(dailyInfo);
             dailyInfoId = dailyInfo.getId();
             user.getDailyInfo().put(date, dailyInfoId);
             this.userRepo.save(user);
