@@ -16,11 +16,20 @@ public class DailyInfo {
     String userId;
     String date;
     ArrayList<String> meals; //ids of meals
+    private ArrayList<String> activities;
+
+    public ArrayList<String> getActivities() {
+        return activities;
+    }
 
     public DailyInfo(String userId, String date) {
         this.userId = userId;
         this.date = date;
         this.meals = new ArrayList<>();
+    }
+
+    public void addActivities(String activity) {
+        activities.add(activity);
     }
 
     public void addMeal(String mealId) {

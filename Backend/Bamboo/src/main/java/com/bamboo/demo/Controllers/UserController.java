@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,7 @@ public class UserController {
     private DIHandler di;
 
     public UserController(UserRepo userRepo, DailyInfoRepo di) {
-        this.userHandler = new UserHandler(userRepo);
+        this.userHandler = new UserHandler(userRepo, di); //Check
         this.di=new DIHandler(di);
 
     }
@@ -79,5 +80,29 @@ public class UserController {
     @RequestMapping("/DI/delAll")
     public void del() {
         di.del();
+    }
+
+    @RequestMapping("/User/getCharacteristics")
+    public User getCharacteristics(@RequestParam(value = "email") String email)throws IllegalAccessException {
+        System.out.println("email is " + email);
+        return userHandler.getCharacteristics(email);
+    }
+
+    @RequestMapping("/User/addDailyInfo")              // add daily input request
+    public User addDailyInput(@RequestParam(value = "email") String email,
+                              @RequestParam(value = "dailyInfo") DailyInfo dailyInfo)throws IllegalAccessException {
+        System.out.println("email is " + email);
+        return userHandler.addDailyInfo(email, dailyInfo);
+    }
+
+    @RequestMapping("/User/addActivity")              // add daily input request
+    public User addActivity(@RequestParam(value = "email") String email,
+                            @RequestParam(value = "id") String id,
+                            @RequestParam(value = "type") String type,
+                            @RequestParam(value = "calories") int calories,
+                            @RequestParam(value = "minutes") int minutes,
+                            @RequestParam(value = "date") Date date)throws IllegalAccessException {
+        System.out.println("email is " + email);
+        return userHandler.addActivity(email, id, type, calories, minutes, date);
     }
 }

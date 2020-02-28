@@ -29,6 +29,16 @@ export default class HomeScreen extends React.Component {
         <TouchableOpacity onPress={this.logout} style={styles.btnStyle}>
           <Text>Logout</Text>
         </TouchableOpacity>
+        <View style={{padding: '2%'}} />
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate('Health', {
+              email: email,
+            })
+          }
+          style={styles.btnStyle}>
+          <Text>Health Profile</Text>
+        </TouchableOpacity>
       </View>
     );
   }
