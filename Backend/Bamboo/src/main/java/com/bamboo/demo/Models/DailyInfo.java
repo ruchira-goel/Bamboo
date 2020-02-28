@@ -16,7 +16,7 @@ public class DailyInfo {
     String userId;
     String date;
     ArrayList<String> meals; //ids of meals
-    private ArrayList<String> activities;
+    ArrayList<String> activities;
 
     public ArrayList<String> getActivities() {
         return activities;
@@ -26,10 +26,11 @@ public class DailyInfo {
         this.userId = userId;
         this.date = date;
         this.meals = new ArrayList<>();
+        this.activities = new ArrayList<>();
     }
 
     public void addActivity(String activity) {
-        activities.add(activity);
+        this.activities.add(activity);
     }
 
     public void addMeal(String mealId) {
