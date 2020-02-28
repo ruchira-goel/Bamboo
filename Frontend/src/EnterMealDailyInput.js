@@ -20,6 +20,10 @@ export default class EnterMealDailyInput extends React.Component {
 
   addMeal = () => {
     const {pickerSelection, mealInfo} = this.state;
+    const {route} = this.props;
+    const {email} = route.params;
+    console.log("Email: " + email + " Link: " + mealInfo);
+    //let usEmail = email.substring(1, email.length - 1);
     if (!mealInfo) {
       Alert.alert('Meal Information Empty', 'Please enter meal information.', [
         {text: 'OK'},
@@ -28,15 +32,13 @@ export default class EnterMealDailyInput extends React.Component {
     }
     if (pickerSelection === 'Enter link') {
       fetch(
-        `https://bamboo-testing.herokuapp.com//Meal/infoFromLink?link=${mealInfo}`,
+        `https://bamboo-testing.herokuapp.com//Meal/infoFromLink?link=${mealInfo}&email=${email}`,
       )
         .then(res => res.json())
         .then(data => {
           console.log(data);
           if (data.error) {
-            Alert.alert('Error', "Sorry, try again later!", [
-              {text: 'OK'},
-            ]);
+            Alert.alert('Error', 'Sorry, try again later!', [{text: 'OK'}]);
 
             //throwing error when login fails - wrong password / email not registered yet
             // if (data.message === "This email isn't registered yet") {

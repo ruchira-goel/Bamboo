@@ -12,14 +12,14 @@ export default class HomeScreen extends React.Component {
   render() {
     const {route} = this.props;
     const {email} = route.params;
-    let usEmail = email.substring(1, email.length - 1);
-    console.log('usEmail: ' + usEmail);
+    //let usEmail = email.substring(1, email.length - 1);
+    console.log('usEmail: ' + email);
     return (
       <View style={styles.heading}>
         <TouchableOpacity
           onPress={() =>
             this.props.navigation.navigate('MealInput', {
-              email: usEmail,
+              email: email,
             })
           }
           style={styles.btnStyle}>
