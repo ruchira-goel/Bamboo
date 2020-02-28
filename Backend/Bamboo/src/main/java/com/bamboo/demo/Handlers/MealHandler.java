@@ -14,6 +14,7 @@ import com.bamboo.demo.Models.User;
 import com.bamboo.demo.Repos.DailyInfoRepo;
 import com.bamboo.demo.Repos.MealRepo;
 import com.bamboo.demo.Repos.UserRepo;
+import com.fasterxml.jackson.databind.exc.InvalidTypeIdException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,20 +32,7 @@ public class MealHandler {
     }
 
 
-    public Meal saveMealFromLink(String link, String email) throws IOException, JSONException {
-//        URL url = new URL("https://api.spoonacular.com/recipes/extract?apiKey=5ccdaac983d344338fe187bb2b7e5501&url=" + link);
-//        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//        connection.setRequestMethod("GET");
-//        connection.setRequestProperty("Content-type", "application/json");
-//        int status = connection.getResponseCode();
-//        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-//        String inputLine;
-//        while ((inputLine = in.readLine()) != null) {
-//            System.out.println(inputLine);
-//        }
-//        in.close();
-//        connection.disconnect();
-
+    public Meal saveMealFromLink(String link, String email) throws IOException, JSONException, IllegalAccessException {
         User user = this.userRepo.findByEmail(email).get();
         String userId = user.getUserId();
 
@@ -60,6 +48,10 @@ public class MealHandler {
         JSONObject json = new JSONObject(jsonText);
         String mealName = json.get("title").toString();
         String recipeId = json.get("id").toString();
+
+        if (recipeId.equals("-1")) {
+            throw new IllegalAccessException("Meal not found");
+        }
 
         URL nutritionURL = new URL("https://api.spoonacular.com/recipes/" + recipeId + "/nutritionWidget.json?apiKey=5ccdaac983d344338fe187bb2b7e5501");
         HttpURLConnection con = (HttpURLConnection) nutritionURL.openConnection();

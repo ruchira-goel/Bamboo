@@ -38,7 +38,11 @@ export default class EnterMealDailyInput extends React.Component {
         .then(data => {
           console.log(data);
           if (data.error) {
-            Alert.alert('Error', 'Sorry, try again later!', [{text: 'OK'}]);
+            Alert.alert(
+              data.message,
+              'Unable to load recipe information for the given link, please try a different link.',
+              [{text: 'OK'}],
+            );
 
             //throwing error when login fails - wrong password / email not registered yet
             // if (data.message === "This email isn't registered yet") {
