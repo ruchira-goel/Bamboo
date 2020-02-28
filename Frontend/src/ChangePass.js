@@ -37,11 +37,18 @@ export default class ChangePass extends React.Component {
     }
 
     if (pass !== encryptedPassword) {
-      Alert.alert('Password Do Not Match', 'Please enter matching passwords!', [
+      Alert.alert('Password Do Not Match', 'Please enter matching passwords.', [
         {text: 'OK'},
       ]);
       return;
     }
+
+    if (pass.length < 8 || encryptedPassword.length < 8) {
+      Alert.alert('Password Length', 'Please enter at least  8 characters.', [
+        {text: 'OK'},
+      ]);
+      return;
+  }
     //sending request to retrieve the corresponding user object for login
     fetch(
       `http://localhost:8080/User/changePass?email=${email}&encryptedPassword=${encryptedPassword}`,
