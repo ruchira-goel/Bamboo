@@ -57,6 +57,14 @@ export default class HealthProfile extends Component {
       );
   }
 
+  isInvalid(str) {
+    return /[-,_]/g.test(str);
+  }
+
+  isAgeInvalid(str) {
+    return /[-,_.]/g.test(str);
+  }
+
   onSave = () => {
     let {height, weight, age, sex, feet, inches} = this.state;
     const {route} = this.props;
@@ -67,19 +75,19 @@ export default class HealthProfile extends Component {
       height = (feet * 12 + inches) * 2.54;
     }
 
-    if (height < 0) {
+    if (height <= 0 || this.isInvalid(height)) {
       Alert.alert('Invalid height', 'Please enter a valid height.', [
         {text: 'OK'},
       ]);
       return;
     }
-    if (weight < 0) {
+    if (weight <= 0 || this.isInvalid(weight)) {
       Alert.alert('Invalid weight', 'Please enter a valid weight.', [
         {text: 'OK'},
       ]);
       return;
     }
-    if (age < 0) {
+    if (age <= 0 || this.isAgeInvalid(age)) {
       Alert.alert('Invalid age', 'Please enter a valid age.', [{text: 'OK'}]);
       return;
     }
