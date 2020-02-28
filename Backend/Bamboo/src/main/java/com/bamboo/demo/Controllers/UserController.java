@@ -49,12 +49,15 @@ public class UserController {
         Sex sexEnum = Sex.OTHER;
         switch (sex) {
             case "Female":
+            case "FEMALE":
                 sexEnum = Sex.FEMALE;
                 break;
             case "Male":
+            case "MALE":
                 sexEnum = Sex.MALE;
                 break;
             case "Other":
+            case "OTHER":
                 sexEnum = Sex.OTHER;
                 break;
 

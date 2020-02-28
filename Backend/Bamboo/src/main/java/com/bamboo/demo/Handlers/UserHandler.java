@@ -46,7 +46,7 @@ public class UserHandler {
             throw new IllegalAccessException("This email is already registered. Try the login page instead");
         }
         if (password.length() < 8) {
-            throw new IllegalAccessException("Your password is not valid! Make sure it ___");
+            throw new IllegalAccessException("Please make sure your password is at least 8 characters!");
         }
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         User newUser = new User(email, passwordEncoder.encode(password));

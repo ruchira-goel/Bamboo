@@ -31,34 +31,34 @@ function App() {
         <Stack.Screen
           name="HomeScreen"
           component={HomeScreen}
-          headerShown="false"
+          headerShown={'false'}
         />
         <Stack.Screen name="SignUp" component={SignUp} headerShown="false" />
         <Stack.Screen
           name="MealInput"
           component={EnterMealDailyInput}
-          headerShown="false"
+          headerShown={'false'}
         />
         <Stack.Screen
           name="EnterCharacteristics"
           component={EnterCharacteristics}
-          headerShown="false"
+          headerShown={'false'}
         />
         <Stack.Screen
           name="HealthProfile"
           component={HealthProfile}
-          headerShown="false"
+          headerShown={'false'}
         />
 
         <Stack.Screen
           name="ExerciseInput"
           component={ExerciseInput}
-          headerShown="false"
+          headerShown={'false'}
         />
         <Stack.Screen
           name="ChangePass"
           component={ChangePass}
-          headerShown="false"
+          headerShown={'false'}
         />
       </Stack.Navigator>
     </NavigationContainer>

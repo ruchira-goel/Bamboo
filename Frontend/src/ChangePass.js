@@ -6,6 +6,7 @@ import {
   Alert,
   StyleSheet,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 
 export default class ChangePass extends React.Component {
@@ -48,10 +49,12 @@ export default class ChangePass extends React.Component {
         {text: 'OK'},
       ]);
       return;
-  }
+    }
     //sending request to retrieve the corresponding user object for login
     fetch(
-      `http://localhost:8080/User/changePass?email=${email}&encryptedPassword=${encryptedPassword}`,
+      Platform.OS === 'android'
+        ? `http://10.0.2.2:8080/User/changePass?email=${email}&encryptedPassword=${encryptedPassword}`
+        : `http://localhost:8080/User/changePass?email=${email}&encryptedPassword=${encryptedPassword}`,
     )
       .then(res => res.json())
       .then(data => {

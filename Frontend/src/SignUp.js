@@ -7,6 +7,7 @@ import {
   Button,
   Alert,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import DoneButton from 'react-native-keyboard-done-button';
 import {useRoute} from '@react-navigation/native';
@@ -64,7 +65,9 @@ export default class App extends React.Component {
     }
     //sending request to retrieve the corresponding user object for login
     fetch(
-      `http://localhost:8080/User/signup?name=${name}&email=${email}&password=${password}`,
+      Platform.OS === 'android'
+        ? `http://10.0.2.2:8080/User/signup?name=${name}&email=${email}&password=${password}`
+        : `http://localhost:8080/User/signup?name=${name}&email=${email}&password=${password}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -176,7 +179,6 @@ export default class App extends React.Component {
             this.signUp();
           }}
           title="Sign Up"
-
           color="#3eb245"
           /*style={{backgroundColor: '#3eb245'}}*/
         />

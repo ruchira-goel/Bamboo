@@ -5,7 +5,9 @@ import {
   Dimensions,
   TextInput,
   Switch,
-  Alert, TouchableOpacity,
+  Alert,
+  TouchableOpacity,
+  Platform,
 } from 'react-native';
 import React from 'react';
 import {Dropdown} from 'react-native-material-dropdown';
@@ -70,9 +72,13 @@ export default class EnterCharacteristics extends React.Component {
     }
     //sending request to retrieve the corresponding user object for login
     fetch(
-      `http://localhost:8080/User/addCharacteristics?email=${JSON.stringify(
-        email,
-      )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
+      Platform.OS === 'android'
+        ? `http://10.0.2.2:8080/User/addCharacteristics?email=${JSON.stringify(
+            email,
+          )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`
+        : `http://localhost:8080/User/addCharacteristics?email=${JSON.stringify(
+            email,
+          )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -106,7 +112,7 @@ export default class EnterCharacteristics extends React.Component {
             onChangeText={height => this.setState({height})}
             placeholder={'Enter Height'}
             keyboardType={'numeric'}
-            autoCorrect="false"
+            autoCorrect={false}
             returnKeyType="done"
             style={styles.input}
           />
@@ -120,7 +126,7 @@ export default class EnterCharacteristics extends React.Component {
             onChangeText={feet => this.setState({feet})}
             placeholder={'Enter feet'}
             keyboardType={'numeric'}
-            autoCorrect="false"
+            autoCorrect={false}
             returnKeyType="done"
             style={styles.smallInput}
           />
@@ -129,7 +135,7 @@ export default class EnterCharacteristics extends React.Component {
             onChangeText={inches => this.setState({inches})}
             placeholder={'Enter inches'}
             keyboardType={'numeric'}
-            autoCorrect="false"
+            autoCorrect={false}
             returnKeyType="done"
             style={styles.smallInput}
           />
@@ -155,7 +161,7 @@ export default class EnterCharacteristics extends React.Component {
             onChangeText={weight => this.setState({weight})}
             placeholder={'Enter Weight'}
             keyboardType={'numeric'}
-            autoCorrect="false"
+            autoCorrect={false}
             returnKeyType="done"
             style={styles.input}
           />
@@ -168,7 +174,7 @@ export default class EnterCharacteristics extends React.Component {
             onChangeText={age => this.setState({age})}
             placeholder={'Enter Age'}
             keyboardType={'numeric'}
-            autoCorrect="false"
+            autoCorrect={false}
             returnKeyType="done"
             style={styles.input}
           />
@@ -193,7 +199,9 @@ export default class EnterCharacteristics extends React.Component {
           value={this.state.switchValue}
         />
         <View style={{padding: '5%'}} />
-        <TouchableOpacity onPress={this.addCharacteristics} style={styles.btnStyle}>
+        <TouchableOpacity
+          onPress={this.addCharacteristics}
+          style={styles.btnStyle}>
           <Text>Next</Text>
         </TouchableOpacity>
       </View>

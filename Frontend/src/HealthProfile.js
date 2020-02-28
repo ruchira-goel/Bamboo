@@ -7,6 +7,7 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import BUTTONS from './styles/buttons';
 
@@ -36,9 +37,13 @@ export default class HealthProfile extends Component {
     const {route} = this.props;
     const {email} = route.params;
     fetch(
-      `http://localhost:8080/User/getCharacteristics?email=${JSON.stringify(
-        email,
-      )}`,
+      Platform.OS === 'android'
+        ? `http://10.0.2.2:8080/User/getCharacteristics?email=${JSON.stringify(
+            email,
+          )}`
+        : `http://localhost:8080/User/getCharacteristics?email=${JSON.stringify(
+            email,
+          )}`,
     )
       .then(res => res.json())
       .then(data =>
@@ -80,9 +85,13 @@ export default class HealthProfile extends Component {
     }
     //sending request to retrieve the corresponding user object for login
     fetch(
-      `http://localhost:8080/User/addCharacteristics?email=${JSON.stringify(
-        email,
-      )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
+      Platform.OS === 'android'
+        ? `http://10.0.2.2:8080/User/addCharacteristics?email=${JSON.stringify(
+            email,
+          )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`
+        : `http://localhost:8080/User/addCharacteristics?email=${JSON.stringify(
+            email,
+          )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -122,9 +131,13 @@ export default class HealthProfile extends Component {
     const {route} = this.props;
     const {email} = route.params;
     fetch(
-      `http://localhost:8080/User/getCharacteristics?email=${JSON.stringify(
-        email,
-      )}`,
+      Platform.OS === 'android'
+        ? `http://10.0.2.2:8080/User/getCharacteristics?email=${JSON.stringify(
+            email,
+          )}`
+        : `http://localhost:8080/User/getCharacteristics?email=${JSON.stringify(
+            email,
+          )}`,
     )
       .then(res => res.json())
       .then(data => {});
