@@ -105,7 +105,7 @@ export default class ExerciseInput extends Component {
               <Text style={[styles.text]}>Duration:</Text>
               <TextInput
                 onChangeText={hours => this.setState({hours})}
-                style={[styles.textInput, {fontSize: 20}]}
+                style={[styles.textInput, {fontSize: 20, width: 50}]}
                 keyboardType={'numeric'}
                 placeholder="hh"
                 maxLength={2}
@@ -113,7 +113,7 @@ export default class ExerciseInput extends Component {
               <Text style={{fontSize: 20}}>:</Text>
               <TextInput
                 onChangeText={minutes => this.setState({minutes})}
-                style={[styles.textInput, {fontSize: 20}]}
+                style={[styles.textInput, {fontSize: 20, width: 50}]}
                 keyboardType={'numeric'}
                 placeholder="mm"
                 maxLength={2}
@@ -124,6 +124,7 @@ export default class ExerciseInput extends Component {
               <TextInput
                 onChangeText={calories => this.setState({calories})}
                 style={[styles.textInput, styles.text]}
+                keyboardType={'numeric'}
                 placeholder="calories"
                 maxLength={20}
               />

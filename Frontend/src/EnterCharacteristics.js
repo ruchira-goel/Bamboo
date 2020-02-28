@@ -178,7 +178,7 @@ export default class EnterCharacteristics extends React.Component {
 
         <View style={{flex: 0.3, width: '50%'}}>
           <Dropdown
-            selectedItemColor='#3eb245'
+            selectedItemColor="#3eb245"
             label="Sex"
             data={[{value: 'Female'}, {value: 'Male'}, {value: 'Other'}]}
             onChangeText={value => {
