@@ -52,19 +52,19 @@ export default class EnterCharacteristics extends React.Component {
       Alert.alert('Sex Field empty', 'Please enter your sex.', [{text: 'OK'}]);
       return;
     }
-    if (height < 0) {
+    if (height <= 0) {
       Alert.alert('Invalid height', 'Please enter a valid height.', [
         {text: 'OK'},
       ]);
       return;
     }
-    if (weight < 0) {
+    if (weight <= 0) {
       Alert.alert('Invalid weight', 'Please enter a valid weight.', [
         {text: 'OK'},
       ]);
       return;
     }
-    if (age < 0) {
+    if (age <= 0) {
       Alert.alert('Invalid age', 'Please enter a valid age.', [{text: 'OK'}]);
       return;
     }
