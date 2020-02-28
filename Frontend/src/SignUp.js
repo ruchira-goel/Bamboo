@@ -102,7 +102,7 @@ export default class App extends React.Component {
           style={{
             height: 20,
             marginBottom: 15,
-            marginTop: 35,
+            marginTop: 20,
             marginLeft: 30,
             marginRight: 30,
             borderColor: 'gray',
@@ -152,7 +152,7 @@ export default class App extends React.Component {
         <TextInput
           style={{
             height: 20,
-            marginBottom: 25,
+            marginBottom: 35,
             marginTop: 15,
             marginLeft: 30,
             marginRight: 30,
@@ -176,12 +176,13 @@ export default class App extends React.Component {
             this.signUp();
           }}
           title="Sign Up"
-          color="black"
-          backgroundColor="green"
+
+          color="#3eb245"
+          /*style={{backgroundColor: '#3eb245'}}*/
         />
         <View style={{padding: '1%'}} />
         <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
-          <Text>Already have an account? </Text>
+          <Text style={{padding: 15}}>Already have an account? </Text>
           <TouchableOpacity
             onPress={() => this.props.navigation.replace('Login')}
             style={styles.linkStyle}>
@@ -202,10 +203,10 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     backgroundColor: '#ecf0f1',
     padding: 8,
-    marginTop: '20%',
+    marginTop: '5%',
   },
   paragraph: {
-    margin: 24,
+    margin: 8,
     fontSize: 18,
     textAlign: 'center',
   },
@@ -218,5 +219,6 @@ const styles = StyleSheet.create({
   },
   linkStyle: {
     marginBottom: '60%',
+    padding: 15,
   },
 });

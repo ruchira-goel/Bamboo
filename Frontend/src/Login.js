@@ -56,7 +56,7 @@ export default class Login extends React.Component {
   render() {
     return (
       <View style={styles.heading}>
-        <Text style={{textAlign: 'center', fontSize: 20}}>Bamboo.</Text>
+        <Text style={styles.title}>Bamboo.</Text>
         <View style={{padding: '2%'}} />
         <View style={styles.spacingHigh} />
         <TextInput
@@ -81,7 +81,7 @@ export default class Login extends React.Component {
           </TouchableOpacity>
           <View style={{padding: '2%'}} />
           <View style={{flex: 1, flexDirection: 'row'}}>
-            <Text>Don't have an account? </Text>
+            <Text style={{padding: 15}}>Don't have an account? </Text>
             <TouchableOpacity
               onPress={() => this.props.navigation.replace('SignUp')}
               style={styles.linkStyle}>
@@ -101,7 +101,14 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '500',
     flex: 1,
-    marginTop: '35%',
+    marginTop: '7%',
+  },
+  title: {
+    margin: 12,
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    textDecorationColor: 'gray',
   },
   container: {
     flex: 1,
@@ -144,6 +151,7 @@ const styles = StyleSheet.create({
   },
   linkStyle: {
     marginBottom: '70%',
+    padding: 15,
   },
   /*textalign for the text to be in the center for "bamboo."*/
 });
