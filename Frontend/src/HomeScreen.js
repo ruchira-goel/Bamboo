@@ -32,7 +32,7 @@ export default class HomeScreen extends React.Component {
         <View style={{padding: '2%'}} />
         <TouchableOpacity
           onPress={() =>
-            this.props.navigation.navigate('Health', {
+            this.props.navigation.navigate('HealthProfile', {
               email: email,
             })
           }
@@ -40,16 +40,6 @@ export default class HomeScreen extends React.Component {
           <Text>Health Profile</Text>
         </TouchableOpacity>
         <View style={{padding: '2%'}} />
-        <TouchableOpacity
-          onPress={() =>
-            this.props.navigation.navigate('Health', {
-              email: email,
-            })
-          }
-          style={styles.btnStyle}>
-          <Text>Health Profile</Text>
-        </TouchableOpacity>
-          <View style={{padding: '2%'}} />
         <TouchableOpacity
           onPress={() =>
             this.props.navigation.navigate('ChangePass', {
