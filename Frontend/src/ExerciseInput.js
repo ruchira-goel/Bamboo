@@ -68,11 +68,9 @@ export default class ExerciseInput extends Component {
         if (data.error) {
           Alert.alert('Error', 'Sorry, try again later!', [{text: 'OK'}]);
         } else {
-          Alert.alert(
-            'Activity Added',
-            data.activity + ' successfully added!',
-            [{text: 'OK'}],
-          );
+          Alert.alert('Activity Added', data.type + ' successfully added!', [
+            {text: 'OK'},
+          ]);
         }
       });
   };
@@ -131,7 +129,9 @@ export default class ExerciseInput extends Component {
             </View>
           </ScrollView>
         </View>
-        <TouchableOpacity style={BUTTONS.primaryButton} onPress={this.onPress}>
+        <TouchableOpacity
+          style={BUTTONS.primaryButton}
+          onPress={this.addExercise}>
           <Text style={BUTTONS.primaryButtonText}>Add</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={this.renderHomePage} style={styles.btnStyle}>

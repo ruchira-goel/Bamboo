@@ -5,10 +5,9 @@ import {
   Dimensions,
   TextInput,
   Switch,
-  Button,
-  Alert,
+  Alert, TouchableOpacity,
 } from 'react-native';
-import React, {Component} from 'react';
+import React from 'react';
 import {Dropdown} from 'react-native-material-dropdown';
 
 let {screenHeight, screenWidth} = Dimensions.get('window');
@@ -53,19 +52,19 @@ export default class EnterCharacteristics extends React.Component {
       Alert.alert('Sex Field empty', 'Please enter your sex.', [{text: 'OK'}]);
       return;
     }
-    if (height < 0) {
+    if (height <= 0) {
       Alert.alert('Invalid height', 'Please enter a valid height.', [
         {text: 'OK'},
       ]);
       return;
     }
-    if (weight < 0) {
+    if (weight <= 0) {
       Alert.alert('Invalid weight', 'Please enter a valid weight.', [
         {text: 'OK'},
       ]);
       return;
     }
-    if (age < 0) {
+    if (age <= 0) {
       Alert.alert('Invalid age', 'Please enter a valid age.', [{text: 'OK'}]);
       return;
     }
@@ -193,14 +192,10 @@ export default class EnterCharacteristics extends React.Component {
           onValueChange={this.toggleSwitch}
           value={this.state.switchValue}
         />
-        <Button
-          onPress={() => {
-            this.addCharacteristics();
-          }}
-          title="Next"
-          color="black"
-          backgroundColor="green"
-        />
+        <View style={{padding: '5%'}} />
+        <TouchableOpacity onPress={this.addCharacteristics} style={styles.btnStyle}>
+          <Text>Next</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -226,6 +221,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  btnStyle: {
+    backgroundColor: '#3eb245',
+    color: 'black',
+    borderRadius: 2,
+    borderColor: '#3eb245',
+    width: '75%',
+    height: '7%',
+    justifyContent: 'center', //text in the middle of the button
+    alignItems: 'center', //text in the middle of the button
   },
   input: {
     width: '80%',
