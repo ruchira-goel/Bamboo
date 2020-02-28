@@ -101,19 +101,19 @@ public class UserHandler {
         this.userRepo.deleteAll();
     }
 
-    public User addActivity(String email, String id, String type, int calories, int minutes, Date date) throws IllegalAccessException {
-        Optional<User> user = this.userRepo.findByEmail(email);
-        if (!user.isPresent()) {
-            throw new IllegalAccessException("There was an error locating your account, please try signing in again");
-        }
-        User userObj = user.get();
-        String dailyInfoId = userObj.getDailyInfo().get(date);
-        Optional<DailyInfo> dailyInfo = this.dailyInfoRepo.findById(dailyInfoId);
-        DailyInfo dailyInfoObj = dailyInfo.get();
-        Activity activity = new Activity(id, type, calories, minutes, date);
-        dailyInfoObj.getActivities().add(activity.getId());
-        this.userRepo.save(userObj);
-        this.dailyInfoRepo.save(dailyInfoObj);
-        return userObj;
-    }
+//    public User addActivity(String email, String id, String type, int calories, int minutes, Date date) throws IllegalAccessException {
+//        Optional<User> user = this.userRepo.findByEmail(email);
+//        if (!user.isPresent()) {
+//            throw new IllegalAccessException("There was an error locating your account, please try signing in again");
+//        }
+//        User userObj = user.get();
+//        String dailyInfoId = userObj.getDailyInfo().get(date);
+//        Optional<DailyInfo> dailyInfo = this.dailyInfoRepo.findById(dailyInfoId);
+//        DailyInfo dailyInfoObj = dailyInfo.get();
+//        Activity activity = new Activity(id, type, calories, minutes, date);
+//        dailyInfoObj.getActivities().add(activity.getId());
+//        this.userRepo.save(userObj);
+//        this.dailyInfoRepo.save(dailyInfoObj);
+//        return userObj;
+//    }
 }

@@ -1,24 +1,32 @@
 package com.bamboo.demo.Models;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.Date;
 
+@Document(collection = "Activity")
 public class Activity {
+    @Id
     private String id;
+    private String userId;
     private String type;
     private int calories;
     private int minutes;
-    private Date date;
 
-    public Activity(String id, String type, int calories, int minutes, Date date) {
-        this.id = id;
+    public Activity(String userId, String type, int calories, int minutes) {
+        this.userId = userId;
         this.type = type;
         this.calories = calories;
         this.minutes = minutes;
-        this.date = date;
     }
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getType() {
@@ -33,11 +41,11 @@ public class Activity {
         return minutes;
     }
 
-    public Date getDate() {
-        return date;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

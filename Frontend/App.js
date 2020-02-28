@@ -17,6 +17,7 @@ import SignUp from './src/SignUp';
 import EnterMealDailyInput from './src/EnterMealDailyInput';
 import EnterCharacteristics from './src/EnterCharacteristics';
 import HealthProfile from './src/HealthProfile';
+import ExerciseInput from './src/ExerciseInput';
 
 const Stack = createStackNavigator();
 
@@ -45,6 +46,11 @@ function App() {
         <Stack.Screen
           name="Health"
           component={HealthProfile}
+          headerShown="false"
+        />
+        <Stack.Screen
+          name="ExerciseInput"
+          component={ExerciseInput}
           headerShown="false"
         />
       </Stack.Navigator>

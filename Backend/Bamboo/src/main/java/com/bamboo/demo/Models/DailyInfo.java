@@ -28,7 +28,7 @@ public class DailyInfo {
         this.meals = new ArrayList<>();
     }
 
-    public void addActivities(String activity) {
+    public void addActivity(String activity) {
         activities.add(activity);
     }
 

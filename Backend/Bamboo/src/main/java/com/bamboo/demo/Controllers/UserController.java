@@ -95,14 +95,14 @@ public class UserController {
         return userHandler.addDailyInfo(email, dailyInfo);
     }
 
-    @RequestMapping("/User/addActivity")              // add daily input request
-    public User addActivity(@RequestParam(value = "email") String email,
-                            @RequestParam(value = "id") String id,
-                            @RequestParam(value = "type") String type,
-                            @RequestParam(value = "calories") int calories,
-                            @RequestParam(value = "minutes") int minutes,
-                            @RequestParam(value = "date") Date date)throws IllegalAccessException {
-        System.out.println("email is " + email);
-        return userHandler.addActivity(email, id, type, calories, minutes, date);
-    }
+//    @RequestMapping("/User/addActivity")              // add daily input request
+//    public User addActivity(@RequestParam(value = "email") String email,
+//                            @RequestParam(value = "id") String id,
+//                            @RequestParam(value = "type") String type,
+//                            @RequestParam(value = "calories") int calories,
+//                            @RequestParam(value = "minutes") int minutes,
+//                            @RequestParam(value = "date") Date date)throws IllegalAccessException {
+//        System.out.println("email is " + email);
+//        return userHandler.addActivity(email, id, type, calories, minutes, date);
+//    }
 }

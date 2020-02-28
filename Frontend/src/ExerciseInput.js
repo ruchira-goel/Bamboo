@@ -6,6 +6,7 @@ import {
   View,
   TextInput,
   ScrollView,
+  Alert,
 } from 'react-native';
 import DatePicker from './DatePicker';
 import BUTTONS from './styles/buttons';
@@ -15,6 +16,71 @@ import BUTTONS from './styles/buttons';
 // 2. choose from prev/existing exercise
 
 export default class ExerciseInput extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activity: '',
+      date: '',
+      hours: '',
+      minutes: '',
+      calories: '',
+    };
+  }
+
+  addExercise = () => {
+    const {activity, date, hours, minutes, calories} = this.state;
+    const {route} = this.props;
+    const {email} = route.params;
+    //let usEmail = email.substring(1, email.length - 1);
+    if (!activity) {
+      Alert.alert('Activity Empty', 'Please enter activity information.', [
+        {text: 'OK'},
+      ]);
+      return;
+    }
+    if (!hours) {
+      Alert.alert('Hours Empty', 'Please enter time information.', [
+        {text: 'OK'},
+      ]);
+      return;
+    }
+    if (!minutes) {
+      Alert.alert('Minutes Empty', 'Please enter time information.', [
+        {text: 'OK'},
+      ]);
+      return;
+    }
+    if (!calories) {
+      Alert.alert('Calories Empty', 'Please enter calories information.', [
+        {text: 'OK'},
+      ]);
+      return;
+    }
+
+    const timeInMinutes = hours * 60 + minutes;
+
+    fetch(
+      `http://localhost:8080/Activity/saveActivity?&email=${email}&activityName=${activity}&time=${timeInMinutes}&calories=${calories}`,
+    )
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        if (data.error) {
+          Alert.alert('Error', 'Sorry, try again later!', [{text: 'OK'}]);
+        } else {
+          Alert.alert(
+            'Activity Added',
+            data.activity + ' successfully added!',
+            [{text: 'OK'}],
+          );
+        }
+      });
+  };
+
+  renderHomePage = () => {
+    this.props.navigation.navigate('HomeScreen');
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -23,7 +89,7 @@ export default class ExerciseInput extends Component {
             <View style={styles.inputContainer}>
               <Text style={[styles.text]}>Activity:</Text>
               <TextInput
-                // onChangeText={this.handleHeight}
+                onChangeText={activity => this.setState({activity})}
                 returnKeyType="done"
                 style={[styles.textInput, styles.text]}
                 placeholder="activity"
@@ -31,13 +97,14 @@ export default class ExerciseInput extends Component {
               />
             </View>
             <View style={styles.inputContainer}>
+              {/*onChangeText={activity => this.setState({activity})}*/}
               <Text style={[styles.text, {paddingTop: 6}]}>Date:</Text>
               <DatePicker />
             </View>
             <View style={styles.inputContainer}>
               <Text style={[styles.text]}>Duration:</Text>
               <TextInput
-                // onChangeText={age => this.setState({age})}
+                onChangeText={hours => this.setState({hours})}
                 style={[styles.textInput, {fontSize: 20}]}
                 keyboardType={'numeric'}
                 placeholder="hh"
@@ -45,7 +112,7 @@ export default class ExerciseInput extends Component {
               />
               <Text style={{fontSize: 20}}>:</Text>
               <TextInput
-                // onChangeText={age => this.setState({age})}
+                onChangeText={minutes => this.setState({minutes})}
                 style={[styles.textInput, {fontSize: 20}]}
                 keyboardType={'numeric'}
                 placeholder="mm"
@@ -55,7 +122,7 @@ export default class ExerciseInput extends Component {
             <View style={styles.inputContainer}>
               <Text style={[styles.text]}>Calories:</Text>
               <TextInput
-                // onChangeText={age => this.setState({age})}
+                onChangeText={calories => this.setState({calories})}
                 style={[styles.textInput, styles.text]}
                 placeholder="calories"
                 maxLength={20}
@@ -65,6 +132,9 @@ export default class ExerciseInput extends Component {
         </View>
         <TouchableOpacity style={BUTTONS.primaryButton} onPress={this.onPress}>
           <Text style={BUTTONS.primaryButtonText}>Add</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={this.renderHomePage} style={styles.btnStyle}>
+          <Text>Done</Text>
         </TouchableOpacity>
       </View>
     );
