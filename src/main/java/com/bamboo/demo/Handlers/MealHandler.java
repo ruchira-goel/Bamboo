@@ -48,38 +48,22 @@ public class MealHandler {
         User user = this.userRepo.findByEmail(email).get();
         String userId = user.getUserId();
 
-        System.out.println("print 1");
+
         URL url = new URL("https://api.spoonacular.com/recipes/extract?apiKey=5ccdaac983d344338fe187bb2b7e5501&url=" + link);
-        System.out.println("print 2");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        System.out.println("print 3");
         connection.setRequestMethod("GET");
-        System.out.println("print 4");
         connection.setRequestProperty("Content-type", "application/json");
-        System.out.println("print 5");
         connection.setRequestProperty("User-agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
-        System.out.println("print 6");
         BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        System.out.println("print 7");
         String jsonText = in.readLine();
-        System.out.println("print 8");
         JSONObject json = new JSONObject(jsonText);
         String mealName = json.get("title").toString();
         String recipeId = json.get("id").toString();
 
-        System.out.println("print 9");
         URL nutritionURL = new URL("https://api.spoonacular.com/recipes/" + recipeId + "/nutritionWidget.json?apiKey=5ccdaac983d344338fe187bb2b7e5501");
-        System.out.println("print 10");
         HttpURLConnection con = (HttpURLConnection) nutritionURL.openConnection();
-        System.out.println("print 11");
-        con.setRequestMethod("GET");
-        System.out.println("print 12");
-        con.setRequestProperty("Content-type", "application/json");
-        System.out.println("print 13");
-
         BufferedReader input = new BufferedReader(new InputStreamReader(con.getInputStream()));
         JSONObject nutritionJson = new JSONObject(input.readLine());
-        con.setRequestProperty("User-agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
         //removing last character to get number for nutrition
         String fatStr = nutritionJson.get("fat").toString();
         double fat = Double.parseDouble(fatStr.substring(0, fatStr.length() - 1));
