@@ -20,6 +20,7 @@ import EnterCharacteristics from './src/EnterCharacteristics';
 const Stack = createStackNavigator();
 
 function App() {
+  console.disableYellowBox = true;
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">

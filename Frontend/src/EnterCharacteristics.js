@@ -33,13 +33,6 @@ export default class EnterCharacteristics extends React.Component {
   addCharacteristics = () => {
     const {route} = this.props;
     const {email} = route.params;
-    const usEmail = JSON.stringify(email);
-    const stringMethod = String(email);
-    this.setState({userEmail: stringMethod});
-    console.log('jsonemail: ' + JSON.stringify(email));
-    console.log('usemail: ' + usEmail);
-    console.log(this.state.userEmail);
-    let userEmail = JSON.stringify(email);
     let {height, weight, age, sex, feet, inches} = this.state;
     if (!height && feet && inches) {
       height = (feet * 12 + inches) * 2.54;
@@ -96,7 +89,7 @@ export default class EnterCharacteristics extends React.Component {
         } else {
           //going to home screen
           this.props.navigation.replace('HomeScreen', {
-            email: JSON.stringify(email),
+            email: email,
           });
         }
       });

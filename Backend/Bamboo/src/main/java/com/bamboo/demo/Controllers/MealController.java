@@ -31,4 +31,9 @@ public class MealController {
     public List<Meal> users() {
         return mealHandler.display();
     }
+
+    @RequestMapping("/Meal/delAll")
+    public void del() {
+        this.mealHandler.del();
+    }
 }

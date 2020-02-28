@@ -68,4 +68,8 @@ public class UserHandler {
     public List<User> display() {
         return this.userRepo.findAll();
     }
+
+    public void delete() {
+        this.userRepo.deleteAll();
+    }
 }

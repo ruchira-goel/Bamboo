@@ -22,4 +22,12 @@ public class DIHandler {
     public List<DailyInfo> display() {
         return this.dailyInfoRepo.findAll();
     }
+
+    public void del() {
+        this.dailyInfoRepo.deleteAll();
+    }
+
+    public void delete() {
+        this.dailyInfoRepo.deleteAll();
+    }
 }

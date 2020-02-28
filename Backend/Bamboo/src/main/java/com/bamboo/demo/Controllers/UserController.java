@@ -66,8 +66,18 @@ public class UserController {
         return userHandler.display();
     }
 
+    @RequestMapping("/User/delAll")
+    public void delete() {
+        userHandler.delete();
+    }
+
     @RequestMapping("/DI/all")
     public List<DailyInfo> di() {
         return di.display();
+    }
+
+    @RequestMapping("/DI/delAll")
+    public void del() {
+        di.del();
     }
 }

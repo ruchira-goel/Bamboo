@@ -7,7 +7,6 @@ import java.net.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import com.bamboo.demo.Models.DailyInfo;
 import com.bamboo.demo.Models.Meal;
@@ -113,5 +112,9 @@ public class MealHandler {
 
     public List<Meal> display() {
         return this.mealRepo.findAll();
+    }
+
+    public void del() {
+        this.mealRepo.deleteAll();
     }
 }
