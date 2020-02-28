@@ -130,7 +130,7 @@ export default class ExerciseInput extends Component {
             </View>
           </ScrollView>
         </View>
-        <TouchableOpacity style={BUTTONS.primaryButton} onPress={this.onPress}>
+        <TouchableOpacity style={BUTTONS.primaryButton} onPress={this.addExercise}>
           <Text style={BUTTONS.primaryButtonText}>Add</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={this.renderHomePage} style={styles.btnStyle}>
