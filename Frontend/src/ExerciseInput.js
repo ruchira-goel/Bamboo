@@ -68,7 +68,7 @@ export default class ExerciseInput extends Component {
         if (data.error) {
           Alert.alert('Error', 'Sorry, try again later!', [{text: 'OK'}]);
         } else {
-          Alert.alert('Activity Added', data.name + ' successfully added!', [
+          Alert.alert('Activity Added', data.type + ' successfully added!', [
             {text: 'OK'},
           ]);
         }
