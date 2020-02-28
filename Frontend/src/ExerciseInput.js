@@ -27,6 +27,10 @@ export default class ExerciseInput extends Component {
     };
   }
 
+  isInvalid(str) {
+    return /[-,_.]/g.test(str);
+  }
+
   addExercise = () => {
     const {activity, date, hours, minutes, calories} = this.state;
     const {route} = this.props;
@@ -56,8 +60,35 @@ export default class ExerciseInput extends Component {
       ]);
       return;
     }
+    if (hours < 0 || this.isInvalid(hours)) {
+      Alert.alert('Invalid time', 'Please enter a valid number of hours.', [
+        {text: 'OK'},
+      ]);
+      return;
+    }
+    if (minutes < 0 || this.isInvalid(minutes)) {
+      Alert.alert('Invalid time', 'Please enter a valid number of minutes.', [
+        {text: 'OK'},
+      ]);
+      return;
+    }
+    if (calories <= 0 || this.isInvalid(calories)) {
+      Alert.alert(
+        'Invalid calories',
+        'Please enter a valid number of calories.',
+        [{text: 'OK'}],
+      );
+      return;
+    }
 
     const timeInMinutes = hours * 60 + minutes;
+
+    if (timeInMinutes == 0) {
+      Alert.alert('Invalid time', 'Please enter a valid duration.', [
+        {text: 'OK'},
+      ]);
+      return;
+    }
 
     fetch(
       `http://localhost:8080/Activity/saveActivity?&email=${email}&activityName=${activity}&time=${timeInMinutes}&calories=${calories}`,
@@ -132,9 +163,6 @@ export default class ExerciseInput extends Component {
           style={BUTTONS.primaryButton}
           onPress={this.addExercise}>
           <Text style={BUTTONS.primaryButtonText}>Add</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={this.renderHomePage} style={styles.btnStyle}>
-          <Text>Done</Text>
         </TouchableOpacity>
       </View>
     );
