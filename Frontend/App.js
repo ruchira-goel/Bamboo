@@ -18,8 +18,7 @@ import EnterMealDailyInput from './src/EnterMealDailyInput';
 import EnterCharacteristics from './src/EnterCharacteristics';
 import HealthProfile from './src/HealthProfile';
 import ExerciseInput from './src/ExerciseInput';
-import ChangePass from "./src/ChangePass";
-
+import ChangePass from './src/ChangePass';
 
 const Stack = createStackNavigator();
 
@@ -56,7 +55,11 @@ function App() {
           component={ExerciseInput}
           headerShown="false"
         />
-        <Stack.Screen name="ChangePass" component={ChangePass} headerShown="false" />
+        <Stack.Screen
+          name="ChangePass"
+          component={ChangePass}
+          headerShown="false"
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -136,4 +139,3 @@ const styles = StyleSheet.create({
 
 });*/
 //});
-

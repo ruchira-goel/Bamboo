@@ -88,7 +88,6 @@ export default class ExerciseInput extends Component {
               <Text style={[styles.text]}>Activity:</Text>
               <TextInput
                 onChangeText={activity => this.setState({activity})}
-                returnKeyType="done"
                 style={[styles.textInput, styles.text]}
                 placeholder="activity"
                 maxLength={20}

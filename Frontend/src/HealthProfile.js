@@ -138,7 +138,6 @@ export default class HealthProfile extends Component {
               <TextInput
                 onChangeText={height => this.setState({height})}
                 keyboardType={'numeric'}
-                returnKeyType="done"
                 style={[
                   styles.textInput,
                   this.state.inputStyle,
@@ -158,7 +157,6 @@ export default class HealthProfile extends Component {
               <TextInput
                 onChangeText={weight => this.setState({weight})}
                 keyboardType={'numeric'}
-                returnKeyType="done"
                 style={[
                   styles.textInput,
                   this.state.inputStyle,
@@ -177,7 +175,6 @@ export default class HealthProfile extends Component {
               <TextInput
                 onChangeText={age => this.setState({age})}
                 keyboardType={'numeric'}
-                returnKeyType="done"
                 style={[
                   styles.textInput,
                   this.state.inputStyle,
