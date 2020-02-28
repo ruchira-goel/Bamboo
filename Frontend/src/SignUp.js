@@ -77,7 +77,8 @@ export default class App extends React.Component {
           ) {
             Alert.alert('Already registered', data.message, [{text: 'OK'}]);
           } else if (
-            data.message === 'Please make sure your password is at least 8 characters!'
+            data.message ===
+            'Please make sure your password is at least 8 characters!'
           ) {
             Alert.alert('Invalid password', data.message, [{text: 'OK'}]);
           }

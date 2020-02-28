@@ -36,7 +36,7 @@ export default class HealthProfile extends Component {
     const {route} = this.props;
     const {email} = route.params;
     fetch(
-      `http://bamboo-testing.herokuapp.com/User/getCharacteristics?email=${JSON.stringify(
+      `http://localhost:8080/User/getCharacteristics?email=${JSON.stringify(
         email,
       )}`,
     )
@@ -80,7 +80,7 @@ export default class HealthProfile extends Component {
     }
     //sending request to retrieve the corresponding user object for login
     fetch(
-      `http://bamboo-testing.herokuapp.com/User/addCharacteristics?email=${JSON.stringify(
+      `http://localhost:8080/User/addCharacteristics?email=${JSON.stringify(
         email,
       )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
     )
@@ -122,7 +122,7 @@ export default class HealthProfile extends Component {
     const {route} = this.props;
     const {email} = route.params;
     fetch(
-      `http://bamboo-testing.herokuapp.com/User/getCharacteristics?email=${JSON.stringify(
+      `http://localhost:8080/User/getCharacteristics?email=${JSON.stringify(
         email,
       )}`,
     )

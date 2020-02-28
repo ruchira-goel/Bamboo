@@ -116,4 +116,12 @@ public class UserHandler {
         this.dailyInfoRepo.save(dailyInfoObj);
         return userObj;
     }
+
+    public User changePass(String email, String encryptedPassword) {
+        User user =  userRepo.findByEmail(email).get();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        user.setEncryptedPassword(passwordEncoder.encode(encryptedPassword));
+        return this.userRepo.save(user);
+
+    }
 }

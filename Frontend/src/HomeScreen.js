@@ -39,6 +39,26 @@ export default class HomeScreen extends React.Component {
           style={styles.btnStyle}>
           <Text>Health Profile</Text>
         </TouchableOpacity>
+        <View style={{padding: '2%'}} />
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate('Health', {
+              email: email,
+            })
+          }
+          style={styles.btnStyle}>
+          <Text>Health Profile</Text>
+        </TouchableOpacity>
+          <View style={{padding: '2%'}} />
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate('ChangePass', {
+              email: email,
+            })
+          }
+          style={styles.btnStyle}>
+          <Text>Change Password</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -53,7 +73,7 @@ const styles = StyleSheet.create({
     //alignContent: 'center',
     //justifyContent: 'center',
     //flexDirection: 'column',
-    marginTop: '70%',
+    marginTop: '45%',
     //backgroundColor: 'blue',
   },
   container: {
@@ -92,7 +112,7 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     borderColor: '#3eb245',
     width: '75%',
-    height: '18%',
+    height: '13%',
     justifyContent: 'center', //text in the middle of the button
     alignItems: 'center', //text in the middle of the button
   },

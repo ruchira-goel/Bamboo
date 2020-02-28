@@ -17,6 +17,7 @@ import SignUp from './src/SignUp';
 import EnterMealDailyInput from './src/EnterMealDailyInput';
 import EnterCharacteristics from './src/EnterCharacteristics';
 import HealthProfile from './src/HealthProfile';
+import ChangePass from "./src/ChangePass";
 
 const Stack = createStackNavigator();
 
@@ -43,10 +44,11 @@ function App() {
           headerShown="false"
         />
         <Stack.Screen
-          name="Health"
+          name="HealthProfile"
           component={HealthProfile}
           headerShown="false"
         />
+        <Stack.Screen name="ChangePass" component={ChangePass} headerShown="false" />
       </Stack.Navigator>
     </NavigationContainer>
   );
