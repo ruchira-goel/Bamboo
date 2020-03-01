@@ -5,12 +5,12 @@ import {
   Dimensions,
   TextInput,
   Switch,
-  Button,
   Alert,
+  TouchableOpacity,
+  Platform,
 } from 'react-native';
-import React, {Component} from 'react';
+import React from 'react';
 import {Dropdown} from 'react-native-material-dropdown';
-import {useRoute} from '@react-navigation/native';
 
 let {screenHeight, screenWidth} = Dimensions.get('window');
 
@@ -20,7 +20,6 @@ export default class EnterCharacteristics extends React.Component {
   };
   constructor(props) {
     super(props);
-    //const {email} = this.state;
     this.state = {
       userEmail: '',
       height: '', //stored in cm
@@ -32,21 +31,23 @@ export default class EnterCharacteristics extends React.Component {
     };
   }
 
+  isInvalid(str) {
+    return /[-,_]/g.test(str);
+  }
+
+  isAgeInvalid(str) {
+    return /[-,_.]/g.test(str);
+  }
+
   addCharacteristics = () => {
     const {route} = this.props;
     const {email} = route.params;
-    const usEmail = JSON.stringify(email);
-    const stringMethod = String(email);
-    this.setState({userEmail: stringMethod});
-    console.log('jsonemail: ' + JSON.stringify(email));
-    console.log('usemail: ' + usEmail);
-    console.log(this.state.userEmail);
-    // const {email} = this.state;
-    //this.setState({email: email});
-    let userEmail = JSON.stringify(email);
     let {height, weight, age, sex, feet, inches} = this.state;
-    if (!height && feet && inches) {
-      height = (feet * 12 + inches) * 2.54;
+
+    if (this.state.switchValue) {
+      //imperial
+      height = (parseFloat(feet * 12) + parseFloat(inches)) * 2.54;
+      weight = parseFloat(weight) * 0.453592;
     }
     if (!height) {
       Alert.alert('Height Empty', 'Please enter your height.', [{text: 'OK'}]);
@@ -64,27 +65,31 @@ export default class EnterCharacteristics extends React.Component {
       Alert.alert('Sex Field empty', 'Please enter your sex.', [{text: 'OK'}]);
       return;
     }
-    if (height < 0) {
+    if (height <= 0 || this.isInvalid(height)) {
       Alert.alert('Invalid height', 'Please enter a valid height.', [
         {text: 'OK'},
       ]);
       return;
     }
-    if (weight < 0) {
+    if (weight <= 0 || this.isInvalid(weight)) {
       Alert.alert('Invalid weight', 'Please enter a valid weight.', [
         {text: 'OK'},
       ]);
       return;
     }
-    if (age < 0) {
+    if (age <= 0 || this.isAgeInvalid(age)) {
       Alert.alert('Invalid age', 'Please enter a valid age.', [{text: 'OK'}]);
       return;
     }
     //sending request to retrieve the corresponding user object for login
     fetch(
-      `http://localhost:8080/User/addCharacteristics?email=${JSON.stringify(
-        email,
-      )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
+      Platform.OS === 'android'
+        ? `http://10.0.2.2:8080/User/addCharacteristics?email=${JSON.stringify(
+            email,
+          )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`
+        : `http://localhost:8080/User/addCharacteristics?email=${JSON.stringify(
+            email,
+          )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -99,6 +104,9 @@ export default class EnterCharacteristics extends React.Component {
           }
         } else {
           //going to home screen
+          this.props.navigation.replace('HomeScreen', {
+            email: email,
+          });
         }
       });
   };
@@ -115,11 +123,11 @@ export default class EnterCharacteristics extends React.Component {
             onChangeText={height => this.setState({height})}
             placeholder={'Enter Height'}
             keyboardType={'numeric'}
-            autoCorrect="false"
+            autoCorrect={false}
             returnKeyType="done"
             style={styles.input}
           />
-          <Text>{this.state.switchValue ? 'inch' : 'cm'}</Text>
+          <Text>{this.state.switchValue ? ' inch' : ' cm'}</Text>
         </View>
       );
     } else {
@@ -129,20 +137,20 @@ export default class EnterCharacteristics extends React.Component {
             onChangeText={feet => this.setState({feet})}
             placeholder={'Enter feet'}
             keyboardType={'numeric'}
-            autoCorrect="false"
+            autoCorrect={false}
             returnKeyType="done"
             style={styles.smallInput}
           />
-          <Text>{'feet'}</Text>
+          <Text>{' feet '}</Text>
           <TextInput
             onChangeText={inches => this.setState({inches})}
             placeholder={'Enter inches'}
             keyboardType={'numeric'}
-            autoCorrect="false"
+            autoCorrect={false}
             returnKeyType="done"
             style={styles.smallInput}
           />
-          <Text>{'inches'}</Text>
+          <Text>{' inches'}</Text>
         </View>
       );
     }
@@ -158,37 +166,42 @@ export default class EnterCharacteristics extends React.Component {
         </Text>
 
         <View style={styles.flexRowContainer}>{this.renderHeight()}</View>
+        <View style={{padding: '2%'}} />
         <View style={styles.flexRowContainer}>
           <TextInput
             onChangeText={weight => this.setState({weight})}
             placeholder={'Enter Weight'}
             keyboardType={'numeric'}
-            autoCorrect="false"
+            autoCorrect={false}
             returnKeyType="done"
             style={styles.input}
           />
-          <Text>{this.state.switchValue ? 'lb' : 'kg'}</Text>
+          <Text>{this.state.switchValue ? ' lb' : ' kg'}</Text>
         </View>
+        <View style={{padding: '2%'}} />
 
         <View style={styles.flexRowContainer}>
           <TextInput
             onChangeText={age => this.setState({age})}
             placeholder={'Enter Age'}
             keyboardType={'numeric'}
-            autoCorrect="false"
+            autoCorrect={false}
             returnKeyType="done"
             style={styles.input}
           />
-          <Text>years</Text>
+          <Text> years</Text>
         </View>
 
-        <Dropdown
-          label="Sex"
-          data={[{value: 'Female'}, {value: 'Male'}, {value: 'Other'}]}
-          onChangeText={value => {
-            this.setState({sex: value});
-          }}
-        />
+        <View style={{flex: 0.3, width: '50%'}}>
+          <Dropdown
+            selectedItemColor="#3eb245"
+            label="Sex"
+            data={[{value: 'Female'}, {value: 'Male'}, {value: 'Other'}]}
+            onChangeText={value => {
+              this.setState({sex: value});
+            }}
+          />
+        </View>
 
         <Text>{this.state.switchValue ? 'Imperial' : 'Metric'}</Text>
         <Switch
@@ -196,14 +209,12 @@ export default class EnterCharacteristics extends React.Component {
           onValueChange={this.toggleSwitch}
           value={this.state.switchValue}
         />
-        <Button
-          onPress={() => {
-            this.addCharacteristics();
-          }}
-          title="Next"
-          color="black"
-          backgroundColor="green"
-        />
+        <View style={{padding: '5%'}} />
+        <TouchableOpacity
+          onPress={this.addCharacteristics}
+          style={styles.btnStyle}>
+          <Text>Next</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -218,15 +229,27 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   flexRowContainer: {
-    width: '90%',
+    width: '80%',
     flexDirection: 'row',
     textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   paragraph: {
     margin: 24,
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  btnStyle: {
+    backgroundColor: '#3eb245',
+    color: 'black',
+    borderRadius: 2,
+    borderColor: '#3eb245',
+    width: '75%',
+    height: '7%',
+    justifyContent: 'center', //text in the middle of the button
+    alignItems: 'center', //text in the middle of the button
   },
   input: {
     width: '80%',

@@ -9,32 +9,52 @@ import {
   Platform,
 } from 'react-native';
 
-export default class Login extends React.Component {
+export default class ChangePass extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
+      pass: '',
       encryptedPassword: '',
     };
   }
 
   login = () => {
-    const {email, encryptedPassword} = this.state;
-    if (!email) {
-      Alert.alert('Email Empty', 'Please enter an email address.', [
+    const {route} = this.props;
+    const {email} = route.params;
+    this.setState({email: email});
+    const {encryptedPassword, pass} = this.state;
+    if (!pass) {
+      Alert.alert('Password Empty', 'Please enter a password.', [{text: 'OK'}]);
+      return;
+    }
+    if (!encryptedPassword) {
+      Alert.alert(
+        'Password Confirmation Empty',
+        'Please enter a password confirmation.',
+        [{text: 'OK'}],
+      );
+      return;
+    }
+
+    if (pass !== encryptedPassword) {
+      Alert.alert('Password Do Not Match', 'Please enter matching passwords.', [
         {text: 'OK'},
       ]);
       return;
     }
-    if (!encryptedPassword) {
-      Alert.alert('Password Empty', 'Please enter a password.', [{text: 'OK'}]);
+
+    if (pass.length < 8 || encryptedPassword.length < 8) {
+      Alert.alert('Password Length', 'Please enter at least  8 characters.', [
+        {text: 'OK'},
+      ]);
       return;
     }
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/login?email=${email}&encryptedPassword=${encryptedPassword}`
-        : `http://localhost:8080/User/login?email=${email}&encryptedPassword=${encryptedPassword}`,
+        ? `http://10.0.2.2:8080/User/changePass?email=${email}&encryptedPassword=${encryptedPassword}`
+        : `http://localhost:8080/User/changePass?email=${email}&encryptedPassword=${encryptedPassword}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -47,11 +67,9 @@ export default class Login extends React.Component {
             Alert.alert('Incorrect password', data.message, [{text: 'OK'}]);
           }
         } else {
-          //going to home screen
-          this.props.navigation.replace('HomeScreen', {
-            email: email,
-            encryptedPassword: encryptedPassword,
-          });
+          Alert.alert('Password Changed', 'Your password has been changed!', [
+            {text: 'OK'},
+          ]);
         }
       });
   };
@@ -59,20 +77,20 @@ export default class Login extends React.Component {
   render() {
     return (
       <View style={styles.heading}>
-        <Text style={styles.title}>Bamboo.</Text>
         <View style={{padding: '2%'}} />
         <View style={styles.spacingHigh} />
         <TextInput
           style={styles.fieldText}
           autoCapitalize="none"
-          placeholder="Enter email"
-          onChangeText={email => this.setState({email})} //setting the email when user enters it
+          placeholder="Enter password"
+          secureTextEntry={true}
+          onChangeText={pass => this.setState({pass})} //setting the email when user enters it
         />
         <View style={{padding: '3%'}} />
         <TextInput
           style={styles.fieldText}
           autoCapitalize="none"
-          placeholder="Enter password"
+          placeholder="Enter password again"
           secureTextEntry={true}
           onChangeText={encryptedPassword => this.setState({encryptedPassword})} //setting the password when user enters it, not encrypted yet
         />
@@ -80,19 +98,9 @@ export default class Login extends React.Component {
         <View style={styles.spacingSmall} />
         <View style={styles.container}>
           <TouchableOpacity onPress={this.login} style={styles.btnStyle}>
-            <Text>Login</Text>
+            <Text>Change Password</Text>
           </TouchableOpacity>
           <View style={{padding: '2%'}} />
-          <View style={{flex: 1, flexDirection: 'row'}}>
-            <Text style={{padding: 15}}>Don't have an account? </Text>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.replace('SignUp')}
-              style={styles.linkStyle}>
-              <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
-                Signup!
-              </Text>
-            </TouchableOpacity>
-          </View>
         </View>
       </View>
     );
@@ -104,14 +112,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: '500',
     flex: 1,
-    marginTop: '7%',
-  },
-  title: {
-    margin: 12,
-    fontSize: 30,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    textDecorationColor: 'gray',
+    marginTop: '35%',
   },
   container: {
     flex: 1,
@@ -154,7 +155,6 @@ const styles = StyleSheet.create({
   },
   linkStyle: {
     marginBottom: '70%',
-    padding: 15,
   },
   /*textalign for the text to be in the center for "bamboo."*/
 });

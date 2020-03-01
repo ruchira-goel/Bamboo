@@ -1,7 +1,16 @@
 import * as React from 'react';
-import {Text, View, StyleSheet, TextInput, Button, Alert} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TextInput,
+  Button,
+  Alert,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 import DoneButton from 'react-native-keyboard-done-button';
-import { useRoute } from '@react-navigation/native';
+import {useRoute} from '@react-navigation/native';
 import Constants from 'expo-constants';
 
 export default class App extends React.Component {
@@ -45,9 +54,20 @@ export default class App extends React.Component {
       ]);
       return;
     }
+    const expression = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+    if (!expression.test(String(email).toLowerCase())) {
+      Alert.alert(
+        'Email Format Incorrect',
+        'Ensure that the email is of the format email@example.com',
+        [{text: 'OK'}],
+      );
+      return;
+    }
     //sending request to retrieve the corresponding user object for login
     fetch(
-      `http://localhost:8080/User/signup?name=${name}&email=${email}&password=${password}`,
+      Platform.OS === 'android'
+        ? `http://10.0.2.2:8080/User/signup?name=${name}&email=${email}&password=${password}`
+        : `http://localhost:8080/User/signup?name=${name}&email=${email}&password=${password}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -60,13 +80,14 @@ export default class App extends React.Component {
           ) {
             Alert.alert('Already registered', data.message, [{text: 'OK'}]);
           } else if (
-            data.message === 'Your password is not valid! Make sure it ___'
+            data.message ===
+            'Please make sure your password is at least 8 characters!'
           ) {
             Alert.alert('Invalid password', data.message, [{text: 'OK'}]);
           }
         } else {
           //going to enter characteristics screen
-          this.props.navigation.navigate('EnterCharacteristics', {
+          this.props.navigation.replace('EnterCharacteristics', {
             name: name,
             email: email,
             password: password,
@@ -84,7 +105,7 @@ export default class App extends React.Component {
           style={{
             height: 20,
             marginBottom: 15,
-            marginTop: 15,
+            marginTop: 20,
             marginLeft: 30,
             marginRight: 30,
             borderColor: 'gray',
@@ -134,7 +155,7 @@ export default class App extends React.Component {
         <TextInput
           style={{
             height: 20,
-            marginBottom: 25,
+            marginBottom: 35,
             marginTop: 15,
             marginLeft: 30,
             marginRight: 30,
@@ -158,10 +179,20 @@ export default class App extends React.Component {
             this.signUp();
           }}
           title="Sign Up"
-          color="black"
-          backgroundColor="green"
+          color="#3eb245"
+          /*style={{backgroundColor: '#3eb245'}}*/
         />
-        <Text style={styles.paragraph}>Already have an account?</Text>
+        <View style={{padding: '1%'}} />
+        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
+          <Text style={{padding: 15}}>Already have an account? </Text>
+          <TouchableOpacity
+            onPress={() => this.props.navigation.replace('Login')}
+            style={styles.linkStyle}>
+            <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
+              Login!
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -174,9 +205,10 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     backgroundColor: '#ecf0f1',
     padding: 8,
+    marginTop: '5%',
   },
   paragraph: {
-    margin: 24,
+    margin: 8,
     fontSize: 18,
     textAlign: 'center',
   },
@@ -186,5 +218,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     textDecorationColor: 'gray',
+  },
+  linkStyle: {
+    marginBottom: '60%',
+    padding: 15,
   },
 });
