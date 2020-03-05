@@ -1,24 +1,38 @@
 import * as React from 'react';
 import {StatusBar} from 'react-native';
-import {
-  Button,
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  StyleSheet,
-} from 'react-native';
+import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import COLORS from '../src/styles/colors';
 import SettingsPage from '../src/Settings';
+import LoginPage from './Login.js';
+import SignUpPage from './SignUp.js';
+
+function LoginScreen({navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <BaseHeader screenName={'Login'} />
+      <Text>Login Screen</Text>
+      <LoginPage />
+    </View>
+  );
+}
+function SignUpScreen({navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <BaseHeader screenName={'SignUp'} />
+      <Text>SignUp Screen</Text>
+      <SignUpPage />
+    </View>
+  );
+}
 
 function ProfileScreen({navigation}) {
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
-      <Header screenName={'Profile'} />
+      <MenuHeader screenName={'Profile'} />
       <Text>Profile Screen</Text>
     </View>
   );
@@ -26,7 +40,7 @@ function ProfileScreen({navigation}) {
 function SettingsScreen({route, navigation}) {
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
-      <Header screenName={'Settings'} />
+      <MenuHeader screenName={'Settings'} />
       <SettingsPage />
     </View>
   );
@@ -60,16 +74,7 @@ function ExerciseScreen({route, navigation}) {
 function HomeScreen({navigation}) {
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
-      <Header screenName={'Home'} />
-      {/*<Button*/}
-      {/*  title="Exercise Input"*/}
-      {/*  onPress={() =>*/}
-      {/*    navigation.navigate('Root', {*/}
-      {/*      screen: 'Exercise',*/}
-      {/*      params: {user: 'userParam'},*/}
-      {/*    })*/}
-      {/*  }*/}
-      {/*/>*/}
+      <MenuHeader screenName={'Home'} />
       <TouchableOpacity
         style={styles.button}
         onPress={() =>
@@ -94,7 +99,7 @@ function HomeScreen({navigation}) {
   );
 }
 
-function Header({screenName}) {
+function MenuHeader({screenName}) {
   const nav = useNavigation();
 
   return (
@@ -170,6 +175,31 @@ function StackHeader({screenName}) {
     </View>
   );
 }
+function BaseHeader({screenName}) {
+  return (
+    <View style={styles.navBar}>
+      <View style={styles.leftContainer} />
+      <View style={styles.centerContainer}>
+        <Text
+          style={{
+            fontSize: 18,
+          }}>
+          {screenName}
+        </Text>
+      </View>
+      <View style={styles.rightContainer}>
+        <Image
+          source={require('../images/bamboo-icon.png')}
+          style={{
+            width: 30,
+            height: 30,
+            resizeMode: 'contain',
+          }}
+        />
+      </View>
+    </View>
+  );
+}
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -180,6 +210,24 @@ function Root() {
       screenOptions={{
         headerShown: false,
       }}>
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: COLORS.primaryColor,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="SignUp"
+        component={SignUpScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: COLORS.primaryColor,
+          },
+        }}
+      />
       <Stack.Screen
         name="Home"
         component={HomeScreen}
