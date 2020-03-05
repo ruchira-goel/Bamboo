@@ -266,7 +266,8 @@ export default function Navigation() {
         initialRouteName="Root"
         drawerContentOptions={{
           activeTintColor: COLORS.secondaryColor,
-        }}>
+        }}
+        edgeWidth={0}>
         <Drawer.Screen
           name="Root"
           component={Root}
