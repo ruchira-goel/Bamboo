@@ -12,32 +12,47 @@ import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
-import Drawer1 from './Drawer1';
-import Drawer2 from './Drawer2';
-import Stack1 from './Stack1';
-import Stack2 from './Stack2';
-import Constants from 'expo-constants';
 import COLORS from '../src/styles/colors';
+import SettingsPage from '../src/Settings';
 
-function SettingsScreen({route, navigation}) {
-  const {user} = route.params;
+function ProfileScreen({navigation}) {
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Settings Screen</Text>
-      <Text>userParam: {JSON.stringify(user)}</Text>
-      <Button
-        title="Go to Profile"
-        onPress={() => navigation.navigate('Profile')}
-      />
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <Header screenName={'Profile'} />
+      <Text>Profile Screen</Text>
+    </View>
+  );
+}
+function SettingsScreen({route, navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <Header screenName={'Settings'} />
+      <SettingsPage />
     </View>
   );
 }
 
-function ProfileScreen({navigation}) {
+function MealScreen({route, navigation}) {
+  const {user} = route.params;
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Header screenName={'Profile'} />
-      <Text>Profile Screen</Text>
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <StackHeader screenName={'Meal Input'} />
+      <Text>Health Input Screen</Text>
+      <Text>userParam: {JSON.stringify(user)}</Text>
+    </View>
+  );
+}
+function ExerciseScreen({route, navigation}) {
+  const {user} = route.params;
+  return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <StackHeader screenName={'Exercise Input'} />
+      <Text>Exercise Input Screen</Text>
+      <Text>userParam: {JSON.stringify(user)}</Text>
+      {/*<Button*/}
+      {/*  title="Go to Profile"*/}
+      {/*  onPress={() => navigation.navigate('Profile')}*/}
+      {/*/>*/}
     </View>
   );
 }
@@ -46,16 +61,35 @@ function HomeScreen({navigation}) {
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
       <Header screenName={'Home'} />
-      <Text>Home Screen</Text>
-      <Button
-        title="Go to Settings"
+      {/*<Button*/}
+      {/*  title="Exercise Input"*/}
+      {/*  onPress={() =>*/}
+      {/*    navigation.navigate('Root', {*/}
+      {/*      screen: 'Exercise',*/}
+      {/*      params: {user: 'userParam'},*/}
+      {/*    })*/}
+      {/*  }*/}
+      {/*/>*/}
+      <TouchableOpacity
+        style={styles.button}
         onPress={() =>
           navigation.navigate('Root', {
-            screen: 'Settings',
-            params: {user: 'jane'},
+            screen: 'Meal',
+            params: {user: 'userParam'},
           })
-        }
-      />
+        }>
+        <Text style={styles.text}>Meal Input</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() =>
+          navigation.navigate('Root', {
+            screen: 'Exercise',
+            params: {user: 'userParam'},
+          })
+        }>
+        <Text style={styles.text}>Exercise Input</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -98,15 +132,81 @@ function Header({screenName}) {
     </View>
   );
 }
+function StackHeader({screenName}) {
+  const nav = useNavigation();
+
+  return (
+    <View style={styles.navBar}>
+      <View style={styles.leftContainer}>
+        <TouchableOpacity onPress={() => nav.goBack()}>
+          <Image
+            source={require('../images/back-arrow.png')}
+            style={{
+              width: 30,
+              height: 30,
+              resizeMode: 'contain',
+            }}
+          />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.centerContainer}>
+        <Text
+          style={{
+            fontSize: 18,
+          }}>
+          {screenName}
+        </Text>
+      </View>
+      <View style={styles.rightContainer}>
+        <Image
+          source={require('../images/bamboo-icon.png')}
+          style={{
+            width: 30,
+            height: 30,
+            resizeMode: 'contain',
+          }}
+        />
+      </View>
+    </View>
+  );
+}
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 function Root() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Profile" component={ProfileScreen} />
-      <Stack.Screen name="Settings" component={SettingsScreen} />
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: COLORS.primaryColor,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Exercise"
+        component={ExerciseScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: COLORS.primaryColor,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Meal"
+        component={MealScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: COLORS.primaryColor,
+          },
+        }}
+      />
     </Stack.Navigator>
   );
 }
@@ -114,9 +214,20 @@ function Root() {
 export default function Navigation() {
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Root">
-        <Drawer.Screen name="Root" component={Root} />
-        <Drawer.Screen name="Home" component={HomeScreen} />
+      <Drawer.Navigator
+        initialRouteName="Root"
+        drawerContentOptions={{
+          activeTintColor: COLORS.secondaryColor,
+        }}>
+        <Drawer.Screen
+          name="Root"
+          component={Root}
+          options={{
+            title: 'Home',
+          }}
+        />
+        <Drawer.Screen name="Profile" component={ProfileScreen} />
+        <Drawer.Screen name="Settings" component={SettingsScreen} />
       </Drawer.Navigator>
     </NavigationContainer>
   );
@@ -150,5 +261,15 @@ const styles = StyleSheet.create({
     height: 10,
     width: 10,
     resizeMode: 'contain',
+  },
+  button: {
+    alignItems: 'center',
+    backgroundColor: '#d9e3bf',
+    padding: 15,
+    margin: 10,
+    width: '100%',
+  },
+  text: {
+    fontSize: 16,
   },
 });

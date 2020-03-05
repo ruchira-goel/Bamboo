@@ -23,9 +23,7 @@ import DrawerNav from './src/DrawerNav';
 
 import Navigation from './experiment/Navigation';
 
-const Stack = createStackNavigator();
-
-function App() {
+export default function App() {
   console.disableYellowBox = true;
   return (
     <Navigation />
@@ -68,78 +66,3 @@ function App() {
     // </NavigationContainer>
   );
 }
-
-export default App;
-
-/*const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-
-import React from 'react';
-import {
-  AppRegistry,
-  Text,
-  View,
-  Animated,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  Platform,
-} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-
-import Constants from 'expo-constants';
-
-import DrawerNav from './src/DrawerNav';
-
-export default class App extends React.Component {
-  render() {
-    return <DrawerNav />;
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#ecf0f1',
-    padding: 8,
-  },
-  paragraph: {
-    margin: 24,
-
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  headerText: {
-    fontSize: 25,
-    textAlign: 'center',
-    margin: 10,
-    color: 'black',
-    fontWeight: 'bold',
-  },
-
-});*/
-//});
