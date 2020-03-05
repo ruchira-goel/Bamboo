@@ -4,6 +4,6 @@ import DrawerNav from './DrawerNav';
 
 export default class Home extends Component {
   render() {
-    return <View/>;
+    return <View />;
   }
 }
