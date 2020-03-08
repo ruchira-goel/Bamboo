@@ -10,6 +10,8 @@ import {
   Platform,
 } from 'react-native';
 import DatePicker from './DatePicker';
+import {Dropdown} from 'react-native-material-dropdown';
+
 import BUTTONS from './styles/buttons';
 
 // TODO:
@@ -20,13 +22,28 @@ export default class ExerciseInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      category: '',
       activity: '',
       date: '',
       hours: '',
       minutes: '',
       calories: '',
+      activityList: '',
     };
   }
+
+  // getActivityList(category) {
+  //   if (category === 'Bicycling') {
+  //     return [
+  //       {
+  //         value: 'act1',
+  //       },
+  //       {
+  //         value: 'act2',
+  //       },
+  //     ];
+  //   }
+  // }
 
   isInvalid(str) {
     return /[-,_.]/g.test(str);
@@ -116,52 +133,101 @@ export default class ExerciseInput extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.contentContainer}>
-          <ScrollView>
-            <View style={styles.inputContainer}>
-              <Text style={[styles.text]}>Activity:</Text>
-              <TextInput
-                onChangeText={activity => this.setState({activity})}
-                style={[styles.textInput, styles.text]}
-                placeholder="activity"
-                maxLength={20}
-              />
+        <ScrollView>
+          <View style={{width: '50%', left: '25%'}}>
+            <Dropdown
+              label="Category"
+              data={[
+                {
+                  value: 'Bicycling',
+                },
+                {
+                  value: 'Conditioning Exercise',
+                },
+                {
+                  value: 'Running',
+                },
+                {
+                  value: 'Sports',
+                },
+                {
+                  value: 'Water Activities',
+                },
+                {
+                  value: 'Winter Activities',
+                },
+              ]}
+            />
+          </View>
+          <View style={{width: '50%', left: '25%'}}>
+            <Dropdown
+              label="Activity"
+              data={[
+                {
+                  value: 'Bicycling',
+                },
+                {
+                  value: 'Conditioning Exercise',
+                },
+                {
+                  value: 'Running',
+                },
+                {
+                  value: 'Sports',
+                },
+                {
+                  value: 'Water Activities',
+                },
+                {
+                  value: 'Winter Activities',
+                },
+              ]}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <View
+              style={{
+                width: '50%',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <Text style={[styles.text]}>Date:</Text>
             </View>
-            <View style={styles.inputContainer}>
-              {/*onChangeText={activity => this.setState({activity})}*/}
-              <Text style={[styles.text, {paddingTop: 6}]}>Date:</Text>
+            <View
+              style={{
+                width: '50%',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
               <DatePicker />
             </View>
-            <View style={styles.inputContainer}>
+          </View>
+          <View style={styles.inputContainer}>
+            <View
+              style={{
+                width: '50%',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
               <Text style={[styles.text]}>Duration:</Text>
-              <TextInput
-                onChangeText={hours => this.setState({hours})}
-                style={[styles.textInput, {fontSize: 20, width: 50}]}
-                keyboardType={'numeric'}
-                placeholder="hh"
-                maxLength={2}
-              />
-              <Text style={{fontSize: 20}}>:</Text>
-              <TextInput
-                onChangeText={minutes => this.setState({minutes})}
-                style={[styles.textInput, {fontSize: 20, width: 50}]}
-                keyboardType={'numeric'}
-                placeholder="mm"
-                maxLength={2}
-              />
             </View>
-            <View style={styles.inputContainer}>
-              <Text style={[styles.text]}>Calories:</Text>
-              <TextInput
-                onChangeText={calories => this.setState({calories})}
-                style={[styles.textInput, styles.text]}
-                keyboardType={'numeric'}
-                placeholder="calories"
-                maxLength={20}
-              />
-            </View>
-          </ScrollView>
-        </View>
+            <TextInput
+              onChangeText={hours => this.setState({hours})}
+              style={[styles.textInput, {width: '25%'}]}
+              keyboardType={'numeric'}
+              placeholder="hh"
+              maxLength={2}
+            />
+            <Text style={{fontSize: 18}}>:</Text>
+            <TextInput
+              onChangeText={minutes => this.setState({minutes})}
+              style={[styles.textInput, {width: '25%'}]}
+              keyboardType={'numeric'}
+              placeholder="mm"
+              maxLength={2}
+            />
+          </View>
+        </ScrollView>
         <TouchableOpacity
           style={BUTTONS.primaryButton}
           onPress={this.addExercise}>
@@ -175,31 +241,28 @@ export default class ExerciseInput extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 45,
   },
   contentContainer: {
     flex: 1,
     margin: 0,
-  },
-  header: {
-    fontSize: 25,
-    textAlign: 'center',
-    margin: 10,
-    fontWeight: 'bold',
+    justifyContent: 'center',
   },
   textInput: {
     borderBottomWidth: 2,
   },
   inputContainer: {
     flexDirection: 'row',
-    alignSelf: 'center',
+    // alignSelf: 'center',
+    width: '50%',
     paddingTop: 35,
+    left: '25%',
+    // width: '100%',
   },
   text: {
-    fontSize: 20,
-    width: 100,
+    // fontSize: 20,
+    // width: 100,
   },
   button: {
-    margin: 0,
+    // margin: 0,
   },
 });
