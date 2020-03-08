@@ -1,11 +1,15 @@
 package com.bamboo.demo.Controllers;
 
+import com.bamboo.demo.Handlers.ActivityHandler;
 import com.bamboo.demo.Handlers.DIHandler;
+import com.bamboo.demo.Handlers.MealHandler;
 import com.bamboo.demo.Handlers.UserHandler;
 import com.bamboo.demo.Models.DailyInfo;
 import com.bamboo.demo.Models.Sex;
 import com.bamboo.demo.Models.User;
+import com.bamboo.demo.Repos.ActivityRepo;
 import com.bamboo.demo.Repos.DailyInfoRepo;
+import com.bamboo.demo.Repos.MealRepo;
 import com.bamboo.demo.Repos.UserRepo;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,9 +23,11 @@ import java.util.List;
 public class UserController {
     private UserHandler userHandler;
     private DIHandler di;
+    private ActivityHandler activityHandler;
+    private MealHandler mealHandler;
 
-    public UserController(UserRepo userRepo, DailyInfoRepo di) {
-        this.userHandler = new UserHandler(userRepo, di); //Check
+    public UserController(UserRepo userRepo, DailyInfoRepo di, MealRepo mealRepo, ActivityRepo activityRepo) {
+        this.userHandler = new UserHandler(userRepo, di, mealRepo, activityRepo); //Check
         this.di = new DIHandler(di);
 
     }
@@ -98,16 +104,10 @@ public class UserController {
         return userHandler.addDailyInfo(email, dailyInfo);
     }
 
-//    @RequestMapping("/User/addActivity")              // add daily input request
-//    public User addActivity(@RequestParam(value = "email") String email,
-//                            @RequestParam(value = "id") String id,
-//                            @RequestParam(value = "type") String type,
-//                            @RequestParam(value = "calories") int calories,
-//                            @RequestParam(value = "minutes") int minutes,
-//                            @RequestParam(value = "date") Date date)throws IllegalAccessException {
-//        System.out.println("email is " + email);
-//        return userHandler.addActivity(email, id, type, calories, minutes, date);
-//    }
+    @RequestMapping("/User/delAccount")
+    public void deleteAccount(@RequestParam(value = "userId") String userId) {
+        this.userHandler.deleteAccount(userId);
+    }
 
 
     @RequestMapping("/User/changePass")          //login request

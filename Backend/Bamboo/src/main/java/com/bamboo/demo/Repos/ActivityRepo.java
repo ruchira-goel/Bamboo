@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface ActivityRepo extends MongoRepository <Activity, String> {
     Optional<Activity> findById(String id);         // find an activity by id
+    void deleteAllByUserId(String userId);
 }

@@ -4,7 +4,9 @@ import com.bamboo.demo.Models.Activity;
 import com.bamboo.demo.Models.DailyInfo;
 import com.bamboo.demo.Models.Sex;
 import com.bamboo.demo.Models.User;
+import com.bamboo.demo.Repos.ActivityRepo;
 import com.bamboo.demo.Repos.DailyInfoRepo;
+import com.bamboo.demo.Repos.MealRepo;
 import com.bamboo.demo.Repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,10 +22,15 @@ import java.util.Optional;
 public class UserHandler {
     private UserRepo userRepo;
     private DailyInfoRepo dailyInfoRepo;
+    private MealRepo mealRepo;
+    private ActivityRepo activityRepo;
 
-    public UserHandler(UserRepo userRepo, DailyInfoRepo dailyInfoRepo) {
+    public UserHandler(UserRepo userRepo, DailyInfoRepo dailyInfoRepo, MealRepo mealRepo, ActivityRepo activityRepo) {
         this.userRepo = userRepo;
         this.dailyInfoRepo = dailyInfoRepo;
+        this.mealRepo = mealRepo;
+        this.activityRepo = activityRepo;
+
     }
 
     //login the user

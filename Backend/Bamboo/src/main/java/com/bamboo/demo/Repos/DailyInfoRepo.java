@@ -12,4 +12,5 @@ public interface DailyInfoRepo extends MongoRepository<DailyInfo, String> {
     Optional<DailyInfo> findById(String id);
     List<DailyInfo> findAllByUserId(String userId);
     Optional<DailyInfo> findByDateAndAndUserId(Date date, String userId);
+    void deleteAllByUserId(String userId);
 }
