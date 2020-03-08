@@ -40,10 +40,115 @@ export default class ExerciseInput extends Component {
     if (category === 'Bicycling') {
       return [
         {
-          value: 'act1',
+          value: 'General',
         },
         {
-          value: 'act2',
+          value: 'Stationary Bicycling',
+        },
+      ];
+    } else if (category === 'Conditioning Exercise') {
+      return [
+        {
+          value: 'Aerobic',
+        },
+        {
+          value: 'Elliptical Trainer',
+        },
+        {
+          value: 'Jump Rope',
+        },
+        {
+          value: 'Pilates',
+        },
+        {
+          value: 'Rowing',
+        },
+        {
+          value: 'Weight Training',
+        },
+      ];
+    } else if (category === 'Running') {
+      return [
+        {
+          value: 'Jogging',
+        },
+        {
+          value: 'Running',
+        },
+      ];
+    } else if (category === 'Sports') {
+      return [
+        {
+          value: 'Badminton',
+        },
+        {
+          value: 'Baseball/Softball',
+        },
+        {
+          value: 'Basketball',
+        },
+        {
+          value: 'Boxing',
+        },
+        {
+          value: 'Football',
+        },
+        {
+          value: 'Golf',
+        },
+        {
+          value: 'Ping Pong',
+        },
+        {
+          value: 'Soccer',
+        },
+        {
+          value: 'Tennis',
+        },
+        {
+          value: 'Volleyball',
+        },
+        {
+          value: 'Wrestling',
+        },
+      ];
+    } else if (category === 'Water Activities') {
+      return [
+        {
+          value: 'Canoeing',
+        },
+        {
+          value: 'Jet Skiing',
+        },
+        {
+          value: 'Kayaking',
+        },
+        {
+          value: 'Scuba Diving',
+        },
+        {
+          value: 'Surfing',
+        },
+        {
+          value: 'Swimming',
+        },
+      ];
+    } else if (category === 'Winter Activities') {
+      return [
+        {
+          value: 'Ice Skating',
+        },
+        {
+          value: 'Skiing',
+        },
+        {
+          value: 'Sledding',
+        },
+        {
+          value: 'Snowboarding',
+        },
+        {
+          value: 'Ice Hockey',
         },
       ];
     }
@@ -170,7 +275,11 @@ export default class ExerciseInput extends Component {
             />
           </View>
           <View style={{width: '50%', left: '25%'}}>
-            <Dropdown label="Activity" data={this.state.activityList} />
+            <Dropdown
+              label="Activity"
+              disabled={true}
+              data={this.state.activityList}
+            />
           </View>
           <View style={styles.inputContainer}>
             <View
