@@ -105,8 +105,8 @@ public class UserController {
     }
 
     @RequestMapping("/User/delAccount")
-    public void deleteAccount(@RequestParam(value = "userId") String userId) {
-        this.userHandler.deleteAccount(userId);
+    public boolean deleteAccount(@RequestParam(value = "userId") String userId) {
+        return this.userHandler.deleteAccount(userId);
     }
 
 

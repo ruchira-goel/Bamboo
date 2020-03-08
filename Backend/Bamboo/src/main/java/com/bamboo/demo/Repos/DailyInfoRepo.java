@@ -1,6 +1,7 @@
 package com.bamboo.demo.Repos;
 
 import com.bamboo.demo.Models.DailyInfo;
+import com.bamboo.demo.Models.Meal;
 import com.bamboo.demo.Models.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 

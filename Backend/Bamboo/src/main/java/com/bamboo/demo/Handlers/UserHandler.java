@@ -1,6 +1,5 @@
 package com.bamboo.demo.Handlers;
 
-import com.bamboo.demo.Models.Activity;
 import com.bamboo.demo.Models.DailyInfo;
 import com.bamboo.demo.Models.Sex;
 import com.bamboo.demo.Models.User;
@@ -8,14 +7,8 @@ import com.bamboo.demo.Repos.ActivityRepo;
 import com.bamboo.demo.Repos.DailyInfoRepo;
 import com.bamboo.demo.Repos.MealRepo;
 import com.bamboo.demo.Repos.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -130,5 +123,16 @@ public class UserHandler {
         user.setEncryptedPassword(passwordEncoder.encode(encryptedPassword));
         return this.userRepo.save(user);
 
+    }
+
+    public boolean deleteAccount(String userId) {
+        this.activityRepo.deleteAllByUserId(userId);
+        this.mealRepo.deleteAllByUserId(userId);
+        this.dailyInfoRepo.deleteAllByUserId(userId);
+        this.userRepo.deleteByUserId(userId);
+        return mealRepo.findAllByUserId(userId).isEmpty() &&
+                dailyInfoRepo.findAllByUserId(userId).isEmpty() &&
+                dailyInfoRepo.findAllByUserId(userId).isEmpty() &&
+                userRepo.findByUserId(userId) == null;
     }
 }

@@ -11,5 +11,6 @@ public interface MealRepo extends MongoRepository<Meal, String> {
     Optional<Meal> findById(String mealId);  //find a user by email
     //List<Meal> findAllByUserId(String userId);
     void deleteAllByUserId(String userId);
+    List<Meal> findAllByUserId(String userId);
 
 }

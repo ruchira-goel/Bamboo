@@ -1,5 +1,12 @@
 import React from 'react';
-import {Alert, View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  Alert,
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Platform,
+} from 'react-native';
 
 export default class HomeScreen extends React.Component {
   logout = () => {
@@ -7,6 +14,40 @@ export default class HomeScreen extends React.Component {
       {text: 'Yes', onPress: () => this.props.navigation.replace('Login')},
       {text: 'No'},
     ]);
+  };
+
+  delAccountConfirm = () => {
+    Alert.alert(
+      'Confirm Delete',
+      'All data associated with your account will be deleted. You will not be able to recover any of the saved data. Are you sure you want to delete your account?',
+      [{text: 'Yes', onPress: this.delAccount}, {text: 'No'}],
+    );
+  };
+
+  delAccount = () => {
+    console.log('here');
+    const {route} = this.props;
+    const {userId} = route.params;
+    console.log(userId);
+    fetch(
+      Platform.OS === 'android'
+        ? `http://10.0.2.2:8080/User/delAccount?userId=${userId}`
+        : `http://localhost:8080/User/delAccount?userId=${userId}`,
+    )
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        if (!data) {
+          Alert.alert(
+            'Error',
+            'Something went wrong, please try again later.',
+            [{text: 'OK'}],
+          );
+        } else {
+          //going to home screen
+          this.props.navigation.replace('Login');
+        }
+      });
   };
 
   render() {
@@ -58,6 +99,12 @@ export default class HomeScreen extends React.Component {
           }
           style={styles.btnStyle}>
           <Text>Change Password</Text>
+        </TouchableOpacity>
+        <View style={{padding: '2%'}} />
+        <TouchableOpacity
+          onPress={this.delAccountConfirm}
+          style={styles.btnStyle}>
+          <Text>Delete Account</Text>
         </TouchableOpacity>
       </View>
     );
