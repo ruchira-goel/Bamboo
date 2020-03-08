@@ -28,22 +28,26 @@ export default class ExerciseInput extends Component {
       hours: '',
       minutes: '',
       calories: '',
-      activityList: '',
+      activityList: [
+        {
+          value: 'temp',
+        },
+      ],
     };
   }
 
-  // getActivityList(category) {
-  //   if (category === 'Bicycling') {
-  //     return [
-  //       {
-  //         value: 'act1',
-  //       },
-  //       {
-  //         value: 'act2',
-  //       },
-  //     ];
-  //   }
-  // }
+  getActivityList(category) {
+    if (category === 'Bicycling') {
+      return [
+        {
+          value: 'act1',
+        },
+        {
+          value: 'act2',
+        },
+      ];
+    }
+  }
 
   isInvalid(str) {
     return /[-,_.]/g.test(str);
@@ -157,32 +161,16 @@ export default class ExerciseInput extends Component {
                   value: 'Winter Activities',
                 },
               ]}
+              onChangeText={value => {
+                this.setState({category: value});
+                this.setState({
+                  activityList: this.getActivityList(this.state.category),
+                });
+              }}
             />
           </View>
           <View style={{width: '50%', left: '25%'}}>
-            <Dropdown
-              label="Activity"
-              data={[
-                {
-                  value: 'Bicycling',
-                },
-                {
-                  value: 'Conditioning Exercise',
-                },
-                {
-                  value: 'Running',
-                },
-                {
-                  value: 'Sports',
-                },
-                {
-                  value: 'Water Activities',
-                },
-                {
-                  value: 'Winter Activities',
-                },
-              ]}
-            />
+            <Dropdown label="Activity" data={this.state.activityList} />
           </View>
           <View style={styles.inputContainer}>
             <View
