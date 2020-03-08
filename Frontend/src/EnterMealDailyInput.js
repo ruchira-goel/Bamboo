@@ -61,6 +61,37 @@ export default class EnterMealDailyInput extends React.Component {
           }
         });
     }
+    // else if (pickerSelection === 'Enter meal name') {
+    //   const userid = '5e6558c763c1b1453dd49cb4';
+    //   fetch(
+    //     Platform.OS === 'android'
+    //       ? `http://10.0.2.2:8080/Meal/infoFromName?name=${mealInfo}&userid=${userid}`
+    //       : `http://localhost:8080/Meal/infoFromName?name=${mealInfo}&userid=${userid}`,
+    //   )
+    //     .then(res => res.json())
+    //     .then(data => {
+    //       console.log(data);
+    //       if (data.error) {
+    //         Alert.alert(
+    //           data.message,
+    //           'Unable to load recipe information for the given name, please try a different name.',
+    //           [{text: 'OK'}],
+    //         );
+    //
+    //         //throwing error when login fails - wrong password / email not registered yet
+    //         // if (data.message === "This email isn't registered yet") {
+    //         //   Alert.alert('Not registered', data.message, [{text: 'OK'}]);
+    //         // } else if (data.message === 'You entered the wrong password!') {
+    //         //   Alert.alert('Incorrect password', data.message, [{text: 'OK'}]);
+    //         // }
+    //       } else {
+    //         Alert.alert('Meal Added', data.name + ' successfully added!', [
+    //           {text: 'OK'},
+    //         ]);
+    //         //going to home screen
+    //       }
+    //     });
+    // }
   };
 
   renderHomePage = () => {

@@ -82,6 +82,40 @@ public class MealHandler {
     }
 
 
+//    public Meal saveMealFromName(String name, String userId) throws IOException, JSONException, IllegalAccessException {
+//        User user = this.userRepo.findById(userId).get();
+//        System.out.println("the name is " + name);
+//        URL url = new URL("https://api.spoonacular.com/recipes/guessNutrition?apiKey=5ccdaac983d344338fe187bb2b7e5501&title=" + name);
+//        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//        connection.setRequestMethod("GET");
+//        connection.setRequestProperty("Content-type", "application/json");
+//        connection.setRequestProperty("User-agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+//
+//
+//        BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+//        JSONObject nutritionJson = new JSONObject(input.readLine());
+//
+//        //removing last character to get number for nutrition
+//        String fatStr = nutritionJson.get("fat").toString();
+//        double fat = Double.parseDouble(fatStr.substring(0, fatStr.length() - 1));
+//        String proteinStr = nutritionJson.get("protein").toString();
+//        double protein = Double.parseDouble(proteinStr.substring(0, proteinStr.length() - 1));
+//        String carbStr = nutritionJson.get("carbs").toString();
+//        double carb = Double.parseDouble(carbStr.substring(0, carbStr.length() - 1));
+//        double calories = Double.parseDouble(nutritionJson.get("calories").toString());
+//        Meal meal = new Meal(userId, name, calories, fat, carb, protein);
+//        this.mealRepo.save(meal);
+//
+//        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+//        Date currentDate = new Date(System.currentTimeMillis());
+//        String date = formatter.format(currentDate);
+//        System.out.println("Date: " + date);
+//        addToDate(date, meal);
+//
+//        return meal;
+//    }
+
+
     public void addToDate(String date, Meal meal) {
         String userId = meal.getUserId();
         User user = this.userRepo.findById(userId).get();
