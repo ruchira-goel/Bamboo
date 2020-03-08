@@ -76,16 +76,8 @@ public class Activity {
         return METValues;
     }
 
-    public void setMETValues(HashMap<String, Double> METValues) {
-        this.METValues = METValues;
-    }
-
     public String getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getType() {
@@ -95,7 +87,6 @@ public class Activity {
     public int getCalories() {
         return calories;
     }
-
 
     public void setCalories(int calories) {
         this.calories = calories;
@@ -107,9 +98,5 @@ public class Activity {
 
     public String getUserId() {
         return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 }
