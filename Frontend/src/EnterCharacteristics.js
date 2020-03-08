@@ -84,10 +84,10 @@ export default class EnterCharacteristics extends React.Component {
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/addCharacteristics?email=${JSON.stringify(
+        ? `http://bamboo-testing.herokuapp.com/User/addCharacteristics?email=${JSON.stringify(
             email,
           )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`
-        : `http://localhost:8080/User/addCharacteristics?email=${JSON.stringify(
+        : `http://bamboo-testing.herokuapp.com/User/addCharacteristics?email=${JSON.stringify(
             email,
           )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
     )

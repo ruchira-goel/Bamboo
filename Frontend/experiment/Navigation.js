@@ -7,14 +7,15 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import COLORS from '../src/styles/colors';
 import SettingsPage from '../src/Settings';
-import LoginPage from './Login.js';
-import SignUpPage from './SignUp.js';
+import LoginPage from '../src/Login.js';
+import SignUpPage from '../src/SignUp.js';
+// import LoginPage from './Login.js';
+// import SignUpPage from './SignUp.js';
 
 function LoginScreen({navigation}) {
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
       <BaseHeader screenName={'Login'} />
-      <Text>Login Screen</Text>
       <LoginPage />
     </View>
   );
@@ -22,8 +23,7 @@ function LoginScreen({navigation}) {
 function SignUpScreen({navigation}) {
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
-      <BaseHeader screenName={'SignUp'} />
-      <Text>SignUp Screen</Text>
+      <BaseHeader screenName={'Sign Up'} />
       <SignUpPage />
     </View>
   );

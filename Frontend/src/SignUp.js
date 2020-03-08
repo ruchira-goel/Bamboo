@@ -10,10 +10,30 @@ import {
   Platform,
 } from 'react-native';
 import DoneButton from 'react-native-keyboard-done-button';
-import {useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import Constants from 'expo-constants';
 
-export default class App extends React.Component {
+function ToLogin({navigation}) {
+  const nav = useNavigation();
+  return (
+    <View>
+      <TouchableOpacity
+        onPress={() =>
+          nav.navigate('Root', {
+            screen: 'Login',
+            params: {user: 'userParam'},
+          })
+        }
+        style={styles.linkStyle}>
+        <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
+          Login!
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+export default class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -66,8 +86,8 @@ export default class App extends React.Component {
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/signup?name=${name}&email=${email}&password=${password}`
-        : `http://localhost:8080/User/signup?name=${name}&email=${email}&password=${password}`,
+        ? `http://bamboo-testing.herokuapp.com/User/signup?name=${name}&email=${email}&password=${password}`
+        : `http://bamboo-testing.herokuapp.com/User/signup?name=${name}&email=${email}&password=${password}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -185,13 +205,7 @@ export default class App extends React.Component {
         <View style={{padding: '1%'}} />
         <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
           <Text style={{padding: 15}}>Already have an account? </Text>
-          <TouchableOpacity
-            onPress={() => this.props.navigation.replace('Login')}
-            style={styles.linkStyle}>
-            <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
-              Login!
-            </Text>
-          </TouchableOpacity>
+          <ToLogin />
         </View>
       </View>
     );

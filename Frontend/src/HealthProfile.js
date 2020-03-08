@@ -38,10 +38,10 @@ export default class HealthProfile extends Component {
     const {email} = route.params;
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/getCharacteristics?email=${JSON.stringify(
+        ? `http://bamboo-testing.herokuapp.com/User/getCharacteristics?email=${JSON.stringify(
             email,
           )}`
-        : `http://localhost:8080/User/getCharacteristics?email=${JSON.stringify(
+        : `http://bamboo-testing.herokuapp.com/User/getCharacteristics?email=${JSON.stringify(
             email,
           )}`,
     )

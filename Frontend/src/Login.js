@@ -7,7 +7,29 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
+  Button,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+
+function ToSignUp({navigation}) {
+  const nav = useNavigation();
+  return (
+    <View>
+      <TouchableOpacity
+        onPress={() =>
+          nav.navigate('Root', {
+            screen: 'SignUp',
+            params: {user: 'userParam'},
+          })
+        }
+        style={styles.linkStyle}>
+        <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
+          Signup!
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -20,6 +42,7 @@ export default class Login extends React.Component {
 
   login = () => {
     const {email, encryptedPassword} = this.state;
+    const nav = useNavigation();
     if (!email) {
       Alert.alert('Email Empty', 'Please enter an email address.', [
         {text: 'OK'},
@@ -33,8 +56,8 @@ export default class Login extends React.Component {
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/login?email=${email}&encryptedPassword=${encryptedPassword}`
-        : `http://localhost:8080/User/login?email=${email}&encryptedPassword=${encryptedPassword}`,
+        ? `http://bamboo-testing.herokuapp.com/User/login?email=${email}&encryptedPassword=${encryptedPassword}`
+        : `http://bamboo-testing.herokuapp.com/User/login?email=${email}&encryptedPassword=${encryptedPassword}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -48,10 +71,14 @@ export default class Login extends React.Component {
           }
         } else {
           //going to home screen
-          this.props.navigation.replace('HomeScreen', {
-            email: email,
-            encryptedPassword: encryptedPassword,
+          nav.navigate('Root', {
+            screen: 'SignUp',
+            params: {user: 'userParam'},
           });
+          // this.props.navigation.replace('HomeScreen', {
+          //   email: email,
+          //   encryptedPassword: encryptedPassword,
+          // });
         }
       });
   };
@@ -85,13 +112,7 @@ export default class Login extends React.Component {
           <View style={{padding: '2%'}} />
           <View style={{flex: 1, flexDirection: 'row'}}>
             <Text style={{padding: 15}}>Don't have an account? </Text>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.replace('SignUp')}
-              style={styles.linkStyle}>
-              <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
-                Signup!
-              </Text>
-            </TouchableOpacity>
+            <ToSignUp />
           </View>
         </View>
       </View>

@@ -53,8 +53,8 @@ export default class ChangePass extends React.Component {
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/changePass?email=${email}&encryptedPassword=${encryptedPassword}`
-        : `http://localhost:8080/User/changePass?email=${email}&encryptedPassword=${encryptedPassword}`,
+        ? `http://bamboo-testing.herokuapp.com/User/changePass?email=${email}&encryptedPassword=${encryptedPassword}`
+        : `http://bamboo-testing.herokuapp.com/User/changePass?email=${email}&encryptedPassword=${encryptedPassword}`,
     )
       .then(res => res.json())
       .then(data => {
