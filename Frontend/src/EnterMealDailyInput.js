@@ -53,11 +53,10 @@ export default class EnterMealDailyInput extends React.Component {
           }
         });
     } else if (pickerSelection === 'Enter meal name') {
-      const userid = '5e6558c763c1b1453dd49cb4';
       fetch(
         Platform.OS === 'android'
-          ? `http://10.0.2.2:8080/Meal/infoFromName?name=${mealInfo}&userid=${userid}`
-          : `http://localhost:8080/Meal/infoFromName?name=${mealInfo}&userid=${userid}`,
+          ? `http://10.0.2.2:8080/Meal/infoFromName?name=${mealInfo}&userid=${userId}`
+          : `http://localhost:8080/Meal/infoFromName?name=${mealInfo}&userid=${userId}`,
       )
         .then(res => res.json())
         .then(data => {

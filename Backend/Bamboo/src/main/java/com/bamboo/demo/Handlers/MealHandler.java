@@ -14,6 +14,7 @@ import com.bamboo.demo.Models.User;
 import com.bamboo.demo.Repos.DailyInfoRepo;
 import com.bamboo.demo.Repos.MealRepo;
 import com.bamboo.demo.Repos.UserRepo;
+import org.apache.tomcat.util.http.fileupload.MultipartStream;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -73,33 +74,37 @@ public class MealHandler {
 
 
     public Meal saveMealFromName(String name, String userId) throws IOException, JSONException, IllegalAccessException {
-        User user = this.userRepo.findById(userId).get();
-        System.out.println("the name is " + name);
-        URL url = new URL("https://api.spoonacular.com/recipes/guessNutrition?apiKey=5ccdaac983d344338fe187bb2b7e5501&title=" + name);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
-        connection.setRequestProperty("Content-type", "application/json");
-        //connection.setRequestProperty("User-agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+      try {
+          User user = this.userRepo.findById(userId).get();
+          System.out.println("the name is " + name);
+          URL url = new URL("https://api.spoonacular.com/recipes/guessNutrition?apiKey=5ccdaac983d344338fe187bb2b7e5501&title=" + name);
+          HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+          connection.setRequestMethod("GET");
+          connection.setRequestProperty("Content-type", "application/json");
 
+          BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+          JSONObject nutritionJson = new JSONObject(input.readLine());
 
-        BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        JSONObject nutritionJson = new JSONObject(input.readLine());
+          double fat = Double.parseDouble(((JSONObject) nutritionJson.get("fat")).get("value").toString());
+          double protein = Double.parseDouble(((JSONObject) nutritionJson.get("protein")).get("value").toString());
+          double carb = Double.parseDouble(((JSONObject) nutritionJson.get("carbs")).get("value").toString());
+          double calories = Double.parseDouble(((JSONObject) nutritionJson.get("calories")).get("value").toString());
 
-        double fat = Double.parseDouble(((JSONObject) nutritionJson.get("fat")).get("value").toString());
-        double protein = Double.parseDouble(((JSONObject) nutritionJson.get("protein")).get("value").toString());
-        double carb = Double.parseDouble(((JSONObject) nutritionJson.get("carbs")).get("value").toString());
-        double calories = Double.parseDouble(((JSONObject) nutritionJson.get("calories")).get("value").toString());
-        
-        Meal meal = new Meal(userId, name, calories, fat, carb, protein);
-        this.mealRepo.save(meal);
+          Meal meal = new Meal(userId, name, calories, fat, carb, protein);
+          this.mealRepo.save(meal);
 
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        Date currentDate = new Date(System.currentTimeMillis());
-        String date = formatter.format(currentDate);
-        System.out.println("Date: " + date);
-        addToDate(date, meal);
+          SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+          Date currentDate = new Date(System.currentTimeMillis());
+          String date = formatter.format(currentDate);
+          System.out.println("Date: " + date);
+          addToDate(date, meal);
 
-        return meal;
+          return meal;
+      } catch (IOException e) {
+          throw new IOException("Meal not found");
+      } catch (JSONException e) {
+          throw new JSONException("Meal not found");
+      }
     }
 
 
