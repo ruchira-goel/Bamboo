@@ -33,10 +33,12 @@ export default class ExerciseInput extends Component {
           value: 'temp',
         },
       ],
+      activityDisabled: true,
     };
   }
 
   getActivityList(category) {
+    this.state.activityDisabled = false;
     if (category === 'Bicycling') {
       return [
         {
@@ -277,7 +279,7 @@ export default class ExerciseInput extends Component {
           <View style={{width: '50%', left: '25%'}}>
             <Dropdown
               label="Activity"
-              disabled={true}
+              disabled={this.state.activityDisabled}
               data={this.state.activityList}
             />
           </View>
