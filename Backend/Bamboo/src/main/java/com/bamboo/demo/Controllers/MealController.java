@@ -27,6 +27,12 @@ public class MealController {
         return mealHandler.saveMealFromLink(link, email);
     }
 
+    @RequestMapping("/Meal/infoFromName")          //meal info from name
+    public Meal infoFromName(@RequestParam(value = "name") String name,
+                             @RequestParam(value = "userid") String userid) throws IOException, IllegalAccessException {
+        return mealHandler.saveMealFromName(name, userid);
+    }
+
     @RequestMapping("/Meal/all")
     public List<Meal> users() {
         return mealHandler.display();
