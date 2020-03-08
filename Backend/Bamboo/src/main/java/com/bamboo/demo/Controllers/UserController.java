@@ -46,12 +46,12 @@ public class UserController {
     }
 
     @RequestMapping("/User/addCharacteristics")          //add health characteristics request
-    public User addCharacteristics(@RequestParam(value = "email") String email,
+    public User addCharacteristics(@RequestParam(value = "userId") String userId,
                                    @RequestParam(value = "height") double height,
                                    @RequestParam(value = "weight") double weight,
                                    @RequestParam(value = "age") int age,
                                    @RequestParam(value = "sex") String sex) throws IllegalAccessException {
-        System.out.println("email is " + email);
+        //System.out.println("email is " + email);
         Sex sexEnum = Sex.OTHER;
         switch (sex) {
             case "Female":
@@ -68,7 +68,7 @@ public class UserController {
                 break;
 
         }
-        return userHandler.addCharacteristics(email, height, weight, age, sexEnum);
+        return userHandler.addCharacteristics(userId, height, weight, age, sexEnum);
     }
 
     @RequestMapping("/User/all")
@@ -92,16 +92,14 @@ public class UserController {
     }
 
     @RequestMapping("/User/getCharacteristics")
-    public User getCharacteristics(@RequestParam(value = "email") String email) throws IllegalAccessException {
-        System.out.println("email is " + email);
-        return userHandler.getCharacteristics(email);
+    public User getCharacteristics(@RequestParam(value = "userId") String userId) throws IllegalAccessException {
+        return userHandler.getCharacteristics(userId);
     }
 
     @RequestMapping("/User/addDailyInfo")              // add daily input request
-    public User addDailyInput(@RequestParam(value = "email") String email,
+    public User addDailyInput(@RequestParam(value = "userId") String userId,
                               @RequestParam(value = "dailyInfo") DailyInfo dailyInfo) throws IllegalAccessException {
-        System.out.println("email is " + email);
-        return userHandler.addDailyInfo(email, dailyInfo);
+        return userHandler.addDailyInfo(userId, dailyInfo);
     }
 
     @RequestMapping("/User/delAccount")
@@ -111,8 +109,8 @@ public class UserController {
 
 
     @RequestMapping("/User/changePass")          //login request
-    public User changePass(@RequestParam(value = "email") String email,
-                      @RequestParam(value = "encryptedPassword") String encryptedPassword) throws IllegalAccessException {
-        return userHandler.changePass(email, encryptedPassword);
+    public User changePass(@RequestParam(value = "userId") String userId,
+                           @RequestParam(value = "encryptedPassword") String encryptedPassword) throws IllegalAccessException {
+        return userHandler.changePass(userId, encryptedPassword);
     }
 }

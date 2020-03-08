@@ -22,11 +22,11 @@ public class ActivityController {
     }
 
     @RequestMapping("/Activity/saveActivity")          //save activity
-    public Activity saveActivity(@RequestParam(value = "email") String email,
+    public Activity saveActivity(@RequestParam(value = "userId") String userId,
                                  @RequestParam(value = "activityName") String activityName,
                                  @RequestParam(value = "time") int time,
-                                 @RequestParam(value = "calories") int calories) throws IOException {
-        return activityHandler.saveActivity(email, activityName, time, calories);
+                                 @RequestParam(value = "calories") int calories) {
+        return activityHandler.saveActivity(userId, activityName, time, calories);
     }
 
     @RequestMapping("/Activity/all")

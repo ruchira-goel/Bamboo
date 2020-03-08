@@ -14,10 +14,8 @@ import com.bamboo.demo.Models.User;
 import com.bamboo.demo.Repos.DailyInfoRepo;
 import com.bamboo.demo.Repos.MealRepo;
 import com.bamboo.demo.Repos.UserRepo;
-import com.fasterxml.jackson.databind.exc.InvalidTypeIdException;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 public class MealHandler {
     private MealRepo mealRepo;
@@ -28,17 +26,10 @@ public class MealHandler {
         this.userRepo = userRepo;
         this.dailyInfoRepo = dailyInfoRepo;
         this.mealRepo = mealRepo;
-
     }
 
-
-    public Meal saveMealFromLink(String link, String email) throws IOException, JSONException, IllegalAccessException {
-        User user = this.userRepo.findByEmail(email).get();
-        String userId = user.getUserId();
-
-        System.out.println("before the first api call");
+    public Meal saveMealFromLink(String link, String userId) throws IOException, JSONException, IllegalAccessException {
         URL url = new URL("https://api.spoonacular.com/recipes/extract?apiKey=5ccdaac983d344338fe187bb2b7e5501&url=" + link);
-        System.out.println("after the first api call");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Content-type", "application/json");
@@ -75,7 +66,6 @@ public class MealHandler {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date currentDate = new Date(System.currentTimeMillis());
         String date = formatter.format(currentDate);
-        System.out.println("Date: " + date);
         addToDate(date, meal);
 
         return meal;
@@ -99,7 +89,6 @@ public class MealHandler {
         }
         dailyInfo.addMeal(meal.getId());
         this.dailyInfoRepo.save(dailyInfo);
-
     }
 
     public List<Meal> display() {

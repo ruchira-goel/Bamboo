@@ -52,13 +52,10 @@ public class UserHandler {
         User newUser = new User(email, passwordEncoder.encode(password));
         newUser.setName(name);
         return this.userRepo.save(newUser);
-
     }
 
-
-    public User getCharacteristics(String email) throws IllegalAccessException {
-        email = email.substring(1,email.length()-1);
-        Optional<User> user = this.userRepo.findByEmail(email);
+    public User getCharacteristics(String userId) throws IllegalAccessException {
+        Optional<User> user = this.userRepo.findByUserId(userId);
         if (!user.isPresent()) {
             throw new IllegalAccessException("There was an error locating your account, please try signing up again");
         }
@@ -66,8 +63,8 @@ public class UserHandler {
         return userObj;
     }
 
-    public User addDailyInfo(String email, DailyInfo dailyInfo) throws IllegalAccessException {
-        Optional<User> user = this.userRepo.findByEmail(email);
+    public User addDailyInfo(String userId, DailyInfo dailyInfo) throws IllegalAccessException {
+        Optional<User> user = this.userRepo.findByUserId(userId);
         if (!user.isPresent()) {
             throw new IllegalAccessException("There was an error locating your account, please try signing up again");
         }
@@ -78,9 +75,8 @@ public class UserHandler {
     }
 
     //new user add characteristics
-    public User addCharacteristics(String email, double height, double weight, int age, Sex sex) throws IllegalAccessException {
-        email = email.substring(1,email.length()-1);
-        Optional<User> user = this.userRepo.findByEmail(email);
+    public User addCharacteristics(String userId, double height, double weight, int age, Sex sex) throws IllegalAccessException {
+        Optional<User> user = this.userRepo.findByUserId(userId);
         if (!user.isPresent()) {
             throw new IllegalAccessException("There was an error locating your account, please try signing up again");
         }
@@ -101,24 +97,8 @@ public class UserHandler {
         this.userRepo.deleteAll();
     }
 
-//    public User addActivity(String email, String id, String type, int calories, int minutes, Date date) throws IllegalAccessException {
-//        Optional<User> user = this.userRepo.findByEmail(email);
-//        if (!user.isPresent()) {
-//            throw new IllegalAccessException("There was an error locating your account, please try signing in again");
-//        }
-//        User userObj = user.get();
-//        String dailyInfoId = userObj.getDailyInfo().get(date);
-//        Optional<DailyInfo> dailyInfo = this.dailyInfoRepo.findById(dailyInfoId);
-//        DailyInfo dailyInfoObj = dailyInfo.get();
-//        Activity activity = new Activity(id, type, calories, minutes, date);
-//        dailyInfoObj.getActivities().add(activity.getId());
-//        this.userRepo.save(userObj);
-//        this.dailyInfoRepo.save(dailyInfoObj);
-//        return userObj;
-//    }
-
-    public User changePass(String email, String encryptedPassword) {
-        User user =  userRepo.findByEmail(email).get();
+    public User changePass(String userId, String encryptedPassword) {
+        User user =  userRepo.findUserByUserId(userId);
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         user.setEncryptedPassword(passwordEncoder.encode(encryptedPassword));
         return this.userRepo.save(user);
@@ -133,6 +113,6 @@ public class UserHandler {
         return mealRepo.findAllByUserId(userId).isEmpty() &&
                 dailyInfoRepo.findAllByUserId(userId).isEmpty() &&
                 dailyInfoRepo.findAllByUserId(userId).isEmpty() &&
-                userRepo.findByUserId(userId) == null;
+                userRepo.findUserByUserId(userId) == null;
     }
 }

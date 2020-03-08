@@ -22,21 +22,15 @@ public class ActivityHandler {
         this.userRepo = userRepo;
         this.dailyInfoRepo = dailyInfoRepo;
         this.activityRepo = activityRepo;
-
     }
 
-
-    public Activity saveActivity(String email, String activityName, int time, int calories) throws IOException, JSONException {
-        User user = this.userRepo.findByEmail(email).get();
-        String userId = user.getUserId();
-
+    public Activity saveActivity(String userId, String activityName, int time, int calories) throws JSONException {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date currentDate = new Date(System.currentTimeMillis());
         String date = formatter.format(currentDate);
         Activity activity = new Activity(userId, activityName, calories, time);
         this.activityRepo.save(activity);
 
-        System.out.println("Date: " + date);
         addToDate(date, activity);
 
         return activity;

@@ -52,15 +52,13 @@ export default class HomeScreen extends React.Component {
 
   render() {
     const {route} = this.props;
-    const {email} = route.params;
-    //let usEmail = email.substring(1, email.length - 1);
-    console.log('usEmail: ' + email);
+    const {userId} = route.params;
     return (
       <View style={styles.heading}>
         <TouchableOpacity
           onPress={() =>
             this.props.navigation.navigate('MealInput', {
-              email: email,
+              userId: userId,
             })
           }
           style={styles.btnStyle}>
@@ -74,7 +72,7 @@ export default class HomeScreen extends React.Component {
         <TouchableOpacity
           onPress={() =>
             this.props.navigation.navigate('HealthProfile', {
-              email: email,
+              userId: userId,
             })
           }
           style={styles.btnStyle}>
@@ -84,7 +82,7 @@ export default class HomeScreen extends React.Component {
         <TouchableOpacity
           onPress={() =>
             this.props.navigation.navigate('ExerciseInput', {
-              email: email,
+              userId: userId,
             })
           }
           style={styles.btnStyle}>
@@ -94,7 +92,7 @@ export default class HomeScreen extends React.Component {
         <TouchableOpacity
           onPress={() =>
             this.props.navigation.navigate('ChangePass', {
-              email: email,
+              userId: userId,
             })
           }
           style={styles.btnStyle}>

@@ -23,8 +23,8 @@ public class MealController {
 
     @RequestMapping("/Meal/infoFromLink")          //meal info from link
     public Meal infoFromLink(@RequestParam(value = "link") String link,
-                             @RequestParam(value = "email") String email) throws IOException, IllegalAccessException {
-        return mealHandler.saveMealFromLink(link, email);
+                             @RequestParam(value = "userId") String userId) throws IOException, IllegalAccessException {
+        return mealHandler.saveMealFromLink(link, userId);
     }
 
     @RequestMapping("/Meal/all")

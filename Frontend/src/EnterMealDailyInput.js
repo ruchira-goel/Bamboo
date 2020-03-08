@@ -22,9 +22,8 @@ export default class EnterMealDailyInput extends React.Component {
   addMeal = () => {
     const {pickerSelection, mealInfo} = this.state;
     const {route} = this.props;
-    const {email} = route.params;
-    console.log('Email: ' + email + ' Link: ' + mealInfo);
-    //let usEmail = email.substring(1, email.length - 1);
+    const {userId} = route.params;
+    console.log('id: ' + userId + ' Link: ' + mealInfo);
     if (!mealInfo) {
       Alert.alert('Meal Information Empty', 'Please enter meal information.', [
         {text: 'OK'},
@@ -34,8 +33,8 @@ export default class EnterMealDailyInput extends React.Component {
     if (pickerSelection === 'Enter link') {
       fetch(
         Platform.OS === 'android'
-          ? `http://10.0.2.2:8080/Meal/infoFromLink?link=${mealInfo}&email=${email}`
-          : `http://localhost:8080/Meal/infoFromLink?link=${mealInfo}&email=${email}`,
+          ? `http://10.0.2.2:8080/Meal/infoFromLink?link=${mealInfo}&userId=${userId}`
+          : `http://localhost:8080/Meal/infoFromLink?link=${mealInfo}&userId=${userId}`,
       )
         .then(res => res.json())
         .then(data => {
@@ -46,13 +45,6 @@ export default class EnterMealDailyInput extends React.Component {
               'Unable to load recipe information for the given link, please try a different link.',
               [{text: 'OK'}],
             );
-
-            //throwing error when login fails - wrong password / email not registered yet
-            // if (data.message === "This email isn't registered yet") {
-            //   Alert.alert('Not registered', data.message, [{text: 'OK'}]);
-            // } else if (data.message === 'You entered the wrong password!') {
-            //   Alert.alert('Incorrect password', data.message, [{text: 'OK'}]);
-            // }
           } else {
             Alert.alert('Meal Added', data.name + ' successfully added!', [
               {text: 'OK'},
@@ -69,7 +61,6 @@ export default class EnterMealDailyInput extends React.Component {
 
   render() {
     const {route} = this.props;
-    const {email} = route.params;
     const {pickerSelection} = this.state;
     return (
       <View style={styles.heading}>

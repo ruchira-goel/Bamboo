@@ -13,7 +13,6 @@ export default class ChangePass extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
       pass: '',
       encryptedPassword: '',
     };
@@ -21,8 +20,7 @@ export default class ChangePass extends React.Component {
 
   login = () => {
     const {route} = this.props;
-    const {email} = route.params;
-    this.setState({email: email});
+    const {userId} = route.params;
     const {encryptedPassword, pass} = this.state;
     if (!pass) {
       Alert.alert('Password Empty', 'Please enter a password.', [{text: 'OK'}]);
@@ -53,19 +51,18 @@ export default class ChangePass extends React.Component {
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/changePass?email=${email}&encryptedPassword=${encryptedPassword}`
-        : `http://localhost:8080/User/changePass?email=${email}&encryptedPassword=${encryptedPassword}`,
+        ? `http://10.0.2.2:8080/User/changePass?userId=${userId}&encryptedPassword=${encryptedPassword}`
+        : `http://localhost:8080/User/changePass?userId=${userId}&encryptedPassword=${encryptedPassword}`,
     )
       .then(res => res.json())
       .then(data => {
         console.log(data);
         if (data.error) {
-          //throwing error when login fails - wrong password / email not registered yet
-          if (data.message === "This email isn't registered yet") {
-            Alert.alert('Not registered', data.message, [{text: 'OK'}]);
-          } else if (data.message === 'You entered the wrong password!') {
-            Alert.alert('Incorrect password', data.message, [{text: 'OK'}]);
-          }
+          Alert.alert(
+            'Error',
+            'Something went wrong, please try again later.',
+            [{text: 'OK'}],
+          );
         } else {
           Alert.alert('Password Changed', 'Your password has been changed!', [
             {text: 'OK'},
@@ -84,7 +81,7 @@ export default class ChangePass extends React.Component {
           autoCapitalize="none"
           placeholder="Enter password"
           secureTextEntry={true}
-          onChangeText={pass => this.setState({pass})} //setting the email when user enters it
+          onChangeText={pass => this.setState({pass})} //setting the password when user enters it
         />
         <View style={{padding: '3%'}} />
         <TextInput
@@ -92,7 +89,7 @@ export default class ChangePass extends React.Component {
           autoCapitalize="none"
           placeholder="Enter password again"
           secureTextEntry={true}
-          onChangeText={encryptedPassword => this.setState({encryptedPassword})} //setting the password when user enters it, not encrypted yet
+          onChangeText={encryptedPassword => this.setState({encryptedPassword})} //setting the confirm password when user enters it, not encrypted yet
         />
         <View style={{padding: '3%'}} />
         <View style={styles.spacingSmall} />
