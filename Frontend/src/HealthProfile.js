@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   Platform,
+  Switch,
 } from 'react-native';
 import BUTTONS from './styles/buttons';
 
@@ -66,7 +67,7 @@ export default class HealthProfile extends Component {
   }
 
   onSave = () => {
-    let {height, weight, age, sex, feet, inches} = this.state;
+    let {height, weight, age, sex, feet, inches, isMetric} = this.state;
     const {route} = this.props;
     const {email} = route.params;
     const stringMethod = String(email);
@@ -96,10 +97,10 @@ export default class HealthProfile extends Component {
       Platform.OS === 'android'
         ? `http://10.0.2.2:8080/User/addCharacteristics?email=${JSON.stringify(
             email,
-          )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`
+          )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&isMetric=${isMetric}`
         : `http://localhost:8080/User/addCharacteristics?email=${JSON.stringify(
             email,
-          )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
+          )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&isMetric=${isMetric}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -133,6 +134,18 @@ export default class HealthProfile extends Component {
       });
     }
   };
+
+  toggleSwitch = value => {
+    this.setState({isMetric: value});
+  };
+
+  weightMetricToImperial() {
+    return this.state.weight * 2.20462;
+  }
+
+  weightImperialToMetric(weight) {
+    return weight * 0.4535922;
+  }
 
   render() {
     let {height, weight, age, sex, feet, inches, isMetric} = this.state;
@@ -184,12 +197,14 @@ export default class HealthProfile extends Component {
                   styles.text,
                   {width: 80},
                 ]}
-                defaultValue={weight}
+                defaultValue={this.state.isMetric ? weight : this.weightMetricToImperial().toString()}
                 placeholderTextColor="#000000"
                 editable={this.state.editable}
                 maxLength={20}
               />
-              <Text style={[styles.text, {padding: 2}]}>kg</Text>
+              <Text style={[styles.text, {padding: 2}]}>
+                {this.state.isMetric ? 'kg' : 'lb'}
+              </Text>
             </View>
             <View style={styles.inputContainer}>
               <Text style={[styles.text, {padding: 2}]}>Age:</Text>
@@ -222,6 +237,17 @@ export default class HealthProfile extends Component {
                 placeholderTextColor="#000000"
                 editable={this.state.editable}
                 maxLength={20}
+              />
+            </View>
+
+            <View style={styles.inputContainer}>
+              <Text style={[styles.text, {padding: 2}]}>
+                {this.state.isMetric ? 'Metric' : 'Imperial'}
+              </Text>
+              <Switch
+                style={styles.switch}
+                onValueChange={this.toggleSwitch}
+                value={this.state.isMetric}
               />
             </View>
           </ScrollView>

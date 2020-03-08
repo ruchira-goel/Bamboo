@@ -23,11 +23,20 @@ public class User {
     private HashMap<String, String> dailyInfo;    //String is id of the daily info obj
     private String saveMeals[];
     private String savedExerciseRoutine[];
+    private boolean isMetric;
 
     public User(String email, String encryptedPassword) {
         this.email = email;
         this.encryptedPassword = encryptedPassword;
         this.dailyInfo  =  new HashMap<>();
+    }
+
+    public boolean isMetric() {
+        return isMetric;
+    }
+
+    public void setMetric(boolean metric) {
+        isMetric = metric;
     }
 
     public HashMap<String, String> getDailyInfo() {

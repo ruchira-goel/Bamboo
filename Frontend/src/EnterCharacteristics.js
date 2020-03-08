@@ -86,10 +86,12 @@ export default class EnterCharacteristics extends React.Component {
       Platform.OS === 'android'
         ? `http://10.0.2.2:8080/User/addCharacteristics?email=${JSON.stringify(
             email,
-          )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`
+          )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&isMetric=${!this
+            .state.switchValue}`
         : `http://localhost:8080/User/addCharacteristics?email=${JSON.stringify(
             email,
-          )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
+          )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&isMetric=${!this
+            .state.switchValue}`,
     )
       .then(res => res.json())
       .then(data => {

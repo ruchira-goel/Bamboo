@@ -44,7 +44,8 @@ public class UserController {
                                    @RequestParam(value = "height") double height,
                                    @RequestParam(value = "weight") double weight,
                                    @RequestParam(value = "age") int age,
-                                   @RequestParam(value = "sex") String sex) throws IllegalAccessException {
+                                   @RequestParam(value = "sex") String sex,
+                                   @RequestParam (value = "isMetric") boolean isMetric) throws IllegalAccessException {
         System.out.println("email is " + email);
         Sex sexEnum = Sex.OTHER;
         switch (sex) {
@@ -62,7 +63,7 @@ public class UserController {
                 break;
 
         }
-        return userHandler.addCharacteristics(email, height, weight, age, sexEnum);
+        return userHandler.addCharacteristics(email, height, weight, age, sexEnum, isMetric);
     }
 
     @RequestMapping("/User/all")

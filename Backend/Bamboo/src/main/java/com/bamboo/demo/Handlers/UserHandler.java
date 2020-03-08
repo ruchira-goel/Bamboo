@@ -78,7 +78,7 @@ public class UserHandler {
     }
 
     //new user add characteristics
-    public User addCharacteristics(String email, double height, double weight, int age, Sex sex) throws IllegalAccessException {
+    public User addCharacteristics(String email, double height, double weight, int age, Sex sex, boolean isMetric) throws IllegalAccessException {
         email = email.substring(1,email.length()-1);
         Optional<User> user = this.userRepo.findByEmail(email);
         if (!user.isPresent()) {
@@ -89,6 +89,8 @@ public class UserHandler {
         userObj.setWeight(weight);
         userObj.setAge(age);
         userObj.setSex(sex);
+        userObj.setMetric(isMetric);
+        System.out.println("The ismetric is " + isMetric);
         this.userRepo.save(userObj);
         return userObj;
     }
