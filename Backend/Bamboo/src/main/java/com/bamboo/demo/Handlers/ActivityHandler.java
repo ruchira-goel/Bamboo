@@ -35,7 +35,8 @@ public class ActivityHandler {
 
         Activity activity = new Activity(userId, activityName, calories, time);
         double MET = findMET(activity, distance);
-        int newCalories = (int) (MET * user.getWeight());
+        int newCalories = (int) Math.round(MET * user.getWeight() * time / 60);
+
         activity.setCalories(newCalories);
         this.activityRepo.save(activity);
 
@@ -48,6 +49,7 @@ public class ActivityHandler {
     public double findMET(Activity activity, double distance) {
         //HashMap<String, Double> MET = activity.getMETValues();
         if (activity.getType().equalsIgnoreCase("running")) {
+            System.out.println("Activity = running");
             double[] runningSpeeds = {4.0, 5.0, 5.2, 6.0, 6.7, 7.0, 7.5, 8, 8.6, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0};
             // distance matters
             // speed = mph
@@ -58,12 +60,16 @@ public class ActivityHandler {
                 for (double runningSpeed : runningSpeeds) {
                     if (speed <= runningSpeed) {
                         speed = runningSpeed;
+                        break;
                     }
                 }
             }
+            System.out.println("Speed " + speed);
             double MET = 0.0;
-            if (activity.getMETValues().containsKey(activity.getType().toLowerCase() + " " + String.format("%.2f",speed))) {
-                MET = activity.getMETValues().get(activity.getType().toLowerCase() + " " + String.format("%.2f",speed));
+            System.out.println(activity.getType().toLowerCase() + " " + (String.format("%.1f",speed)).replace('.','-'));
+            if (activity.getMETValues().containsKey(activity.getType().toLowerCase() + " " + (String.format("%.1f",speed)).replace('.','-'))) {
+                System.out.println("Database has this value " + (String.format("%.1f",speed)).replace('.','-'));
+                MET = activity.getMETValues().get(activity.getType().toLowerCase() + " " + (String.format("%.1f",speed)).replace('.','-'));
             }
             return MET;
         } else {
