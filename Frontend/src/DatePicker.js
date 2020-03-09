@@ -39,14 +39,14 @@ export default DatePicker;
 const styles = StyleSheet.create({
   button: {
     borderWidth: 1,
-    borderRadius: 20,
-    borderColor: COLORS.secondaryColor,
-    backgroundColor: COLORS.secondaryColor,
-    padding: 10,
+    borderRadius: 8,
+    borderColor: '#000',
+    backgroundColor: COLORS.primaryColor,
+    padding: 2,
   },
   text: {
-    color: '#FFFFFF',
+    // color: '#FFFFFF',
     fontSize: 16,
-    textAlign: 'center',
+    // textAlign: 'center',
   },
 });
