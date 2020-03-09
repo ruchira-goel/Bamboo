@@ -17,6 +17,7 @@ import BUTTONS from './styles/buttons';
 // TODO:
 // 1. add new exercise
 // 2. choose from prev/existing exercise
+// 3. make distance only appear for running
 
 export default class ExerciseInput extends Component {
   constructor(props) {
@@ -27,7 +28,7 @@ export default class ExerciseInput extends Component {
       date: '',
       hours: '',
       minutes: '',
-      calories: '',
+      distance: '',
       activityList: [
         {
           value: 'temp',
@@ -288,7 +289,7 @@ export default class ExerciseInput extends Component {
               style={{
                 width: '50%',
                 justifyContent: 'center',
-                alignItems: 'center',
+                alignItems: 'flex-start',
               }}>
               <Text style={[styles.text]}>Date:</Text>
             </View>
@@ -296,7 +297,7 @@ export default class ExerciseInput extends Component {
               style={{
                 width: '50%',
                 justifyContent: 'center',
-                alignItems: 'center',
+                alignItems: 'flex-end',
               }}>
               <DatePicker />
             </View>
@@ -306,25 +307,58 @@ export default class ExerciseInput extends Component {
               style={{
                 width: '50%',
                 justifyContent: 'center',
-                alignItems: 'center',
+                alignItems: 'flex-start',
               }}>
               <Text style={[styles.text]}>Duration:</Text>
             </View>
-            <TextInput
-              onChangeText={hours => this.setState({hours})}
-              style={[styles.textInput, {width: '25%'}]}
-              keyboardType={'numeric'}
-              placeholder="hh"
-              maxLength={2}
-            />
-            <Text style={{fontSize: 18}}>:</Text>
-            <TextInput
-              onChangeText={minutes => this.setState({minutes})}
-              style={[styles.textInput, {width: '25%'}]}
-              keyboardType={'numeric'}
-              placeholder="mm"
-              maxLength={2}
-            />
+            <View
+              style={{
+                width: '50%',
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+                flexDirection: 'row',
+              }}>
+              <TextInput
+                onChangeText={hours => this.setState({hours})}
+                style={[styles.textInput, {width: 40}]}
+                keyboardType={'numeric'}
+                placeholder="hh"
+                maxLength={2}
+              />
+              <Text style={styles.text}>:</Text>
+              <TextInput
+                onChangeText={minutes => this.setState({minutes})}
+                style={[styles.textInput, {width: 40}]}
+                keyboardType={'numeric'}
+                placeholder="mm"
+                maxLength={2}
+              />
+            </View>
+          </View>
+          <View style={styles.inputContainer}>
+            <View
+              style={{
+                width: '50%',
+                justifyContent: 'center',
+                alignItems: 'flex-start',
+              }}>
+              <Text style={[styles.text]}>Distance:</Text>
+            </View>
+            <View
+              style={{
+                width: '50%',
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+                flexDirection: 'row',
+              }}>
+              <TextInput
+                onChangeText={distance => this.setState({distance})}
+                style={[styles.textInput, {width: 40}]}
+                keyboardType={'numeric'}
+                maxLength={10}
+              />
+              <Text style={styles.text}>km</Text>
+            </View>
           </View>
         </ScrollView>
         <TouchableOpacity
@@ -347,7 +381,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   textInput: {
-    borderBottomWidth: 2,
+    borderBottomWidth: 1,
+    borderBottomColor: '#d3d3d3',
+    fontSize: 16,
+    textAlign: 'center',
   },
   inputContainer: {
     flexDirection: 'row',
@@ -355,10 +392,9 @@ const styles = StyleSheet.create({
     width: '50%',
     paddingTop: 35,
     left: '25%',
-    // width: '100%',
   },
   text: {
-    // fontSize: 20,
+    fontSize: 16,
     // width: 100,
   },
   button: {

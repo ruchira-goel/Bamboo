@@ -38,15 +38,15 @@ export default DatePicker;
 
 const styles = StyleSheet.create({
   button: {
-    // borderWidth: 1,
-    // borderRadius: 20,
-    // borderColor: COLORS.secondaryColor,
-    // backgroundColor: COLORS.secondaryColor,
-    // padding: 10,
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: '#000',
+    backgroundColor: COLORS.primaryColor,
+    padding: 2,
   },
   text: {
     // color: '#FFFFFF',
-    // fontSize: 16,
+    fontSize: 16,
     // textAlign: 'center',
   },
 });
