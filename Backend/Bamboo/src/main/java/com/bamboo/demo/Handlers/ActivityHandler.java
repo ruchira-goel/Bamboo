@@ -24,7 +24,7 @@ public class ActivityHandler {
         this.activityRepo = activityRepo;
     }
 
-    // Distance is in miles, time is in minutes
+    // Distance is in km, time is in minutes
     public Activity saveActivity(String email, String activityName, int time, int calories, double distance) throws IOException, JSONException {
         User user = this.userRepo.findByEmail(email).get();
         String userId = user.getUserId();
@@ -51,7 +51,7 @@ public class ActivityHandler {
             double[] runningSpeeds = {4.0, 5.0, 5.2, 6.0, 6.7, 7.0, 7.5, 8, 8.6, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0};
             // distance matters
             // speed = mph
-            double speed = distance / (activity.getMinutes() / 60.0);
+            double speed = (distance * 0.621371) / (activity.getMinutes() / 60.0);
             if (speed > runningSpeeds[runningSpeeds.length - 1]) {
                 speed = runningSpeeds[runningSpeeds.length - 1];
             } else {

@@ -25,14 +25,14 @@ public class Activity {
     }
 
     public void initMET() {
-        METValues.put("bicycling", 7.5);
-        METValues.put("bicycling stationary", 7.0);
-        METValues.put("elliptical", 5.0);
-        METValues.put("rope skipping", 11.0);
-        METValues.put("stair treadmill", 9.0);
+        METValues.put("general", 7.5);
+        METValues.put("stationary bicycling", 7.0);
+        METValues.put("elliptical trainer", 5.0);
+        METValues.put("jump rope", 11.0);
+        METValues.put("weight training", 5.0);
         METValues.put("pilates", 3.0);
         METValues.put("rowing", 6.0);
-        METValues.put("aerobics", 7.3);
+        METValues.put("aerobic", 7.3);
         METValues.put("jogging", 7.0);
         METValues.put("running 4.0", 6.0);
         METValues.put("running 5.0", 8.3);
@@ -54,8 +54,9 @@ public class Activity {
         METValues.put("badminton", 5.5);
         METValues.put("football", 8.0);
         METValues.put("golf", 4.8);
+        METValues.put("ping pong", 4.0);
         METValues.put("soccer", 7.0);
-        METValues.put("softball", 5.0);
+        METValues.put("baseball/softball", 5.0);
         METValues.put("tennis", 7.3);
         METValues.put("volleyball", 3.0);
         METValues.put("wrestling", 6.0);
