@@ -15,9 +15,7 @@ import {Dropdown} from 'react-native-material-dropdown';
 import BUTTONS from './styles/buttons';
 
 // TODO:
-// 1. add new exercise
 // 2. choose from prev/existing exercise
-// 3. make distance only appear for running
 
 export default class ExerciseInput extends Component {
   constructor(props) {
@@ -29,6 +27,7 @@ export default class ExerciseInput extends Component {
       hours: '',
       minutes: '',
       distance: '',
+      showDistance: false,
       activityList: [
         {
           value: 'temp',
@@ -157,6 +156,14 @@ export default class ExerciseInput extends Component {
     }
   }
 
+  setDistanceVisibility(activity) {
+    if (activity === 'Running') {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   isInvalid(str) {
     return /[-,_.]/g.test(str);
   }
@@ -281,6 +288,9 @@ export default class ExerciseInput extends Component {
               data={this.state.activityList}
               onChangeText={value => {
                 this.setState({activity: value});
+                this.setState({
+                  showDistance: this.setDistanceVisibility(this.state.activity),
+                });
               }}
             />
           </View>
@@ -335,31 +345,33 @@ export default class ExerciseInput extends Component {
               />
             </View>
           </View>
-          <View style={styles.inputContainer}>
-            <View
-              style={{
-                width: '50%',
-                justifyContent: 'center',
-                alignItems: 'flex-start',
-              }}>
-              <Text style={[styles.text]}>Distance:</Text>
+          {this.state.showDistance && (
+            <View style={styles.inputContainer}>
+              <View
+                style={{
+                  width: '50%',
+                  justifyContent: 'center',
+                  alignItems: 'flex-start',
+                }}>
+                <Text style={[styles.text]}>Distance:</Text>
+              </View>
+              <View
+                style={{
+                  width: '50%',
+                  justifyContent: 'flex-end',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                }}>
+                <TextInput
+                  onChangeText={distance => this.setState({distance})}
+                  style={[styles.textInput, {width: 40}]}
+                  keyboardType={'numeric'}
+                  maxLength={10}
+                />
+                <Text style={styles.text}>km</Text>
+              </View>
             </View>
-            <View
-              style={{
-                width: '50%',
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-                flexDirection: 'row',
-              }}>
-              <TextInput
-                onChangeText={distance => this.setState({distance})}
-                style={[styles.textInput, {width: 40}]}
-                keyboardType={'numeric'}
-                maxLength={10}
-              />
-              <Text style={styles.text}>km</Text>
-            </View>
-          </View>
+          )}
         </ScrollView>
         <TouchableOpacity
           style={BUTTONS.primaryButton}
