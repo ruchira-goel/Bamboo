@@ -25,7 +25,7 @@ public class ActivityHandler {
     }
 
     // Distance is in km, time is in minutes
-    public Activity saveActivity(String email, String activityName, int time, int calories, double distance) throws IOException, JSONException {
+    public Activity saveActivity(String email, String activityName, int time, double distance) throws IOException, JSONException {
         User user = this.userRepo.findByEmail(email).get();
         String userId = user.getUserId();
 
@@ -33,7 +33,7 @@ public class ActivityHandler {
         Date currentDate = new Date(System.currentTimeMillis());
         String date = formatter.format(currentDate);
 
-        Activity activity = new Activity(userId, activityName, calories, time);
+        Activity activity = new Activity(userId, activityName, time);
         double MET = findMET(activity, distance);
         int newCalories = (int) Math.round(MET * user.getWeight() * time / 60);
 

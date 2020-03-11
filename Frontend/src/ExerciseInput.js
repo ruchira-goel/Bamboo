@@ -162,7 +162,7 @@ export default class ExerciseInput extends Component {
   }
 
   addExercise = () => {
-    const {activity, date, hours, minutes, calories} = this.state;
+    const {activity, date, hours, minutes, distance} = this.state;
     const {route} = this.props;
     const {email} = route.params;
     //let usEmail = email.substring(1, email.length - 1);
@@ -170,6 +170,7 @@ export default class ExerciseInput extends Component {
       Alert.alert('Activity Empty', 'Please enter activity information.', [
         {text: 'OK'},
       ]);
+      Alert.alert('This is activity', activity, [{text: 'OK'}]);
       return;
     }
     if (!hours) {
@@ -184,10 +185,8 @@ export default class ExerciseInput extends Component {
       ]);
       return;
     }
-    if (!calories) {
-      Alert.alert('Calories Empty', 'Please enter calories information.', [
-        {text: 'OK'},
-      ]);
+    if (!distance) {
+      Alert.alert('Distance Empty', 'Please enter distance.', [{text: 'OK'}]);
       return;
     }
     if (hours < 0 || this.isInvalid(hours)) {
@@ -202,18 +201,16 @@ export default class ExerciseInput extends Component {
       ]);
       return;
     }
-    if (calories <= 0 || this.isInvalid(calories)) {
-      Alert.alert(
-        'Invalid calories',
-        'Please enter a valid number of calories.',
-        [{text: 'OK'}],
-      );
+    if (distance <= 0 || this.isInvalid(distance)) {
+      Alert.alert('Invalid distance', 'Please enter a valid positive number.', [
+        {text: 'OK'},
+      ]);
       return;
     }
 
-    const timeInMinutes = hours * 60 + minutes;
+    const timeInMinutes = parseFloat(hours) * 60 + parseFloat(minutes);
 
-    if (timeInMinutes == 0) {
+    if (timeInMinutes === 0) {
       Alert.alert('Invalid time', 'Please enter a valid duration.', [
         {text: 'OK'},
       ]);
@@ -222,8 +219,8 @@ export default class ExerciseInput extends Component {
 
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Activity/saveActivity?&email=${email}&activityName=${activity}&time=${timeInMinutes}&calories=${calories}`
-        : `http://localhost:8080/Activity/saveActivity?&email=${email}&activityName=${activity}&time=${timeInMinutes}&calories=${calories}`,
+        ? `http://10.0.2.2:8080/Activity/saveActivity?&email=${email}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}`
+        : `http://localhost:8080/Activity/saveActivity?&email=${email}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -282,6 +279,9 @@ export default class ExerciseInput extends Component {
               label="Activity"
               disabled={this.state.activityDisabled}
               data={this.state.activityList}
+              onChangeText={value => {
+                this.setState({activity: value});
+              }}
             />
           </View>
           <View style={styles.inputContainer}>

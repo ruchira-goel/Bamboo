@@ -25,9 +25,8 @@ public class ActivityController {
     public Activity saveActivity(@RequestParam(value = "email") String email,
                                  @RequestParam(value = "activityName") String activityName,
                                  @RequestParam(value = "time") int time,
-                                 @RequestParam(value = "calories") int calories,
                                  @RequestParam(value = "distance") double distance) throws IOException {
-        return activityHandler.saveActivity(email, activityName, time, calories, distance);
+        return activityHandler.saveActivity(email, activityName, time, distance);
     }
 
     @RequestMapping("/Activity/all")
