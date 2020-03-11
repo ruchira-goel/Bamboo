@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,10 +9,12 @@ import {
   Alert,
   Platform,
 } from 'react-native';
-import DatePicker from './DatePicker';
+// import DatePicker from './DatePicker';
 import {Dropdown} from 'react-native-material-dropdown';
 
 import BUTTONS from './styles/buttons';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import COLORS from './styles/colors';
 
 // TODO:
 // 2. choose from prev/existing exercise
@@ -26,7 +28,7 @@ export default class ExerciseInput extends Component {
       date: '',
       hours: '',
       minutes: '',
-      distance: '',
+      distance: 0,
       showDistance: false,
       activityList: [
         {
@@ -192,7 +194,7 @@ export default class ExerciseInput extends Component {
       ]);
       return;
     }
-    if (!distance) {
+    if (this.state.showDistance && !distance) {
       Alert.alert('Distance Empty', 'Please enter distance.', [{text: 'OK'}]);
       return;
     }
@@ -208,7 +210,10 @@ export default class ExerciseInput extends Component {
       ]);
       return;
     }
-    if (distance <= 0 || this.isInvalid(distance)) {
+    if (
+      this.state.showDistance &&
+      (distance <= 0 || this.isInvalid(distance))
+    ) {
       Alert.alert('Invalid distance', 'Please enter a valid positive number.', [
         {text: 'OK'},
       ]);
@@ -226,8 +231,8 @@ export default class ExerciseInput extends Component {
 
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Activity/saveActivity?&email=${email}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}`
-        : `http://localhost:8080/Activity/saveActivity?&email=${email}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}`,
+        ? `http://10.0.2.2:8080/Activity/saveActivity?&email=${email}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`
+        : `http://localhost:8080/Activity/saveActivity?&email=${email}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -247,6 +252,42 @@ export default class ExerciseInput extends Component {
   };
 
   render() {
+    const DatePicker = () => {
+      const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+      const showDatePicker = () => {
+        setDatePickerVisibility(true);
+      };
+
+      const hideDatePicker = () => {
+        setDatePickerVisibility(false);
+      };
+
+      const handleConfirm = date => {
+        // Alert.alert('A date has been picked', date + ' is the picked date', [
+        //   {text: 'OK'},
+        // ]);
+        this.setState({
+          date: date,
+        });
+        hideDatePicker();
+      };
+
+      return (
+        <View>
+          <TouchableOpacity style={styles.button} onPress={showDatePicker}>
+            <Text style={styles.text}>Select Date</Text>
+          </TouchableOpacity>
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
+          />
+        </View>
+      );
+    };
+
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -410,6 +451,10 @@ const styles = StyleSheet.create({
     // width: 100,
   },
   button: {
-    // margin: 0,
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: '#000',
+    backgroundColor: COLORS.primaryColor,
+    padding: 2,
   },
 });

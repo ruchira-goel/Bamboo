@@ -25,13 +25,17 @@ public class ActivityHandler {
     }
 
     // Distance is in km, time is in minutes
-    public Activity saveActivity(String email, String activityName, int time, double distance) throws IOException, JSONException {
+    public Activity saveActivity(String email, String activityName, int time, double distance, Date date) throws IOException, JSONException {
         User user = this.userRepo.findByEmail(email).get();
         String userId = user.getUserId();
 
+//        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+//        Date currentDate = new Date(System.currentTimeMillis());
+//        String date = formatter.format(currentDate);
+
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date currentDate = new Date(System.currentTimeMillis());
-        String date = formatter.format(currentDate);
+        String dateFormat = formatter.format(date);
 
         Activity activity = new Activity(userId, activityName, time);
         double MET = findMET(activity, distance);
@@ -41,7 +45,7 @@ public class ActivityHandler {
         this.activityRepo.save(activity);
 
         System.out.println("Date: " + date);
-        addToDate(date, activity);
+        addToDate(dateFormat, activity);
 
         return activity;
     }
