@@ -25,8 +25,8 @@ public class ActivityHandler {
     }
 
     // Distance is in km, time is in minutes
-    public Activity saveActivity(String email, String activityName, int time, double distance, Date date) throws IOException, JSONException {
-        User user = this.userRepo.findByEmail(email).get();
+    public Activity saveActivity(String userid, String activityName, int time, double distance, Date date) throws IOException, JSONException {
+        User user = this.userRepo.findById(userid).get();
         String userId = user.getUserId();
 
 //        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -46,6 +46,7 @@ public class ActivityHandler {
 
         System.out.println("Date: " + date);
         addToDate(dateFormat, activity);
+
 
         return activity;
     }

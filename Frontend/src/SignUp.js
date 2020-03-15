@@ -71,7 +71,8 @@ export default class App extends React.Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        //const {userId} = data.userId;
+        //console.log("Data.userid: " + data.userId);
         if (data.error) {
           //throwing error when signup fails - email already registered / invalid password
           if (
@@ -90,6 +91,7 @@ export default class App extends React.Component {
           this.props.navigation.replace('EnterCharacteristics', {
             name: name,
             email: email,
+            userId: data.userId,
             password: password,
           });
         }

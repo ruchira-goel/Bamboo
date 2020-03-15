@@ -1,6 +1,7 @@
 package com.bamboo.demo.Repos;
 
 import com.bamboo.demo.Models.DailyInfo;
+import com.bamboo.demo.Models.Meal;
 import com.bamboo.demo.Models.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -12,4 +13,5 @@ public interface DailyInfoRepo extends MongoRepository<DailyInfo, String> {
     Optional<DailyInfo> findById(String id);
     List<DailyInfo> findAllByUserId(String userId);
     Optional<DailyInfo> findByDateAndAndUserId(Date date, String userId);
+    void deleteAllByUserId(String userId);
 }
