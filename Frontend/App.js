@@ -19,6 +19,7 @@ import EnterCharacteristics from './src/EnterCharacteristics';
 import HealthProfile from './src/HealthProfile';
 import ExerciseInput from './src/ExerciseInput';
 import ChangePass from './src/ChangePass';
+import ViewGoals from './src/ViewGoals.js';
 
 const Stack = createStackNavigator();
 
@@ -58,6 +59,11 @@ function App() {
         <Stack.Screen
           name="ChangePass"
           component={ChangePass}
+          headerShown={'false'}
+        />
+        <Stack.Screen
+          name="ViewGoals"
+          component={ViewGoals}
           headerShown={'false'}
         />
       </Stack.Navigator>

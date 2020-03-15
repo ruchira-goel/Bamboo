@@ -59,6 +59,16 @@ export default class HomeScreen extends React.Component {
           style={styles.btnStyle}>
           <Text>Change Password</Text>
         </TouchableOpacity>
+        <View style={{padding: '2%'}} />
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate('ViewGoals', {
+              email: email,
+            })
+          }
+          style={styles.btnStyle}>
+          <Text>View Goals</Text>
+        </TouchableOpacity>
       </View>
     );
   }
