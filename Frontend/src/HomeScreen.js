@@ -104,6 +104,16 @@ export default class HomeScreen extends React.Component {
           style={styles.btnStyle}>
           <Text>Delete Account</Text>
         </TouchableOpacity>
+        <View style={{padding: '2%'}} />
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate('SetGoal', {
+              userId: userId,
+            })
+          }
+          style={styles.btnStyle}>
+          <Text>Add Goal</Text>
+        </TouchableOpacity>
       </View>
     );
   }

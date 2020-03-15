@@ -17,10 +17,10 @@ export default class SetGoal extends React.Component {
       userId: '',
       goalOptions: [
         {
-          value: 'g of Proteins',
+          value: 'Grams of Protein',
         },
         {
-          value: 'calories',
+          value: 'Calories',
         },
       ],
       isMealGoal: true,
@@ -76,19 +76,28 @@ export default class SetGoal extends React.Component {
       return;
     }
     if (duration === '____') {
-      Alert.alert('Duration Empty', 'Please select aa duration type.', [
+      Alert.alert('Duration Empty', 'Please select a duration type.', [
         {text: 'OK'},
       ]);
       return;
     }
-    if (isMealGoal && !mealOpts.includes({value: trackedItem})) {
-      Alert.alert('Meal Option', 'Please select a meal option', [
-        {text: 'Yes'},
-      ]);
-    } else if (!isMealGoal && !exOpts.includes({value: trackedItem})) {
+    // Second condition taken from user Andy
+    // from https://stackoverflow.com/questions/22844560/check-if-object-value-exists-within-a-javascript-array-of-objects-and-if-not-add
+    if (isMealGoal && !mealOpts.some(value => value.value === trackedItem)) {
+      console.log(trackedItem);
+      Alert.alert('Meal Option', 'Please select a meal option', [{text: 'OK'}]);
+      return;
+    }
+    // Second condition taken from user Andy
+    // from https://stackoverflow.com/questions/22844560/check-if-object-value-exists-within-a-javascript-array-of-objects-and-if-not-add
+    else if (
+      !isMealGoal &&
+      !exOpts.some(value => value.value === trackedItem)
+    ) {
       Alert.alert('Exercise Option', 'Please select an exercise option', [
-        {text: 'Yes'},
+        {text: 'OK'},
       ]);
+      return;
     }
     let type;
     if (isMealGoal) {
@@ -108,7 +117,7 @@ export default class SetGoal extends React.Component {
           //throwing error when login fails - wrong password / email not registered yet
           Alert.alert('Error', data.message, [{text: 'OK'}]);
         } else {
-          //going to home screen
+          Alert.alert('Success', 'Goal successfully saved.', [{text: 'OK'}]);
         }
       });
   };

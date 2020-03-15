@@ -31,7 +31,7 @@ public class GoalController {
     }
 
     @RequestMapping("/Goal/all")
-    public List<Meal> users() {
+    public List<Goal> users() {
         return goalHandler.display();
     }
 
