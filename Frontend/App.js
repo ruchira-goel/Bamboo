@@ -10,7 +10,7 @@ import 'react-native-gesture-handler';
 
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator, HeaderBackground} from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import Login from './src/Login';
 import HomeScreen from './src/HomeScreen';
 import SignUp from './src/SignUp';
@@ -20,6 +20,7 @@ import HealthProfile from './src/HealthProfile';
 import ExerciseInput from './src/ExerciseInput';
 import ChangePass from './src/ChangePass';
 import ViewGoals from './src/ViewGoals.js';
+import SetGoal from './src/SetGoal';
 
 const Stack = createStackNavigator();
 
@@ -61,9 +62,10 @@ function App() {
           component={ChangePass}
           headerShown={'false'}
         />
+        <Stack.Screen name="ViewGoals" component={ViewGoals} />
         <Stack.Screen
-          name="ViewGoals"
-          component={ViewGoals}
+          name="SetGoal"
+          component={SetGoal}
           headerShown={'false'}
         />
       </Stack.Navigator>
@@ -72,76 +74,3 @@ function App() {
 }
 
 export default App;
-
-/*const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-
-import React from 'react';
-import {
-  AppRegistry,
-  Text,
-  View,
-  Animated,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  Platform,
-} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-
-import Constants from 'expo-constants';
-
-import DrawerNav from './src/DrawerNav';
-
-export default class App extends React.Component {
-  render() {
-    return <DrawerNav />;
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#ecf0f1',
-    padding: 8,
-  },
-  paragraph: {
-    margin: 24,
-
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  headerText: {
-    fontSize: 25,
-    textAlign: 'center',
-    margin: 10,
-    color: 'black',
-    fontWeight: 'bold',
-  },
-
-});*/
-//});

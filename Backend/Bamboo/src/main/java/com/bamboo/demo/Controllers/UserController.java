@@ -1,11 +1,15 @@
 package com.bamboo.demo.Controllers;
 
+import com.bamboo.demo.Handlers.ActivityHandler;
 import com.bamboo.demo.Handlers.DIHandler;
+import com.bamboo.demo.Handlers.MealHandler;
 import com.bamboo.demo.Handlers.UserHandler;
 import com.bamboo.demo.Models.DailyInfo;
 import com.bamboo.demo.Models.Sex;
 import com.bamboo.demo.Models.User;
+import com.bamboo.demo.Repos.ActivityRepo;
 import com.bamboo.demo.Repos.DailyInfoRepo;
+import com.bamboo.demo.Repos.MealRepo;
 import com.bamboo.demo.Repos.UserRepo;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,9 +23,11 @@ import java.util.List;
 public class UserController {
     private UserHandler userHandler;
     private DIHandler di;
+    private ActivityHandler activityHandler;
+    private MealHandler mealHandler;
 
-    public UserController(UserRepo userRepo, DailyInfoRepo di) {
-        this.userHandler = new UserHandler(userRepo, di); //Check
+    public UserController(UserRepo userRepo, DailyInfoRepo di, MealRepo mealRepo, ActivityRepo activityRepo) {
+        this.userHandler = new UserHandler(userRepo, di, mealRepo, activityRepo); //Check
         this.di = new DIHandler(di);
 
     }
@@ -40,12 +46,12 @@ public class UserController {
     }
 
     @RequestMapping("/User/addCharacteristics")          //add health characteristics request
-    public User addCharacteristics(@RequestParam(value = "email") String email,
+    public User addCharacteristics(@RequestParam(value = "userId") String userId,
                                    @RequestParam(value = "height") double height,
                                    @RequestParam(value = "weight") double weight,
                                    @RequestParam(value = "age") int age,
                                    @RequestParam(value = "sex") String sex) throws IllegalAccessException {
-        System.out.println("email is " + email);
+        //System.out.println("email is " + email);
         Sex sexEnum = Sex.OTHER;
         switch (sex) {
             case "Female":
@@ -62,7 +68,7 @@ public class UserController {
                 break;
 
         }
-        return userHandler.addCharacteristics(email, height, weight, age, sexEnum);
+        return userHandler.addCharacteristics(userId, height, weight, age, sexEnum);
     }
 
     @RequestMapping("/User/all")
@@ -86,33 +92,25 @@ public class UserController {
     }
 
     @RequestMapping("/User/getCharacteristics")
-    public User getCharacteristics(@RequestParam(value = "email") String email) throws IllegalAccessException {
-        System.out.println("email is " + email);
-        return userHandler.getCharacteristics(email);
+    public User getCharacteristics(@RequestParam(value = "userId") String userId) throws IllegalAccessException {
+        return userHandler.getCharacteristics(userId);
     }
 
     @RequestMapping("/User/addDailyInfo")              // add daily input request
-    public User addDailyInput(@RequestParam(value = "email") String email,
+    public User addDailyInput(@RequestParam(value = "userId") String userId,
                               @RequestParam(value = "dailyInfo") DailyInfo dailyInfo) throws IllegalAccessException {
-        System.out.println("email is " + email);
-        return userHandler.addDailyInfo(email, dailyInfo);
+        return userHandler.addDailyInfo(userId, dailyInfo);
     }
 
-//    @RequestMapping("/User/addActivity")              // add daily input request
-//    public User addActivity(@RequestParam(value = "email") String email,
-//                            @RequestParam(value = "id") String id,
-//                            @RequestParam(value = "type") String type,
-//                            @RequestParam(value = "calories") int calories,
-//                            @RequestParam(value = "minutes") int minutes,
-//                            @RequestParam(value = "date") Date date)throws IllegalAccessException {
-//        System.out.println("email is " + email);
-//        return userHandler.addActivity(email, id, type, calories, minutes, date);
-//    }
+    @RequestMapping("/User/delAccount")
+    public boolean deleteAccount(@RequestParam(value = "userId") String userId) {
+        return this.userHandler.deleteAccount(userId);
+    }
 
 
     @RequestMapping("/User/changePass")          //login request
-    public User changePass(@RequestParam(value = "email") String email,
-                      @RequestParam(value = "encryptedPassword") String encryptedPassword) throws IllegalAccessException {
-        return userHandler.changePass(email, encryptedPassword);
+    public User changePass(@RequestParam(value = "userId") String userId,
+                           @RequestParam(value = "encryptedPassword") String encryptedPassword) throws IllegalAccessException {
+        return userHandler.changePass(userId, encryptedPassword);
     }
 }

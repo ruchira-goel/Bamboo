@@ -49,6 +49,7 @@ export default class Login extends React.Component {
         } else {
           //going to home screen
           this.props.navigation.replace('HomeScreen', {
+            userId: data.userId,
             email: email,
             encryptedPassword: encryptedPassword,
           });
