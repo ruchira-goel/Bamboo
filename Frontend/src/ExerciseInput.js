@@ -173,8 +173,7 @@ export default class ExerciseInput extends Component {
   addExercise = () => {
     const {activity, date, hours, minutes, distance} = this.state;
     const {route} = this.props;
-    const {email} = route.params;
-    //let usEmail = email.substring(1, email.length - 1);
+    const {userId} = route.params;
     if (!activity) {
       Alert.alert('Activity Empty', 'Please enter activity information.', [
         {text: 'OK'},
@@ -231,8 +230,8 @@ export default class ExerciseInput extends Component {
 
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Activity/saveActivity?&email=${email}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`
-        : `http://localhost:8080/Activity/saveActivity?&email=${email}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`,
+        ? `http://10.0.2.2:8080/Activity/saveActivity?&userId=${userId}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`
+        : `http://localhost:8080/Activity/saveActivity?&userId=${userId}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`,
     )
       .then(res => res.json())
       .then(data => {

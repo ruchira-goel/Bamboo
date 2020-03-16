@@ -20,7 +20,6 @@ export default class HealthProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userEmail: '',
       height: '', //stored in cm
       weight: '', //stored in kg
       age: '',
@@ -35,15 +34,11 @@ export default class HealthProfile extends Component {
   }
   UNSAFE_componentWillMount(): void {
     const {route} = this.props;
-    const {email} = route.params;
+    const {userId} = route.params;
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/getCharacteristics?email=${JSON.stringify(
-            email,
-          )}`
-        : `http://localhost:8080/User/getCharacteristics?email=${JSON.stringify(
-            email,
-          )}`,
+        ? `http://10.0.2.2:8080/User/getCharacteristics?userId=${userId}`
+        : `http://localhost:8080/User/getCharacteristics?userId=${userId}`,
     )
       .then(res => res.json())
       .then(data =>
@@ -68,9 +63,7 @@ export default class HealthProfile extends Component {
   onSave = () => {
     let {height, weight, age, sex, feet, inches} = this.state;
     const {route} = this.props;
-    const {email} = route.params;
-    const stringMethod = String(email);
-    this.setState({userEmail: stringMethod});
+    const {userId} = route.params;
     if (!height && feet && inches) {
       height = (feet * 12 + inches) * 2.54;
     }
@@ -94,17 +87,13 @@ export default class HealthProfile extends Component {
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/addCharacteristics?email=${JSON.stringify(
-            email,
-          )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`
-        : `http://localhost:8080/User/addCharacteristics?email=${JSON.stringify(
-            email,
-          )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
+        ? `http://10.0.2.2:8080/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`
+        : `http://localhost:8080/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
     )
       .then(res => res.json())
       .then(data => {
         if (data.error) {
-          //throwing error when addCharacteristics fails (invalid email)
+          //throwing error when addCharacteristics fails (invalid userId)
           if (
             data.message ===
             'There was an error locating your account, please try signing up again'
@@ -137,15 +126,11 @@ export default class HealthProfile extends Component {
   render() {
     let {height, weight, age, sex, feet, inches, isMetric} = this.state;
     const {route} = this.props;
-    const {email} = route.params;
+    const {userId} = route.params;
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/getCharacteristics?email=${JSON.stringify(
-            email,
-          )}`
-        : `http://localhost:8080/User/getCharacteristics?email=${JSON.stringify(
-            email,
-          )}`,
+        ? `http://10.0.2.2:8080/User/getCharacteristics?userId=${userId}`
+        : `http://localhost:8080/User/getCharacteristics?userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {});
