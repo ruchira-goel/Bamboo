@@ -23,6 +23,14 @@ public class Meal {
         this.protein = protein;
     }
 
+    public double getValue(TrackedItem trackedItem) {
+        if(trackedItem ==  TrackedItem.G_OF_PROTEIN) {
+            return this.protein;
+        } else if (trackedItem == TrackedItem.CALORIES) {
+            return this.calories;
+        }
+        return 0;
+    }
 
     //private NutritionInfo nutritionInfo;
 

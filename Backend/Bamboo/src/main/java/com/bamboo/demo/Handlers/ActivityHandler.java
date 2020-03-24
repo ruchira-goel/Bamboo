@@ -1,10 +1,9 @@
 package com.bamboo.demo.Handlers;
 
-import com.bamboo.demo.Models.Activity;
-import com.bamboo.demo.Models.DailyInfo;
-import com.bamboo.demo.Models.User;
+import com.bamboo.demo.Models.*;
 import com.bamboo.demo.Repos.ActivityRepo;
 import com.bamboo.demo.Repos.DailyInfoRepo;
+import com.bamboo.demo.Repos.GoalRepo;
 import com.bamboo.demo.Repos.UserRepo;
 import org.json.JSONException;
 
@@ -17,16 +16,20 @@ public class ActivityHandler {
     private ActivityRepo activityRepo;
     private UserRepo userRepo;
     private DailyInfoRepo dailyInfoRepo;
+    private GoalRepo goalRepo;
 
-    public ActivityHandler(UserRepo userRepo, DailyInfoRepo dailyInfoRepo, ActivityRepo activityRepo) {
+    public ActivityHandler(UserRepo userRepo, DailyInfoRepo dailyInfoRepo,
+                           ActivityRepo activityRepo, GoalRepo goalRepo) {
         this.userRepo = userRepo;
         this.dailyInfoRepo = dailyInfoRepo;
         this.activityRepo = activityRepo;
+        this.goalRepo = goalRepo;
     }
 
 
     // Distance is in km, time is in minutes
-    public Activity saveActivity(String userId, String activityName, int time, double distance, Date date) throws IOException, JSONException {
+    public Activity saveActivity(String userId, String activityName, int time, double distance,
+                                 Date date) throws IOException, JSONException {
         User user = this.userRepo.findById(userId).get();
 
 //        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -104,6 +107,12 @@ public class ActivityHandler {
         }
         dailyInfo.addActivity(activity.getId());
         this.dailyInfoRepo.save(dailyInfo);
+        List<Goal> goals = this.goalRepo.findAllByUserId(userId);
+        for (Goal goal: goals) {
+            if (goal.getType() == Type.EXERCISE) {
+                goal.checkExerciseProgress(activityRepo,dailyInfoRepo, goalRepo, date);
+            }
+        }
 
     }
 

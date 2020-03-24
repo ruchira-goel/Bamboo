@@ -4,6 +4,7 @@ import com.bamboo.demo.Handlers.ActivityHandler;
 import com.bamboo.demo.Models.*;
 import com.bamboo.demo.Repos.ActivityRepo;
 import com.bamboo.demo.Repos.DailyInfoRepo;
+import com.bamboo.demo.Repos.GoalRepo;
 import com.bamboo.demo.Repos.UserRepo;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,8 +18,9 @@ import java.util.List;
 public class ActivityController {
     private ActivityHandler activityHandler;
 
-    public ActivityController(ActivityRepo activityRepo, DailyInfoRepo dailyInfoRepo, UserRepo userRepo) {
-        this.activityHandler = new ActivityHandler(userRepo, dailyInfoRepo, activityRepo);
+    public ActivityController(ActivityRepo activityRepo, DailyInfoRepo dailyInfoRepo,
+                              UserRepo userRepo, GoalRepo goalRepo) {
+        this.activityHandler = new ActivityHandler(userRepo, dailyInfoRepo, activityRepo, goalRepo);
     }
 
     @RequestMapping("/Activity/saveActivity")          //save activity
