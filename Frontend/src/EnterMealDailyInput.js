@@ -81,6 +81,28 @@ export default class EnterMealDailyInput extends React.Component {
     this.props.navigation.navigate('HomeScreen');
   };
 
+  renderTextInput() {
+    if (this.state.pickerSelection === 'Enter your own recipe') {
+      console.log('inside');
+      return (
+        <TextInput
+          multiline={true}
+          style={styles.textArea}
+          placeholder={this.state.pickerSelection}
+          onChangeText={mealInfo => this.setState({mealInfo: mealInfo})} //setting meal information entered
+        />
+      );
+    } else {
+      return (
+        <TextInput
+          style={styles.fieldText}
+          placeholder={this.state.pickerSelection}
+          onChangeText={mealInfo => this.setState({mealInfo: mealInfo})} //setting meal information entered
+        />
+      );
+    }
+  }
+
   render() {
     const {route} = this.props;
     const {pickerSelection} = this.state;
@@ -132,15 +154,17 @@ export default class EnterMealDailyInput extends React.Component {
         />
         <View
           style={{
-            flex: 0.15,
+            flex: 0.3,
             justifyContent: 'center',
             //backgroundColor: 'white',
           }}>
-          <TextInput
-            style={styles.fieldText}
-            placeholder={pickerSelection}
-            onChangeText={mealInfo => this.setState({mealInfo: mealInfo})} //setting meal information entered
-          />
+          {/*<TextInput*/}
+          {/*  style={styles.fieldText}*/}
+          {/*  placeholder={pickerSelection}*/}
+          {/*  onChangeText={mealInfo => this.setState({mealInfo: mealInfo})} //setting meal information entered*/}
+          {/*/>*/}
+          {this.renderTextInput()}
+          {/*<View style={{backgroundColor: 'green', flex: 1}}>{this.renderTextInput()}</View>*/}
         </View>
         <View
           style={{
@@ -221,5 +245,16 @@ const styles = StyleSheet.create({
   /*textalign for the text to be in the center for "bamboo."*/
   picker: {
     width: 100,
+  },
+  textArea: {
+    fontSize: 16,
+    //justifyContent: 'center',
+    //alignItems: 'center',
+    marginLeft: '15%',
+    marginRight: '40%',
+    borderWidth: 0.5,
+    //alignSelf: 'stretch',
+    width: '100%',
+    height: '100%',
   },
 });
