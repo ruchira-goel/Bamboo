@@ -107,10 +107,15 @@ public class UserController {
         return this.userHandler.deleteAccount(userId);
     }
 
-
     @RequestMapping("/User/changePass")          //login request
     public User changePass(@RequestParam(value = "userId") String userId,
                            @RequestParam(value = "encryptedPassword") String encryptedPassword) throws IllegalAccessException {
         return userHandler.changePass(userId, encryptedPassword);
+    }
+
+    @RequestMapping("/User/getExerciseOnDate")
+    public int getMinutesOfExerciseOnDate(@RequestParam(value = "userId") String userId,
+                              @RequestParam(value = "date") Date date) throws IllegalAccessException {
+        return userHandler.getMinutesOfExerciseOnDate(userId, date);
     }
 }
