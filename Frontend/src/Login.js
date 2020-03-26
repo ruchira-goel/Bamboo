@@ -9,6 +9,8 @@ import {
   Platform,
 } from 'react-native';
 
+import URL from './url';
+
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -33,7 +35,7 @@ export default class Login extends React.Component {
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/login?email=${email}&encryptedPassword=${encryptedPassword}`
+        ? `${URL.heroku}/User/login?email=${email}&encryptedPassword=${encryptedPassword}`
         : `http://localhost:8080/User/login?email=${email}&encryptedPassword=${encryptedPassword}`,
     )
       .then(res => res.json())

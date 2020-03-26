@@ -9,6 +9,7 @@ import {
   Alert,
   Platform,
 } from 'react-native';
+import URL from './url';
 
 export default class EnterMealDailyInput extends React.Component {
   constructor(props) {
@@ -33,7 +34,7 @@ export default class EnterMealDailyInput extends React.Component {
     if (pickerSelection === 'Enter link') {
       fetch(
         Platform.OS === 'android'
-          ? `http://10.0.2.2:8080/Meal/infoFromLink?link=${mealInfo}&userId=${userId}`
+          ? `${URL.heroku}/Meal/infoFromLink?link=${mealInfo}&userId=${userId}`
           : `http://localhost:8080/Meal/infoFromLink?link=${mealInfo}&userId=${userId}`,
       )
         .then(res => res.json())
@@ -55,7 +56,7 @@ export default class EnterMealDailyInput extends React.Component {
     } else if (pickerSelection === 'Enter meal name') {
       fetch(
         Platform.OS === 'android'
-          ? `http://10.0.2.2:8080/Meal/infoFromName?name=${mealInfo}&userid=${userId}`
+          ? `${URL.heroku}/Meal/infoFromName?name=${mealInfo}&userid=${userId}`
           : `http://localhost:8080/Meal/infoFromName?name=${mealInfo}&userid=${userId}`,
       )
         .then(res => res.json())

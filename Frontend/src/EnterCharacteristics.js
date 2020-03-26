@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import {Dropdown} from 'react-native-material-dropdown';
+import URL from './url';
 
 let {screenHeight, screenWidth} = Dimensions.get('window');
 
@@ -84,7 +85,7 @@ export default class EnterCharacteristics extends React.Component {
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`
+        ? `${URL.heroku}/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`
         : `http://localhost:8080/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
     )
       .then(res => res.json())

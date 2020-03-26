@@ -12,6 +12,7 @@ import {
 import DoneButton from 'react-native-keyboard-done-button';
 import {useRoute} from '@react-navigation/native';
 import Constants from 'expo-constants';
+import URL from './url';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -66,7 +67,7 @@ export default class App extends React.Component {
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/signup?name=${name}&email=${email}&password=${password}`
+        ? `${URL.heroku}/User/signup?name=${name}&email=${email}&password=${password}`
         : `http://localhost:8080/User/signup?name=${name}&email=${email}&password=${password}`,
     )
       .then(res => res.json())
