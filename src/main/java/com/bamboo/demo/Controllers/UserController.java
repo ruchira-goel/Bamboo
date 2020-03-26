@@ -113,9 +113,8 @@ public class UserController {
         return userHandler.changePass(userId, encryptedPassword);
     }
 
-    @RequestMapping("/User/getExerciseOnDate")
-    public int getMinutesOfExerciseOnDate(@RequestParam(value = "userId") String userId,
-                              @RequestParam(value = "date") Date date) throws IllegalAccessException {
-        return userHandler.getMinutesOfExerciseOnDate(userId, date);
+    @RequestMapping("/User/weeksExercise")
+    public int[] weeksExercise(@RequestParam(value = "userId") String userId) {
+        return userHandler.weeksExercise(userId);
     }
 }

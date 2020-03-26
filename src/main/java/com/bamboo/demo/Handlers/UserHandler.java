@@ -10,10 +10,7 @@ import com.bamboo.demo.Repos.MealRepo;
 import com.bamboo.demo.Repos.UserRepo;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class UserHandler {
     private UserRepo userRepo;
@@ -119,20 +116,35 @@ public class UserHandler {
                 userRepo.findUserByUserId(userId) == null;
     }
 
-    public int getMinutesOfExerciseOnDate(String userId, Date date) {
-//        User user = this.userRepo.findUserByUserId(userId);
-//        String id = user.getDailyInfo().get(date.toString());
-        int totalMinutes = 0;
-        Optional<DailyInfo> info = this.dailyInfoRepo.findByDateAndAndUserId(date, userId);
-        if (info.isPresent()) {
-            ArrayList<String> activities = info.get().getActivities();
-            for (String id : activities) {
-                Optional<Activity> activity = this.activityRepo.findById(id);
-                if (activity.isPresent()) {
-                    totalMinutes += activity.get().getMinutes();
+    /**
+     * Get the total minutes of exercise a user did in the last week, ending with today's information.
+     * Data intended for display on a graph.
+     * @param userId user ID
+     * @return a list with total minutes of exercise on each of the past 7 days
+     */
+    public int[] weeksExercise(String userId) {
+        int[] minutes = new int[7];
+        int offset = 24*60*60*1000;
+
+        User user = this.userRepo.findUserByUserId(userId);
+        HashMap<String, String> dailyInfos = user.getDailyInfo();
+
+        for (int i = 0; i < 7; i++) {
+            Date date = new Date(System.currentTimeMillis() - offset*i);
+
+            Optional<DailyInfo> info = this.dailyInfoRepo.findById(dailyInfos.get(date.toString()));
+            if (info.isPresent()) {
+                ArrayList<String> activityIDs = info.get().getActivities();
+                int mins = 0;
+                for (String id : activityIDs) {
+                    Optional<Activity> activity = this.activityRepo.findById(id);
+                    if (activity.isPresent())
+                        mins += activity.get().getMinutes();
                 }
+                minutes[6-i] = mins;
             }
         }
-        return totalMinutes;
+
+        return minutes;
     }
 }
