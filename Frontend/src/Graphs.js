@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, StyleSheet, Dimensions, ScrollView} from 'react-native';
+import {Text, View, StyleSheet, Dimensions, ScrollView, Platform} from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -16,8 +16,9 @@ import {
   VictoryAxis,
   VictoryLabel,
 } from 'victory-native';
+import URL from './url';
 
-const data = [
+const graphData = [
   {day: 1, minutes: 20},
   {day: 2, minutes: 15},
   {day: 3, minutes: 60},
@@ -44,6 +45,27 @@ for (let i = 0; i < 7; i++) {
 }
 
 export default class Graphs extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dailyInfo: '',
+    };
+  }
+  UNSAFE_componentWillMount(): void {
+    const {route} = this.props;
+    const {userId} = route.params;
+    fetch(
+      Platform.OS === 'android'
+        ? `${URL.heroku}/User/getCharacteristics?userId=${userId}`
+        : `http://localhost:8080/User/getCharacteristics?userId=${userId}`,
+    )
+      .then(res => res.json())
+      .then(data =>
+        this.setState({
+          dailyInfo: data.dailyInfo,
+        }),
+      );
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -69,7 +91,7 @@ export default class Graphs extends Component {
             // tickFormat specifies how ticks should be displayed
             tickFormat={x => `${x} min`}
           />
-          <VictoryBar data={data} x="day" y="minutes" />
+          <VictoryBar data={graphData} x="day" y="minutes" />
         </VictoryChart>
       </View>
     );
