@@ -47,7 +47,7 @@ for (let i = 0; i < 7; i++) {
   }
 }
 
-export default class Graphs extends Component {
+export default class ExerciseGraphs extends Component {
   constructor(props) {
     super(props);
     this.state = {

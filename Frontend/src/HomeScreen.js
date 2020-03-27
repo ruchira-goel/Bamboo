@@ -118,12 +118,12 @@ export default class HomeScreen extends React.Component {
         <View style={{padding: '2%'}} />
         <TouchableOpacity
           onPress={() =>
-            this.props.navigation.navigate('Graphs', {
+            this.props.navigation.navigate('ExerciseGraphs', {
               userId: userId,
             })
           }
           style={styles.btnStyle}>
-          <Text>Graphs</Text>
+          <Text>Exercise Graphs</Text>
         </TouchableOpacity>
       </View>
     );
