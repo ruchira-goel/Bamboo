@@ -118,4 +118,8 @@ public class UserController {
         return userHandler.getWeeksExerciseTime(userId);
     }
 
+    @RequestMapping("/User/weekExerciseCalories")
+    public String weekExerciseCalories(@RequestParam(value = "userId") String userId) {
+        return userHandler.getWeekExerciseCalories(userId);
+    }
 }

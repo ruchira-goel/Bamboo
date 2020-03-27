@@ -158,4 +158,41 @@ public class UserHandler {
 
         return str.toString().trim();
     }
+
+    public String getWeekExerciseCalories(String userId) {
+        int[] calories = new int[7];
+        int offset = 24*60*60*1000;
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+        User user = this.userRepo.findUserByUserId(userId);
+        HashMap<String, String> dailyInfos = user.getDailyInfo();
+
+        for (int i = 0; i < 7; i++) {
+            Date date = new Date(System.currentTimeMillis() - offset*i);
+
+            Optional<DailyInfo> info = Optional.empty();
+            if (dailyInfos.get(format.format(date)) != null) {
+                info = this.dailyInfoRepo.findById(dailyInfos.get(format.format(date)));
+            }
+
+            if (info.isPresent()) {
+                ArrayList<String> activityIDs = info.get().getActivities();
+                int cals = 0;
+                for (String id : activityIDs) {
+                    Optional<Activity> activity = this.activityRepo.findById(id);
+                    if (activity.isPresent())
+                        cals += activity.get().getCalories();
+                }
+                calories[6-i] = cals;
+            }
+        }
+
+        StringBuilder str = new StringBuilder();
+        for (int i : calories) {
+            str.append(i);
+            str.append(" ");
+        }
+
+        return str.toString().trim();
+    }
 }
