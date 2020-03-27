@@ -12,7 +12,6 @@ import LoginPage from '../src/Login.js';
 import SignUpPage from '../src/SignUp.js';
 // import LoginPage from './Login.js';
 // import SignUpPage from './SignUp.js';
-import NavigationService from '../src/NavigationService';
 
 const Test = ({navigation}) => {
   useEffect(() => {

@@ -7,32 +7,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
-  Button,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-function ToSignUp({navigation}) {
-  const nav = useNavigation();
-  return (
-    <View>
-      <TouchableOpacity
-        onPress={() =>
-          nav.navigate('Root', {
-            screen: 'SignUp',
-            // params: {user: 'userParam'},
-          })
-        }
-        style={styles.linkStyle}>
-        <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
-          Signup!
-        </Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
-
 import URL from './url';
-import NavigationService from './NavigationService';
 
 class Login extends React.Component {
   constructor(props) {
@@ -45,7 +23,6 @@ class Login extends React.Component {
 
   login = () => {
     const {email, encryptedPassword} = this.state;
-    // const nav = useNavigation();
     if (!email) {
       Alert.alert('Email Empty', 'Please enter an email address.', [
         {text: 'OK'},
@@ -62,7 +39,9 @@ class Login extends React.Component {
         ? `${
             URL.heroku
           }/User/login?email=${email}&encryptedPassword=${encryptedPassword}`
-        : `http://localhost:8080/User/login?email=${email}&encryptedPassword=${encryptedPassword}`,
+        : `${
+            URL.ios
+          }/User/login?email=${email}&encryptedPassword=${encryptedPassword}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -76,24 +55,14 @@ class Login extends React.Component {
           }
         } else {
           //going to home screen
-          // TODO
           this.props.navigation.navigate('Root', {
             screen: 'Home',
-            params: {user: 'userParam'},
+            params: {
+              userId: data.userId,
+              email: email,
+              encryptedPassword: encryptedPassword,
+            },
           });
-          // this.props.navigation.navigate('Home');
-          // NavigationService.navigation.navigate('Root', {
-          //   screen: 'Home',
-          //   params: {
-          //     userId: data.userId,
-          //     email: email,
-          //     encryptedPassword: encryptedPassword,
-          //   },
-          // });
-          // this.props.navigation.replace('HomeScreen', {
-          //   userId: data.userId,
-          //   email: email,
-          //   encryptedPassword: encryptedPassword,
         }
       });
   };
@@ -127,7 +96,17 @@ class Login extends React.Component {
           <View style={{padding: '2%'}} />
           <View style={{flex: 1, flexDirection: 'row'}}>
             <Text style={{padding: 15}}>Don't have an account? </Text>
-            <ToSignUp />
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate('Root', {
+                  screen: 'SignUp',
+                })
+              }
+              style={styles.linkStyle}>
+              <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
+                Signup!
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
