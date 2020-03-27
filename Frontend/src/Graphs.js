@@ -1,5 +1,13 @@
 import React, {Component} from 'react';
-import {Text, View, StyleSheet, Dimensions, ScrollView, Platform} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+  Platform,
+  TouchableOpacity,
+} from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -17,13 +25,7 @@ import {
   VictoryLabel,
 } from 'victory-native';
 import URL from './url';
-
-const graphData = [
-  {day: 1, minutes: 20},
-  {day: 2, minutes: 15},
-  {day: 3, minutes: 60},
-  {day: 4, minutes: 100},
-];
+import BUTTONS from './styles/buttons';
 
 let today = new Date();
 let day = today.getDay();
@@ -48,25 +50,50 @@ export default class Graphs extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dailyInfo: '',
+      isLoading: true,
+      text: 'default',
+      graphData: [],
     };
   }
-  UNSAFE_componentWillMount(): void {
+  componentDidMount(): void {
     const {route} = this.props;
     const {userId} = route.params;
     fetch(
       Platform.OS === 'android'
-        ? `${URL.heroku}/User/getCharacteristics?userId=${userId}`
+        ? `${URL.heroku}/User/weeksExercise?userId=${userId}`
         : `http://localhost:8080/User/getCharacteristics?userId=${userId}`,
     )
-      .then(res => res.json())
+      .then(res => res.text())
       .then(data =>
         this.setState({
-          dailyInfo: data.dailyInfo,
+          isLoading: false,
+          graphData: [
+            {day: 1, minutes: Number(data.split(' ')[0])},
+            {day: 2, minutes: Number(data.split(' ')[1])},
+            {day: 3, minutes: Number(data.split(' ')[2])},
+            {day: 4, minutes: Number(data.split(' ')[3])},
+            {day: 5, minutes: Number(data.split(' ')[4])},
+            {day: 6, minutes: Number(data.split(' ')[5])},
+            {day: 7, minutes: Number(data.split(' ')[6])},
+          ],
         }),
       );
   }
+
+  onPress = () => {
+    this.setState({
+      text: 'changed',
+    });
+  };
+
   render() {
+    if (this.state.isLoading) {
+      return (
+        <View style={styles.container}>
+          <Text>Loading...</Text>
+        </View>
+      );
+    }
     return (
       <View style={styles.container}>
         <VictoryChart
@@ -88,11 +115,19 @@ export default class Graphs extends Component {
           />
           <VictoryAxis
             dependentAxis
+            label="minutes"
+            // scale={{y: 'time'}}
+            style={{
+              axisLabel: {padding: 40},
+            }}
             // tickFormat specifies how ticks should be displayed
-            tickFormat={x => `${x} min`}
+            // tickFormat={x => `${x} min`}
           />
-          <VictoryBar data={graphData} x="day" y="minutes" />
+          <VictoryBar data={this.state.graphData} x="day" y="minutes" />
         </VictoryChart>
+        <TouchableOpacity style={BUTTONS.primaryButton} onPress={this.onPress}>
+          <Text style={BUTTONS.primaryButtonText}>{this.state.text}</Text>
+        </TouchableOpacity>
       </View>
     );
   }
