@@ -113,8 +113,9 @@ public class UserController {
         return userHandler.changePass(userId, encryptedPassword);
     }
 
-    @RequestMapping("/User/weeksExercise")
-    public int[] weeksExercise(@RequestParam(value = "userId") String userId) {
-        return userHandler.weeksExercise(userId);
+    @RequestMapping("/User/weeksExerciseTime")
+    public int[] weeksExercisTimee(@RequestParam(value = "userId") String userId) {
+        return userHandler.getWeeksExerciseTime(userId);
     }
+
 }

@@ -122,9 +122,10 @@ public class UserHandler {
      * @param userId user ID
      * @return a list with total minutes of exercise on each of the past 7 days
      */
-    public int[] weeksExercise(String userId) {
+    public String getWeekExerciseTime(String userId) {
         int[] minutes = new int[7];
         int offset = 24*60*60*1000;
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
         User user = this.userRepo.findUserByUserId(userId);
         HashMap<String, String> dailyInfos = user.getDailyInfo();
@@ -132,7 +133,11 @@ public class UserHandler {
         for (int i = 0; i < 7; i++) {
             Date date = new Date(System.currentTimeMillis() - offset*i);
 
-            Optional<DailyInfo> info = this.dailyInfoRepo.findById(dailyInfos.get(date.toString()));
+            Optional<DailyInfo> info = Optional.empty();
+            if (dailyInfos.get(format.format(date)) != null) {
+                info = this.dailyInfoRepo.findById(dailyInfos.get(format.format(date)));
+            }
+
             if (info.isPresent()) {
                 ArrayList<String> activityIDs = info.get().getActivities();
                 int mins = 0;
@@ -145,6 +150,12 @@ public class UserHandler {
             }
         }
 
-        return minutes;
+        StringBuilder str = new StringBuilder();
+        for (int i : minutes) {
+            str.append(i);
+            str.append(" ");
+        }
+
+        return str.toString().trim();
     }
 }
