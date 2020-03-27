@@ -1,11 +1,5 @@
 import React, {Component} from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  Dimensions,
-  Platform,
-} from 'react-native';
+import {Text, View, StyleSheet, Dimensions, Platform} from 'react-native';
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -97,12 +91,18 @@ export default class DietGraphs extends Component {
           />
           <VictoryAxis
             dependentAxis
+            // TODO: if all y axis entries are 0, tick values will default to decimal points, but if you specify tick values, it won't auto adjust
+            // tickValues={[500, 1000, 1500, 2000, 2500, 3000]}
             label={'calories'}
             style={{
-              axisLabel: {padding: 40},
+              axisLabel: {padding: 50},
             }}
           />
-          <VictoryBar data={this.state.currentGraph} x="day" y="calories" />
+          <VictoryBar
+            data={this.state.caloriesGraphData}
+            x="day"
+            y="calories"
+          />
         </VictoryChart>
       </View>
     );

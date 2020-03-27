@@ -21,6 +21,7 @@ import ExerciseInput from './src/ExerciseInput';
 import ChangePass from './src/ChangePass';
 import SetGoal from './src/SetGoal';
 import ExerciseGraphs from './src/ExerciseGraphs';
+import DietGraphs from "./src/DietGraphs";
 
 const Stack = createStackNavigator();
 
@@ -67,6 +68,7 @@ function App() {
           headerShown={'false'}
         />
         <Stack.Screen name="ExerciseGraphs" component={ExerciseGraphs} />
+        <Stack.Screen name="DietGraphs" component={DietGraphs} />
       </Stack.Navigator>
     </NavigationContainer>
   );

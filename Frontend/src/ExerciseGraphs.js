@@ -17,6 +17,10 @@ https://www.npmjs.com/package/react-native-responsive-linechart
 https://formidable.com/open-source/victory/docs/native/
  */
 
+/*
+TODO (Important note): do not demo graphs without inputting activity/meal data, i.e. do not demo graphs when all data values will be 0
+ */
+
 import {
   VictoryBar,
   VictoryChart,
@@ -169,6 +173,7 @@ export default class ExerciseGraphs extends Component {
           />
           <VictoryAxis
             dependentAxis
+            // tickValues={[30, 60, 90, 120, 150, 180]}
             label={this.state.timeGraph ? 'minutes' : 'calories'}
             // scale={{y: 'time'}}
             style={{
