@@ -9,6 +9,7 @@ import {
   Alert,
   Platform,
 } from 'react-native';
+import URL from './url';
 
 export default class EnterMealDailyInput extends React.Component {
   constructor(props) {
@@ -22,9 +23,8 @@ export default class EnterMealDailyInput extends React.Component {
   addMeal = () => {
     const {pickerSelection, mealInfo} = this.state;
     const {route} = this.props;
-    const {email} = route.params;
-    console.log('Email: ' + email + ' Link: ' + mealInfo);
-    //let usEmail = email.substring(1, email.length - 1);
+    const {userId} = route.params;
+    console.log('id: ' + userId + ' Link: ' + mealInfo);
     if (!mealInfo) {
       Alert.alert('Meal Information Empty', 'Please enter meal information.', [
         {text: 'OK'},
@@ -34,8 +34,8 @@ export default class EnterMealDailyInput extends React.Component {
     if (pickerSelection === 'Enter link') {
       fetch(
         Platform.OS === 'android'
-          ? `http://bamboo-testing.herokuapp.com/Meal/infoFromLink?link=${mealInfo}&email=${email}`
-          : `http://bamboo-testing.herokuapp.com/Meal/infoFromLink?link=${mealInfo}&email=${email}`,
+          ? `${URL.heroku}/Meal/infoFromLink?link=${mealInfo}&userId=${userId}`
+          : `http://localhost:8080/Meal/infoFromLink?link=${mealInfo}&userId=${userId}`,
       )
         .then(res => res.json())
         .then(data => {
@@ -46,13 +46,28 @@ export default class EnterMealDailyInput extends React.Component {
               'Unable to load recipe information for the given link, please try a different link.',
               [{text: 'OK'}],
             );
-
-            //throwing error when login fails - wrong password / email not registered yet
-            // if (data.message === "This email isn't registered yet") {
-            //   Alert.alert('Not registered', data.message, [{text: 'OK'}]);
-            // } else if (data.message === 'You entered the wrong password!') {
-            //   Alert.alert('Incorrect password', data.message, [{text: 'OK'}]);
-            // }
+          } else {
+            Alert.alert('Meal Added', data.name + ' successfully added!', [
+              {text: 'OK'},
+            ]);
+            //going to home screen
+          }
+        });
+    } else if (pickerSelection === 'Enter meal name') {
+      fetch(
+        Platform.OS === 'android'
+          ? `${URL.heroku}/Meal/infoFromName?name=${mealInfo}&userid=${userId}`
+          : `http://localhost:8080/Meal/infoFromName?name=${mealInfo}&userid=${userId}`,
+      )
+        .then(res => res.json())
+        .then(data => {
+          console.log(data);
+          if (data.error) {
+            Alert.alert(
+              data.message,
+              'Unable to load recipe information for the given name, please try a different name.',
+              [{text: 'OK'}],
+            );
           } else {
             Alert.alert('Meal Added', data.name + ' successfully added!', [
               {text: 'OK'},
@@ -69,7 +84,6 @@ export default class EnterMealDailyInput extends React.Component {
 
   render() {
     const {route} = this.props;
-    const {email} = route.params;
     const {pickerSelection} = this.state;
     return (
       <View style={styles.heading}>

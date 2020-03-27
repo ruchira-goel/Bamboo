@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import React from 'react';
 import {Dropdown} from 'react-native-material-dropdown';
+import URL from './url';
 
 let {screenHeight, screenWidth} = Dimensions.get('window');
 
@@ -21,7 +22,6 @@ export default class EnterCharacteristics extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userEmail: '',
       height: '', //stored in cm
       weight: '', //stored in kg
       age: '',
@@ -41,8 +41,9 @@ export default class EnterCharacteristics extends React.Component {
 
   addCharacteristics = () => {
     const {route} = this.props;
-    const {email} = route.params;
     let {height, weight, age, sex, feet, inches} = this.state;
+    const {userId} = route.params;
+    console.log('id: ' + userId);
 
     if (this.state.switchValue) {
       //imperial
@@ -84,18 +85,14 @@ export default class EnterCharacteristics extends React.Component {
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `http://bamboo-testing.herokuapp.com/User/addCharacteristics?email=${JSON.stringify(
-            email,
-          )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`
-        : `http://bamboo-testing.herokuapp.com/User/addCharacteristics?email=${JSON.stringify(
-            email,
-          )}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
+        ? `${URL.heroku}/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`
+        : `http://localhost:8080/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
     )
       .then(res => res.json())
       .then(data => {
         console.log(data);
         if (data.error) {
-          //throwing error when addCharacteristics fails (invalid email)
+          //throwing error when addCharacteristics fails (invalid userId)
           if (
             data.message ===
             'There was an error locating your account, please try signing up again'
@@ -105,7 +102,7 @@ export default class EnterCharacteristics extends React.Component {
         } else {
           //going to home screen
           this.props.navigation.replace('HomeScreen', {
-            email: email,
+            userId: userId,
           });
         }
       });

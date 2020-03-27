@@ -10,7 +10,7 @@ import 'react-native-gesture-handler';
 
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator, HeaderBackground} from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import Login from './src/Login';
 import HomeScreen from './src/HomeScreen';
 import SignUp from './src/SignUp';
@@ -19,7 +19,10 @@ import EnterCharacteristics from './src/EnterCharacteristics';
 import HealthProfile from './src/HealthProfile';
 import ExerciseInput from './src/ExerciseInput';
 import ChangePass from './src/ChangePass';
-import DrawerNav from './src/DrawerNav';
+
+import SetGoal from './src/SetGoal';
+import ExerciseGraphs from './src/ExerciseGraphs';
+import DietGraphs from "./src/DietGraphs";
 
 import Navigation from './experiment/Navigation';
 // const Stack = createStackNavigator();

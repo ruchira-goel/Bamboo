@@ -12,6 +12,7 @@ import {
 import DoneButton from 'react-native-keyboard-done-button';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import Constants from 'expo-constants';
+import URL from './url';
 
 function ToLogin({navigation}) {
   const nav = useNavigation();
@@ -21,7 +22,7 @@ function ToLogin({navigation}) {
         onPress={() =>
           nav.navigate('Root', {
             screen: 'Login',
-            params: {user: 'userParam'},
+            // params: {user: 'userParam'},
           })
         }
         style={styles.linkStyle}>
@@ -86,12 +87,13 @@ export default class SignUp extends React.Component {
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `http://bamboo-testing.herokuapp.com/User/signup?name=${name}&email=${email}&password=${password}`
-        : `http://bamboo-testing.herokuapp.com/User/signup?name=${name}&email=${email}&password=${password}`,
+        ? `${URL.heroku}/User/signup?name=${name}&email=${email}&password=${password}`
+        : `http://localhost:8080/User/signup?name=${name}&email=${email}&password=${password}`,
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        //const {userId} = data.userId;
+        //console.log("Data.userid: " + data.userId);
         if (data.error) {
           //throwing error when signup fails - email already registered / invalid password
           if (
@@ -110,6 +112,7 @@ export default class SignUp extends React.Component {
           this.props.navigation.replace('EnterCharacteristics', {
             name: name,
             email: email,
+            userId: data.userId,
             password: password,
           });
         }

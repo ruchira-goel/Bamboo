@@ -19,7 +19,7 @@ function ToSignUp({navigation}) {
         onPress={() =>
           nav.navigate('Root', {
             screen: 'SignUp',
-            params: {user: 'userParam'},
+            // params: {user: 'userParam'},
           })
         }
         style={styles.linkStyle}>
@@ -31,7 +31,10 @@ function ToSignUp({navigation}) {
   );
 }
 
-export default class Login extends React.Component {
+import URL from './url';
+import NavigationService from './NavigationService';
+
+class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -42,7 +45,7 @@ export default class Login extends React.Component {
 
   login = () => {
     const {email, encryptedPassword} = this.state;
-    const nav = useNavigation();
+    // const nav = useNavigation();
     if (!email) {
       Alert.alert('Email Empty', 'Please enter an email address.', [
         {text: 'OK'},
@@ -56,8 +59,10 @@ export default class Login extends React.Component {
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `http://bamboo-testing.herokuapp.com/User/login?email=${email}&encryptedPassword=${encryptedPassword}`
-        : `http://bamboo-testing.herokuapp.com/User/login?email=${email}&encryptedPassword=${encryptedPassword}`,
+        ? `${
+            URL.heroku
+          }/User/login?email=${email}&encryptedPassword=${encryptedPassword}`
+        : `http://localhost:8080/User/login?email=${email}&encryptedPassword=${encryptedPassword}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -71,14 +76,24 @@ export default class Login extends React.Component {
           }
         } else {
           //going to home screen
-          nav.navigate('Root', {
-            screen: 'SignUp',
+          // TODO
+          this.props.navigation.navigate('Root', {
+            screen: 'Home',
             params: {user: 'userParam'},
           });
+          // this.props.navigation.navigate('Home');
+          // NavigationService.navigation.navigate('Root', {
+          //   screen: 'Home',
+          //   params: {
+          //     userId: data.userId,
+          //     email: email,
+          //     encryptedPassword: encryptedPassword,
+          //   },
+          // });
           // this.props.navigation.replace('HomeScreen', {
+          //   userId: data.userId,
           //   email: email,
           //   encryptedPassword: encryptedPassword,
-          // });
         }
       });
   };
@@ -118,6 +133,11 @@ export default class Login extends React.Component {
       </View>
     );
   }
+}
+
+export default function(props) {
+  const navigation = useNavigation();
+  return <Login {...props} navigation={navigation} />;
 }
 
 const styles = StyleSheet.create({

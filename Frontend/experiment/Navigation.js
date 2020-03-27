@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useState, useEffect} from 'react';
 import {StatusBar} from 'react-native';
 import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import {NavigationContainer, useNavigation} from '@react-navigation/native';
@@ -11,6 +12,13 @@ import LoginPage from '../src/Login.js';
 import SignUpPage from '../src/SignUp.js';
 // import LoginPage from './Login.js';
 // import SignUpPage from './SignUp.js';
+import NavigationService from '../src/NavigationService';
+
+const Test = ({navigation}) => {
+  useEffect(() => {
+    NavigationService._navigation = navigation;
+  }, [navigation]);
+};
 
 function LoginScreen({navigation}) {
   return (
