@@ -19,14 +19,14 @@ import {
 // https://reactnativecode.com/add-onpress-onclick-image/
 // https://www.tutorialspoint.com/react_native/react_native_listview.htm
 
-export default class FavMeals extends Component {
+export default class FavActivities extends Component {
   constructor(props) {
     super(props);
     this.state = {
       userId: '',
-      meals: [],
+      activities: [],
     };
-    this.getMeals();
+    this.getActivities();
   }
 
   confirmAdd(item) {
@@ -34,30 +34,30 @@ export default class FavMeals extends Component {
     const {userId} = route.params;
     const {date} = route.params;
     Alert.alert(
-      'Adding Meal',
-      "'Are you sure you want to add meal '" + item.name + "' to " + date + " ?",
+      'Adding Activity',
+      "Are you sure you want to add activity " + item.type + " to " + date + " ?",
       [
-        {text: 'Yes', onPress: () => this.saveMealFromFavorties(item)},
+        {text: 'Yes', onPress: () => this.saveActivityFromFavorties(item)},
         {text: 'No'},
       ],
     );
   }
 
-  saveMealFromFavorties(item) {
+  saveActivityFromFavorties(item) {
     //save to backend
     const {route} = this.props;
     const {userId} = route.params;
     const {date} = route.params;
-    console.log("Date: " + date);
+    console.log('Date: ' + date);
     this.setState({userId: userId});
     console.log('In the savemealsfromfavs function: ' + userId);
-    console.log("");
+    console.log('');
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Meal/saveMealFromFavorites?userId=${userId}&mealId=${
+        ? `http://10.0.2.2:8080/Activity/saveActivityFromFavorites?userId=${userId}&activityId=${
             item.id
           }&date=${date}`
-        : `http://localhost:8080/Meal/saveMealFromFavorites?userId=${userId}&mealId=${
+        : `http://localhost:8080/Activity/saveActivityFromFavorites?userId=${userId}&activityId=${
             item.id
           }&date=${date}`,
     )
@@ -68,48 +68,47 @@ export default class FavMeals extends Component {
         if (data.error) {
           Alert.alert(
             'Error',
-            'Unable to save meal at this time, please try again later.',
+            'Unable to save activity at this time, please try again later.',
             [{text: 'OK'}],
           );
         } else {
-          Alert.alert('Successfully Saved', 'Meal successfully saved.', [
+          Alert.alert('Successfully Saved', 'Activity successfully saved.', [
             {text: 'OK'},
           ]);
         }
       });
   }
 
-  getMeals = () => {
+  getActivities = () => {
     const {route} = this.props;
     const {userId} = route.params;
     this.setState({userId: userId});
     console.log('In the favmeals page: ' + userId);
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Meal/getFavorites?userId=${userId}`
-        : `http://localhost:8080/Meal/getFavorites?userId=${userId}`,
+        ? `http://10.0.2.2:8080/Activity/getFavorites?userId=${userId}`
+        : `http://localhost:8080/Activity/getFavorites?userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {
         console.log(data);
         if (data.error) {
           Alert.alert(
-            data.message,
-            'Unable to load favorite meals at this time, please try again later.',
+            'Error',
+            'Unable to load favorite activities at this time, please try again later.',
             [{text: 'OK'}],
           );
         } else {
-          this.setState({meals: data});
-          console.log(this.state.meals[0]);
+          this.setState({activities: data});
         }
       });
   };
 
   deleteConfirm(item) {
     Alert.alert(
-      'Deleting Meal',
-      "Are you sure you want to delete meal '" +
-        item.name +
+      'Deleting Activity',
+      "Are you sure you want to delete activity '" +
+        item.type +
         "' from favorites?",
       [{text: 'Yes', onPress: () => this.deleteFavorite(item)}, {text: 'No'}],
     );
@@ -123,10 +122,10 @@ export default class FavMeals extends Component {
     console.log(item.id);
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Meal/deleteFavorite?userId=${userId}&mealId=${
+        ? `http://10.0.2.2:8080/Activity/deleteFavorite?userId=${userId}&activityId=${
             item.id
           }`
-        : `http://localhost:8080/Meal/deleteFavorite?userId=${userId}&mealId=${
+        : `http://localhost:8080/Activity/deleteFavorite?userId=${userId}&activityId=${
             item.id
           }`,
     )
@@ -137,17 +136,17 @@ export default class FavMeals extends Component {
           Alert.alert(
             'Delete Failed',
             'Unable to delete' +
-              item.name +
+              item.type +
               ' from favorites at this time, please try again later.',
             [{text: 'OK'}],
           );
         } else {
           Alert.alert(
             'Delete Successful',
-            item.name + ' successfully removed from favorites.',
+            item.type + ' successfully removed from favorites.',
             [{text: 'OK'}],
           );
-          this.getMeals();
+          this.getActivities();
         }
       });
   }
@@ -157,15 +156,15 @@ export default class FavMeals extends Component {
       <ScrollView>
         <View style={styles.heading}>
           <Text style={styles.textheader}>
-            Here are all your favorite meals!
+            Here are all your favorite activities!
           </Text>
-          {this.state.meals.map((item, index) => (
+          {this.state.activities.map((item, index) => (
             <TouchableOpacity
               key={item.id}
               style={styles.rowcontainer}
               onPress={() => this.confirmAdd(item)}>
               <View style={{flex: 1}}>
-                <Text style={styles.text}>{item.name}</Text>
+                <Text style={styles.text}>{item.type} , {item.minutes} minutes</Text>
               </View>
               <View style={styles.rowview}>
                 <TouchableOpacity onPress={() => this.deleteConfirm(item)}>

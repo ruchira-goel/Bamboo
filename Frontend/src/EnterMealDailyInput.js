@@ -224,12 +224,12 @@ export default class EnterMealDailyInput extends React.Component {
             flexDirection: 'row',
             alignItems: 'center',
             flex: 0.3,
-            //backgroundColor: 'white',
+            //backgroundColor: 'green',
           }}>
           <View style={{flex: 0.4, marginLeft: '15%'}}>
             <Text style={{fontSize: 17}}>Select Date: </Text>
           </View>
-          <View style={{flex: 0.6}}>
+          <View style={{flex: 0.6, marginTop: '4%'}}>
             <DatePicker />
           </View>
         </View>
@@ -339,7 +339,7 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     borderColor: '#3eb245',
     width: '70%',
-    height: '10%',
+    height: '12%',
     //alignContent: 'center',
     justifyContent: 'center', //text in the middle of the button
     alignItems: 'center', //text in the middle of the butto
@@ -369,12 +369,12 @@ const styles = StyleSheet.create({
     // width: 100,
   },
   button: {
-    borderWidth: 1,
-    borderRadius: 8,
-    borderColor: '#000',
-    backgroundColor: COLORS.primaryColor,
+    backgroundColor: 'darkseagreen',
     padding: 2,
     marginRight: '15%',
     alignItems: 'center',
+    borderRadius: 2,
+    height: '65%',
+    justifyContent: 'center'
   },
 });
