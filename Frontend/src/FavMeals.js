@@ -44,6 +44,8 @@ export default class FavMeals extends Component {
     //save to backend
     const {route} = this.props;
     const {userId} = route.params;
+    const {date} = route.params;
+    console.log("Date: " + date);
     this.setState({userId: userId});
     console.log('In the savemealsfromfavs function: ' + userId);
     console.log("");
@@ -51,13 +53,14 @@ export default class FavMeals extends Component {
       Platform.OS === 'android'
         ? `http://10.0.2.2:8080/Meal/saveMealFromFavorites?userId=${userId}&mealId=${
             item.id
-          }`
+          }&date=${date}`
         : `http://localhost:8080/Meal/saveMealFromFavorites?userId=${userId}&mealId=${
             item.id
-          }`,
+          }&date=${date}`,
     )
       .then(res => res.json())
       .then(data => {
+        console.log(data);
         console.log(data);
         if (data.error) {
           Alert.alert(

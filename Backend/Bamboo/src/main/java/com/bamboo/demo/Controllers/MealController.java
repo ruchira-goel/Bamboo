@@ -25,14 +25,16 @@ public class MealController {
 
     @RequestMapping("/Meal/infoFromLink")          //meal info from link
     public Meal infoFromLink(@RequestParam(value = "link") String link,
-                             @RequestParam(value = "userId") String userId) throws IOException, IllegalAccessException {
-        return mealHandler.saveMealFromLink(link, userId);
+                             @RequestParam(value = "userId") String userId,
+                             @RequestParam(value = "date") String date) throws IOException, IllegalAccessException {
+        return mealHandler.saveMealFromLink(link, userId, date);
     }
 
     @RequestMapping("/Meal/infoFromName")          //meal info from name
     public Meal infoFromName(@RequestParam(value = "name") String name,
-                             @RequestParam(value = "userid") String userid) throws IOException, IllegalAccessException {
-        return mealHandler.saveMealFromName(name, userid);
+                             @RequestParam(value = "userid") String userid,
+                             @RequestParam(value = "date") String date) throws IOException, IllegalAccessException {
+        return mealHandler.saveMealFromName(name, userid, date);
     }
 
     @RequestMapping("/Meal/addToFavorites")          //meal info from name
@@ -48,15 +50,16 @@ public class MealController {
 
     @RequestMapping("/Meal/deleteFavorite")          //meal info from name
     public boolean deleteFavorite(@RequestParam(value = "userId") String userId,
-                               @RequestParam(value = "mealId") String mealId) {
+                                  @RequestParam(value = "mealId") String mealId) {
         System.out.println("Returned from mealhandler");
         return mealHandler.deleteFavorite(userId, mealId);
     }
 
     @RequestMapping("/Meal/saveMealFromFavorites")
     public boolean saveMealFromFavorites(@RequestParam(value = "userId") String userId,
-                                      @RequestParam(value="mealId") String mealId) {
-        return this.mealHandler.saveMealFromFavorites(userId, mealId);
+                                         @RequestParam(value = "mealId") String mealId,
+                                         @RequestParam(value = "date") String date) {
+        return this.mealHandler.saveMealFromFavorites(userId, mealId, date);
     }
 
     @RequestMapping("/Meal/all")

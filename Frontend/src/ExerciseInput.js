@@ -25,7 +25,7 @@ export default class ExerciseInput extends Component {
     this.state = {
       category: '',
       activity: '',
-      date: '',
+      date: new Date(),
       hours: '',
       minutes: '',
       distance: 0,
@@ -36,7 +36,16 @@ export default class ExerciseInput extends Component {
         },
       ],
       activityDisabled: true,
+      formattedDate: `${new Date().getMonth() +
+        1}/${new Date().getDate()}/${new Date().getFullYear()}`,
     };
+  }
+
+  setformattedDate() {
+    this.setState({
+      formattedDate: `${this.state.date.getMonth() +
+        1}/${this.state.date.getDate()}/${this.state.date.getFullYear()}`,
+    });
   }
 
   getActivityList(category) {
@@ -266,22 +275,28 @@ export default class ExerciseInput extends Component {
         // Alert.alert('A date has been picked', date + ' is the picked date', [
         //   {text: 'OK'},
         // ]);
-        this.setState({
-          date: date,
-        });
+        this.setState(
+          {
+            date: date,
+          },
+          function() {
+            this.setformattedDate();
+          },
+        );
         hideDatePicker();
       };
 
       return (
         <View>
           <TouchableOpacity style={styles.button} onPress={showDatePicker}>
-            <Text style={styles.text}>Select Date</Text>
+            <Text style={styles.text}>{this.state.formattedDate}</Text>
           </TouchableOpacity>
           <DateTimePickerModal
             isVisible={isDatePickerVisible}
             mode="date"
             onConfirm={handleConfirm}
             onCancel={hideDatePicker}
+            maximumDate={new Date()}
           />
         </View>
       );

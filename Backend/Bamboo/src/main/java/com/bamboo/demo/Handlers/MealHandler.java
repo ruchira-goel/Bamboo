@@ -31,7 +31,7 @@ public class MealHandler {
         this.goalRepo = goalRepo;
     }
 
-    public Meal saveMealFromLink(String link, String userId) throws IOException, JSONException, IllegalAccessException {
+    public Meal saveMealFromLink(String link, String userId, String date) throws IOException, JSONException, IllegalAccessException {
         URL url = new URL("https://api.spoonacular.com/recipes/extract?apiKey=5ccdaac983d344338fe187bb2b7e5501&url=" + link);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
@@ -68,14 +68,14 @@ public class MealHandler {
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date currentDate = new Date(System.currentTimeMillis());
-        String date = formatter.format(currentDate);
+        //String date = formatter.format(currentDate);
         addToDate(date, meal);
 
         return meal;
     }
 
 
-    public Meal saveMealFromName(String name, String userId) throws IOException, JSONException, IllegalAccessException {
+    public Meal saveMealFromName(String name, String userId,String date) throws IOException, JSONException, IllegalAccessException {
         try {
             User user = this.userRepo.findById(userId).get();
             System.out.println("the name is " + name);
@@ -97,7 +97,7 @@ public class MealHandler {
 
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             Date currentDate = new Date(System.currentTimeMillis());
-            String date = formatter.format(currentDate);
+            //String date = formatter.format(currentDate);
             System.out.println("Date: " + date);
             addToDate(date, meal);
 
@@ -172,10 +172,11 @@ public class MealHandler {
         return true;
     }
 
-    public boolean saveMealFromFavorites(String userId, String mealId) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        Date currentDate = new Date(System.currentTimeMillis());
-        String date = formatter.format(currentDate);
+    public boolean saveMealFromFavorites(String userId, String mealId, String date) {
+//        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+//        Date currentDate = new Date(System.currentTimeMillis());
+        //String date = formatter.format(currentDate);
+        System.out.println(date);
         addToDate(date, this.mealRepo.findById(mealId).get());
         return true;
     }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,8 @@ import {
   Alert,
   Platform,
 } from 'react-native';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import COLORS from './styles/colors';
 
 export default class EnterMealDailyInput extends React.Component {
   constructor(props) {
@@ -17,11 +19,22 @@ export default class EnterMealDailyInput extends React.Component {
       pickerSelection: 'Enter link',
       mealInfo: '',
       userId: '',
+      date: new Date(),
+      formattedDate: `${new Date().getMonth() +
+        1}/${new Date().getDate()}/${new Date().getFullYear()}`,
+      pickerVisible: false,
     };
   }
 
+  setformattedDate() {
+    this.setState({
+      formattedDate: `${this.state.date.getMonth() +
+        1}/${this.state.date.getDate()}/${this.state.date.getFullYear()}`,
+    });
+  }
+
   addMeal = () => {
-    const {pickerSelection, mealInfo} = this.state;
+    const {pickerSelection, mealInfo, formattedDate} = this.state;
     const {route} = this.props;
     const {userId} = route.params;
     this.setState({userId: userId});
@@ -35,8 +48,8 @@ export default class EnterMealDailyInput extends React.Component {
     if (pickerSelection === 'Enter link') {
       fetch(
         Platform.OS === 'android'
-          ? `http://10.0.2.2:8080/Meal/infoFromLink?link=${mealInfo}&userId=${userId}`
-          : `http://localhost:8080/Meal/infoFromLink?link=${mealInfo}&userId=${userId}`,
+          ? `http://10.0.2.2:8080/Meal/infoFromLink?link=${mealInfo}&userId=${userId}&date=${formattedDate}`
+          : `http://localhost:8080/Meal/infoFromLink?link=${mealInfo}&userId=${userId}&date=${formattedDate}`,
       )
         .then(res => res.json())
         .then(data => {
@@ -60,14 +73,14 @@ export default class EnterMealDailyInput extends React.Component {
                 {text: 'No'},
               ],
             );
-            //going to home screen
+            this.setState({mealInfo: ''});
           }
         });
     } else if (pickerSelection === 'Enter meal name') {
       fetch(
         Platform.OS === 'android'
-          ? `http://10.0.2.2:8080/Meal/infoFromName?name=${mealInfo}&userid=${userId}`
-          : `http://localhost:8080/Meal/infoFromName?name=${mealInfo}&userid=${userId}`,
+          ? `http://10.0.2.2:8080/Meal/infoFromName?name=${mealInfo}&userid=${userId}&date=${formattedDate}`
+          : `http://localhost:8080/Meal/infoFromName?name=${mealInfo}&userid=${userId}&date=${formattedDate}`,
       )
         .then(res => res.json())
         .then(data => {
@@ -91,7 +104,7 @@ export default class EnterMealDailyInput extends React.Component {
                 {text: 'No'},
               ],
             );
-            //going to home screen
+            this.setState({mealInfo: ''});
           }
         });
     }
@@ -136,7 +149,8 @@ export default class EnterMealDailyInput extends React.Component {
           multiline={true}
           style={styles.textArea}
           placeholder={this.state.pickerSelection}
-          onChangeText={mealInfo => this.setState({mealInfo: mealInfo})} //setting meal information entered
+          onChangeText={mealInfo => this.setState({mealInfo: mealInfo})}
+          value={this.state.mealInfo}//setting meal information entered
         />
       );
     } else {
@@ -144,13 +158,53 @@ export default class EnterMealDailyInput extends React.Component {
         <TextInput
           style={styles.fieldText}
           placeholder={this.state.pickerSelection}
-          onChangeText={mealInfo => this.setState({mealInfo: mealInfo})} //setting meal information entered
+          onChangeText={mealInfo => this.setState({mealInfo: mealInfo})}
+          value={this.state.mealInfo}//setting meal information entered
         />
       );
     }
   }
 
   render() {
+    console.log('Date' + this.state.date);
+    const DatePicker = () => {
+      const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+      const showDatePicker = () => {
+        setDatePickerVisibility(true);
+      };
+
+      const hideDatePicker = () => {
+        setDatePickerVisibility(false);
+      };
+
+      const handleConfirm = date => {
+        this.setState(
+          {
+            date: date,
+          },
+          function() {
+            this.setformattedDate();
+          },
+        );
+        hideDatePicker();
+      };
+
+      return (
+        <View>
+          <TouchableOpacity style={styles.button} onPress={showDatePicker}>
+            <Text style={styles.text}>{this.state.formattedDate}</Text>
+          </TouchableOpacity>
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
+            maximumDate={new Date()}
+          />
+        </View>
+      );
+    };
     return (
       <View style={styles.heading}>
         <View
@@ -158,6 +212,7 @@ export default class EnterMealDailyInput extends React.Component {
             flex: 0.2,
             alignItems: 'center',
             justifyContent: 'center',
+            paddingBottom: '2%',
             //backgroundColor: 'white',
           }}>
           <Text style={{textAlign: 'center', fontSize: 20}}>
@@ -171,14 +226,29 @@ export default class EnterMealDailyInput extends React.Component {
             flex: 0.3,
             //backgroundColor: 'white',
           }}>
-          <View style={{flex: 0.5, marginLeft: '5%'}}>
-            <Text>Select Input Type: </Text>
+          <View style={{flex: 0.4, marginLeft: '15%'}}>
+            <Text style={{fontSize: 17}}>Select Date: </Text>
           </View>
-          <View style={{flex: 0.5}}>
+          <View style={{flex: 0.6}}>
+            <DatePicker />
+          </View>
+        </View>
+        <View style={{padding: '4%'}} />
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            flex: 0.3,
+            //backgroundColor: 'white',
+          }}>
+          <View style={{flex: 0.4, marginLeft: '15%'}}>
+            <Text style={{fontSize: 16}}>Select Input Type: </Text>
+          </View>
+          <View style={{flex: 0.6}}>
             <Picker
-              itemStyle={{fontSize: 16}}
+              itemStyle={{fontSize: 16, marginRight: '15%'}}
               selectedValue={this.state.pickerSelection}
-              style={{marginRight: '5%'}}
+              style={{}}
               onValueChange={(itemValue, itemIndex) =>
                 this.setState({pickerSelection: itemValue})
               }>
@@ -191,7 +261,7 @@ export default class EnterMealDailyInput extends React.Component {
             </Picker>
           </View>
         </View>
-
+        <View style={{padding: '4%'}} />
         <View
           style={{
             flex: 0.3,
@@ -200,6 +270,7 @@ export default class EnterMealDailyInput extends React.Component {
           }}>
           {this.renderTextInput()}
         </View>
+        <View style={{padding: '4%'}} />
         <View>
           <TouchableOpacity
             onPress={() => {
@@ -209,6 +280,7 @@ export default class EnterMealDailyInput extends React.Component {
               console.log('From meal i/p page: ' + userId);
               this.props.navigation.navigate('FavMeals', {
                 userId: userId,
+                date: this.state.formattedDate,
               });
             }}
             style={styles.linkStyle}>
@@ -245,20 +317,6 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     flex: 1,
     marginTop: '10%',
-  },
-  container: {
-    flex: 1,
-    width: '40%',
-    height: '20%',
-    alignItems: 'center',
-    alignContent: 'center',
-    marginLeft: '30%',
-  },
-  spacingHigh: {
-    padding: 15,
-  },
-  spacingSmall: {
-    padding: 10,
   },
   fieldText: {
     fontSize: 16,
@@ -304,6 +362,19 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   linkStyle: {
+    alignItems: 'center',
+  },
+  text: {
+    fontSize: 16,
+    // width: 100,
+  },
+  button: {
+    borderWidth: 1,
+    borderRadius: 8,
+    borderColor: '#000',
+    backgroundColor: COLORS.primaryColor,
+    padding: 2,
+    marginRight: '15%',
     alignItems: 'center',
   },
 });
