@@ -33,12 +33,44 @@ export default class FavMeals extends Component {
     Alert.alert(
       'Adding Meal',
       "'Are you sure you want to add meal '" + item.name + "'?",
-      [{text: 'Yes', onPress: () => this.saveMeal(item)}, {text: 'No'}],
+      [
+        {text: 'Yes', onPress: () => this.saveMealFromFavorties(item)},
+        {text: 'No'},
+      ],
     );
   }
 
-  saveMeal(item) {
+  saveMealFromFavorties(item) {
     //save to backend
+    const {route} = this.props;
+    const {userId} = route.params;
+    this.setState({userId: userId});
+    console.log('In the savemealsfromfavs function: ' + userId);
+    console.log("");
+    fetch(
+      Platform.OS === 'android'
+        ? `http://10.0.2.2:8080/Meal/saveMealFromFavorites?userId=${userId}&mealId=${
+            item.id
+          }`
+        : `http://localhost:8080/Meal/saveMealFromFavorites?userId=${userId}&mealId=${
+            item.id
+          }`,
+    )
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        if (data.error) {
+          Alert.alert(
+            'Error',
+            'Unable to save meal at this time, please try again later.',
+            [{text: 'OK'}],
+          );
+        } else {
+          Alert.alert('Successfully Saved', 'Meal successfully saved.', [
+            {text: 'OK'},
+          ]);
+        }
+      });
   }
 
   getMeals = () => {
@@ -115,7 +147,6 @@ export default class FavMeals extends Component {
   }
 
   render() {
-    //this.getMeals();
     return (
       <ScrollView>
         <View style={styles.heading}>
@@ -126,7 +157,7 @@ export default class FavMeals extends Component {
             <TouchableOpacity
               key={item.id}
               style={styles.rowcontainer}
-              onPress={() => this.alertItemName(item)}>
+              onPress={() => this.confirmAdd(item)}>
               <View style={{flex: 1}}>
                 <Text style={styles.text}>{item.name}</Text>
               </View>

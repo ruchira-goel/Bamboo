@@ -171,4 +171,12 @@ public class MealHandler {
         this.userRepo.save(user);
         return true;
     }
+
+    public boolean saveMealFromFavorites(String userId, String mealId) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date currentDate = new Date(System.currentTimeMillis());
+        String date = formatter.format(currentDate);
+        addToDate(date, this.mealRepo.findById(mealId).get());
+        return true;
+    }
 }

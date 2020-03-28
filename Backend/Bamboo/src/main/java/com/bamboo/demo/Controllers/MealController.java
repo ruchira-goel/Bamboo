@@ -53,6 +53,12 @@ public class MealController {
         return mealHandler.deleteFavorite(userId, mealId);
     }
 
+    @RequestMapping("/Meal/saveMealFromFavorites")
+    public boolean saveMealFromFavorites(@RequestParam(value = "userId") String userId,
+                                      @RequestParam(value="mealId") String mealId) {
+        return this.mealHandler.saveMealFromFavorites(userId, mealId);
+    }
+
     @RequestMapping("/Meal/all")
     public List<Meal> users() {
         return mealHandler.display();
