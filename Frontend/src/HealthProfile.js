@@ -39,7 +39,7 @@ export default class HealthProfile extends Component {
     fetch(
       Platform.OS === 'android'
         ? `${URL.heroku}/User/getCharacteristics?userId=${userId}`
-        : `http://localhost:8080/User/getCharacteristics?userId=${userId}`,
+        : `${URL.ios}/User/getCharacteristics?userId=${userId}`,
     )
       .then(res => res.json())
       .then(data =>
@@ -89,7 +89,7 @@ export default class HealthProfile extends Component {
     fetch(
       Platform.OS === 'android'
         ? `${URL.heroku}/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`
-        : `http://localhost:8080/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
+        : `${URL.ios}/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
     )
       .then(res => res.json())
       .then(data => {

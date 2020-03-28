@@ -10,14 +10,10 @@ import COLORS from '../src/styles/colors';
 import SettingsPage from '../src/Settings';
 import LoginPage from '../src/Login.js';
 import SignUpPage from '../src/SignUp.js';
-// import LoginPage from './Login.js';
-// import SignUpPage from './SignUp.js';
-
-const Test = ({navigation}) => {
-  useEffect(() => {
-    NavigationService._navigation = navigation;
-  }, [navigation]);
-};
+import EnterMealDailyInput from '../src/EnterMealDailyInput';
+import ExerciseInput from '../src/ExerciseInput';
+import DietGraphs from '../src/DietGraphs';
+import ExerciseGraphs from '../src/ExerciseGraphs';
 
 function LoginScreen({navigation}) {
   return (
@@ -54,22 +50,18 @@ function SettingsScreen({route, navigation}) {
 }
 
 function MealScreen({route, navigation}) {
-  const {user} = route.params;
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
       <StackHeader screenName={'Meal Input'} />
-      <Text>Health Input Screen</Text>
-      <Text>userParam: {JSON.stringify(user)}</Text>
+      <EnterMealDailyInput />
     </View>
   );
 }
 function ExerciseScreen({route, navigation}) {
-  const {user} = route.params;
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
       <StackHeader screenName={'Exercise Input'} />
-      <Text>Exercise Input Screen</Text>
-      <Text>userParam: {JSON.stringify(user)}</Text>
+      <ExerciseInput />
       {/*<Button*/}
       {/*  title="Go to Profile"*/}
       {/*  onPress={() => navigation.navigate('Profile')}*/}
@@ -77,8 +69,26 @@ function ExerciseScreen({route, navigation}) {
     </View>
   );
 }
+function DietGraphsScreen({route, navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <StackHeader screenName={'Diet Graphs'} />
+      {/*<Text>temporary text</Text>*/}
+      <DietGraphs />
+    </View>
+  );
+}
+function ExerciseGraphsScreen({route, navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <StackHeader screenName={'Exercise Graphs'} />
+      <ExerciseGraphs />
+    </View>
+  );
+}
 
-function HomeScreen({navigation}) {
+function HomeScreen({route, navigation}) {
+  const {userId} = route.params;
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
       <MenuHeader screenName={'Home'} />
@@ -101,6 +111,30 @@ function HomeScreen({navigation}) {
           })
         }>
         <Text style={styles.text}>Exercise Input</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() =>
+          navigation.navigate('Root', {
+            screen: 'Exercise Graphs',
+            params: {
+              userId: userId,
+            },
+          })
+        }>
+        <Text style={styles.text}>Exercise Graphs</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() =>
+          navigation.navigate('Root', {
+            screen: 'Diet Graphs',
+            params: {
+              userId: userId,
+            },
+          })
+        }>
+        <Text style={styles.text}>Diet Graphs</Text>
       </TouchableOpacity>
     </View>
   );
@@ -256,6 +290,24 @@ function Root() {
       <Stack.Screen
         name="Meal"
         component={MealScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: COLORS.primaryColor,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Diet Graphs"
+        component={DietGraphsScreen}
+        options={{
+          headerStyle: {
+            backgroundColor: COLORS.primaryColor,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Exercise Graphs"
+        component={ExerciseGraphsScreen}
         options={{
           headerStyle: {
             backgroundColor: COLORS.primaryColor,

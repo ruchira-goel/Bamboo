@@ -35,7 +35,7 @@ export default class EnterMealDailyInput extends React.Component {
       fetch(
         Platform.OS === 'android'
           ? `${URL.heroku}/Meal/infoFromLink?link=${mealInfo}&userId=${userId}`
-          : `http://localhost:8080/Meal/infoFromLink?link=${mealInfo}&userId=${userId}`,
+          : `${URL.ios}/Meal/infoFromLink?link=${mealInfo}&userId=${userId}`,
       )
         .then(res => res.json())
         .then(data => {
@@ -57,7 +57,7 @@ export default class EnterMealDailyInput extends React.Component {
       fetch(
         Platform.OS === 'android'
           ? `${URL.heroku}/Meal/infoFromName?name=${mealInfo}&userid=${userId}`
-          : `http://localhost:8080/Meal/infoFromName?name=${mealInfo}&userid=${userId}`,
+          : `${URL.ios}/Meal/infoFromName?name=${mealInfo}&userid=${userId}`,
       )
         .then(res => res.json())
         .then(data => {

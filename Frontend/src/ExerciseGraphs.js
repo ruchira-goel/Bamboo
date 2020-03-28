@@ -31,6 +31,7 @@ import {
 import URL from './url';
 import BUTTONS from './styles/buttons';
 import COLORS from './styles/colors';
+import {useNavigation, useRoute} from "@react-navigation/native";
 
 let today = new Date();
 let day = today.getDay();
@@ -51,7 +52,7 @@ for (let i = 0; i < 7; i++) {
   }
 }
 
-export default class ExerciseGraphs extends Component {
+class ExerciseGraphs extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -202,6 +203,12 @@ export default class ExerciseGraphs extends Component {
       </View>
     );
   }
+}
+
+export default function(props) {
+  const navigation = useNavigation();
+  const route = useRoute();
+  return <ExerciseGraphs {...props} navigation={navigation} route={route} />;
 }
 
 const styles = StyleSheet.create({

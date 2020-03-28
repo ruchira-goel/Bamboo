@@ -11,6 +11,7 @@ import {
   VictoryLabel,
 } from 'victory-native';
 import URL from './url';
+import {useNavigation, useRoute} from "@react-navigation/native";
 
 let today = new Date();
 let day = today.getDay();
@@ -31,7 +32,7 @@ for (let i = 0; i < 7; i++) {
   }
 }
 
-export default class DietGraphs extends Component {
+class DietGraphs extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -107,6 +108,12 @@ export default class DietGraphs extends Component {
       </View>
     );
   }
+}
+
+export default function(props) {
+  const navigation = useNavigation();
+  const route = useRoute();
+  return <DietGraphs {...props} navigation={navigation} route={route} />;
 }
 
 const styles = StyleSheet.create({

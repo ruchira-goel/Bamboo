@@ -14,27 +14,7 @@ import {useNavigation, useRoute} from '@react-navigation/native';
 import Constants from 'expo-constants';
 import URL from './url';
 
-function ToLogin({navigation}) {
-  const nav = useNavigation();
-  return (
-    <View>
-      <TouchableOpacity
-        onPress={() =>
-          nav.navigate('Root', {
-            screen: 'Login',
-            // params: {user: 'userParam'},
-          })
-        }
-        style={styles.linkStyle}>
-        <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
-          Login!
-        </Text>
-      </TouchableOpacity>
-    </View>
-  );
-}
-
-export default class SignUp extends React.Component {
+class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -87,8 +67,12 @@ export default class SignUp extends React.Component {
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `${URL.heroku}/User/signup?name=${name}&email=${email}&password=${password}`
-        : `http://localhost:8080/User/signup?name=${name}&email=${email}&password=${password}`,
+        ? `${
+            URL.heroku
+          }/User/signup?name=${name}&email=${email}&password=${password}`
+        : `${
+            URL.ios
+          }/User/signup?name=${name}&email=${email}&password=${password}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -115,6 +99,14 @@ export default class SignUp extends React.Component {
             userId: data.userId,
             password: password,
           });
+          // this.props.navigation.navigate('Root', {
+          //     screen: 'EnterCharacteristics',
+          //     params: {
+          //         userId: data.userId,
+          //         email: email,
+          //         encryptedPassword: encryptedPassword,
+          //     },
+          // });
         }
       });
   };
@@ -208,11 +200,27 @@ export default class SignUp extends React.Component {
         <View style={{padding: '1%'}} />
         <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
           <Text style={{padding: 15}}>Already have an account? </Text>
-          <ToLogin />
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate('Root', {
+                screen: 'Login',
+                // params: {user: 'userParam'},
+              })
+            }
+            style={styles.linkStyle}>
+            <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
+              Login!
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
   }
+}
+
+export default function(props) {
+  const navigation = useNavigation();
+  return <SignUp {...props} navigation={navigation} />;
 }
 
 const styles = StyleSheet.create({

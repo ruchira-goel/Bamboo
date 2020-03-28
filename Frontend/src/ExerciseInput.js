@@ -233,7 +233,7 @@ export default class ExerciseInput extends Component {
     fetch(
       Platform.OS === 'android'
         ? `${URL.heroku}/Activity/saveActivity?&userId=${userId}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`
-        : `http://localhost:8080/Activity/saveActivity?&userId=${userId}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`,
+        : `${URL.ios}/Activity/saveActivity?&userId=${userId}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`,
     )
       .then(res => res.json())
       .then(data => {
