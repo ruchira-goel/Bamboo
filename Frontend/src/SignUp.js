@@ -4,19 +4,15 @@ import {
   View,
   StyleSheet,
   TextInput,
-  Button,
   Alert,
   TouchableOpacity,
   Platform,
-  Dimensions,
 } from 'react-native';
-import DoneButton from 'react-native-keyboard-done-button';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import Constants from 'expo-constants';
+import {useNavigation} from '@react-navigation/native';
 import URL from './url';
 import COLORS from './styles/colors';
 import {LinearGradient} from 'expo-linear-gradient';
-const screenWidth = Dimensions.get('window').width;
+import CONSTANTS from './constants';
 
 class SignUp extends React.Component {
   constructor(props) {
@@ -270,7 +266,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   fieldText: {
-    width: screenWidth * 0.75,
+    width: CONSTANTS.screenWidth * 0.75,
     fontSize: 16,
     justifyContent: 'center',
     alignItems: 'center',
@@ -280,7 +276,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   btnStyle: {
-    width: screenWidth * 0.75,
+    width: CONSTANTS.screenWidth * 0.75,
     backgroundColor: COLORS.palette.primary.main,
     borderRadius: 4,
     borderColor: COLORS.palette.primary.main,

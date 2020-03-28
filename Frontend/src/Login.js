@@ -7,14 +7,12 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
-  Dimensions,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {LinearGradient} from 'expo-linear-gradient';
 
 import URL from './url';
 import COLORS from './styles/colors';
-const screenWidth = Dimensions.get('window').width;
 
 class Login extends React.Component {
   constructor(props) {
