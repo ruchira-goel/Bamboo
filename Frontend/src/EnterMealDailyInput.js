@@ -16,6 +16,7 @@ export default class EnterMealDailyInput extends React.Component {
     this.state = {
       pickerSelection: 'Enter link',
       mealInfo: '',
+      userId: '',
     };
   }
 
@@ -23,6 +24,7 @@ export default class EnterMealDailyInput extends React.Component {
     const {pickerSelection, mealInfo} = this.state;
     const {route} = this.props;
     const {userId} = route.params;
+    this.setState({userId: userId});
     console.log('id: ' + userId + ' Link: ' + mealInfo);
     if (!mealInfo) {
       Alert.alert('Meal Information Empty', 'Please enter meal information.', [
@@ -46,9 +48,18 @@ export default class EnterMealDailyInput extends React.Component {
               [{text: 'OK'}],
             );
           } else {
-            Alert.alert('Meal Added', data.name + ' successfully added!', [
-              {text: 'OK'},
-            ]);
+            Alert.alert(
+              'Meal Added',
+              data.name +
+                ' successfully added! Do you want to save this meal to your favorites?',
+              [
+                {
+                  text: 'Yes',
+                  onPress: () => this.addToFavorites(data.id, userId),
+                },
+                {text: 'No'},
+              ],
+            );
             //going to home screen
           }
         });
@@ -68,13 +79,49 @@ export default class EnterMealDailyInput extends React.Component {
               [{text: 'OK'}],
             );
           } else {
-            Alert.alert('Meal Added', data.name + ' successfully added!', [
-              {text: 'OK'},
-            ]);
+            Alert.alert(
+              'Meal Added',
+              data.name +
+                ' successfully added! Do you want to save this meal to your favorites?',
+              [
+                {
+                  text: 'Yes',
+                  onPress: () => this.addToFavorites(data.id, userId),
+                },
+                {text: 'No'},
+              ],
+            );
             //going to home screen
           }
         });
     }
+  };
+
+  addToFavorites = (mealId, userId) => {
+    console.log('userid from addToFavs: ' + userId);
+    fetch(
+      Platform.OS === 'android'
+        ? `http://10.0.2.2:8080/Meal/addToFavorites?mealId=${mealId}&userId=${userId}`
+        : `http://localhost:8080/Meal/addToFavorites?mealId=${mealId}&userId=${userId}`,
+    )
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        if (data.error) {
+          Alert.alert(
+            'Save Failed',
+            'Unable to save to favorites this time, please try a different name.',
+            [{text: 'OK'}],
+          );
+        } else {
+          Alert.alert(
+            'Added to Favorites',
+            data.name + ' added to favorites!',
+            [{text: 'OK'}],
+          );
+          //going to home screen
+        }
+      });
   };
 
   renderHomePage = () => {
@@ -104,8 +151,6 @@ export default class EnterMealDailyInput extends React.Component {
   }
 
   render() {
-    const {route} = this.props;
-    const {pickerSelection} = this.state;
     return (
       <View style={styles.heading}>
         <View
@@ -146,32 +191,33 @@ export default class EnterMealDailyInput extends React.Component {
             </Picker>
           </View>
         </View>
-        <View
-          style={{
-            flex: 0.2,
-            //backgroundColor: 'green'
-          }}
-        />
+
         <View
           style={{
             flex: 0.3,
             justifyContent: 'center',
             //backgroundColor: 'white',
           }}>
-          {/*<TextInput*/}
-          {/*  style={styles.fieldText}*/}
-          {/*  placeholder={pickerSelection}*/}
-          {/*  onChangeText={mealInfo => this.setState({mealInfo: mealInfo})} //setting meal information entered*/}
-          {/*/>*/}
           {this.renderTextInput()}
-          {/*<View style={{backgroundColor: 'green', flex: 1}}>{this.renderTextInput()}</View>*/}
         </View>
-        <View
-          style={{
-            flex: 0.2,
-            //backgroundColor: 'green'
-          }}
-        />
+        <View>
+          <TouchableOpacity
+            onPress={() => {
+              const {route} = this.props;
+              const {userId} = route.params;
+              this.setState({userId: userId});
+              console.log('From meal i/p page: ' + userId);
+              this.props.navigation.navigate('FavMeals', {
+                userId: userId,
+              });
+            }}
+            style={styles.linkStyle}>
+            <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
+              Or select a meal from your favorites!
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{padding: '4%'}} />
         <View style={{alignItems: 'center', flex: 1}}>
           <TouchableOpacity onPress={this.addMeal} style={styles.btnStyle}>
             <Text>Save Meal</Text>
@@ -256,5 +302,8 @@ const styles = StyleSheet.create({
     //alignSelf: 'stretch',
     width: '100%',
     height: '100%',
+  },
+  linkStyle: {
+    alignItems: 'center',
   },
 });

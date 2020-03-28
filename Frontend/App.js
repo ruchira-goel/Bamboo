@@ -20,6 +20,7 @@ import HealthProfile from './src/HealthProfile';
 import ExerciseInput from './src/ExerciseInput';
 import ChangePass from './src/ChangePass';
 import SetGoal from './src/SetGoal';
+import FavMeals from './src/FavMeals';
 
 const Stack = createStackNavigator();
 
@@ -38,6 +39,11 @@ function App() {
         <Stack.Screen
           name="MealInput"
           component={EnterMealDailyInput}
+          headerShown={'false'}
+        />
+        <Stack.Screen
+          name="FavMeals"
+          component={FavMeals}
           headerShown={'false'}
         />
         <Stack.Screen

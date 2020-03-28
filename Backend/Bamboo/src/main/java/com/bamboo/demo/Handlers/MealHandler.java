@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -140,32 +141,34 @@ public class MealHandler {
         }
     }
 
-//    public boolean checkMealProgress(String date, String goalId) {
-//        Goal goal = this.goalRepo.findGoalById(goalId);
-//        Optional<DailyInfo> dailyInfoOpt = this.dailyInfoRepo.findByDateAndAndUserId(date, goal.getUserId());
-//        if (!dailyInfoOpt.isPresent()) {
-//            goal.setGoalProgress(date, 0);
-//            return false;
-//        }
-//        DailyInfo dailyInfo = dailyInfoOpt.get();
-//        if (dailyInfo.getMeals().isEmpty()) {
-//            goal.setGoalProgress(date, 0);
-//            return false;
-//        }
-//        double currentAmount = 0;
-//        for (String mealId : dailyInfo.getMeals()) {
-//            Meal meal = this.mealRepo.findById(mealId).get();
-//            currentAmount += meal.getValue(goal.getTrackedItem());
-//        }
-//        goal.setGoalProgress(date, currentAmount / goal.getAmount());
-//        return true;
-//    }
-
     public List<Meal> display() {
         return this.mealRepo.findAll();
     }
 
     public void del() {
         this.mealRepo.deleteAll();
+    }
+
+    public Meal addToFavorites(String mealId, String userId) {
+        User user = this.userRepo.findUserByUserId(userId);
+        user.getFavMeals().add((mealId));
+        this.userRepo.save(user);
+        return this.mealRepo.findById(mealId).get();
+    }
+
+    public ArrayList<Meal> getFavorites(String userId) {
+        User user = this.userRepo.findUserByUserId(userId);
+        ArrayList<Meal> meals = new ArrayList<>();
+        for (String mealId : user.getFavMeals()) {
+            meals.add(this.mealRepo.findById(mealId).get());
+        }
+        return meals;
+    }
+
+    public boolean deleteFavorite(String userId, String mealId) {
+        User user = this.userRepo.findUserByUserId(userId);
+        user.getFavMeals().remove(mealId);
+        this.userRepo.save(user);
+        return true;
     }
 }

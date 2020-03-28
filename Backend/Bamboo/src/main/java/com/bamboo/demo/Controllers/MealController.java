@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -32,6 +33,24 @@ public class MealController {
     public Meal infoFromName(@RequestParam(value = "name") String name,
                              @RequestParam(value = "userid") String userid) throws IOException, IllegalAccessException {
         return mealHandler.saveMealFromName(name, userid);
+    }
+
+    @RequestMapping("/Meal/addToFavorites")          //meal info from name
+    public Meal addToFavorites(@RequestParam(value = "mealId") String mealId,
+                               @RequestParam(value = "userId") String userId) {
+        return mealHandler.addToFavorites(mealId, userId);
+    }
+
+    @RequestMapping("/Meal/getFavorites")          //meal info from name
+    public ArrayList<Meal> getFavorites(@RequestParam(value = "userId") String userId) {
+        return mealHandler.getFavorites(userId);
+    }
+
+    @RequestMapping("/Meal/deleteFavorite")          //meal info from name
+    public boolean deleteFavorite(@RequestParam(value = "userId") String userId,
+                               @RequestParam(value = "mealId") String mealId) {
+        System.out.println("Returned from mealhandler");
+        return mealHandler.deleteFavorite(userId, mealId);
     }
 
     @RequestMapping("/Meal/all")
