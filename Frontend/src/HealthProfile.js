@@ -11,13 +11,14 @@ import {
 } from 'react-native';
 import BUTTONS from './styles/buttons';
 import URL from './url';
+import {useNavigation, useRoute} from "@react-navigation/native";
 
 // TODO:
 // 1. put user's name in header
 // 2. validate inputs, display errors
 // 3. display correct units
 
-export default class HealthProfile extends Component {
+class HealthProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -220,6 +221,12 @@ export default class HealthProfile extends Component {
       </View>
     );
   }
+}
+
+export default function(props) {
+  const navigation = useNavigation();
+  const route = useRoute();
+  return <HealthProfile {...props} navigation={navigation} route={route} />;
 }
 
 const styles = StyleSheet.create({

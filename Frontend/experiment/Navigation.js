@@ -14,6 +14,7 @@ import EnterMealDailyInput from '../src/EnterMealDailyInput';
 import ExerciseInput from '../src/ExerciseInput';
 import DietGraphs from '../src/DietGraphs';
 import ExerciseGraphs from '../src/ExerciseGraphs';
+import HealthProfile from '../src/HealthProfile';
 
 function LoginScreen({navigation}) {
   return (
@@ -37,6 +38,7 @@ function ProfileScreen({navigation}) {
     <View style={{flex: 1, alignItems: 'center'}}>
       <MenuHeader screenName={'Profile'} />
       <Text>Profile Screen</Text>
+      {/*<HealthProfile />*/}
     </View>
   );
 }
@@ -97,7 +99,9 @@ function HomeScreen({route, navigation}) {
         onPress={() =>
           navigation.navigate('Root', {
             screen: 'Meal',
-            params: {user: 'userParam'},
+            params: {
+              userId: userId,
+            },
           })
         }>
         <Text style={styles.text}>Meal Input</Text>
@@ -107,7 +111,9 @@ function HomeScreen({route, navigation}) {
         onPress={() =>
           navigation.navigate('Root', {
             screen: 'Exercise',
-            params: {user: 'userParam'},
+            params: {
+              userId: userId,
+            },
           })
         }>
         <Text style={styles.text}>Exercise Input</Text>
@@ -251,69 +257,13 @@ function Root() {
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Screen
-        name="Login"
-        component={LoginScreen}
-        options={{
-          headerStyle: {
-            backgroundColor: COLORS.primaryColor,
-          },
-        }}
-      />
-      <Stack.Screen
-        name="SignUp"
-        component={SignUpScreen}
-        options={{
-          headerStyle: {
-            backgroundColor: COLORS.primaryColor,
-          },
-        }}
-      />
-      <Stack.Screen
-        name="Home"
-        component={HomeScreen}
-        options={{
-          headerStyle: {
-            backgroundColor: COLORS.primaryColor,
-          },
-        }}
-      />
-      <Stack.Screen
-        name="Exercise"
-        component={ExerciseScreen}
-        options={{
-          headerStyle: {
-            backgroundColor: COLORS.primaryColor,
-          },
-        }}
-      />
-      <Stack.Screen
-        name="Meal"
-        component={MealScreen}
-        options={{
-          headerStyle: {
-            backgroundColor: COLORS.primaryColor,
-          },
-        }}
-      />
-      <Stack.Screen
-        name="Diet Graphs"
-        component={DietGraphsScreen}
-        options={{
-          headerStyle: {
-            backgroundColor: COLORS.primaryColor,
-          },
-        }}
-      />
-      <Stack.Screen
-        name="Exercise Graphs"
-        component={ExerciseGraphsScreen}
-        options={{
-          headerStyle: {
-            backgroundColor: COLORS.primaryColor,
-          },
-        }}
-      />
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="SignUp" component={SignUpScreen} />
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Exercise" component={ExerciseScreen} />
+      <Stack.Screen name="Meal" component={MealScreen} />
+      <Stack.Screen name="Diet Graphs" component={DietGraphsScreen} />
+      <Stack.Screen name="Exercise Graphs" component={ExerciseGraphsScreen} />
     </Stack.Navigator>
   );
 }
@@ -348,7 +298,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: StatusBar.currentHeight,
     padding: 10,
-    backgroundColor: COLORS.primaryColor,
+    backgroundColor: COLORS.palette.primary.main,
   },
   leftContainer: {
     flex: 1,

@@ -7,10 +7,14 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
+  Dimensions,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {LinearGradient} from 'expo-linear-gradient';
 
 import URL from './url';
+import COLORS from './styles/colors';
+const screenWidth = Dimensions.get('window').width;
 
 class Login extends React.Component {
   constructor(props) {
@@ -18,6 +22,8 @@ class Login extends React.Component {
     this.state = {
       email: '',
       encryptedPassword: '',
+      borderColorA: COLORS.palette.gray,
+      borderColorB: COLORS.palette.gray,
     };
   }
 
@@ -67,47 +73,69 @@ class Login extends React.Component {
       });
   };
 
+  onFocus(field) {
+    field === 'a'
+      ? this.setState({
+          borderColorA: COLORS.palette.primary.main,
+        })
+      : this.setState({
+          borderColorB: COLORS.palette.primary.main,
+        });
+  }
+
+  onBlur(field) {
+    field === 'a'
+      ? this.setState({
+          borderColorA: COLORS.palette.gray,
+        })
+      : this.setState({
+          borderColorB: COLORS.palette.gray,
+        });
+  }
+
   render() {
     return (
-      <View style={styles.heading}>
+      <View styles={styles.container}>
         <Text style={styles.title}>Bamboo.</Text>
-        <View style={{padding: '2%'}} />
-        <View style={styles.spacingHigh} />
         <TextInput
-          style={styles.fieldText}
+          onBlur={() => this.onBlur('a')}
+          onFocus={() => this.onFocus('a')}
+          style={[styles.fieldText, {borderColor: this.state.borderColorA}]}
           autoCapitalize="none"
-          placeholder="Enter email"
+          placeholder="Email"
           onChangeText={email => this.setState({email})} //setting the email when user enters it
         />
-        <View style={{padding: '3%'}} />
         <TextInput
-          style={styles.fieldText}
+          onBlur={() => this.onBlur('b')}
+          onFocus={() => this.onFocus('b')}
+          style={[styles.fieldText, {borderColor: this.state.borderColorB}]}
           autoCapitalize="none"
-          placeholder="Enter password"
+          placeholder="Password"
           secureTextEntry={true}
           onChangeText={encryptedPassword => this.setState({encryptedPassword})} //setting the password when user enters it, not encrypted yet
         />
-        <View style={{padding: '3%'}} />
-        <View style={styles.spacingSmall} />
-        <View style={styles.container}>
-          <TouchableOpacity onPress={this.login} style={styles.btnStyle}>
-            <Text>Login</Text>
+        <TouchableOpacity onPress={this.login}>
+          <LinearGradient
+            colors={['#aaddaa', '#96d297', '#00c880']}
+            style={styles.btnStyle}
+            start={[0.0, 0.0]}
+            end={[1.0, 1.0]}>
+            <Text style={styles.btnText}>Login</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          <Text style={{padding: 15}}>Don't have an account? </Text>
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate('Root', {
+                screen: 'SignUp',
+              })
+            }
+            style={styles.linkStyle}>
+            <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
+              Signup!
+            </Text>
           </TouchableOpacity>
-          <View style={{padding: '2%'}} />
-          <View style={{flex: 1, flexDirection: 'row'}}>
-            <Text style={{padding: 15}}>Don't have an account? </Text>
-            <TouchableOpacity
-              onPress={() =>
-                this.props.navigation.navigate('Root', {
-                  screen: 'SignUp',
-                })
-              }
-              style={styles.linkStyle}>
-              <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
-                Signup!
-              </Text>
-            </TouchableOpacity>
-          </View>
         </View>
       </View>
     );
@@ -120,42 +148,26 @@ export default function(props) {
 }
 
 const styles = StyleSheet.create({
-  heading: {
-    fontSize: 24,
-    fontWeight: '500',
-    flex: 1,
-    marginTop: '7%',
+  container: {
+    alignItems: 'center',
+    alignContent: 'center',
   },
   title: {
-    margin: 12,
+    marginTop: 50,
+    marginBottom: 50,
     fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
     textDecorationColor: 'gray',
   },
-  container: {
-    flex: 1,
-    //width: '40%',
-    //height: '20%',
-    alignItems: 'center',
-    alignContent: 'center',
-    //backgroundColor: 'blue',
-    //marginBottom: '70%',
-    //marginLeft: '30%',
-  },
-  spacingHigh: {
-    padding: 15,
-  },
-  spacingSmall: {
-    padding: 10,
-  },
   fieldText: {
     fontSize: 16,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: '15%',
-    marginRight: '15%',
-    borderBottomWidth: 0.5,
+    borderWidth: 1.5,
+    borderRadius: 4,
+    marginBottom: 30,
+    padding: 10,
   },
   alignLeftView: {
     flex: 1,
@@ -163,14 +175,17 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   btnStyle: {
-    backgroundColor: '#3eb245',
+    backgroundColor: COLORS.palette.primary.main,
     color: 'black',
-    borderRadius: 2,
-    borderColor: '#3eb245',
-    width: '40%',
-    height: '11%',
+    borderRadius: 4,
+    borderColor: COLORS.palette.primary.main,
+    padding: 12,
     justifyContent: 'center', //text in the middle of the button
     alignItems: 'center', //text in the middle of the button
+    marginTop: 30,
+  },
+  btnText: {
+    fontSize: 16,
   },
   linkStyle: {
     marginBottom: '70%',
