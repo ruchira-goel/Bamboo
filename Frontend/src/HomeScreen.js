@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center', //text in the middle of the button
     alignItems: 'center', //text in the middle of the button
   },
-  /*textalign for the text to be in the center for "bamboo."*/
+  /*text align for the text to be in the center for "bamboo."*/
   picker: {
     width: 100,
   },

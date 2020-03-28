@@ -81,7 +81,7 @@ class ViewGoals extends Component {
   }
 
   edit(item) {
-    Alert.alert('Edit Goal', 'Navigate to edit page, editting ' + item.goal, [
+    Alert.alert('Edit Goal', 'Navigate to edit page, editing ' + item.goal, [
       {text: 'OK'},
     ]);
   }
