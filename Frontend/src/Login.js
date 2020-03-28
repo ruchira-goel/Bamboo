@@ -133,7 +133,7 @@ class Login extends React.Component {
             }
             style={styles.linkStyle}>
             <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
-              Signup!
+              Sign Up!
             </Text>
           </TouchableOpacity>
         </View>
@@ -169,19 +169,13 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     padding: 10,
   },
-  alignLeftView: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
   btnStyle: {
     backgroundColor: COLORS.palette.primary.main,
-    color: 'black',
     borderRadius: 4,
     borderColor: COLORS.palette.primary.main,
     padding: 12,
-    justifyContent: 'center', //text in the middle of the button
-    alignItems: 'center', //text in the middle of the button
+    justifyContent: 'center',
+    alignItems: 'center',
     marginTop: 30,
   },
   btnText: {
@@ -191,5 +185,4 @@ const styles = StyleSheet.create({
     marginBottom: '70%',
     padding: 15,
   },
-  /*textalign for the text to be in the center for "bamboo."*/
 });

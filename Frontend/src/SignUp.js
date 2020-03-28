@@ -8,11 +8,15 @@ import {
   Alert,
   TouchableOpacity,
   Platform,
+  Dimensions,
 } from 'react-native';
 import DoneButton from 'react-native-keyboard-done-button';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import Constants from 'expo-constants';
 import URL from './url';
+import COLORS from './styles/colors';
+import {LinearGradient} from 'expo-linear-gradient';
+const screenWidth = Dimensions.get('window').width;
 
 class SignUp extends React.Component {
   constructor(props) {
@@ -22,6 +26,10 @@ class SignUp extends React.Component {
       email: '',
       password: '',
       confirmPassword: '',
+      borderColorA: COLORS.palette.gray,
+      borderColorB: COLORS.palette.gray,
+      borderColorC: COLORS.palette.gray,
+      borderColorD: COLORS.palette.gray,
     };
   }
 
@@ -111,21 +119,65 @@ class SignUp extends React.Component {
       });
   };
 
+  onFocus(field) {
+    switch (field) {
+      case 'a':
+        this.setState({
+          borderColorA: COLORS.palette.primary.main,
+        });
+        break;
+      case 'b':
+        this.setState({
+          borderColorB: COLORS.palette.primary.main,
+        });
+        break;
+      case 'c':
+        this.setState({
+          borderColorC: COLORS.palette.primary.main,
+        });
+        break;
+      case 'd':
+        this.setState({
+          borderColorD: COLORS.palette.primary.main,
+        });
+        break;
+    }
+  }
+
+  onBlur(field) {
+    switch (field) {
+      case 'a':
+        this.setState({
+          borderColorA: COLORS.palette.gray,
+        });
+        break;
+      case 'b':
+        this.setState({
+          borderColorB: COLORS.palette.gray,
+        });
+        break;
+      case 'c':
+        this.setState({
+          borderColorC: COLORS.palette.gray,
+        });
+        break;
+      case 'd':
+        this.setState({
+          borderColorD: COLORS.palette.gray,
+        });
+        break;
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Bamboo</Text>
+        <Text style={styles.title}>Bamboo.</Text>
         <Text style={styles.paragraph}>Create a Bamboo account</Text>
         <TextInput
-          style={{
-            height: 20,
-            marginBottom: 15,
-            marginTop: 20,
-            marginLeft: 30,
-            marginRight: 30,
-            borderColor: 'gray',
-            borderBottomWidth: 1,
-          }}
+          onBlur={() => this.onBlur('a')}
+          onFocus={() => this.onFocus('a')}
+          style={[styles.fieldText, {borderColor: this.state.borderColorA}]}
           autoCorrect={false}
           placeholder="name"
           autoCompleteType="name"
@@ -134,15 +186,9 @@ class SignUp extends React.Component {
           onChangeText={name => this.setState({name})}
         />
         <TextInput
-          style={{
-            height: 20,
-            marginBottom: 15,
-            marginTop: 15,
-            marginLeft: 30,
-            marginRight: 30,
-            borderColor: 'gray',
-            borderBottomWidth: 1,
-          }}
+          onBlur={() => this.onBlur('b')}
+          onFocus={() => this.onFocus('b')}
+          style={[styles.fieldText, {borderColor: this.state.borderColorB}]}
           autoCorrect={false}
           placeholder="email@example.com"
           autoCompleteType="email"
@@ -151,15 +197,9 @@ class SignUp extends React.Component {
           onChangeText={email => this.setState({email})}
         />
         <TextInput
-          style={{
-            height: 20,
-            marginBottom: 15,
-            marginTop: 15,
-            marginLeft: 30,
-            marginRight: 30,
-            borderColor: 'gray',
-            borderBottomWidth: 1,
-          }}
+          onBlur={() => this.onBlur('c')}
+          onFocus={() => this.onFocus('c')}
+          style={[styles.fieldText, {borderColor: this.state.borderColorC}]}
           autoCorrect={false}
           placeholder="password"
           returnKeyLabel="Done"
@@ -168,15 +208,9 @@ class SignUp extends React.Component {
           onChangeText={password => this.setState({password})}
         />
         <TextInput
-          style={{
-            height: 20,
-            marginBottom: 35,
-            marginTop: 15,
-            marginLeft: 30,
-            marginRight: 30,
-            borderColor: 'gray',
-            borderBottomWidth: 1,
-          }}
+          onBlur={() => this.onBlur('d')}
+          onFocus={() => this.onFocus('d')}
+          style={[styles.fieldText, {borderColor: this.state.borderColorD}]}
           autoCorrect={false}
           placeholder="confirm password"
           returnKeyLabel="Done"
@@ -184,27 +218,21 @@ class SignUp extends React.Component {
           autoCapitalize="none"
           onChangeText={confirmPassword => this.setState({confirmPassword})}
         />
-        <DoneButton
-          title="Done" //not required, default value = `Done`
-          style={{backgroundColor: 'lightgrey'}} //not required
-          doneStyle={{color: '#147efb'}} //not required
-        />
-        <Button
-          onPress={() => {
-            this.signUp();
-          }}
-          title="Sign Up"
-          color="#3eb245"
-          /*style={{backgroundColor: '#3eb245'}}*/
-        />
-        <View style={{padding: '1%'}} />
-        <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
+        <TouchableOpacity onPress={this.signUp}>
+          <LinearGradient
+            colors={['#aaddaa', '#96d297', '#00c880']}
+            style={styles.btnStyle}
+            start={[0.0, 0.0]}
+            end={[1.0, 1.0]}>
+            <Text style={styles.btnText}>Sign Up</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+        <View style={{flex: 1, flexDirection: 'row'}}>
           <Text style={{padding: 15}}>Already have an account? </Text>
           <TouchableOpacity
             onPress={() =>
               this.props.navigation.navigate('Root', {
                 screen: 'Login',
-                // params: {user: 'userParam'},
               })
             }
             style={styles.linkStyle}>
@@ -225,24 +253,44 @@ export default function(props) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#ecf0f1',
-    padding: 8,
-    marginTop: '5%',
-  },
-  paragraph: {
-    margin: 8,
-    fontSize: 18,
-    textAlign: 'center',
+    alignItems: 'center',
+    alignContent: 'center',
   },
   title: {
-    margin: 12,
+    marginTop: 50,
+    marginBottom: 10,
     fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
     textDecorationColor: 'gray',
+  },
+  paragraph: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  fieldText: {
+    width: screenWidth * 0.75,
+    fontSize: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1.5,
+    borderRadius: 4,
+    marginBottom: 15,
+    padding: 10,
+  },
+  btnStyle: {
+    width: screenWidth * 0.75,
+    backgroundColor: COLORS.palette.primary.main,
+    borderRadius: 4,
+    borderColor: COLORS.palette.primary.main,
+    padding: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  btnText: {
+    fontSize: 16,
   },
   linkStyle: {
     marginBottom: '60%',
