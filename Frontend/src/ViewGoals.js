@@ -28,6 +28,10 @@ class ViewGoals extends Component {
       goals: [],
     };
     this.fetchGoals();
+    this.props.navigation.addListener('didFocus', payload => {
+      this.setState({is_updated: true});
+      this.fetchGoals();
+    });
   }
 
   fetchGoals() {
@@ -65,7 +69,7 @@ class ViewGoals extends Component {
       {
         text: 'Yes',
         onPress: () =>
-            this.props.navigation.navigate('EditGoal', {
+          this.props.navigation.navigate('EditGoal', {
             userId: item.userId,
             goalId: item.id,
           }),

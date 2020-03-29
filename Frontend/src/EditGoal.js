@@ -130,7 +130,12 @@ export default class EditGoal extends React.Component {
           //throwing error when login fails - wrong password / email not registered yet
           Alert.alert('Error', data.message, [{text: 'OK'}]);
         } else {
-          Alert.alert('Success', 'Goal successfully saved.', [{text: 'OK'}]);
+          Alert.alert('Success', 'Goal successfully saved.', [
+            {
+              text: 'OK',
+              onPress: this.props.navigation.goBack('ViewGoals'),
+            },
+          ]);
         }
       });
   };
