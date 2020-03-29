@@ -112,7 +112,6 @@ public class UserHandler {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         user.setEncryptedPassword(passwordEncoder.encode(encryptedPassword));
         return this.userRepo.save(user);
-
     }
 
     public boolean deleteAccount(String userId) {

@@ -147,4 +147,15 @@ public class Activity {
     public String getUserId() {
         return userId;
     }
+
+    public double getValue(TrackedItem trackedItem) {
+        if(trackedItem ==  TrackedItem.MINUTES_OF_ACTIVITY) {
+            return this.minutes;
+        } else if (trackedItem == TrackedItem.HOURS_OF_ACTIVITY) {
+            return this.minutes / 60.0;
+        } else if (trackedItem == TrackedItem.CALORIES_BURNED) {
+            return this.calories;
+        }
+        return 0;
+    }
 }

@@ -13,7 +13,7 @@ import DoneButton from 'react-native-keyboard-done-button';
 import {useRoute} from '@react-navigation/native';
 import Constants from 'expo-constants';
 
-export default class App extends React.Component {
+export default class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
