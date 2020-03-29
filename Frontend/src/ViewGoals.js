@@ -7,6 +7,7 @@ import {
   Image,
   StyleSheet,
   Alert,
+  Platform,
 } from 'react-native';
 
 // Sources:
@@ -17,81 +18,105 @@ import {
 // https://reactnative.dev/docs/handling-touches
 // https://reactnativecode.com/add-onpress-onclick-image/
 // https://www.tutorialspoint.com/react_native/react_native_listview.htm
+// https://aboutreact.com/refresh-previous-screen-react-navigation/
 
 class ViewGoals extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      goals: [
-        {
-          id: 0,
-          goal:
-            '< x number of calories consumed per day calories consumed per day',
-        },
-        {
-          id: 1,
-          goal: '> y calories burned per day',
-        },
-        {
-          id: 2,
-          goal: '> z g of protein per week',
-        },
-        {
-          id: 3,
-          goal: '> p g of fat per day',
-        },
-        {
-          id: 4,
-          goal: '< x number of calories consumed per day',
-        },
-        {
-          id: 5,
-          goal: '> y calories burned per day',
-        },
-        {
-          id: 6,
-          goal: '> z g of protein per week',
-        },
-        {
-          id: 7,
-          goal: '> p g of fat per day',
-        },
-        {
-          id: 8,
-          goal: '< x number of calories consumed per day',
-        },
-        {
-          id: 9,
-          goal: '> y calories burned per day',
-        },
-        {
-          id: 10,
-          goal: '> z g of protein per week',
-        },
-        {
-          id: 11,
-          goal: '> p g of fat per day',
-        },
-      ],
+      userId: '',
+      goals: [],
     };
+    this.fetchGoals();
+  }
+
+  fetchGoals() {
+    const {route} = this.props;
+    const {userId} = route.params;
+    this.setState({userId: userId});
+    console.log('In the view goals page: ' + userId);
+    fetch(
+      Platform.OS === 'android'
+        ? `http://10.0.2.2:8080/User/fetchGoals?userId=${userId}`
+        : `http://localhost:8080/User/fetchGoals?userId=${userId}`,
+    )
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        if (data.error) {
+          Alert.alert(
+            data.message,
+            'Unable to fetch goals at this time, please try again later.',
+            [{text: 'OK'}],
+          );
+        } else {
+          this.setState({goals: data});
+          console.log(this.state.goals[0]);
+        }
+      });
   }
 
   alertItemName(item) {
-    alert('Navigate to Track Progress Page, ' + item.goal);
+    alert('Navigate to Track Progress Page, ' + item.name);
   }
 
   edit(item) {
-    Alert.alert('Edit Goal', 'Navigate to edit page, editing ' + item.goal, [
-      {text: 'OK'},
+    Alert.alert('Edit Goal', 'Would you like to edit goal - ' + item.name, [
+      {
+        text: 'Yes',
+        onPress: () =>
+            this.props.navigation.navigate('EditGoal', {
+            userId: item.userId,
+            goalId: item.id,
+          }),
+      },
+      {text: 'Cancel'},
     ]);
   }
 
-  delete(item) {
+  deleteConfirm(item) {
     Alert.alert(
       'Deleting Goal',
-      "Are you sure you want to delete goal '" + item.goal + "'?",
-      [{text: 'Yes'}, {text: 'Cancel'}],
+      "Are you sure you want to delete goal '" + item.name + "'?",
+      [{text: 'Yes', onPress: () => this.deleteGoal(item)}, {text: 'No'}],
     );
+  }
+
+  deleteGoal(item) {
+    const {route} = this.props;
+    const {userId} = route.params;
+    this.setState({userId: userId});
+    console.log('delGoal: ' + userId);
+    console.log(item.id);
+    fetch(
+      Platform.OS === 'android'
+        ? `http://10.0.2.2:8080/Goal/deleteGoal?userId=${userId}&goalId=${
+            item.id
+          }`
+        : `http://localhost:8080/Goal/deleteGoal?userId=${userId}&goalId=${
+            item.id
+          }`,
+    )
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        if (data.error) {
+          Alert.alert(
+            'Delete Failed',
+            'Unable to delete goal ' +
+              item.name +
+              ' at this time, please try again later.',
+            [{text: 'OK'}],
+          );
+        } else {
+          Alert.alert(
+            'Delete Successful',
+            item.name + ' successfully deleted.',
+            [{text: 'OK'}],
+          );
+          this.fetchGoals();
+        }
+      });
   }
 
   render() {
@@ -107,7 +132,7 @@ class ViewGoals extends Component {
               style={styles.rowcontainer}
               onPress={() => this.alertItemName(item)}>
               <View style={{flex: 1}}>
-                <Text style={styles.text}>{item.goal}</Text>
+                <Text style={styles.text}>{item.name}</Text>
               </View>
               <View style={styles.rowview}>
                 <TouchableOpacity onPress={() => this.edit(item)}>
@@ -116,7 +141,7 @@ class ViewGoals extends Component {
                     style={styles.ImageIconStyle}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.delete(item)}>
+                <TouchableOpacity onPress={() => this.deleteConfirm(item)}>
                   <Image
                     source={require('./img/delete.png')}
                     style={styles.ImageIconStyle}

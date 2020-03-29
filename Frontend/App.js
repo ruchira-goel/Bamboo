@@ -20,6 +20,7 @@ import HealthProfile from './src/HealthProfile';
 import ExerciseInput from './src/ExerciseInput';
 import ChangePass from './src/ChangePass';
 import ViewGoals from './src/ViewGoals.js';
+import EditGoal from './src/EditGoal';
 import SetGoal from './src/SetGoal';
 
 const Stack = createStackNavigator();
@@ -62,7 +63,16 @@ function App() {
           component={ChangePass}
           headerShown={'false'}
         />
-        <Stack.Screen name="ViewGoals" component={ViewGoals} />
+        <Stack.Screen
+          name="ViewGoals"
+          component={ViewGoals}
+          headerShown={'false'}
+        />
+        <Stack.Screen
+          name="EditGoal"
+          component={EditGoal}
+          headerShown={'false'}
+        />
         <Stack.Screen
           name="SetGoal"
           component={SetGoal}

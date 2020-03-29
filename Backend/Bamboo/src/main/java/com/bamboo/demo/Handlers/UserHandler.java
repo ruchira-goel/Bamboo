@@ -1,14 +1,13 @@
 package com.bamboo.demo.Handlers;
 
 import com.bamboo.demo.Models.DailyInfo;
+import com.bamboo.demo.Models.Goal;
 import com.bamboo.demo.Models.Sex;
 import com.bamboo.demo.Models.User;
-import com.bamboo.demo.Repos.ActivityRepo;
-import com.bamboo.demo.Repos.DailyInfoRepo;
-import com.bamboo.demo.Repos.MealRepo;
-import com.bamboo.demo.Repos.UserRepo;
+import com.bamboo.demo.Repos.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,13 +16,14 @@ public class UserHandler {
     private DailyInfoRepo dailyInfoRepo;
     private MealRepo mealRepo;
     private ActivityRepo activityRepo;
+    private GoalRepo goalRepo;
 
-    public UserHandler(UserRepo userRepo, DailyInfoRepo dailyInfoRepo, MealRepo mealRepo, ActivityRepo activityRepo) {
+    public UserHandler(UserRepo userRepo, DailyInfoRepo dailyInfoRepo, MealRepo mealRepo, ActivityRepo activityRepo, GoalRepo goalRepo) {
         this.userRepo = userRepo;
         this.dailyInfoRepo = dailyInfoRepo;
         this.mealRepo = mealRepo;
         this.activityRepo = activityRepo;
-
+        this.goalRepo = goalRepo;
     }
 
     //login the user
@@ -87,6 +87,16 @@ public class UserHandler {
         userObj.setSex(sex);
         this.userRepo.save(userObj);
         return userObj;
+    }
+
+
+    public ArrayList<Goal> fetchGoals(String userId) {
+        User user = this.userRepo.findUserByUserId(userId);
+        ArrayList<Goal> goals = new ArrayList<>();
+        for (String goalId : user.getGoalIds()) {
+            goals.add(this.goalRepo.findById(goalId).get());
+        }
+        return goals;
     }
 
     public List<User> display() {
