@@ -37,18 +37,27 @@ public class MealController {
         return mealHandler.saveMealFromName(name, userid, date);
     }
 
-    @RequestMapping("/Meal/addToFavorites")          //meal info from name
+    @RequestMapping("/Meal/infoFromRecipe")
+    public Meal infoFromRecipe(@RequestParam(value = "recipe") String recipe,
+                               @RequestParam(value = "userId") String userId,
+                               @RequestParam(value = "date") String date,
+                               @RequestParam(value = "name") String name) throws IOException, IllegalAccessException {
+        System.out.println(recipe);
+        return mealHandler.saveMealFromRecipe(date, userId, recipe, name);
+    }
+
+    @RequestMapping("/Meal/addToFavorites")
     public Meal addToFavorites(@RequestParam(value = "mealId") String mealId,
                                @RequestParam(value = "userId") String userId) {
         return mealHandler.addToFavorites(mealId, userId);
     }
 
-    @RequestMapping("/Meal/getFavorites")          //meal info from name
+    @RequestMapping("/Meal/getFavorites")
     public ArrayList<Meal> getFavorites(@RequestParam(value = "userId") String userId) {
         return mealHandler.getFavorites(userId);
     }
 
-    @RequestMapping("/Meal/deleteFavorite")          //meal info from name
+    @RequestMapping("/Meal/deleteFavorite")
     public boolean deleteFavorite(@RequestParam(value = "userId") String userId,
                                   @RequestParam(value = "mealId") String mealId) {
         System.out.println("Returned from mealhandler");

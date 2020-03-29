@@ -3,18 +3,31 @@ package com.bamboo.demo.Handlers;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import com.bamboo.demo.Models.*;
 import com.bamboo.demo.Repos.DailyInfoRepo;
 import com.bamboo.demo.Repos.GoalRepo;
 import com.bamboo.demo.Repos.MealRepo;
 import com.bamboo.demo.Repos.UserRepo;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -109,8 +122,66 @@ public class MealHandler {
         }
     }
 
-    public void saveMealFromRecipe(String date, String userId) {
+    public Meal saveMealFromRecipe(String date, String userId, String recipe, String name) throws IOException {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost("https://api.spoonacular.com/recipes/parseIngredients?apiKey=5ccdaac983d344338fe187bb2b7e5501"); //enter link
+        List<NameValuePair> urlParams = new ArrayList<>();
+        urlParams.add(new BasicNameValuePair("includeNutrition", "true"));
+        urlParams.add(new BasicNameValuePair("servings", "1"));
+        urlParams.add(new BasicNameValuePair("ingredientList", recipe));
+        httpPost.setEntity(new UrlEncodedFormEntity(urlParams));
+        CloseableHttpResponse response = httpClient.execute(httpPost);
+       // System.out.println(EntityUtils.toString(response.getEntity()));
+        JSONArray jsonarray = new JSONArray(EntityUtils.toString(response.getEntity()));
+        System.out.println(jsonarray);
+        //for()
+        //System.out.println(nutritionJson.get());
 
+        Meal meal = new Meal();
+        double fat = 0;
+        double carbs = 0;
+        double protein = 0;
+        double calories = 0;
+        for (int i = 0; i < jsonarray.length(); i++) {
+            JSONObject nutrition;
+            try {
+                nutrition = (JSONObject) jsonarray.getJSONObject(i).get("nutrition");
+            }  catch(Exception e) {
+                throw new IOException("Ingredients not found");
+            }
+            System.out.println(nutrition);
+            JSONArray nutrients = nutrition.getJSONArray("nutrients");             //nutrients array
+            System.out.println(nutrients);
+            for (int j = 0; j < nutrients.length(); j++) {
+                String title = nutrients.getJSONObject(j).get("title").toString();      //title of nutrient
+                System.out.println("title: " + title);
+                double amount = (double) nutrients.getJSONObject(j).get("amount");
+                System.out.println(amount);
+                switch (title) {
+                    case "Fat":
+                        fat += amount;
+                        break;
+                    case "Calories":
+                        calories += amount;
+                        break;
+                    case "Carbohydrates":
+                        carbs += amount;
+                        break;
+                    case "Protein":
+                        protein += amount;
+                        break;
+                }
+            }
+        }
+        meal.setCalories(calories);
+        meal.setCarbs(carbs);
+        meal.setFat(fat);
+        meal.setProtein(protein);
+        meal.setName(name);
+        meal.setUserId(userId);
+        this.mealRepo.save(meal);
+        addToDate(date, meal);
+        return meal;
     }
 
 

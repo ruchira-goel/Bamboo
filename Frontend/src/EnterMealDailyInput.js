@@ -16,6 +16,7 @@ export default class EnterMealDailyInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: '',
       pickerSelection: 'Enter link',
       mealInfo: '',
       userId: '',
@@ -39,6 +40,7 @@ export default class EnterMealDailyInput extends React.Component {
     const {userId} = route.params;
     this.setState({userId: userId});
     console.log('id: ' + userId + ' Link: ' + mealInfo);
+
     if (!mealInfo) {
       Alert.alert('Meal Information Empty', 'Please enter meal information.', [
         {text: 'OK'},
@@ -74,6 +76,7 @@ export default class EnterMealDailyInput extends React.Component {
               ],
             );
             this.setState({mealInfo: ''});
+            this.setState({name: ''});
           }
         });
     } else if (pickerSelection === 'Enter meal name') {
@@ -105,6 +108,55 @@ export default class EnterMealDailyInput extends React.Component {
               ],
             );
             this.setState({mealInfo: ''});
+            this.setState({name: ''});
+          }
+        });
+    } else if (pickerSelection === 'Enter your own recipe') {
+      const {name} = this.state;
+      if (!name) {
+        Alert.alert('Meal Name  Empty', 'Please enter a meal name.', [
+          {text: 'OK'},
+        ]);
+        return;
+      }
+      console.log('Recipe: ' + mealInfo);
+      fetch(
+        Platform.OS === 'android'
+          ? `http://10.0.2.2:8080/Meal/infoFromRecipe?recipe=${mealInfo}&userId=${userId}&date=${formattedDate}&name=${name}`
+          : `http://localhost:8080/Meal/infoFromRecipe?recipe=${mealInfo}&userId=${userId}&date=${formattedDate}&name=${name}`,
+      )
+        .then(res => res.json())
+        .then(data => {
+          console.log(data);
+          if (data.error) {
+            if (data.message === 'Ingredients not found') {
+              Alert.alert(
+                data.message,
+                'Unable to find nutritional information for the recipe entered.',
+                [{text: 'OK'}],
+              );
+            } else {
+              Alert.alert(
+                data.message,
+                'Unable to save information for the given recipe, please try a different recipe.',
+                [{text: 'OK'}],
+              );
+            }
+          } else {
+            Alert.alert(
+              'Meal Added',
+              data.name +
+                ' successfully added! Do you want to save this meal to your favorites?',
+              [
+                {
+                  text: 'Yes',
+                  onPress: () => this.addToFavorites(data.id, userId),
+                },
+                {text: 'No'},
+              ],
+            );
+            this.setState({mealInfo: ''});
+            this.setState({name: ''});
           }
         });
     }
@@ -145,13 +197,24 @@ export default class EnterMealDailyInput extends React.Component {
     if (this.state.pickerSelection === 'Enter your own recipe') {
       console.log('inside');
       return (
-        <TextInput
-          multiline={true}
-          style={styles.textArea}
-          placeholder={this.state.pickerSelection}
-          onChangeText={mealInfo => this.setState({mealInfo: mealInfo})}
-          value={this.state.mealInfo}//setting meal information entered
-        />
+        <View>
+          <TextInput
+            style={styles.fieldText}
+            placeholder={'Enter meal name'}
+            onChangeText={name => this.setState({name: name})}
+            value={this.state.name}
+          />
+          <View style={{padding: '1%'}} />
+          <TextInput
+            multiline={true}
+            style={styles.textArea}
+            placeholder={
+              'Enter your own recipe, for e.g:\n3 oz pork shoulder\n2 tbsp sugar'
+            }
+            onChangeText={mealInfo => this.setState({mealInfo: mealInfo})}
+            value={this.state.mealInfo} //setting meal information entered
+          />
+        </View>
       );
     } else {
       return (
@@ -159,7 +222,7 @@ export default class EnterMealDailyInput extends React.Component {
           style={styles.fieldText}
           placeholder={this.state.pickerSelection}
           onChangeText={mealInfo => this.setState({mealInfo: mealInfo})}
-          value={this.state.mealInfo}//setting meal information entered
+          value={this.state.mealInfo} //setting meal information entered
         />
       );
     }
@@ -216,7 +279,7 @@ export default class EnterMealDailyInput extends React.Component {
             //backgroundColor: 'white',
           }}>
           <Text style={{textAlign: 'center', fontSize: 20}}>
-            What did you eat today?
+            What did you eat?
           </Text>
         </View>
         <View
@@ -270,7 +333,7 @@ export default class EnterMealDailyInput extends React.Component {
           }}>
           {this.renderTextInput()}
         </View>
-        <View style={{padding: '4%'}} />
+        <View style={{padding: '6%'}} />
         <View>
           <TouchableOpacity
             onPress={() => {
@@ -375,6 +438,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 2,
     height: '65%',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
 });
