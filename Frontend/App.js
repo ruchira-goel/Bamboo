@@ -21,6 +21,7 @@ import ExerciseInput from './src/ExerciseInput';
 import ChangePass from './src/ChangePass';
 import ViewGoals from './src/ViewGoals.js';
 import EditGoal from './src/EditGoal';
+import TrackProgress from './src/TrackProgress';
 import SetGoal from './src/SetGoal';
 
 const Stack = createStackNavigator();
@@ -71,6 +72,11 @@ function App() {
         <Stack.Screen
           name="EditGoal"
           component={EditGoal}
+          headerShown={'false'}
+        />
+        <Stack.Screen
+          name="TrackProgress"
+          component={TrackProgress}
           headerShown={'false'}
         />
         <Stack.Screen

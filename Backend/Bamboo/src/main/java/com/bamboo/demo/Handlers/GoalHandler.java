@@ -92,6 +92,16 @@ public class GoalHandler {
         return goalObj;
     }
 
+//    public double fetchGoalProgress(String userId, String goalId) throws IllegalAccessException {
+//        User user = this.userRepo.findUserByUserId(userId);
+//        Optional<Goal> goal = this.goalRepo.findById(goalId);
+//        if (!goal.isPresent()) {
+//            throw new IllegalAccessException("There was an error locating your account, please try signing up again");
+//        }
+//        Goal goalObj = goal.get();
+//        goalObj.get
+//    }
+
     public List<Goal> display() {
         return this.goalRepo.findAll();
     }

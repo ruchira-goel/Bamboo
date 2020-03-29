@@ -53,6 +53,12 @@ public class GoalController {
         return goalHandler.editGoal(userId, goalId, type, limitType, amount,trackedItem, duration);
     }
 
+//    @RequestMapping("/Goal/fetchGoalProgress")
+//    public double fetchGoalProgress(@RequestParam(value = "userId") String userId,
+//                                  @RequestParam(value = "goalId") String goalId) throws IllegalAccessException {
+//        return goalHandler.fetchGoalProgress(userId, goalId);
+//    }
+
     @RequestMapping("/Goal/all")
     public List<Goal> users() {
         return goalHandler.display();
