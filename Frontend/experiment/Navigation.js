@@ -2,9 +2,18 @@ import * as React from 'react';
 import {useState, useEffect} from 'react';
 import {StatusBar} from 'react-native';
 import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItem,
+  DrawerItemList,
+} from '@react-navigation/drawer';
 
 import COLORS from '../src/styles/colors';
 import SettingsPage from '../src/Settings';
@@ -37,8 +46,8 @@ function ProfileScreen({navigation}) {
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
       <MenuHeader screenName={'Profile'} />
-      <Text>Profile Screen</Text>
-      {/*<HealthProfile />*/}
+      {/*<Text>Profile Screen</Text>*/}
+      <HealthProfile />
     </View>
   );
 }
@@ -143,6 +152,27 @@ function HomeScreen({route, navigation}) {
         <Text style={styles.text}>Diet Graphs</Text>
       </TouchableOpacity>
     </View>
+  );
+}
+function CustomDrawerContent(props) {
+  return (
+    <DrawerContentScrollView {...props}>
+      <DrawerItemList {...props} />
+      {/*<DrawerItem*/}
+      {/*  label="Profile"*/}
+      {/*  onPress={() =>*/}
+      {/*    props.navigation.jumpTo('Profile', {*/}
+      {/*      params: {*/}
+      {/*        userId: props.userId,*/}
+      {/*      },*/}
+      {/*    })*/}
+      {/*  }*/}
+      {/*/>*/}
+      <DrawerItem
+        label="Logout"
+        onPress={() => props.navigation.toggleDrawer()}
+      />
+    </DrawerContentScrollView>
   );
 }
 
@@ -272,6 +302,7 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Drawer.Navigator
+        drawerContent={props => CustomDrawerContent(props)}
         initialRouteName="Root"
         drawerContentOptions={{
           activeTintColor: COLORS.secondaryColor,
