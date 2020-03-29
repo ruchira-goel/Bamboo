@@ -23,6 +23,21 @@ public class Meal {
         this.protein = protein;
     }
 
+    public Meal() {
+        this.calories = 0;
+        this.fat = 0;
+        this.carbs = 0;
+        this.protein = 0;
+    }
+
+    public double getValue(TrackedItem trackedItem) {
+        if(trackedItem ==  TrackedItem.G_OF_PROTEIN) {
+            return this.protein;
+        } else if (trackedItem == TrackedItem.CALORIES) {
+            return this.calories;
+        }
+        return 0;
+    }
 
     //private NutritionInfo nutritionInfo;
 

@@ -25,7 +25,7 @@ export default class ExerciseInput extends Component {
     this.state = {
       category: '',
       activity: '',
-      date: '',
+      date: new Date(),
       hours: '',
       minutes: '',
       distance: 0,
@@ -36,7 +36,16 @@ export default class ExerciseInput extends Component {
         },
       ],
       activityDisabled: true,
+      formattedDate: `${new Date().getMonth() +
+        1}/${new Date().getDate()}/${new Date().getFullYear()}`,
     };
+  }
+
+  setformattedDate() {
+    this.setState({
+      formattedDate: `${this.state.date.getMonth() +
+        1}/${this.state.date.getDate()}/${this.state.date.getFullYear()}`,
+    });
   }
 
   getActivityList(category) {
@@ -239,9 +248,44 @@ export default class ExerciseInput extends Component {
         if (data.error) {
           Alert.alert('Error', 'Sorry, try again later!', [{text: 'OK'}]);
         } else {
-          Alert.alert('Activity Added', data.type + ' successfully added!', [
-            {text: 'OK'},
-          ]);
+          Alert.alert(
+            'Activity Added',
+            data.type +
+              ' successfully added! Do you want to save this activity to your favorites?',
+            [
+              {
+                text: 'Yes',
+                onPress: () => this.addToFavorites(data.id, userId),
+              },
+              {text: 'No'},
+            ],
+          );
+        }
+      });
+  };
+
+  addToFavorites = (activityId, userId) => {
+    fetch(
+      Platform.OS === 'android'
+        ? `http://10.0.2.2:8080/Activity/addToFavorites?activityId=${activityId}&userId=${userId}`
+        : `http://localhost:8080/Activity/addToFavorites?activityId=${activityId}&userId=${userId}`,
+    )
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        if (data.error) {
+          Alert.alert(
+            'Save Failed',
+            'Unable to save to favorites this time, please try at a different time.',
+            [{text: 'OK'}],
+          );
+        } else {
+          Alert.alert(
+            'Added to Favorites',
+            data.type + ' added to favorites!',
+            [{text: 'OK'}],
+          );
+          //going to home screen
         }
       });
   };
@@ -266,22 +310,28 @@ export default class ExerciseInput extends Component {
         // Alert.alert('A date has been picked', date + ' is the picked date', [
         //   {text: 'OK'},
         // ]);
-        this.setState({
-          date: date,
-        });
+        this.setState(
+          {
+            date: date,
+          },
+          function() {
+            this.setformattedDate();
+          },
+        );
         hideDatePicker();
       };
 
       return (
         <View>
           <TouchableOpacity style={styles.button} onPress={showDatePicker}>
-            <Text style={styles.text}>Select Date</Text>
+            <Text style={styles.text}>{this.state.formattedDate}</Text>
           </TouchableOpacity>
           <DateTimePickerModal
             isVisible={isDatePickerVisible}
             mode="date"
             onConfirm={handleConfirm}
             onCancel={hideDatePicker}
+            maximumDate={new Date()}
           />
         </View>
       );
@@ -385,6 +435,25 @@ export default class ExerciseInput extends Component {
               />
             </View>
           </View>
+          <View style={{padding: '5%'}} />
+          <View>
+            <TouchableOpacity
+              onPress={() => {
+                const {route} = this.props;
+                const {userId} = route.params;
+                this.setState({userId: userId});
+                console.log('From meal i/p page: ' + userId);
+                this.props.navigation.navigate('FavActivities', {
+                  userId: userId,
+                  date: this.state.formattedDate,
+                });
+              }}
+              style={styles.linkStyle}>
+              <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
+                Or select an activity from your favorites!
+              </Text>
+            </TouchableOpacity>
+          </View>
           {this.state.showDistance && (
             <View style={styles.inputContainer}>
               <View
@@ -455,5 +524,8 @@ const styles = StyleSheet.create({
     borderColor: '#000',
     backgroundColor: COLORS.primaryColor,
     padding: 2,
+  },
+  linkStyle: {
+    alignItems: 'center',
   },
 });
