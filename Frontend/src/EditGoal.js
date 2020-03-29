@@ -10,11 +10,13 @@ import {
 } from 'react-native';
 import {Dropdown} from 'react-native-material-dropdown';
 
-export default class SetGoal extends React.Component {
+export default class EditGoal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       userId: '',
+      goalId: '',
+      goals: [],
       goalOptions: [
         {
           value: 'Grams of Protein',
@@ -48,6 +50,7 @@ export default class SetGoal extends React.Component {
         },
       ],
     };
+    this.fetchGoal();
   }
 
   submit = () => {
@@ -63,6 +66,8 @@ export default class SetGoal extends React.Component {
     } = this.state;
     const {route} = this.props;
     const {userId} = route.params;
+    const {goalId} = route.params;
+    this.setState({userId: userId});
     if (limitType === '____') {
       Alert.alert('Limit Empty', 'Please select a limit type.', [{text: 'OK'}]);
       return;
@@ -105,10 +110,18 @@ export default class SetGoal extends React.Component {
     } else {
       type = 'Exercise';
     }
+    console.log('userid = ' + userId);
+    console.log('goalid = ' + goalId);
+    console.log('type = ' + type);
+    console.log('limitType = ' + limitType);
+    console.log('amount = ' + amount);
+    console.log('trackeditem = ' + trackedItem);
+    console.log('duration = ' + duration);
+
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Goal/addGoal?userId=${userId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`
-        : `http://localhost:8080/Goal/addGoal?userId=${userId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`,
+        ? `http://10.0.2.2:8080/Goal/editGoal?userId=${userId}&goalId=${goalId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`
+        : `http://localhost:8080/Goal/editGoal?userId=${userId}&goalId=${goalId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -117,10 +130,61 @@ export default class SetGoal extends React.Component {
           //throwing error when login fails - wrong password / email not registered yet
           Alert.alert('Error', data.message, [{text: 'OK'}]);
         } else {
-          Alert.alert('Success', 'Goal successfully saved.', [{text: 'OK'}]);
+          Alert.alert('Success', 'Goal successfully saved.', [
+            {
+              text: 'OK',
+              onPress: this.props.navigation.goBack('ViewGoals'),
+            },
+          ]);
         }
       });
   };
+
+  fetchGoal() {
+    const {route} = this.props;
+    const {userId, goalId} = route.params;
+    this.setState({userId: userId});
+    console.log('In the edit goals page: ' + userId);
+    fetch(
+      Platform.OS === 'android'
+        ? `http://10.0.2.2:8080/Goal/fetchGoalInfo?userId=${userId}&goalId=${goalId}`
+        : `http://localhost:8080/Goal/fetchGoalInfo?userId=${userId}&goalId=${goalId}`,
+    )
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        if (data.error) {
+          Alert.alert(
+            data.message,
+            'Unable to fetch goals at this time, please try again later.',
+            [{text: 'OK'}],
+          );
+        } else {
+          console.log('Now no errors, printing data:\n' + data);
+          this.setState({
+            goals: data,
+          });
+          console.log('Printing out goals:\n' + this.state.goals);
+          var isMealGoal = this.state.goals[3] === 'Meal';
+          var limitType = this.state.goals[5];
+          var amount = parseInt(this.state.goals[7]);
+          var trackedItem = this.state.goals[6];
+          var duration = this.state.goals[4];
+          var userId = this.state.goals[1];
+          var goalId = this.state.goals[0];
+          this.setState({
+            userId: userId,
+            goalId: goalId,
+            isMealGoal: isMealGoal,
+            limitType: limitType,
+            amount: amount,
+            trackedItem: trackedItem,
+            duration: duration,
+          });
+          console.log(this.state);
+        }
+      });
+  }
 
   render() {
     const durationOpts = [
@@ -142,23 +206,18 @@ export default class SetGoal extends React.Component {
     const {mealOpts, exOpts} = this.state;
     return (
       <View style={styles.heading}>
-        <Text style={styles.title}>Select the type of goal:</Text>
+        <Text style={styles.title}>Goal Type:</Text>
         <View style={{padding: '2%'}} />
         <View
           style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
           <TouchableOpacity
-            onPress={() => {
-              this.setState({
-                goalOptions: mealOpts,
-                isMealGoal: true,
-                trackedItem: '_____',
-              });
-            }}
+            disabled={true}
             style={{
               backgroundColor: this.state.isMealGoal ? '#3eb245' : '#b3c4b4',
               color: 'black',
               borderRadius: 2,
-              borderColor: this.state.isMealGoal ? '#3eb245' : '#b3c4b4',
+              borderWidth: this.state.isMealGoal ? 2 : 0,
+              borderColor: this.state.isMealGoal ? 'navy' : '#3eb245',
               width: '40%',
               height: '100%',
               justifyContent: 'center', //text in the middle of the button
@@ -168,18 +227,13 @@ export default class SetGoal extends React.Component {
           </TouchableOpacity>
           <View style={{padding: '2%'}} />
           <TouchableOpacity
-            onPress={() =>
-              this.setState({
-                goalOptions: exOpts,
-                isMealGoal: false,
-                trackedItem: '_____',
-              })
-            }
+            disabled={true}
             style={{
               backgroundColor: !this.state.isMealGoal ? '#3eb245' : '#b3c4b4',
               color: 'black',
               borderRadius: 2,
-              borderColor: !this.state.isMealGoal ? '#3eb245' : '#b3c4b4',
+              borderWidth: !this.state.isMealGoal ? 2 : 0,
+              borderColor: !this.state.isMealGoal ? 'navy' : '#3eb245',
               width: '40%',
               height: '100%',
               justifyContent: 'center', //text in the middle of the button
@@ -206,6 +260,7 @@ export default class SetGoal extends React.Component {
           <Dropdown
             label="Limit type"
             data={limitOpts}
+            defaultValue={this.state.limitType}
             onChangeText={value => {
               this.setState({limitType: value});
             }}
@@ -219,13 +274,17 @@ export default class SetGoal extends React.Component {
             style={styles.fieldText}
             autoCapitalize="none"
             placeholder="Enter amount"
+            defaultValue={this.state.amount.toString()}
             onChangeText={amount => this.setState({amount})}
           />
         </View>
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
           <Dropdown
             label="Goal Options"
-            data={this.state.goalOptions}
+            data={
+              this.state.isMealGoal ? this.state.mealOpts : this.state.exOpts
+            }
+            defaultValue={this.state.trackedItem}
             onChangeText={value => {
               this.setState({trackedItem: value});
             }}
@@ -237,6 +296,7 @@ export default class SetGoal extends React.Component {
           <Dropdown
             label="Duration type"
             data={durationOpts}
+            defaultValue={this.state.duration}
             onChangeText={value => {
               this.setState({duration: value});
             }}

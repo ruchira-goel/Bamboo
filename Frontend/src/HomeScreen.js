@@ -100,9 +100,29 @@ export default class HomeScreen extends React.Component {
         </TouchableOpacity>
         <View style={{padding: '2%'}} />
         <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate('ViewGoals', {
+              userId: userId,
+            })
+          }
+          style={styles.btnStyle}>
+          <Text>View Goals</Text>
+        </TouchableOpacity>
+        <View style={{padding: '2%'}} />
+        <TouchableOpacity
           onPress={this.delAccountConfirm}
           style={styles.btnStyle}>
           <Text>Delete Account</Text>
+        </TouchableOpacity>
+        <View style={{padding: '2%'}} />
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate('SetGoal', {
+              userId: userId,
+            })
+          }
+          style={styles.btnStyle}>
+          <Text>Add Goal</Text>
         </TouchableOpacity>
       </View>
     );
@@ -161,7 +181,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center', //text in the middle of the button
     alignItems: 'center', //text in the middle of the button
   },
-  /*textalign for the text to be in the center for "bamboo."*/
+  /*text align for the text to be in the center for "bamboo."*/
   picker: {
     width: 100,
   },
