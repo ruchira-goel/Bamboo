@@ -12,6 +12,10 @@ import {
 import BUTTONS from './styles/buttons';
 import URL from './url';
 import {useNavigation, useRoute} from "@react-navigation/native";
+import {LinearGradient} from "expo-linear-gradient";
+import COLORS from "./styles/colors";
+import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
+
 
 // TODO:
 // 1. put user's name in header
@@ -32,6 +36,11 @@ class HealthProfile extends Component {
       buttonValue: 'Edit',
       editable: false,
       inputStyle: styles.text,
+      padding: {paddingTop: 12, paddingBottom: 12},
+      borderColorA: COLORS.palette.gray,
+      borderColorB: COLORS.palette.gray,
+      borderColorC: COLORS.palette.gray,
+      paddingTop: {paddingTop: 0},
     };
   }
   componentDidMount(): void {
@@ -115,21 +124,75 @@ class HealthProfile extends Component {
         buttonValue: 'Save',
         editable: true,
         inputStyle: styles.textEdit,
-      });
+        padding: {paddingTop: 0, paddingBottom: 0},
+        paddingTop: {paddingTop: 12},
+    });
     } else {
       this.onSave();
       this.setState({
         buttonValue: 'Edit',
         editable: false,
         inputStyle: styles.text,
-      });
+        padding: {paddingTop: 12, paddingBottom: 12},
+        paddingTop: {paddingTop: 0},
+    });
     }
   };
+
+  onFocus(field) {
+    switch (field) {
+      case 'a':
+        this.setState({
+          borderColorA: COLORS.palette.primary.main,
+        });
+        break;
+      case 'b':
+        this.setState({
+          borderColorB: COLORS.palette.primary.main,
+        });
+        break;
+      case 'c':
+        this.setState({
+          borderColorC: COLORS.palette.primary.main,
+        });
+        break;
+    }
+  }
+
+  onBlur(field) {
+    switch (field) {
+      case 'a':
+        this.setState({
+          borderColorA: COLORS.palette.gray,
+        });
+        break;
+      case 'b':
+        this.setState({
+          borderColorB: COLORS.palette.gray,
+        });
+        break;
+      case 'c':
+        this.setState({
+          borderColorC: COLORS.palette.gray,
+        });
+        break;
+    }
+  }
 
   render() {
     let {height, weight, age, sex, feet, inches, isMetric} = this.state;
     const {route} = this.props;
     const userId = this.props.userId;
+    let initialRadio = 2;
+    if (sex === 'MALE')
+      initialRadio = 0;
+    else if (sex === 'FEMALE')
+      initialRadio = 1;
+    const radioProps = [
+      {label: 'male', value: 'MALE' },
+      {label: 'female', value: 'FEMALE' },
+      {label: 'other', value: 'OTHER' }
+    ];
     fetch(
       Platform.OS === 'android'
         ? `${URL.heroku}/User/getCharacteristics?userId=${userId}`
@@ -140,84 +203,92 @@ class HealthProfile extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.contentContainer}>
-          {/*<Text style={styles.header}>[Name]'s Health Profile</Text>*/}
+          <Text style={styles.header}>[name]'s Health Profile</Text>
           <ScrollView>
-            <View style={styles.inputContainer}>
-              <Text style={[styles.text, {padding: 2}]}>Height:</Text>
+            <View style={[styles.rowContainer, this.state.padding]}>
+              <Text style={[styles.text]}>Height</Text>
               <TextInput
+                  onBlur={() => this.onBlur('a')}
+                  onFocus={() => this.onFocus('a')}
                 onChangeText={height => this.setState({height})}
                 keyboardType={'numeric'}
                 style={[
-                  styles.textInput,
                   this.state.inputStyle,
+                  {borderColor: this.state.borderColorA},
                   styles.text,
                   {width: 80},
                 ]}
                 defaultValue={height}
                 value={height}
-                placeholderTextColor="#000000"
                 editable={this.state.editable}
                 maxLength={20}
               />
-              <Text style={[styles.text, {padding: 2}]}>cm</Text>
+              <Text style={[styles.text]}>cm</Text>
             </View>
-            <View style={styles.inputContainer}>
-              <Text style={[styles.text, {padding: 2}]}>Weight:</Text>
+            <View style={[styles.rowContainer, this.state.padding]}>
+              <Text style={[styles.text]}>Weight</Text>
               <TextInput
+                  onBlur={() => this.onBlur('b')}
+                  onFocus={() => this.onFocus('b')}
                 onChangeText={weight => this.setState({weight})}
                 keyboardType={'numeric'}
                 style={[
-                  styles.textInput,
                   this.state.inputStyle,
+                  {borderColor: this.state.borderColorB},
                   styles.text,
                   {width: 80},
                 ]}
                 defaultValue={weight}
-                placeholderTextColor="#000000"
                 editable={this.state.editable}
                 maxLength={20}
               />
-              <Text style={[styles.text, {padding: 2}]}>kg</Text>
+              <Text style={[styles.text]}>kg</Text>
             </View>
-            <View style={styles.inputContainer}>
-              <Text style={[styles.text, {padding: 2}]}>Age:</Text>
+            <View style={[styles.rowContainer, this.state.padding]}>
+              <Text style={[styles.text]}>Age</Text>
               <TextInput
+                  onBlur={() => this.onBlur('c')}
+                  onFocus={() => this.onFocus('c')}
                 onChangeText={age => this.setState({age})}
                 keyboardType={'numeric'}
                 style={[
-                  styles.textInput,
                   this.state.inputStyle,
+                  {borderColor: this.state.borderColorC},
                   styles.text,
                   {width: 80},
                 ]}
                 defaultValue={age}
-                placeholderTextColor="#000000"
                 editable={this.state.editable}
                 maxLength={20}
               />
             </View>
-            <View style={styles.inputContainer}>
-              <Text style={[styles.text, {padding: 2}]}>Sex:</Text>
-              <TextInput
-                onChangeText={sex => this.setState({sex})}
-                style={[
-                  styles.textInput,
-                  this.state.inputStyle,
-                  styles.text,
-                  {width: 80},
-                ]}
-                defaultValue={sex}
-                placeholderTextColor="#000000"
-                editable={this.state.editable}
-                maxLength={20}
-              />
+            <View style={[styles.rowContainer, this.state.padding]}>
+              <Text style={[styles.text, {alignSelf: 'flex-start'}, this.state.paddingTop]}>Sex</Text>
+              {this.state.editable ?
+              <RadioForm
+                  radio_props={radioProps}
+                  initial={initialRadio}
+                  formHorizontal={false}
+                  labelHorizontal={true}
+                  buttonColor={COLORS.palette.gray}
+                  selectedButtonColor={COLORS.palette.primary.main}
+                  animation={true}
+                  onPress={(value) => {this.setState({sex:value})}}
+              /> : <Text style={[
+                    styles.text,
+                    {width: 80},
+                  ]}>{sex.toLowerCase()}</Text>}
             </View>
           </ScrollView>
         </View>
-        <TouchableOpacity style={BUTTONS.primaryButton} onPress={this.onPress}>
-          <Text style={BUTTONS.primaryButtonText}>
-            {this.state.buttonValue}
-          </Text>
+        <TouchableOpacity onPress={this.onPress}>
+          <LinearGradient
+              colors={['#aaddaa', '#96d297', '#00c880']}
+              style={styles.btnStyle}
+              start={[0.0, 0.0]}
+              end={[1.0, 1.0]}>
+            <Text style={styles.btnText}>{this.state.buttonValue}</Text>
+          </LinearGradient>
         </TouchableOpacity>
       </View>
     );
@@ -233,28 +304,54 @@ export default function(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 45,
+    backgroundColor: '#f5f5f5',
   },
   contentContainer: {
     flex: 1,
+    backgroundColor: '#f5f5f5',
   },
   header: {
-    fontSize: 25,
+    marginTop: 20,
+    marginBottom: 20,
+    fontSize: 18,
     textAlign: 'center',
     margin: 10,
-    fontWeight: 'bold',
+  },
+  btnStyle: {
+    backgroundColor: COLORS.palette.primary.main,
+    borderRadius: 4,
+    borderColor: COLORS.palette.primary.main,
+    padding: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 20,
+    marginLeft: 40,
+    marginRight: 40,
+  },
+  btnText: {
+    fontSize: 16,
   },
   textEdit: {
-    borderBottomWidth: 2,
+    fontSize: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1.5,
+    borderRadius: 4,
+    padding: 10.5,
   },
-  inputContainer: {
+  rowContainer: {
     flexDirection: 'row',
-    // alignSelf: 'center',
-    paddingTop: 35,
-    paddingLeft: '20%',
+    backgroundColor: '#fff',
+    borderRadius: 4,
+    padding: 12,
+    alignItems: 'center',
+    marginTop: 20,
+    marginLeft: 40,
+    marginRight: 40,
   },
   text: {
-    fontSize: 20,
+    fontSize: 16,
     width: 100,
+    paddingLeft: 10.5,
   },
 });

@@ -148,7 +148,7 @@ function ProfileScreen({navigation}) {
     const nav = useNavigation();
     const {userId} = nav.dangerouslyGetState().routes[0].params.params;
     // console.log(userId);
-    // console.log(nav.dangerouslyGetState().routes[0].params.params.userId);
+    // console.log(nav.dangerouslyGetState().routes[0].params.params);
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
       <MenuHeader screenName={'Profile'} />
@@ -276,10 +276,10 @@ function CustomDrawerContent(props) {
           })
         }
       />
-      <DrawerItem
-        label="Logout"
-        onPress={() => props.navigation.toggleDrawer()}
-      />
+      {/*<DrawerItem*/}
+      {/*  label="Logout"*/}
+      {/*  onPress={() => props.navigation.toggleDrawer()}*/}
+      {/*/>*/}
     </DrawerContentScrollView>
   );
 }
@@ -308,7 +308,6 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Drawer.Navigator
-        drawerContent={props => CustomDrawerContent(props)}
         initialRouteName="Root"
         drawerContentOptions={{
           activeTintColor: COLORS.secondaryColor,
@@ -321,7 +320,7 @@ export default function Navigation() {
             title: 'Home',
           }}
         />
-        <Drawer.Screen name="Profile" component={ProfileScreen} />
+        <Drawer.Screen name="Profile" component={ProfileScreen} drawerContent={props => CustomDrawerContent(props)}/>
         <Drawer.Screen name="Settings" component={SettingsScreen} />
       </Drawer.Navigator>
     </NavigationContainer>
