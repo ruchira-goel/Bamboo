@@ -25,6 +25,108 @@ import DietGraphs from '../src/DietGraphs';
 import ExerciseGraphs from '../src/ExerciseGraphs';
 import HealthProfile from '../src/HealthProfile';
 
+function MenuHeader({screenName}) {
+    const nav = useNavigation();
+
+    return (
+        <View style={styles.navBar}>
+            <View style={styles.leftContainer}>
+                <TouchableOpacity onPress={() => nav.toggleDrawer()}>
+                    <Image
+                        source={require('../images/menu.png')}
+                        style={{
+                            width: 30,
+                            height: 30,
+                            resizeMode: 'contain',
+                        }}
+                    />
+                </TouchableOpacity>
+            </View>
+            <View style={styles.centerContainer}>
+                <Text
+                    style={{
+                        fontSize: 18,
+                    }}>
+                    {screenName}
+                </Text>
+            </View>
+            <View style={styles.rightContainer}>
+                <Image
+                    source={require('../images/bamboo-icon.png')}
+                    style={{
+                        width: 30,
+                        height: 30,
+                        resizeMode: 'contain',
+                    }}
+                />
+            </View>
+        </View>
+    );
+}
+function StackHeader({screenName}) {
+    const nav = useNavigation();
+
+    return (
+        <View style={styles.navBar}>
+            <View style={styles.leftContainer}>
+                <TouchableOpacity onPress={() => nav.goBack()}>
+                    <Image
+                        source={require('../images/back-arrow.png')}
+                        style={{
+                            width: 30,
+                            height: 30,
+                            resizeMode: 'contain',
+                        }}
+                    />
+                </TouchableOpacity>
+            </View>
+            <View style={styles.centerContainer}>
+                <Text
+                    style={{
+                        fontSize: 18,
+                    }}>
+                    {screenName}
+                </Text>
+            </View>
+            <View style={styles.rightContainer}>
+                <Image
+                    source={require('../images/bamboo-icon.png')}
+                    style={{
+                        width: 30,
+                        height: 30,
+                        resizeMode: 'contain',
+                    }}
+                />
+            </View>
+        </View>
+    );
+}
+function BaseHeader({screenName}) {
+    return (
+        <View style={styles.navBar}>
+            <View style={styles.leftContainer} />
+            <View style={styles.centerContainer}>
+                <Text
+                    style={{
+                        fontSize: 18,
+                    }}>
+                    {screenName}
+                </Text>
+            </View>
+            <View style={styles.rightContainer}>
+                <Image
+                    source={require('../images/bamboo-icon.png')}
+                    style={{
+                        width: 30,
+                        height: 30,
+                        resizeMode: 'contain',
+                    }}
+                />
+            </View>
+        </View>
+    );
+}
+
 function LoginScreen({navigation}) {
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
@@ -43,11 +145,15 @@ function SignUpScreen({navigation}) {
 }
 
 function ProfileScreen({navigation}) {
+    const nav = useNavigation();
+    const {userId} = nav.dangerouslyGetState().routes[0].params.params;
+    // console.log(userId);
+    // console.log(nav.dangerouslyGetState().routes[0].params.params.userId);
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
       <MenuHeader screenName={'Profile'} />
       {/*<Text>Profile Screen</Text>*/}
-      <HealthProfile />
+      <HealthProfile userId={userId}/>
     </View>
   );
 }
@@ -155,126 +261,26 @@ function HomeScreen({route, navigation}) {
   );
 }
 function CustomDrawerContent(props) {
+    // const {route} = props;
+    // const {userId} = route.params;
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
-      {/*<DrawerItem*/}
-      {/*  label="Profile"*/}
-      {/*  onPress={() =>*/}
-      {/*    props.navigation.jumpTo('Profile', {*/}
-      {/*      params: {*/}
-      {/*        userId: props.userId,*/}
-      {/*      },*/}
-      {/*    })*/}
-      {/*  }*/}
-      {/*/>*/}
+      <DrawerItem
+        label="Profile"
+        onPress={() =>
+          props.navigation.jumpTo('Profile', {
+            params: {
+              userId: props.userId,
+            },
+          })
+        }
+      />
       <DrawerItem
         label="Logout"
         onPress={() => props.navigation.toggleDrawer()}
       />
     </DrawerContentScrollView>
-  );
-}
-
-function MenuHeader({screenName}) {
-  const nav = useNavigation();
-
-  return (
-    <View style={styles.navBar}>
-      <View style={styles.leftContainer}>
-        <TouchableOpacity onPress={() => nav.toggleDrawer()}>
-          <Image
-            source={require('../images/menu.png')}
-            style={{
-              width: 30,
-              height: 30,
-              resizeMode: 'contain',
-            }}
-          />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.centerContainer}>
-        <Text
-          style={{
-            fontSize: 18,
-          }}>
-          {screenName}
-        </Text>
-      </View>
-      <View style={styles.rightContainer}>
-        <Image
-          source={require('../images/bamboo-icon.png')}
-          style={{
-            width: 30,
-            height: 30,
-            resizeMode: 'contain',
-          }}
-        />
-      </View>
-    </View>
-  );
-}
-function StackHeader({screenName}) {
-  const nav = useNavigation();
-
-  return (
-    <View style={styles.navBar}>
-      <View style={styles.leftContainer}>
-        <TouchableOpacity onPress={() => nav.goBack()}>
-          <Image
-            source={require('../images/back-arrow.png')}
-            style={{
-              width: 30,
-              height: 30,
-              resizeMode: 'contain',
-            }}
-          />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.centerContainer}>
-        <Text
-          style={{
-            fontSize: 18,
-          }}>
-          {screenName}
-        </Text>
-      </View>
-      <View style={styles.rightContainer}>
-        <Image
-          source={require('../images/bamboo-icon.png')}
-          style={{
-            width: 30,
-            height: 30,
-            resizeMode: 'contain',
-          }}
-        />
-      </View>
-    </View>
-  );
-}
-function BaseHeader({screenName}) {
-  return (
-    <View style={styles.navBar}>
-      <View style={styles.leftContainer} />
-      <View style={styles.centerContainer}>
-        <Text
-          style={{
-            fontSize: 18,
-          }}>
-          {screenName}
-        </Text>
-      </View>
-      <View style={styles.rightContainer}>
-        <Image
-          source={require('../images/bamboo-icon.png')}
-          style={{
-            width: 30,
-            height: 30,
-            resizeMode: 'contain',
-          }}
-        />
-      </View>
-    </View>
   );
 }
 

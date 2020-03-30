@@ -34,9 +34,10 @@ class HealthProfile extends Component {
       inputStyle: styles.text,
     };
   }
-  UNSAFE_componentWillMount(): void {
+  componentDidMount(): void {
+    // console.log(this.props);
     const {route} = this.props;
-    const {userId} = route.params;
+    const userId = this.props.userId;
     fetch(
       Platform.OS === 'android'
         ? `${URL.heroku}/User/getCharacteristics?userId=${userId}`
@@ -65,7 +66,7 @@ class HealthProfile extends Component {
   onSave = () => {
     let {height, weight, age, sex, feet, inches} = this.state;
     const {route} = this.props;
-    const {userId} = route.params;
+    const userId = this.props.userId;
     if (!height && feet && inches) {
       height = (feet * 12 + inches) * 2.54;
     }
@@ -128,7 +129,7 @@ class HealthProfile extends Component {
   render() {
     let {height, weight, age, sex, feet, inches, isMetric} = this.state;
     const {route} = this.props;
-    const {userId} = route.params;
+    const userId = this.props.userId;
     fetch(
       Platform.OS === 'android'
         ? `${URL.heroku}/User/getCharacteristics?userId=${userId}`
