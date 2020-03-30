@@ -7,6 +7,7 @@ import {
   TextInput,
   Alert,
   Platform,
+  Image,
 } from 'react-native';
 import {Dropdown} from 'react-native-material-dropdown';
 
@@ -16,9 +17,12 @@ export default class TrackProgress extends React.Component {
     this.state = {
       userId: '',
       goalId: '',
+      goalName: '',
+      amount: 0,
+      currentAmount: '',
       goalProgress: '',
     };
-    this.fetchGoal();
+    this.fetchGoalProgress();
   }
 
   // Start work from this point onwards
@@ -30,13 +34,17 @@ export default class TrackProgress extends React.Component {
 
   fetchGoalProgress() {
     const {route} = this.props;
-    const {userId, goalId} = route.params;
-    this.setState({userId: userId});
+    const {userId, goalId, goalName} = route.params;
+    // this.setState({userId: userId});
+    // this.setState({goalName: goalName});
+    console.log('userId ' + userId);
+    console.log('goalId ' + goalId);
+    console.log('goalName ' + goalName);
     console.log('In the track progress page: ' + userId);
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Goal/fetchGoalInfo?userId=${userId}&goalId=${goalId}`
-        : `http://localhost:8080/Goal/fetchGoalInfo?userId=${userId}&goalId=${goalId}`,
+        ? `http://10.0.2.2:8080/Goal/fetchGoalProgress?userId=${userId}&goalId=${goalId}`
+        : `http://localhost:8080/Goal/fetchGoalProgress?userId=${userId}&goalId=${goalId}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -44,159 +52,63 @@ export default class TrackProgress extends React.Component {
         if (data.error) {
           Alert.alert(
             data.message,
-            'Unable to fetch goals at this time, please try again later.',
+            'Unable to fetch goal progress at this time, please try again later.',
             [{text: 'OK'}],
           );
         } else {
           console.log('Now no errors, printing data:\n' + data);
+          console.log('goalProgress ' + parseFloat(data));
           this.setState({
-            goals: data,
-          });
-          console.log('Printing out goals:\n' + this.state.goals);
-          var isMealGoal = this.state.goals[3] === 'Meal';
-          var limitType = this.state.goals[5];
-          var amount = parseInt(this.state.goals[7]);
-          var trackedItem = this.state.goals[6];
-          var duration = this.state.goals[4];
-          var userId = this.state.goals[1];
-          var goalId = this.state.goals[0];
-          this.setState({
-            userId: userId,
+            goalProgress: data,
             goalId: goalId,
-            isMealGoal: isMealGoal,
-            limitType: limitType,
-            amount: amount,
-            trackedItem: trackedItem,
-            duration: duration,
+            userId: userId,
+            goalName: goalName,
           });
-          console.log(this.state);
+          console.log('goalName ' + goalName);
         }
       });
+    // fetch(
+    //   Platform.OS === 'android'
+    //     ? `http://10.0.2.2:8080/Goal/fetchGoalInfo?userId=${userId}&goalId=${goalId}`
+    //     : `http://localhost:8080/Goal/fetchGoalInfo?userId=${userId}&goalId=${goalId}`,
+    // )
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     console.log(data);
+    //     if (data.error) {
+    //       Alert.alert(
+    //         data.message,
+    //         'Unable to fetch goal info at this time, please try again later.',
+    //         [{text: 'OK'}],
+    //       );
+    //     } else {
+    //       this.setState({
+    //         goals: data,
+    //       });
+    //       let name = this.state.goals[2];
+    //       this.setState({
+    //         name: name,
+    //       });
+    //     }
+    //   });
   }
 
   render() {
-    const durationOpts = [
-      {
-        value: 'Day',
-      },
-      {
-        value: 'Week',
-      },
-    ];
-    const limitOpts = [
-      {
-        value: 'Less than',
-      },
-      {
-        value: 'Greater than',
-      },
-    ];
-    const {mealOpts, exOpts} = this.state;
+    console.log('route.params in TrackGoals render', this.props);
     return (
       <View style={styles.heading}>
-        <Text style={styles.title}>Goal Type:</Text>
+        <Text style={styles.title}>{this.state.goalProgress}%</Text>
+        {/*<View style={styles.container}>*/}
+        {/*  <Image*/}
+        {/*    source={require('./img/goalsuccess.png')}*/}
+        {/*    style={styles.ImageIconStyle}*/}
+        {/*  />*/}
+        {/*</View>*/}
+        <Text style={styles.fieldText}>You're almost there, keep it up!</Text>
+        <View style={{padding: '4%'}} />
+        <Text style={styles.regText}>Goal: {this.state.goalName}.</Text>
         <View style={{padding: '2%'}} />
-        <View
-          style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
-          <TouchableOpacity
-            disabled={true}
-            style={{
-              backgroundColor: this.state.isMealGoal ? '#3eb245' : '#b3c4b4',
-              color: 'black',
-              borderRadius: 2,
-              borderWidth: this.state.isMealGoal ? 2 : 0,
-              borderColor: this.state.isMealGoal ? 'navy' : '#3eb245',
-              width: '40%',
-              height: '100%',
-              justifyContent: 'center', //text in the middle of the button
-              alignItems: 'center',
-            }}>
-            <Text>Diet</Text>
-          </TouchableOpacity>
-          <View style={{padding: '2%'}} />
-          <TouchableOpacity
-            disabled={true}
-            style={{
-              backgroundColor: !this.state.isMealGoal ? '#3eb245' : '#b3c4b4',
-              color: 'black',
-              borderRadius: 2,
-              borderWidth: !this.state.isMealGoal ? 2 : 0,
-              borderColor: !this.state.isMealGoal ? 'navy' : '#3eb245',
-              width: '40%',
-              height: '100%',
-              justifyContent: 'center', //text in the middle of the button
-              alignItems: 'center',
-            }}>
-            <Text>Exercise</Text>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <View style={{padding: '4%'}} />
-          <Text
-            style={{
-              fontSize: 16,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginLeft: '15%',
-              marginRight: '15%',
-            }}>
-            Current Goal: {this.state.limitType} {this.state.amount} of{' '}
-            {this.state.trackedItem} per {this.state.duration}.
-          </Text>
-        </View>
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <Dropdown
-            label="Limit type"
-            data={limitOpts}
-            defaultValue={this.state.limitType}
-            onChangeText={value => {
-              this.setState({limitType: value});
-            }}
-            selectedItemColor="#3eb245"
-            containerStyle={{width: '50%'}}
-          />
-        </View>
-        <View style={{padding: '2%'}} />
-        <View>
-          <TextInput
-            style={styles.fieldText}
-            autoCapitalize="none"
-            placeholder="Enter amount"
-            defaultValue={this.state.amount.toString()}
-            onChangeText={amount => this.setState({amount})}
-          />
-        </View>
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <Dropdown
-            label="Goal Options"
-            data={
-              this.state.isMealGoal ? this.state.mealOpts : this.state.exOpts
-            }
-            defaultValue={this.state.trackedItem}
-            onChangeText={value => {
-              this.setState({trackedItem: value});
-            }}
-            selectedItemColor="#3eb245"
-            containerStyle={{width: '50%'}}
-          />
-        </View>
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <Dropdown
-            label="Duration type"
-            data={durationOpts}
-            defaultValue={this.state.duration}
-            onChangeText={value => {
-              this.setState({duration: value});
-            }}
-            selectedItemColor="#3eb245"
-            containerStyle={{width: '50%'}}
-          />
-        </View>
-        <View style={{flex: 1}}>
-          <TouchableOpacity onPress={this.submit} style={styles.linkStyle}>
-            <Text>Submit</Text>
-          </TouchableOpacity>
-        </View>
+        <Text style={styles.title} />
       </View>
     );
   }
@@ -211,13 +123,13 @@ const styles = StyleSheet.create({
   },
   title: {
     margin: 12,
-    fontSize: 20,
+    fontSize: 50,
     fontWeight: 'bold',
     textAlign: 'center',
     textDecorationColor: 'gray',
   },
   container: {
-    flex: 1,
+    // flex: 1,
     //width: '40%',
     //height: '20%',
     alignItems: 'center',
@@ -226,18 +138,19 @@ const styles = StyleSheet.create({
     //marginBottom: '70%',
     //marginLeft: '30%',
   },
-  spacingHigh: {
-    padding: 15,
-  },
-  spacingSmall: {
-    padding: 10,
-  },
   fieldText: {
     fontSize: 16,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: '25%',
-    marginRight: '25%',
+    textAlign: 'center',
+    borderBottomWidth: 0.5,
+  },
+  regText: {
+    fontSize: 20,
+    padding: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
     borderBottomWidth: 0.5,
   },
   alignLeftView: {
@@ -248,6 +161,12 @@ const styles = StyleSheet.create({
   linkStyle: {
     marginBottom: '70%',
     padding: 15,
+  },
+  ImageIconStyle: {
+    justifyContent: 'center',
+    height: 100,
+    width: 100,
+    alignItems: 'center',
   },
   /*textalign for the text to be in the center for "bamboo."*/
 });
