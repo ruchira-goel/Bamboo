@@ -3,9 +3,7 @@ package com.bamboo.demo.Models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.print.attribute.HashAttributeSet;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -22,8 +20,8 @@ public class User {
     private Sex sex;
     private ArrayList<String> goalIds;
     private HashMap<String, String> dailyInfo;    //String is id of the daily info obj
-    private ArrayList<String> saveMeals;
-    private ArrayList<String> savedExerciseRoutine;
+    private ArrayList<String> favMeals;
+    private ArrayList<String> favExerciseRoutine;
 
     public void addGoalId(String goalId) {
         this.goalIds.add(goalId);
@@ -33,12 +31,12 @@ public class User {
         return goalIds;
     }
 
-    public ArrayList<String> getSaveMeals() {
-        return saveMeals;
+    public ArrayList<String> getFavMeals() {
+        return favMeals;
     }
 
-    public ArrayList<String> getSavedExerciseRoutine() {
-        return savedExerciseRoutine;
+    public ArrayList<String> getFavExerciseRoutine() {
+        return favExerciseRoutine;
     }
 
     public User(String email, String encryptedPassword) {
@@ -46,8 +44,8 @@ public class User {
         this.encryptedPassword = encryptedPassword;
         this.dailyInfo  =  new HashMap<>();
         this.goalIds = new ArrayList<>();
-        this.saveMeals =new ArrayList<>();
-        this.savedExerciseRoutine = new ArrayList<>();
+        this.favMeals =new ArrayList<>();
+        this.favExerciseRoutine = new ArrayList<>();
     }
 
     public HashMap<String, String> getDailyInfo() {

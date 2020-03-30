@@ -25,4 +25,13 @@ public enum Type {
         }
         throw new IllegalArgumentException("Type not found");
     }
+
+    public static Type fromString(String name) {
+        for (Type type : Type.values()) {
+            if (type.name.equalsIgnoreCase(name)) {
+                return type;
+            }
+        }
+        return null;
+    }
 }

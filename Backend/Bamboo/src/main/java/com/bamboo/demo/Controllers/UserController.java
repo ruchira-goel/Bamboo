@@ -5,17 +5,16 @@ import com.bamboo.demo.Handlers.DIHandler;
 import com.bamboo.demo.Handlers.MealHandler;
 import com.bamboo.demo.Handlers.UserHandler;
 import com.bamboo.demo.Models.DailyInfo;
+import com.bamboo.demo.Models.Goal;
 import com.bamboo.demo.Models.Sex;
 import com.bamboo.demo.Models.User;
-import com.bamboo.demo.Repos.ActivityRepo;
-import com.bamboo.demo.Repos.DailyInfoRepo;
-import com.bamboo.demo.Repos.MealRepo;
-import com.bamboo.demo.Repos.UserRepo;
+import com.bamboo.demo.Repos.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,8 +25,8 @@ public class UserController {
     private ActivityHandler activityHandler;
     private MealHandler mealHandler;
 
-    public UserController(UserRepo userRepo, DailyInfoRepo di, MealRepo mealRepo, ActivityRepo activityRepo) {
-        this.userHandler = new UserHandler(userRepo, di, mealRepo, activityRepo); //Check
+    public UserController(UserRepo userRepo, DailyInfoRepo di, MealRepo mealRepo, ActivityRepo activityRepo, GoalRepo goalRepo) {
+        this.userHandler = new UserHandler(userRepo, di, mealRepo, activityRepo, goalRepo); //Check
         this.di = new DIHandler(di);
 
     }
@@ -79,6 +78,11 @@ public class UserController {
     @RequestMapping("/User/delAll")
     public void delete() {
         userHandler.delete();
+    }
+
+    @RequestMapping("/User/fetchGoals")
+    public ArrayList<Goal> fetchGoals(@RequestParam(value = "userId") String userId) {
+        return this.userHandler.fetchGoals(userId);
     }
 
     @RequestMapping("/DI/all")

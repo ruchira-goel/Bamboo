@@ -29,4 +29,13 @@ public enum TrackedItem {
         }
         throw new IllegalArgumentException("Tracked Item not found");
     }
+
+    public static TrackedItem fromString(String name) {
+        for (TrackedItem trackedItem : TrackedItem.values()) {
+            if (trackedItem.name.equalsIgnoreCase(name)) {
+                return trackedItem;
+            }
+        }
+        return null;
+    }
 }
