@@ -69,7 +69,7 @@ export default class ExerciseGraphs extends Component {
     const {userId} = route.params;
     fetch(
       Platform.OS === 'android'
-        ? `${URL.heroku}/User/weekExerciseTime?userId=${userId}`
+        ? `${URL.android}/User/weekExerciseTime?userId=${userId}`
         : `http://localhost:8080/User/weekExerciseTime?userId=${userId}`,
     )
       .then(res => res.text())
@@ -97,7 +97,7 @@ export default class ExerciseGraphs extends Component {
       );
     fetch(
       Platform.OS === 'android'
-        ? `${URL.heroku}/User/weekExerciseCalories?userId=${userId}`
+        ? `${URL.android}/User/weekExerciseCalories?userId=${userId}`
         : `http://localhost:8080/User/weekExerciseCalories?userId=${userId}`,
     )
       .then(res => res.text())

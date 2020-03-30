@@ -44,7 +44,7 @@ export default class DietGraphs extends Component {
     const {userId} = route.params;
     fetch(
       Platform.OS === 'android'
-        ? `${URL.heroku}/User/weekCaloriesConsumption?userId=${userId}`
+        ? `${URL.android}/User/weekCaloriesConsumption?userId=${userId}`
         : `http://localhost:8080/User/weekCaloriesConsumption?userId=${userId}`,
     )
       .then(res => res.text())
