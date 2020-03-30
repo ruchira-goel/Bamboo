@@ -25,4 +25,13 @@ public enum LimitType {
         }
         throw new IllegalArgumentException("Limit Type not found");
     }
+
+    public static LimitType fromString(String name) {
+        for (LimitType limitType : LimitType.values()) {
+            if (limitType.name.equalsIgnoreCase(name)) {
+                return limitType;
+            }
+        }
+        return null;
+    }
 }

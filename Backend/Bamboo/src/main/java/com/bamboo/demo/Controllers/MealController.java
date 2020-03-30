@@ -3,6 +3,7 @@ package com.bamboo.demo.Controllers;
 import com.bamboo.demo.Handlers.MealHandler;
 import com.bamboo.demo.Models.Meal;
 import com.bamboo.demo.Repos.DailyInfoRepo;
+import com.bamboo.demo.Repos.GoalRepo;
 import com.bamboo.demo.Repos.MealRepo;
 import com.bamboo.demo.Repos.UserRepo;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,26 +12,63 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class MealController {
     private MealHandler mealHandler;
 
-    public MealController(MealRepo mealRepo, DailyInfoRepo dailyInfoRepo, UserRepo userRepo) {
-        this.mealHandler = new MealHandler(userRepo, dailyInfoRepo, mealRepo);
+    public MealController(MealRepo mealRepo, DailyInfoRepo dailyInfoRepo, UserRepo userRepo, GoalRepo goalRepo) {
+        this.mealHandler = new MealHandler(userRepo, dailyInfoRepo, mealRepo, goalRepo);
     }
 
     @RequestMapping("/Meal/infoFromLink")          //meal info from link
     public Meal infoFromLink(@RequestParam(value = "link") String link,
-                             @RequestParam(value = "userId") String userId) throws IOException, IllegalAccessException {
-        return mealHandler.saveMealFromLink(link, userId);
+                             @RequestParam(value = "userId") String userId,
+                             @RequestParam(value = "date") String date) throws IOException, IllegalAccessException {
+        return mealHandler.saveMealFromLink(link, userId, date);
     }
 
     @RequestMapping("/Meal/infoFromName")          //meal info from name
     public Meal infoFromName(@RequestParam(value = "name") String name,
-                             @RequestParam(value = "userid") String userid) throws IOException, IllegalAccessException {
-        return mealHandler.saveMealFromName(name, userid);
+                             @RequestParam(value = "userid") String userid,
+                             @RequestParam(value = "date") String date) throws IOException, IllegalAccessException {
+        return mealHandler.saveMealFromName(name, userid, date);
+    }
+
+    @RequestMapping("/Meal/infoFromRecipe")
+    public Meal infoFromRecipe(@RequestParam(value = "recipe") String recipe,
+                               @RequestParam(value = "userId") String userId,
+                               @RequestParam(value = "date") String date,
+                               @RequestParam(value = "name") String name) throws IOException, IllegalAccessException {
+        System.out.println(recipe);
+        return mealHandler.saveMealFromRecipe(date, userId, recipe, name);
+    }
+
+    @RequestMapping("/Meal/addToFavorites")
+    public Meal addToFavorites(@RequestParam(value = "mealId") String mealId,
+                               @RequestParam(value = "userId") String userId) {
+        return mealHandler.addToFavorites(mealId, userId);
+    }
+
+    @RequestMapping("/Meal/getFavorites")
+    public ArrayList<Meal> getFavorites(@RequestParam(value = "userId") String userId) {
+        return mealHandler.getFavorites(userId);
+    }
+
+    @RequestMapping("/Meal/deleteFavorite")
+    public boolean deleteFavorite(@RequestParam(value = "userId") String userId,
+                                  @RequestParam(value = "mealId") String mealId) {
+        System.out.println("Returned from mealhandler");
+        return mealHandler.deleteFavorite(userId, mealId);
+    }
+
+    @RequestMapping("/Meal/saveMealFromFavorites")
+    public boolean saveMealFromFavorites(@RequestParam(value = "userId") String userId,
+                                         @RequestParam(value = "mealId") String mealId,
+                                         @RequestParam(value = "date") String date) {
+        return this.mealHandler.saveMealFromFavorites(userId, mealId, date);
     }
 
     @RequestMapping("/Meal/all")

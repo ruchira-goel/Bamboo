@@ -14,7 +14,7 @@ import {useRoute} from '@react-navigation/native';
 import Constants from 'expo-constants';
 import URL from './url';
 
-export default class App extends React.Component {
+export default class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

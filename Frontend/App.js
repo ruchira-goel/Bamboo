@@ -19,9 +19,13 @@ import EnterCharacteristics from './src/EnterCharacteristics';
 import HealthProfile from './src/HealthProfile';
 import ExerciseInput from './src/ExerciseInput';
 import ChangePass from './src/ChangePass';
+import ViewGoals from './src/ViewGoals.js';
+import EditGoal from './src/EditGoal';
 import SetGoal from './src/SetGoal';
 import ExerciseGraphs from './src/ExerciseGraphs';
-import DietGraphs from "./src/DietGraphs";
+import DietGraphs from './src/DietGraphs';
+import FavMeals from './src/FavMeals';
+import FavActivities from './src/FavActivities';
 
 const Stack = createStackNavigator();
 
@@ -43,6 +47,11 @@ function App() {
           headerShown={'false'}
         />
         <Stack.Screen
+          name="FavMeals"
+          component={FavMeals}
+          headerShown={'false'}
+        />
+        <Stack.Screen
           name="EnterCharacteristics"
           component={EnterCharacteristics}
           headerShown={'false'}
@@ -53,6 +62,11 @@ function App() {
           headerShown={'false'}
         />
         <Stack.Screen
+          name="FavActivities"
+          component={FavActivities}
+          headerShown={'false'}
+        />
+        <Stack.Screen
           name="ExerciseInput"
           component={ExerciseInput}
           headerShown={'false'}
@@ -60,6 +74,16 @@ function App() {
         <Stack.Screen
           name="ChangePass"
           component={ChangePass}
+          headerShown={'false'}
+        />
+        <Stack.Screen
+          name="ViewGoals"
+          component={ViewGoals}
+          headerShown={'false'}
+        />
+        <Stack.Screen
+          name="EditGoal"
+          component={EditGoal}
           headerShown={'false'}
         />
         <Stack.Screen

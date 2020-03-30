@@ -25,4 +25,13 @@ public enum Duration {
         }
         throw new IllegalArgumentException("Duration not found");
     }
+
+    public static Duration fromString(String name) {
+        for (Duration duration : Duration.values()) {
+            if (duration.name.equalsIgnoreCase(name)) {
+                return duration;
+            }
+        }
+        return null;
+    }
 }
