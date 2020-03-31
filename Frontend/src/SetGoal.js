@@ -9,6 +9,9 @@ import {
   Platform,
 } from 'react-native';
 import {Dropdown} from 'react-native-material-dropdown';
+import URL from './url';
+
+// TODO: Submit button needs to be edited to be centered
 
 export default class SetGoal extends React.Component {
   constructor(props) {
@@ -50,6 +53,10 @@ export default class SetGoal extends React.Component {
     };
   }
 
+  isAmountInvalid(str) {
+    return /[-,_.]/g.test(str);
+  }
+
   submit = () => {
     const {
       limitType,
@@ -81,6 +88,10 @@ export default class SetGoal extends React.Component {
       ]);
       return;
     }
+    if (amount <= 0 || this.isAmountInvalid(amount)) {
+      Alert.alert('Invalid amount', 'Please enter a valid amount.', [{text: 'OK'}]);
+      return;
+    }
     // Second condition taken from user Andy
     // from https://stackoverflow.com/questions/22844560/check-if-object-value-exists-within-a-javascript-array-of-objects-and-if-not-add
     if (isMealGoal && !mealOpts.some(value => value.value === trackedItem)) {
@@ -107,7 +118,7 @@ export default class SetGoal extends React.Component {
     }
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Goal/addGoal?userId=${userId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`
+        ? `${URL.android}/Goal/addGoal?userId=${userId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`
         : `http://localhost:8080/Goal/addGoal?userId=${userId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`,
     )
       .then(res => res.json())
@@ -218,6 +229,7 @@ export default class SetGoal extends React.Component {
           <TextInput
             style={styles.fieldText}
             autoCapitalize="none"
+            keyboardType={'numeric'}
             placeholder="Enter amount"
             onChangeText={amount => this.setState({amount})}
           />

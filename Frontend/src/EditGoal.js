@@ -10,6 +10,9 @@ import {
 } from 'react-native';
 import {Dropdown} from 'react-native-material-dropdown';
 
+// TODO: On back press, ViewGoals should be re-rendered i.e. backend should be fetched again (componentDidMount)
+// TODO: Submit button needs to be edited to be centered
+
 export default class EditGoal extends React.Component {
   constructor(props) {
     super(props);
@@ -53,6 +56,10 @@ export default class EditGoal extends React.Component {
     this.fetchGoal();
   }
 
+  isAmountInvalid(str) {
+    return /[-,_.]/g.test(str);
+  }
+
   submit = () => {
     const {
       limitType,
@@ -72,7 +79,7 @@ export default class EditGoal extends React.Component {
       Alert.alert('Limit Empty', 'Please select a limit type.', [{text: 'OK'}]);
       return;
     }
-    if (amount === '____') {
+    if (amount === '____' || amount === '') {
       Alert.alert('Amount Empty', 'Please enter an amount.', [{text: 'OK'}]);
       return;
     }
@@ -84,6 +91,11 @@ export default class EditGoal extends React.Component {
       Alert.alert('Duration Empty', 'Please select a duration type.', [
         {text: 'OK'},
       ]);
+      return;
+    }
+
+    if (amount <= 0 || this.isAmountInvalid(amount)) {
+      Alert.alert('Invalid amount', 'Please enter a valid amount.', [{text: 'OK'}]);
       return;
     }
     // Second condition taken from user Andy
@@ -273,6 +285,7 @@ export default class EditGoal extends React.Component {
           <TextInput
             style={styles.fieldText}
             autoCapitalize="none"
+            keyboardType={'numeric'}
             placeholder="Enter amount"
             defaultValue={this.state.amount.toString()}
             onChangeText={amount => this.setState({amount})}

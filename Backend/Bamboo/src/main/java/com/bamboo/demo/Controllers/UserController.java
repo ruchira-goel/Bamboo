@@ -82,7 +82,7 @@ public class UserController {
     }
 
     @RequestMapping("/User/fetchGoals")
-    public ArrayList<Goal> fetchGoals(@RequestParam(value = "userId") String userId) {
+    public ArrayList<Goal> fetchGoals(@RequestParam(value = "userId") String userId) throws IllegalAccessException {
         return this.userHandler.fetchGoals(userId);
     }
 
@@ -117,5 +117,20 @@ public class UserController {
     public User changePass(@RequestParam(value = "userId") String userId,
                            @RequestParam(value = "encryptedPassword") String encryptedPassword) throws IllegalAccessException {
         return userHandler.changePass(userId, encryptedPassword);
+    }
+
+    @RequestMapping("/User/weekExerciseTime")
+    public String weekExerciseTime(@RequestParam(value = "userId") String userId) {
+        return userHandler.getWeekExerciseTime(userId);
+    }
+
+    @RequestMapping("/User/weekExerciseCalories")
+    public String weekExerciseCalories(@RequestParam(value = "userId") String userId) {
+        return userHandler.getWeekExerciseCalories(userId);
+    }
+
+    @RequestMapping("/User/weekCaloriesConsumption")
+    public String weekCaloriesConsumption(@RequestParam(value = "userId") String userId) {
+        return userHandler.getWeekCaloriesConsumption(userId);
     }
 }

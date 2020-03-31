@@ -4,10 +4,12 @@ import com.bamboo.demo.Handlers.GoalHandler;
 import com.bamboo.demo.Models.Goal;
 import com.bamboo.demo.Repos.*;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -51,6 +53,12 @@ public class GoalController {
                          @RequestParam(value = "trackedItem") String trackedItem,
                          @RequestParam(value = "duration") String duration) throws IllegalAccessException {
         return goalHandler.editGoal(userId, goalId, type, limitType, amount,trackedItem, duration);
+    }
+
+    @RequestMapping("/Goal/fetchGoalProgress")
+    public double fetchGoalProgress(@RequestParam(value = "userId") String userId,
+                                    @RequestParam(value = "goalId") String goalId) throws IllegalAccessException {
+        return goalHandler.fetchGoalProgress(userId, goalId);
     }
 
     @RequestMapping("/Goal/all")

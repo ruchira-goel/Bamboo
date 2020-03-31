@@ -11,6 +11,7 @@ import {
   Switch,
 } from 'react-native';
 import BUTTONS from './styles/buttons';
+import URL from './url';
 
 // TODO:
 // 1. put user's name in header
@@ -39,7 +40,7 @@ export default class HealthProfile extends Component {
     const {userId} = route.params;
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/getCharacteristics?userId=${userId}`
+        ? `10.0.2.2:8080/User/getCharacteristics?userId=${userId}`
         : `http://localhost:8080/User/getCharacteristics?userId=${userId}`,
     )
       .then(res => res.json())
@@ -215,13 +216,13 @@ export default class HealthProfile extends Component {
     let {height, weight, age, sex, feet, inches, isMetric} = this.state;
     const {route} = this.props;
     const {userId} = route.params;
-    // fetch(
-    //   Platform.OS === 'android'
-    //     ? `http://10.0.2.2:8080/User/getCharacteristics?userId=${userId}`
-    //     : `http://localhost:8080/User/getCharacteristics?userId=${userId}`,
-    // )
-    //   .then(res => res.json())
-    //   .then(data => {});
+    fetch(
+      Platform.OS === 'android'
+        ? `10.0.2.2:8080/User/getCharacteristics?userId=${userId}`
+        : `http://localhost:8080/User/getCharacteristics?userId=${userId}`,
+    )
+      .then(res => res.json())
+      .then(data => {});
     return (
       <View style={styles.container}>
         <View style={styles.contentContainer}>

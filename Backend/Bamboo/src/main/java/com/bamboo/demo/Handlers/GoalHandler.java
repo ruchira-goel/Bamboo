@@ -3,9 +3,13 @@ package com.bamboo.demo.Handlers;
 import com.bamboo.demo.Models.*;
 import com.bamboo.demo.Repos.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+
+//TODO: Add checkMealProgress and checkExerciseProgress in fetchProgress
 
 public class GoalHandler {
     private MealRepo mealRepo;
@@ -53,7 +57,7 @@ public class GoalHandler {
     public ArrayList<String> fetchGoalInfo(String userId, String goalId) throws IllegalAccessException {
         Optional<Goal> goal = this.goalRepo.findById(goalId);
         if (!goal.isPresent()) {
-            throw new IllegalAccessException("There was an error locating your account, please try signing up again");
+            throw new IllegalAccessException("There was an error locating your goal, please try adding the goal again!");
         }
         Goal goalObj = goal.get();
         ArrayList<String> goalArray = new ArrayList<>();
@@ -70,7 +74,7 @@ public class GoalHandler {
     }
 
     public Goal editGoal(String userId, String goalId, String type, String limitType, int amount,
-                            String trackedItem, String duration) throws IllegalAccessException {
+                         String trackedItem, String duration) throws IllegalAccessException {
         System.out.println("User ID" + userId);
         User user = this.userRepo.findUserByUserId(userId);
         Optional<Goal> goal = this.goalRepo.findById(goalId);
@@ -90,6 +94,104 @@ public class GoalHandler {
         this.goalRepo.save(goalObj);
         this.userRepo.save(user);
         return goalObj;
+    }
+
+    public double fetchGoalProgress(String userId, String goalId) throws IllegalAccessException {
+        System.out.println("UserID " + userId);
+        System.out.println("GoalId " + goalId);
+        User user = this.userRepo.findUserByUserId(userId);
+        Optional<Goal> goal = this.goalRepo.findById(goalId);
+        if (!goal.isPresent()) {
+            throw new IllegalAccessException("There was an error locating your account, please try signing up again");
+        }
+        Goal goalObj = goal.get();
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date currentDate = new Date(System.currentTimeMillis());
+        String dateFormat = formatter.format(currentDate);
+
+        System.out.println(dateFormat);
+
+        double goalProgress = 0.0;
+
+
+        if (goalObj.getType() == Type.MEAL) {
+            if (goalObj.getDuration() == Duration.DAY) {
+                try {
+                    System.out.println("Hello hello");
+                    goalObj.checkMealProgress(mealRepo, dailyInfoRepo, goalRepo, dateFormat);
+                    goalProgress = goalObj.getGoalProgress(dateFormat);
+                    System.out.println("Goal Progress " + goalProgress);
+                } catch (NullPointerException e) {
+                    System.out.println("An exception");
+                    goalProgress = 0.0;
+                }
+            } else {
+//            Date newDate = currentDate;
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.DAY_OF_WEEK, -(cal.get(Calendar.DAY_OF_WEEK) - 2));
+                Date newDate = cal.getTime();
+                String newDateF = formatter.format(newDate);
+                System.out.println(newDateF);
+                while (!newDateF.equals(dateFormat)) {
+//            for (int i = 6; i >= 0; i--) {
+//                newDate = new Date(newDate.getTime() - 2);
+                    System.out.println("New Date : " + formatter.format(newDate));
+                    goalObj.checkMealProgress(mealRepo, dailyInfoRepo, goalRepo, newDateF);
+                    goalProgress = goalProgress + goalObj.getGoalProgress(newDateF);
+                    System.out.println("Current Goal progress " + goalObj.getGoalProgress(newDateF));
+                    Instant current = newDate.toInstant();
+                    current = current.plus(1, ChronoUnit.DAYS);
+                    newDate = Date.from(current);
+                    newDateF = formatter.format(newDate);
+                }
+                goalObj.checkExerciseProgress(activityRepo, dailyInfoRepo, goalRepo, newDateF);
+                goalProgress = goalProgress + goalObj.getGoalProgress(newDateF);
+                System.out.println("Current Goal progress " + goalObj.getGoalProgress(newDateF));
+            }
+        } else {
+            if (goalObj.getDuration() == Duration.DAY) {
+                try {
+                    System.out.println("Hello hello");
+                    goalObj.checkExerciseProgress(activityRepo, dailyInfoRepo, goalRepo, dateFormat);
+                    goalProgress = goalObj.getGoalProgress(dateFormat);
+                    System.out.println("Goal Progress " + goalProgress);
+                } catch (NullPointerException e) {
+                    System.out.println("An exception");
+                    goalProgress = 0.0;
+                }
+            } else {
+//            Date newDate = currentDate;
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.DAY_OF_WEEK, -(cal.get(Calendar.DAY_OF_WEEK) - 2));
+                Date newDate = cal.getTime();
+                String newDateF = formatter.format(newDate);
+                System.out.println(newDateF);
+                boolean firstDay = true;
+                while (!newDateF.equals(dateFormat)) {
+//            for (int i = 6; i >= 0; i--) {
+//                newDate = new Date(newDate.getTime() - 2);
+                    System.out.println("New Date : " + formatter.format(newDate));
+                    goalObj.checkExerciseProgress(activityRepo, dailyInfoRepo, goalRepo, newDateF);
+                    goalProgress = goalProgress + goalObj.getGoalProgress(newDateF);
+                    System.out.println("Current Goal progress " + goalObj.getGoalProgress(newDateF));
+                    Instant current = newDate.toInstant();
+                    current = current.plus(1, ChronoUnit.DAYS);
+                    newDate = Date.from(current);
+                    newDateF = formatter.format(newDate);
+                }
+                goalObj.checkExerciseProgress(activityRepo, dailyInfoRepo, goalRepo, newDateF);
+                goalProgress = goalProgress + goalObj.getGoalProgress(newDateF);
+                System.out.println("Current Goal progress " + goalObj.getGoalProgress(newDateF));
+            }
+        }
+
+        this.goalRepo.save(goalObj);
+        this.userRepo.save(user);
+        System.out.println("Goal Progress = " + (goalProgress * 100));
+        DecimalFormat df = new DecimalFormat("#.##");
+        goalProgress = Double.parseDouble(df.format(goalProgress * 100));
+        return goalProgress;
     }
 
     public List<Goal> display() {

@@ -9,6 +9,8 @@ import {
   Alert,
   Platform,
 } from 'react-native';
+import URL from './url';
+
 // import DatePicker from './DatePicker';
 import {Dropdown} from 'react-native-material-dropdown';
 
@@ -36,15 +38,19 @@ export default class ExerciseInput extends Component {
         },
       ],
       activityDisabled: true,
-      formattedDate: `${new Date().getMonth() +
-        1}/${new Date().getDate()}/${new Date().getFullYear()}`,
+      formattedDate:
+        `${new Date().getDate()}/` +
+        (new Date().getMonth() + 1 < 10 ? '0' : '') +
+        `${new Date().getMonth() + 1}/${new Date().getFullYear()}`,
     };
   }
 
   setformattedDate() {
     this.setState({
-      formattedDate: `${this.state.date.getMonth() +
-        1}/${this.state.date.getDate()}/${this.state.date.getFullYear()}`,
+      formattedDate:
+        `${this.state.date.getDate()}/` +
+        (this.state.date.getMonth() + 1 < 10 ? '0' : '') +
+        `${this.state.date.getMonth() + 1}/${this.state.date.getFullYear()}`,
     });
   }
 
@@ -239,7 +245,7 @@ export default class ExerciseInput extends Component {
 
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Activity/saveActivity?&userId=${userId}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`
+        ? `${URL.android}/Activity/saveActivity?&userId=${userId}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`
         : `http://localhost:8080/Activity/saveActivity?&userId=${userId}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`,
     )
       .then(res => res.json())

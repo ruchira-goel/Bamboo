@@ -1,15 +1,11 @@
 package com.bamboo.demo.Handlers;
 
-import com.bamboo.demo.Models.DailyInfo;
-import com.bamboo.demo.Models.Goal;
-import com.bamboo.demo.Models.Sex;
-import com.bamboo.demo.Models.User;
+import com.bamboo.demo.Models.*;
 import com.bamboo.demo.Repos.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class UserHandler {
     private UserRepo userRepo;
@@ -91,8 +87,12 @@ public class UserHandler {
     }
 
 
-    public ArrayList<Goal> fetchGoals(String userId) {
-        User user = this.userRepo.findUserByUserId(userId);
+    public ArrayList<Goal> fetchGoals(String userId) throws IllegalAccessException {
+        Optional<User> userObj = this.userRepo.findByUserId(userId);
+        if (!userObj.isPresent()) {
+            throw new IllegalAccessException("There was an error locating your account, please try signing up again");
+        }
+        User user = userObj.get();
         ArrayList<Goal> goals = new ArrayList<>();
         for (String goalId : user.getGoalIds()) {
             goals.add(this.goalRepo.findById(goalId).get());
@@ -124,5 +124,122 @@ public class UserHandler {
                 dailyInfoRepo.findAllByUserId(userId).isEmpty() &&
                 dailyInfoRepo.findAllByUserId(userId).isEmpty() &&
                 userRepo.findUserByUserId(userId) == null;
+    }
+
+    /**
+     * Get the total minutes of exercise a user did in the last week, ending with today's information.
+     * Data intended for display on a graph.
+     * @param userId user ID
+     * @return string representation of total minutes of exercise on each of the past 7 days
+     */
+    public String getWeekExerciseTime(String userId) {
+        int[] minutes = new int[7];
+        int offset = 24*60*60*1000;
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+        User user = this.userRepo.findUserByUserId(userId);
+        HashMap<String, String> dailyInfos = user.getDailyInfo();
+
+        for (int i = 0; i < 7; i++) {
+            Date date = new Date(System.currentTimeMillis() - offset*i);
+
+            Optional<DailyInfo> info = Optional.empty();
+            if (dailyInfos.get(format.format(date)) != null) {
+                info = this.dailyInfoRepo.findById(dailyInfos.get(format.format(date)));
+            }
+
+            if (info.isPresent()) {
+                ArrayList<String> activityIDs = info.get().getActivities();
+                int mins = 0;
+                for (String id : activityIDs) {
+                    Optional<Activity> activity = this.activityRepo.findById(id);
+                    if (activity.isPresent())
+                        mins += activity.get().getMinutes();
+                }
+                minutes[6-i] = mins;
+            }
+        }
+
+        StringBuilder str = new StringBuilder();
+        for (int i : minutes) {
+            str.append(i);
+            str.append(" ");
+        }
+
+        return str.toString().trim();
+    }
+
+    public String getWeekExerciseCalories(String userId) {
+        int[] calories = new int[7];
+        int offset = 24*60*60*1000;
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+        User user = this.userRepo.findUserByUserId(userId);
+        HashMap<String, String> dailyInfos = user.getDailyInfo();
+
+        for (int i = 0; i < 7; i++) {
+            Date date = new Date(System.currentTimeMillis() - offset*i);
+
+            Optional<DailyInfo> info = Optional.empty();
+            if (dailyInfos.get(format.format(date)) != null) {
+                info = this.dailyInfoRepo.findById(dailyInfos.get(format.format(date)));
+            }
+
+            if (info.isPresent()) {
+                ArrayList<String> activityIDs = info.get().getActivities();
+                int cals = 0;
+                for (String id : activityIDs) {
+                    Optional<Activity> activity = this.activityRepo.findById(id);
+                    if (activity.isPresent())
+                        cals += activity.get().getCalories();
+                }
+                calories[6-i] = cals;
+            }
+        }
+
+        StringBuilder str = new StringBuilder();
+        for (int i : calories) {
+            str.append(i);
+            str.append(" ");
+        }
+
+        return str.toString().trim();
+    }
+
+    public String getWeekCaloriesConsumption(String userId) {
+        int[] calories = new int[7];
+        int offset = 24*60*60*1000;
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+        User user = this.userRepo.findUserByUserId(userId);
+        HashMap<String, String> dailyInfos = user.getDailyInfo();
+
+        for (int i = 0; i < 7; i++) {
+            Date date = new Date(System.currentTimeMillis() - offset*i);
+
+            Optional<DailyInfo> info = Optional.empty();
+            if (dailyInfos.get(format.format(date)) != null) {
+                info = this.dailyInfoRepo.findById(dailyInfos.get(format.format(date)));
+            }
+
+            if (info.isPresent()) {
+                ArrayList<String> mealIDs = info.get().getMeals();
+                int cals = 0;
+                for (String id : mealIDs) {
+                    Optional<Meal> meal = this.mealRepo.findById(id);
+                    if (meal.isPresent())
+                        cals += meal.get().getCalories();
+                }
+                calories[6-i] = cals;
+            }
+        }
+
+        StringBuilder str = new StringBuilder();
+        for (int i : calories) {
+            str.append(i);
+            str.append(" ");
+        }
+
+        return str.toString().trim();
     }
 }

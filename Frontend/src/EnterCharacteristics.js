@@ -11,6 +11,9 @@ import {
 } from 'react-native';
 import React from 'react';
 import {Dropdown} from 'react-native-material-dropdown';
+import URL from './url';
+
+// TODO: In android, toggle switch to change units overlaps with sex dropdown
 
 let {screenHeight, screenWidth} = Dimensions.get('window');
 
