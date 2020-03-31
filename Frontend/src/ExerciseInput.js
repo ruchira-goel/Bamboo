@@ -9,6 +9,8 @@ import {
   Alert,
   Platform,
 } from 'react-native';
+import URL from './url';
+
 // import DatePicker from './DatePicker';
 import {Dropdown} from 'react-native-material-dropdown';
 
@@ -243,7 +245,7 @@ export default class ExerciseInput extends Component {
 
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Activity/saveActivity?&userId=${userId}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`
+        ? `${URL.android}/Activity/saveActivity?&userId=${userId}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`
         : `http://localhost:8080/Activity/saveActivity?&userId=${userId}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`,
     )
       .then(res => res.json())

@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native';
+import URL from './url';
 
 export default class ChangePass extends React.Component {
   constructor(props) {
@@ -51,7 +52,7 @@ export default class ChangePass extends React.Component {
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/changePass?userId=${userId}&encryptedPassword=${encryptedPassword}`
+        ? `${URL.android}/User/changePass?userId=${userId}&encryptedPassword=${encryptedPassword}`
         : `http://localhost:8080/User/changePass?userId=${userId}&encryptedPassword=${encryptedPassword}`,
     )
       .then(res => res.json())

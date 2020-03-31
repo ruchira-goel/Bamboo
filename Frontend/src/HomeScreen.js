@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Platform,
 } from 'react-native';
+import URL from './url';
 
 export default class HomeScreen extends React.Component {
   logout = () => {
@@ -31,7 +32,7 @@ export default class HomeScreen extends React.Component {
     console.log(userId);
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/delAccount?userId=${userId}`
+        ? `${URL.android}/User/delAccount?userId=${userId}`
         : `http://localhost:8080/User/delAccount?userId=${userId}`,
     )
       .then(res => res.json())
@@ -124,6 +125,26 @@ export default class HomeScreen extends React.Component {
           style={styles.btnStyle}>
           <Text>Add Goal</Text>
         </TouchableOpacity>
+        <View style={{padding: '2%'}} />
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate('ExerciseGraphs', {
+              userId: userId,
+            })
+          }
+          style={styles.btnStyle}>
+          <Text>Exercise Graphs</Text>
+        </TouchableOpacity>
+        <View style={{padding: '2%'}} />
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate('DietGraphs', {
+              userId: userId,
+            })
+          }
+          style={styles.btnStyle}>
+          <Text>Diet Graphs</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -138,13 +159,13 @@ const styles = StyleSheet.create({
     //alignContent: 'center',
     //justifyContent: 'center',
     //flexDirection: 'column',
-    marginTop: '45%',
+    // marginTop: '45%',
     //backgroundColor: 'blue',
   },
   container: {
     flex: 1,
     width: '40%',
-    height: '20%',
+    // height: '20%',
     alignItems: 'center',
     alignContent: 'center',
     justifyContent: 'center',
@@ -177,7 +198,7 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     borderColor: '#3eb245',
     width: '75%',
-    height: '13%',
+    height: 40,
     justifyContent: 'center', //text in the middle of the button
     alignItems: 'center', //text in the middle of the button
   },

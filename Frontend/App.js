@@ -23,6 +23,8 @@ import ViewGoals from './src/ViewGoals.js';
 import EditGoal from './src/EditGoal';
 import TrackProgress from './src/TrackProgress';
 import SetGoal from './src/SetGoal';
+import ExerciseGraphs from './src/ExerciseGraphs';
+import DietGraphs from './src/DietGraphs';
 import FavMeals from './src/FavMeals';
 import FavActivities from './src/FavActivities';
 
@@ -95,6 +97,8 @@ function App() {
           component={SetGoal}
           headerShown={'false'}
         />
+        <Stack.Screen name="ExerciseGraphs" component={ExerciseGraphs} />
+        <Stack.Screen name="DietGraphs" component={DietGraphs} />
       </Stack.Navigator>
     </NavigationContainer>
   );
