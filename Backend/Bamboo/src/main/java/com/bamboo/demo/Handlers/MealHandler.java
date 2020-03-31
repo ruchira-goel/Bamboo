@@ -170,10 +170,10 @@ public class MealHandler {
                 }
             }
         }
-        meal.setCalories(calories);
-        meal.setCarbs(carbs);
-        meal.setFat(fat);
-        meal.setProtein(protein);
+        meal.setCalories(Math.round(calories * 100.0) / 100.0);
+        meal.setCarbs(Math.round(carbs * 100.0) / 100.0);
+        meal.setFat(Math.round(fat * 100.0) / 100.0);
+        meal.setProtein(Math.round(protein * 100.0) / 100.0);
         meal.setName(name);
         meal.setUserId(userId);
         this.mealRepo.save(meal);
