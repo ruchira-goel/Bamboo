@@ -75,7 +75,7 @@ export default class EditGoal extends React.Component {
       Alert.alert('Limit Empty', 'Please select a limit type.', [{text: 'OK'}]);
       return;
     }
-    if (amount === '____') {
+    if (amount === '____' || amount === '') {
       Alert.alert('Amount Empty', 'Please enter an amount.', [{text: 'OK'}]);
       return;
     }
