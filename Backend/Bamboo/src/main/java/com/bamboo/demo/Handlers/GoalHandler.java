@@ -114,36 +114,76 @@ public class GoalHandler {
 
         double goalProgress = 0.0;
 
-        if (goalObj.getDuration() == Duration.DAY) {
-            try {
-                System.out.println("Hello hello");
-                goalProgress = goalObj.getGoalProgress(dateFormat);
-                System.out.println("Goal Progress " + goalProgress);
-            } catch (NullPointerException e) {
-                System.out.println("An exception");
-                goalProgress = 0.0;
-            }
-        } else {
+
+        if (goalObj.getType() == Type.MEAL) {
+            if (goalObj.getDuration() == Duration.DAY) {
+                try {
+                    System.out.println("Hello hello");
+                    goalObj.checkMealProgress(mealRepo, dailyInfoRepo, goalRepo, dateFormat);
+                    goalProgress = goalObj.getGoalProgress(dateFormat);
+                    System.out.println("Goal Progress " + goalProgress);
+                } catch (NullPointerException e) {
+                    System.out.println("An exception");
+                    goalProgress = 0.0;
+                }
+            } else {
 //            Date newDate = currentDate;
-            Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.DAY_OF_WEEK, -(cal.get(Calendar.DAY_OF_WEEK) - 2));
-            Date newDate = cal.getTime();
-            String newDateF = formatter.format(newDate);
-            System.out.println(newDateF);
-            boolean firstDay = true;
-            while (!newDateF.equals(dateFormat)) {
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.DAY_OF_WEEK, -(cal.get(Calendar.DAY_OF_WEEK) - 2));
+                Date newDate = cal.getTime();
+                String newDateF = formatter.format(newDate);
+                System.out.println(newDateF);
+                while (!newDateF.equals(dateFormat)) {
 //            for (int i = 6; i >= 0; i--) {
 //                newDate = new Date(newDate.getTime() - 2);
-                System.out.println("New Date : " + formatter.format(newDate));
+                    System.out.println("New Date : " + formatter.format(newDate));
+                    goalObj.checkMealProgress(mealRepo, dailyInfoRepo, goalRepo, newDateF);
+                    goalProgress = goalProgress + goalObj.getGoalProgress(newDateF);
+                    System.out.println("Current Goal progress " + goalObj.getGoalProgress(newDateF));
+                    Instant current = newDate.toInstant();
+                    current = current.plus(1, ChronoUnit.DAYS);
+                    newDate = Date.from(current);
+                    newDateF = formatter.format(newDate);
+                }
+                goalObj.checkExerciseProgress(activityRepo, dailyInfoRepo, goalRepo, newDateF);
                 goalProgress = goalProgress + goalObj.getGoalProgress(newDateF);
                 System.out.println("Current Goal progress " + goalObj.getGoalProgress(newDateF));
-                Instant current = newDate.toInstant();
-                current = current.plus(1, ChronoUnit.DAYS);
-                newDate = Date.from(current);
-                newDateF = formatter.format(newDate);
             }
-            goalProgress = goalProgress + goalObj.getGoalProgress(newDateF);
-            System.out.println("Current Goal progress " + goalObj.getGoalProgress(newDateF));
+        } else {
+            if (goalObj.getDuration() == Duration.DAY) {
+                try {
+                    System.out.println("Hello hello");
+                    goalObj.checkExerciseProgress(activityRepo, dailyInfoRepo, goalRepo, dateFormat);
+                    goalProgress = goalObj.getGoalProgress(dateFormat);
+                    System.out.println("Goal Progress " + goalProgress);
+                } catch (NullPointerException e) {
+                    System.out.println("An exception");
+                    goalProgress = 0.0;
+                }
+            } else {
+//            Date newDate = currentDate;
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.DAY_OF_WEEK, -(cal.get(Calendar.DAY_OF_WEEK) - 2));
+                Date newDate = cal.getTime();
+                String newDateF = formatter.format(newDate);
+                System.out.println(newDateF);
+                boolean firstDay = true;
+                while (!newDateF.equals(dateFormat)) {
+//            for (int i = 6; i >= 0; i--) {
+//                newDate = new Date(newDate.getTime() - 2);
+                    System.out.println("New Date : " + formatter.format(newDate));
+                    goalObj.checkExerciseProgress(activityRepo, dailyInfoRepo, goalRepo, newDateF);
+                    goalProgress = goalProgress + goalObj.getGoalProgress(newDateF);
+                    System.out.println("Current Goal progress " + goalObj.getGoalProgress(newDateF));
+                    Instant current = newDate.toInstant();
+                    current = current.plus(1, ChronoUnit.DAYS);
+                    newDate = Date.from(current);
+                    newDateF = formatter.format(newDate);
+                }
+                goalObj.checkExerciseProgress(activityRepo, dailyInfoRepo, goalRepo, newDateF);
+                goalProgress = goalProgress + goalObj.getGoalProgress(newDateF);
+                System.out.println("Current Goal progress " + goalObj.getGoalProgress(newDateF));
+            }
         }
 
         this.goalRepo.save(goalObj);
