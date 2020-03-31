@@ -50,6 +50,7 @@ public class GoalHandler {
     public boolean deleteGoal(String userId, String goalId) {
         User user = this.userRepo.findUserByUserId(userId);
         user.getGoalIds().remove(goalId);
+        this.goalRepo.deleteById(goalId);
         this.userRepo.save(user);
         return true;
     }

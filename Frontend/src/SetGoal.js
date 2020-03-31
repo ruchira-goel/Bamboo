@@ -228,7 +228,7 @@ export default class SetGoal extends React.Component {
         <View>
           <TextInput
             style={styles.fieldText}
-            autoCapitalize="none"
+            // autoCapitalize="none"
             keyboardType={'numeric'}
             placeholder="Enter amount"
             onChangeText={amount => this.setState({amount})}
