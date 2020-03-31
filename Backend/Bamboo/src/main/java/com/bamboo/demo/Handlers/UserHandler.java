@@ -1,15 +1,11 @@
 package com.bamboo.demo.Handlers;
 
-import com.bamboo.demo.Models.DailyInfo;
-import com.bamboo.demo.Models.Goal;
-import com.bamboo.demo.Models.Sex;
-import com.bamboo.demo.Models.User;
+import com.bamboo.demo.Models.*;
 import com.bamboo.demo.Repos.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class UserHandler {
     private UserRepo userRepo;
