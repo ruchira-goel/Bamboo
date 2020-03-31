@@ -17,11 +17,12 @@ import {Dropdown} from 'react-native-material-dropdown';
 import BUTTONS from './styles/buttons';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import COLORS from './styles/colors';
+import {useNavigation, useRoute} from "@react-navigation/native";
 
 // TODO:
 // 2. choose from prev/existing exercise
 
-export default class ExerciseInput extends Component {
+class ExerciseInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -423,6 +424,12 @@ export default class ExerciseInput extends Component {
       </View>
     );
   }
+}
+
+export default function(props) {
+  const navigation = useNavigation();
+  const route = useRoute();
+  return <ExerciseInput {...props} navigation={navigation} route={route} />;
 }
 
 const styles = StyleSheet.create({
