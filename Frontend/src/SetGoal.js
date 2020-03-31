@@ -108,7 +108,7 @@ export default class SetGoal extends React.Component {
     }
     fetch(
       Platform.OS === 'android'
-        ? `${URL.heroku}/Goal/addGoal?userId=${userId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`
+        ? `${URL.android}/Goal/addGoal?userId=${userId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`
         : `http://localhost:8080/Goal/addGoal?userId=${userId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`,
     )
       .then(res => res.json())

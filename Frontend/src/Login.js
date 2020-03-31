@@ -35,7 +35,7 @@ export default class Login extends React.Component {
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `${URL.heroku}/User/login?email=${email}&encryptedPassword=${encryptedPassword}`
+        ? `${URL.android}/User/login?email=${email}&encryptedPassword=${encryptedPassword}`
         : `http://localhost:8080/User/login?email=${email}&encryptedPassword=${encryptedPassword}`,
     )
       .then(res => res.json())

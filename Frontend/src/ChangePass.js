@@ -52,7 +52,7 @@ export default class ChangePass extends React.Component {
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `${URL.heroku}/User/changePass?userId=${userId}&encryptedPassword=${encryptedPassword}`
+        ? `${URL.android}/User/changePass?userId=${userId}&encryptedPassword=${encryptedPassword}`
         : `http://localhost:8080/User/changePass?userId=${userId}&encryptedPassword=${encryptedPassword}`,
     )
       .then(res => res.json())

@@ -38,7 +38,7 @@ export default class HealthProfile extends Component {
     const {userId} = route.params;
     fetch(
       Platform.OS === 'android'
-        ? `${URL.heroku}/User/getCharacteristics?userId=${userId}`
+        ? `${URL.android}/User/getCharacteristics?userId=${userId}`
         : `http://localhost:8080/User/getCharacteristics?userId=${userId}`,
     )
       .then(res => res.json())
@@ -88,7 +88,7 @@ export default class HealthProfile extends Component {
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `${URL.heroku}/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`
+        ? `${URL.android}/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`
         : `http://localhost:8080/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}`,
     )
       .then(res => res.json())
@@ -130,7 +130,7 @@ export default class HealthProfile extends Component {
     const {userId} = route.params;
     fetch(
       Platform.OS === 'android'
-        ? `${URL.heroku}/User/getCharacteristics?userId=${userId}`
+        ? `${URL.android}/User/getCharacteristics?userId=${userId}`
         : `http://localhost:8080/User/getCharacteristics?userId=${userId}`,
     )
       .then(res => res.json())
