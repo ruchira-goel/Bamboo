@@ -65,11 +65,11 @@ export default class ExerciseGraphs extends Component {
     };
   }
   componentDidMount(): void {
-    const {route} = this.props;
-    const {userId} = route.params;
+    // const {route} = this.props;
+    const userId = '5e7bee40234d184d9cc38fc0';
     fetch(
       Platform.OS === 'android'
-        ? `${URL.android}/User/weekExerciseTime?userId=${userId}`
+        ? `https://cs-bamboo.herokuapp.com/User/weekExerciseTime?userId=${userId}`
         : `http://localhost:8080/User/weekExerciseTime?userId=${userId}`,
     )
       .then(res => res.text())
@@ -97,7 +97,7 @@ export default class ExerciseGraphs extends Component {
       );
     fetch(
       Platform.OS === 'android'
-        ? `${URL.android}/User/weekExerciseCalories?userId=${userId}`
+        ? `https://cs-bamboo.herokuapp.com/User/weekExerciseCalories?userId=${userId}`
         : `http://localhost:8080/User/weekExerciseCalories?userId=${userId}`,
     )
       .then(res => res.text())

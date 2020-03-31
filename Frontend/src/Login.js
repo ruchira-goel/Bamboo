@@ -35,11 +35,13 @@ export default class Login extends React.Component {
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `${URL.android}/User/login?email=${email}&encryptedPassword=${encryptedPassword}`
+        ? `https://cs-bamboo.herokuapp.com
+        /User/login?email=${email}&encryptedPassword=${encryptedPassword}`
         : `http://localhost:8080/User/login?email=${email}&encryptedPassword=${encryptedPassword}`,
     )
       .then(res => res.json())
       .then(data => {
+        console.log('hello');
         console.log(data);
         if (data.error) {
           //throwing error when login fails - wrong password / email not registered yet

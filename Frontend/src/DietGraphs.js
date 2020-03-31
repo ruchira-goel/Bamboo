@@ -40,11 +40,11 @@ export default class DietGraphs extends Component {
     };
   }
   componentDidMount(): void {
-    const {route} = this.props;
-    const {userId} = route.params;
+    // const {route} = this.props;
+    const userId = '5e7bee40234d184d9cc38fc0';
     fetch(
       Platform.OS === 'android'
-        ? `${URL.android}/User/weekCaloriesConsumption?userId=${userId}`
+        ? `https://cs-bamboo.herokuapp.com/User/weekCaloriesConsumption?userId=${userId}`
         : `http://localhost:8080/User/weekCaloriesConsumption?userId=${userId}`,
     )
       .then(res => res.text())
