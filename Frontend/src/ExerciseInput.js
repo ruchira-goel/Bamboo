@@ -36,15 +36,19 @@ export default class ExerciseInput extends Component {
         },
       ],
       activityDisabled: true,
-      formattedDate: `${new Date().getMonth() +
-        1}/${new Date().getDate()}/${new Date().getFullYear()}`,
+      formattedDate:
+        `${new Date().getDate()}/` +
+        (new Date().getMonth() + 1 < 10 ? '0' : '') +
+        `${new Date().getMonth() + 1}/${new Date().getFullYear()}`,
     };
   }
 
   setformattedDate() {
     this.setState({
-      formattedDate: `${this.state.date.getMonth() +
-        1}/${this.state.date.getDate()}/${this.state.date.getFullYear()}`,
+      formattedDate:
+        `${this.state.date.getDate()}/` +
+        (this.state.date.getMonth() + 1 < 10 ? '0' : '') +
+        `${this.state.date.getMonth() + 1}/${this.state.date.getFullYear()}`,
     });
   }
 

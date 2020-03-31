@@ -81,7 +81,7 @@ public class UserController {
     }
 
     @RequestMapping("/User/fetchGoals")
-    public ArrayList<Goal> fetchGoals(@RequestParam(value = "userId") String userId) {
+    public ArrayList<Goal> fetchGoals(@RequestParam(value = "userId") String userId) throws IllegalAccessException {
         return this.userHandler.fetchGoals(userId);
     }
 

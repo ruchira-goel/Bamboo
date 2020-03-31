@@ -27,12 +27,41 @@ class ViewGoals extends Component {
       userId: '',
       goals: [],
     };
-    this.fetchGoals();
-    this.props.navigation.addListener('didFocus', payload => {
-      this.setState({is_updated: true});
-      this.fetchGoals();
-    });
   }
+
+  // componentDidMount() {
+  //   const {fetchGoals, navigation} = this.props;
+  //   this.fetchGoals();
+  //   this.willFocusListener = navigation.addListener('willFocus', () => {
+  //     this.fetchGoals();
+  //   });
+  // }
+  //
+  // componentWillUnmount() {
+  //   this.willFocusListener.remove();
+  // }
+
+  componentDidMount() {
+    console.log('RAMYA----->Mounting View Goals');
+    this.fetchGoals();
+  }
+  //
+  // componentDidUpdate(prevProps) {
+  //   if (prevProps.goals !== this.props.goals) {
+  //     console.log('RAMYA----->Calling componentDidUpdate');
+  //     this.fetchGoals();
+  //   }
+  // }
+  //
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log('RAMYA----->SHould Component Upate, nextState:', nextState);
+  //   console.log('RAMYA----->SHould Component Upate, nextProps:', nextProps);
+  //   return true;
+  // }
+  //
+  // componentWillReceiveProps(nextProps) {
+  //   console.log('RAMYA----->Component will receive props', nextProps);
+  // }
 
   fetchGoals() {
     const {route} = this.props;
@@ -60,22 +89,19 @@ class ViewGoals extends Component {
       });
   }
 
-  alertItemName(item) {
-    alert('Navigate to Track Progress Page, ' + item.name);
+  trackProgress(item) {
+    this.props.navigation.navigate('TrackProgress', {
+      userId: item.userId,
+      goalId: item.id,
+      goalName: item.name,
+    });
   }
 
   edit(item) {
-    Alert.alert('Edit Goal', 'Would you like to edit goal - ' + item.name, [
-      {
-        text: 'Yes',
-        onPress: () =>
-          this.props.navigation.navigate('EditGoal', {
-            userId: item.userId,
-            goalId: item.id,
-          }),
-      },
-      {text: 'Cancel'},
-    ]);
+    this.props.navigation.navigate('EditGoal', {
+      userId: item.userId,
+      goalId: item.id,
+    });
   }
 
   deleteConfirm(item) {
@@ -134,7 +160,7 @@ class ViewGoals extends Component {
             <TouchableOpacity
               key={item.id}
               style={styles.rowcontainer}
-              onPress={() => this.alertItemName(item)}>
+              onPress={() => this.trackProgress(item)}>
               <View style={{flex: 1}}>
                 <Text style={styles.text}>{item.name}</Text>
               </View>
