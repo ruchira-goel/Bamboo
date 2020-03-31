@@ -118,3 +118,19 @@ public class UserController {
         return userHandler.changePass(userId, encryptedPassword);
     }
 }
+
+    @RequestMapping("/User/weekExerciseTime")
+    public String weekExerciseTime(@RequestParam(value = "userId") String userId) {
+        return userHandler.getWeekExerciseTime(userId);
+    }
+
+    @RequestMapping("/User/weekExerciseCalories")
+    public String weekExerciseCalories(@RequestParam(value = "userId") String userId) {
+        return userHandler.getWeekExerciseCalories(userId);
+    }
+
+    @RequestMapping("/User/weekCaloriesConsumption")
+    public String weekCaloriesConsumption(@RequestParam(value = "userId") String userId) {
+        return userHandler.getWeekCaloriesConsumption(userId);
+    }
+}
