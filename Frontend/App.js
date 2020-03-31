@@ -33,7 +33,7 @@ function App() {
   console.disableYellowBox = true;
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="DietGraphs">
+      <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={Login} headerShown="false" />
         <Stack.Screen
           name="HomeScreen"
