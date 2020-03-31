@@ -56,6 +56,10 @@ export default class EditGoal extends React.Component {
     this.fetchGoal();
   }
 
+  isAmountInvalid(str) {
+    return /[-,_.]/g.test(str);
+  }
+
   submit = () => {
     const {
       limitType,
@@ -87,6 +91,11 @@ export default class EditGoal extends React.Component {
       Alert.alert('Duration Empty', 'Please select a duration type.', [
         {text: 'OK'},
       ]);
+      return;
+    }
+
+    if (amount <= 0 || this.isAmountInvalid(amount)) {
+      Alert.alert('Invalid amount', 'Please enter a valid amount.', [{text: 'OK'}]);
       return;
     }
     // Second condition taken from user Andy
@@ -276,6 +285,7 @@ export default class EditGoal extends React.Component {
           <TextInput
             style={styles.fieldText}
             autoCapitalize="none"
+            keyboardType={'numeric'}
             placeholder="Enter amount"
             defaultValue={this.state.amount.toString()}
             onChangeText={amount => this.setState({amount})}
