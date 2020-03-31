@@ -117,7 +117,6 @@ public class UserController {
                            @RequestParam(value = "encryptedPassword") String encryptedPassword) throws IllegalAccessException {
         return userHandler.changePass(userId, encryptedPassword);
     }
-}
 
     @RequestMapping("/User/weekExerciseTime")
     public String weekExerciseTime(@RequestParam(value = "userId") String userId) {

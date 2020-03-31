@@ -77,8 +77,8 @@ export default class DietGraphs extends Component {
         <VictoryChart
           padding={{left: 70, top: 50, right: 40, bottom: 50}}
           domainPadding={20}
-          width={screenWidth}
-          theme={VictoryTheme.material}>
+          width={screenWidth}>
+          {/*theme={VictoryTheme.material}>*/}
           <VictoryLabel
             text="Daily Calories Consumed"
             x={screenWidth / 2}
