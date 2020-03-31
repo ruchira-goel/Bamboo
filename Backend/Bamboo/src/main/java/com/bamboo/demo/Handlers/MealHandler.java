@@ -108,10 +108,7 @@ public class MealHandler {
             Meal meal = new Meal(userId, name, calories, fat, carb, protein);
             this.mealRepo.save(meal);
 
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-            Date currentDate = new Date(System.currentTimeMillis());
-            //String date = formatter.format(currentDate);
-            System.out.println("Date: " + date);
+            System.out.println("Date: HERE " + date);
             addToDate(date, meal);
 
             return meal;
@@ -190,6 +187,7 @@ public class MealHandler {
         User user = this.userRepo.findById(userId).get();
         String dailyInfoId;
         DailyInfo dailyInfo;
+        System.out.println(date);
         if (!user.getDailyInfo().containsKey(date)) {
             dailyInfo = new DailyInfo(userId, date);
             this.dailyInfoRepo.save(dailyInfo);
@@ -207,8 +205,11 @@ public class MealHandler {
             if (goal.getType() == Type.MEAL) {
                 goal.checkMealProgress(mealRepo, dailyInfoRepo, goalRepo, date);
                 goal = this.goalRepo.findGoalById(goal.getId());
+                System.out.println("Progress in MealHandler = " + goal.getGoalProgress(date));
             }
-            System.out.println("Progress: " + goal.getGoalProgress(date));
+//            System.out.println("THIS IS " + date);
+//            System.out.println("Progress: " + goal.getGoalProgress(date));
+//            System.out.println("Hello");
         }
     }
 

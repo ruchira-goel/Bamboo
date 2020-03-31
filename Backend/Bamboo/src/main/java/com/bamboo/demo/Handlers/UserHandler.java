@@ -90,8 +90,12 @@ public class UserHandler {
     }
 
 
-    public ArrayList<Goal> fetchGoals(String userId) {
-        User user = this.userRepo.findUserByUserId(userId);
+    public ArrayList<Goal> fetchGoals(String userId) throws IllegalAccessException {
+        Optional<User> userObj = this.userRepo.findByUserId(userId);
+        if (!userObj.isPresent()) {
+            throw new IllegalAccessException("There was an error locating your account, please try signing up again");
+        }
+        User user = userObj.get();
         ArrayList<Goal> goals = new ArrayList<>();
         for (String goalId : user.getGoalIds()) {
             goals.add(this.goalRepo.findById(goalId).get());

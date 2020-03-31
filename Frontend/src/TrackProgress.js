@@ -94,7 +94,6 @@ export default class TrackProgress extends React.Component {
   }
 
   render() {
-    console.log('route.params in TrackGoals render', this.props);
     return (
       <View style={styles.heading}>
         <Text style={styles.title}>{this.state.goalProgress}%</Text>
@@ -104,7 +103,11 @@ export default class TrackProgress extends React.Component {
         {/*    style={styles.ImageIconStyle}*/}
         {/*  />*/}
         {/*</View>*/}
-        <Text style={styles.fieldText}>You're almost there, keep it up!</Text>
+        <Text style={styles.fieldText}>
+          {this.state.goalProgress >= 100
+            ? 'You did it! Keep up the good work :)'
+            : "You're almost there, keep it up!"}
+        </Text>
         <View style={{padding: '4%'}} />
         <Text style={styles.regText}>Goal: {this.state.goalName}.</Text>
         <View style={{padding: '2%'}} />

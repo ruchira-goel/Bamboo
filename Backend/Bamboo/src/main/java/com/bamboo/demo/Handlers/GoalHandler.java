@@ -3,11 +3,11 @@ package com.bamboo.demo.Handlers;
 import com.bamboo.demo.Models.*;
 import com.bamboo.demo.Repos.*;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 
 public class GoalHandler {
     private MealRepo mealRepo;
@@ -55,7 +55,7 @@ public class GoalHandler {
     public ArrayList<String> fetchGoalInfo(String userId, String goalId) throws IllegalAccessException {
         Optional<Goal> goal = this.goalRepo.findById(goalId);
         if (!goal.isPresent()) {
-            throw new IllegalAccessException("There was an error locating your account, please try signing up again");
+            throw new IllegalAccessException("There was an error locating your goal, please try adding the goal again!");
         }
         Goal goalObj = goal.get();
         ArrayList<String> goalArray = new ArrayList<>();
@@ -110,34 +110,46 @@ public class GoalHandler {
 
         System.out.println(dateFormat);
 
-        double goalProgress;
+        double goalProgress = 0.0;
 
         if (goalObj.getDuration() == Duration.DAY) {
             try {
+                System.out.println("Hello hello");
                 goalProgress = goalObj.getGoalProgress(dateFormat);
+                System.out.println("Goal Progress " + goalProgress);
             } catch (NullPointerException e) {
+                System.out.println("An exception");
                 goalProgress = 0.0;
             }
         } else {
-            Date newDate = currentDate;
-            double totalAmount = 0;
-            for (int i = 6; i >= 0; i--) {
-                newDate = new Date(newDate.getTime() - 2 * i);
+//            Date newDate = currentDate;
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.DAY_OF_WEEK, -(cal.get(Calendar.DAY_OF_WEEK) - 2));
+            Date newDate = cal.getTime();
+            String newDateF = formatter.format(newDate);
+            System.out.println(newDateF);
+            boolean firstDay = true;
+            while (!newDateF.equals(dateFormat)) {
+//            for (int i = 6; i >= 0; i--) {
+//                newDate = new Date(newDate.getTime() - 2);
                 System.out.println("New Date : " + formatter.format(newDate));
-                try {
-                    double amount = goalObj.getGoalProgress(formatter.format(newDate)) * goalObj.getAmount();
-                    totalAmount = totalAmount + amount;
-                } catch (NullPointerException e) {
-                    totalAmount = totalAmount + 0.0;
-                }
+                goalProgress = goalProgress + goalObj.getGoalProgress(newDateF);
+                System.out.println("Current Goal progress " + goalObj.getGoalProgress(newDateF));
+                Instant current = newDate.toInstant();
+                current = current.plus(1, ChronoUnit.DAYS);
+                newDate = Date.from(current);
+                newDateF = formatter.format(newDate);
             }
-            goalProgress = totalAmount / goalObj.getAmount();
+            goalProgress = goalProgress + goalObj.getGoalProgress(newDateF);
+            System.out.println("Current Goal progress " + goalObj.getGoalProgress(newDateF));
         }
 
         this.goalRepo.save(goalObj);
         this.userRepo.save(user);
-        System.out.println("Goal Progress = " + goalProgress * 100);
-        return goalProgress * 100;
+        System.out.println("Goal Progress = " + (goalProgress * 100));
+        DecimalFormat df = new DecimalFormat("#.##");
+        goalProgress = Double.parseDouble(df.format(goalProgress * 100));
+        return goalProgress;
     }
 
     public List<Goal> display() {
