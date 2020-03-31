@@ -75,7 +75,7 @@ public class UserHandler {
     }
 
     //new user add characteristics
-    public User addCharacteristics(String userId, double height, double weight, int age, Sex sex) throws IllegalAccessException {
+    public User addCharacteristics(String userId, double height, double weight, int age, Sex sex, boolean isMetric) throws IllegalAccessException {
         Optional<User> user = this.userRepo.findByUserId(userId);
         if (!user.isPresent()) {
             throw new IllegalAccessException("There was an error locating your account, please try signing up again");
@@ -85,6 +85,7 @@ public class UserHandler {
         userObj.setWeight(weight);
         userObj.setAge(age);
         userObj.setSex(sex);
+        userObj.setMetric(isMetric);
         this.userRepo.save(userObj);
         return userObj;
     }

@@ -22,6 +22,15 @@ public class User {
     private HashMap<String, String> dailyInfo;    //String is id of the daily info obj
     private ArrayList<String> favMeals;
     private ArrayList<String> favExerciseRoutine;
+    private boolean isMetric;
+
+    public boolean isMetric() {
+        return isMetric;
+    }
+
+    public void setMetric(boolean metric) {
+        isMetric = metric;
+    }
 
     public void addGoalId(String goalId) {
         this.goalIds.add(goalId);
