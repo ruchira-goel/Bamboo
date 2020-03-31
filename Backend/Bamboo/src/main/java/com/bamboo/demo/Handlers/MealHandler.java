@@ -131,11 +131,8 @@ public class MealHandler {
         urlParams.add(new BasicNameValuePair("ingredientList", recipe));
         httpPost.setEntity(new UrlEncodedFormEntity(urlParams));
         CloseableHttpResponse response = httpClient.execute(httpPost);
-       // System.out.println(EntityUtils.toString(response.getEntity()));
         JSONArray jsonarray = new JSONArray(EntityUtils.toString(response.getEntity()));
-        System.out.println(jsonarray);
-        //for()
-        //System.out.println(nutritionJson.get());
+
 
         Meal meal = new Meal();
         double fat = 0;
@@ -149,14 +146,10 @@ public class MealHandler {
             }  catch(Exception e) {
                 throw new IOException("Ingredients not found");
             }
-            System.out.println(nutrition);
             JSONArray nutrients = nutrition.getJSONArray("nutrients");             //nutrients array
-            System.out.println(nutrients);
             for (int j = 0; j < nutrients.length(); j++) {
                 String title = nutrients.getJSONObject(j).get("title").toString();      //title of nutrient
-                System.out.println("title: " + title);
                 double amount = (double) nutrients.getJSONObject(j).get("amount");
-                System.out.println(amount);
                 switch (title) {
                     case "Fat":
                         fat += amount;
@@ -173,10 +166,10 @@ public class MealHandler {
                 }
             }
         }
-        meal.setCalories(calories);
-        meal.setCarbs(carbs);
-        meal.setFat(fat);
-        meal.setProtein(protein);
+        meal.setCalories(Math.round(calories * 100.0) / 100.0);
+        meal.setCarbs(Math.round(carbs * 100.0) / 100.0);
+        meal.setFat(Math.round(fat * 100.0) / 100.0);
+        meal.setProtein(Math.round(protein * 100.0) / 100.0);
         meal.setName(name);
         meal.setUserId(userId);
         this.mealRepo.save(meal);
