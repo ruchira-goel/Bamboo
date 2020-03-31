@@ -119,17 +119,35 @@ public class Goal {
             return false;
         }
         DailyInfo dailyInfo = dailyInfoOpt.get();
-        if (dailyInfo.getMeals().isEmpty()) {
-            this.setGoalProgress(date, 0);
-            goalRepo.save(this);
-            return false;
-        }
         double currentAmount = 0;
-        for (String mealId : dailyInfo.getMeals()) {
-            Meal meal = mealRepo.findById(mealId).get();
-            currentAmount += meal.getValue(this.trackedItem);
+
+        if (this.limitType == LimitType.GREATERTHAN) {
+            if (dailyInfo.getMeals().isEmpty()) {
+                this.setGoalProgress(date, 0);
+                goalRepo.save(this);
+                return false;
+            }
+            for (String mealId : dailyInfo.getMeals()) {
+                Meal meal = mealRepo.findById(mealId).get();
+                currentAmount += meal.getValue(this.trackedItem);
+            }
+            this.setGoalProgress(date, currentAmount / this.amount);
+        } else {
+            if (dailyInfo.getMeals().isEmpty()) {
+                this.setGoalProgress(date, 1.0);
+                goalRepo.save(this);
+                return false;
+            }
+            for (String mealId : dailyInfo.getMeals()) {
+                Meal meal = mealRepo.findById(mealId).get();
+                currentAmount += meal.getValue(this.trackedItem);
+            }
+            if (currentAmount > this.amount) {
+                this.setGoalProgress(date, 1.0 - (currentAmount - this.amount) / this.amount);
+            } else {
+                this.setGoalProgress(date, 1.0);
+            }
         }
-        this.setGoalProgress(date, currentAmount / this.amount);
         goalRepo.save(this);
         if (this.limitType == LimitType.LESSTHAN && currentAmount <= this.amount) {
             return true;
@@ -149,17 +167,36 @@ public class Goal {
             return false;
         }
         DailyInfo dailyInfo = dailyInfoOpt.get();
-        if (dailyInfo.getActivities().isEmpty()) {
-            setGoalProgress(date, 0);
-            goalRepo.save(this);
-            return false;
-        }
         double currentAmount = 0;
-        for (String activityId : dailyInfo.getActivities()) {
-            Activity activity = activityRepo.findById(activityId).get();
-            currentAmount += activity.getValue(this.trackedItem);
+
+        if (this.limitType == LimitType.GREATERTHAN) {
+            if (dailyInfo.getActivities().isEmpty()) {
+                setGoalProgress(date, 0);
+                goalRepo.save(this);
+                return false;
+            }
+            for (String activityId : dailyInfo.getActivities()) {
+                Activity activity = activityRepo.findById(activityId).get();
+                currentAmount += activity.getValue(this.trackedItem);
+            }
+            setGoalProgress(date, currentAmount / this.amount);
+        } else {
+            if (dailyInfo.getActivities().isEmpty()) {
+                this.setGoalProgress(date, 1.0);
+                goalRepo.save(this);
+                return false;
+            }
+            for (String activityId : dailyInfo.getActivities()) {
+                Activity activity = activityRepo.findById(activityId).get();
+                currentAmount += activity.getValue(this.trackedItem);
+            }
+            if (currentAmount > this.amount) {
+                this.setGoalProgress(date, 1.0 - (currentAmount - this.amount) / this.amount);
+            } else {
+                this.setGoalProgress(date, 1.0);
+            }
+
         }
-        setGoalProgress(date, currentAmount / this.amount);
         goalRepo.save(this);
         if (this.limitType == LimitType.LESSTHAN && currentAmount <= this.amount) {
             return true;
