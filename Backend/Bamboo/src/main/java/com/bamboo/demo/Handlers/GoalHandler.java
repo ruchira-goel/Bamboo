@@ -9,6 +9,8 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+//TODO: Add checkMealProgress and checkExerciseProgress in fetchProgress
+
 public class GoalHandler {
     private MealRepo mealRepo;
     private UserRepo userRepo;

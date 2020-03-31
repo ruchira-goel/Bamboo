@@ -12,6 +12,8 @@ import {
 import React from 'react';
 import {Dropdown} from 'react-native-material-dropdown';
 
+// TODO: In android, toggle switch to change units overlaps with sex dropdown
+
 let {screenHeight, screenWidth} = Dimensions.get('window');
 
 export default class EnterCharacteristics extends React.Component {

@@ -9,7 +9,10 @@ import {
   Platform,
   Image,
 } from 'react-native';
-import {Dropdown} from 'react-native-material-dropdown';
+
+// TODO: Display different Image and message depending on how much of the goal is achieved
+// TODO: Fetch amount corresponding to the goal
+// TODO: Fetch meal/exercises corresponding to the goal
 
 export default class TrackProgress extends React.Component {
   constructor(props) {

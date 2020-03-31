@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import {Dropdown} from 'react-native-material-dropdown';
 
+// TODO: Submit button needs to be edited to be centered
+
 export default class SetGoal extends React.Component {
   constructor(props) {
     super(props);
