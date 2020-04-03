@@ -121,14 +121,8 @@ class ChangePass extends React.Component {
           secureTextEntry={true}
           onChangeText={encryptedPassword => this.setState({encryptedPassword})} //setting the confirm password when user enters it, not encrypted yet
         />
-        <TouchableOpacity onPress={this.login}>
-          <LinearGradient
-            colors={['#aaddaa', '#96d297', '#00c880']}
-            style={styles.btnStyle}
-            start={[0.0, 0.0]}
-            end={[1.0, 1.0]}>
-            <Text style={styles.btnText}>Change Password</Text>
-          </LinearGradient>
+        <TouchableOpacity style={styles.btnStyle} onPress={this.login}>
+          <Text style={styles.btnText}>Change Password</Text>
         </TouchableOpacity>
       </View>
     );

@@ -9,6 +9,7 @@ import {
   Alert,
   Platform,
 } from 'react-native';
+import {useNavigation, useRoute} from "@react-navigation/native";
 
 // Sources:
 // https://reactnative.dev/docs/images
@@ -19,7 +20,7 @@ import {
 // https://reactnativecode.com/add-onpress-onclick-image/
 // https://www.tutorialspoint.com/react_native/react_native_listview.htm
 
-export default class FavMeals extends Component {
+class FavMeals extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -181,6 +182,14 @@ export default class FavMeals extends Component {
       </ScrollView>
     );
   }
+}
+
+export default function(props) {
+  const navigation = useNavigation();
+  const route = useRoute();
+  return (
+      <FavMeals {...props} navigation={navigation} route={route} />
+  );
 }
 
 const styles = StyleSheet.create({

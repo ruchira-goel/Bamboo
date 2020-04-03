@@ -9,19 +9,19 @@ import {
   Alert,
   Platform,
 } from 'react-native';
-import URL from './url';
-
+import * as Constants from './Constants';
 // import DatePicker from './DatePicker';
 import {Dropdown} from 'react-native-material-dropdown';
 
 import BUTTONS from './styles/buttons';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import COLORS from './styles/colors';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
 // TODO:
 // 2. choose from prev/existing exercise
 
-export default class ExerciseInput extends Component {
+class ExerciseInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -245,7 +245,9 @@ export default class ExerciseInput extends Component {
 
     fetch(
       Platform.OS === 'android'
-        ? `${URL.android}/Activity/saveActivity?&userId=${userId}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`
+        ? `${
+            Constants.URL.android
+          }/Activity/saveActivity?&userId=${userId}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`
         : `http://localhost:8080/Activity/saveActivity?&userId=${userId}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`,
     )
       .then(res => res.json())
@@ -273,7 +275,9 @@ export default class ExerciseInput extends Component {
   addToFavorites = (activityId, userId) => {
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Activity/addToFavorites?activityId=${activityId}&userId=${userId}`
+        ? `${
+            Constants.URL.android
+          }/Activity/addToFavorites?activityId=${activityId}&userId=${userId}`
         : `http://localhost:8080/Activity/addToFavorites?activityId=${activityId}&userId=${userId}`,
     )
       .then(res => res.json())
@@ -294,10 +298,6 @@ export default class ExerciseInput extends Component {
           //going to home screen
         }
       });
-  };
-
-  renderHomePage = () => {
-    this.props.navigation.navigate('HomeScreen');
   };
 
   render() {
@@ -493,9 +493,20 @@ export default class ExerciseInput extends Component {
           onPress={this.addExercise}>
           <Text style={BUTTONS.primaryButtonText}>Add</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          onPress={this.props.navigation.goBack}
+          style={styles.btnStyle}>
+          <Text>Done</Text>
+        </TouchableOpacity>
       </View>
     );
   }
+}
+
+export default function(props) {
+  const navigation = useNavigation();
+  const route = useRoute();
+  return <ExerciseInput {...props} navigation={navigation} route={route} />;
 }
 
 const styles = StyleSheet.create({

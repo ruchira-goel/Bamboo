@@ -12,7 +12,14 @@ class Settings extends Component {
       <View style={styles.container}>
         <Text style={styles.heading}>Account</Text>
         <TouchableOpacity
-          style={[styles.selectBox, {borderBottomWidth: 0}]}
+          style={[
+            styles.selectBox,
+            {
+              borderBottomWidth: 0,
+              borderBottomLeftRadius: 0,
+              borderBottomRightRadius: 0,
+            },
+          ]}
           disabled={true}>
           <View style={styles.leftContainer}>
             <Text style={styles.text}>Email</Text>
@@ -33,7 +40,10 @@ class Settings extends Component {
               },
             })
           }
-          style={[styles.selectBox, {marginBottom: 20}]}>
+          style={[
+            styles.selectBox,
+            {marginBottom: 20, borderTopLeftRadius: 0, borderTopRightRadius: 0},
+          ]}>
           <View style={styles.leftContainer}>
             <Text style={styles.text}>Change password</Text>
           </View>

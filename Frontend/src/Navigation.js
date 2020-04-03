@@ -26,6 +26,8 @@ import ExerciseGraphs from '../src/ExerciseGraphs';
 import HealthProfile from '../src/HealthProfile';
 import ChangePass from './ChangePass';
 import EnterCharacteristics from './EnterCharacteristics';
+import FavMeals from './FavMeals';
+import FavActivities from './FavActivities';
 
 function MenuHeader({screenName}) {
   const nav = useNavigation();
@@ -179,6 +181,14 @@ function MealScreen({route, navigation}) {
     </View>
   );
 }
+function FavMealsScreen({route, navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <StackHeader screenName={'Favorite Meals'} />
+      <FavMeals />
+    </View>
+  );
+}
 function ExerciseScreen({route, navigation}) {
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
@@ -188,6 +198,14 @@ function ExerciseScreen({route, navigation}) {
       {/*  title="Go to Profile"*/}
       {/*  onPress={() => navigation.navigate('Profile')}*/}
       {/*/>*/}
+    </View>
+  );
+}
+function FavActivitiesScreen({route, navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <StackHeader screenName={'Favorite Activities'} />
+      <FavActivities />
     </View>
   );
 }
@@ -312,16 +330,17 @@ function Root() {
 
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Meal" component={MealScreen} />
+      <Stack.Screen name="FavMeals" component={FavMealsScreen} />
+
       <Stack.Screen name="Exercise" component={ExerciseScreen} />
+      <Stack.Screen name="FavActivities" component={FavActivitiesScreen} />
+
       <Stack.Screen name="Diet Graphs" component={DietGraphsScreen} />
       <Stack.Screen name="Exercise Graphs" component={ExerciseGraphsScreen} />
 
       <Stack.Screen name="ChangePass" component={ChangePassScreen} />
       {/*
-      fav meals
       enter characteristics
-      fav activities
-      change pass
       view goals
       edit goal
       track progress
@@ -391,7 +410,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   centerContainer: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
   },

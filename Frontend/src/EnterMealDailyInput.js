@@ -10,14 +10,15 @@ import {
   Platform,
 } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import COLORS from './styles/colors';
+import * as Constants from './Constants';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
-export default class EnterMealDailyInput extends React.Component {
+class EnterMealDailyInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       name: '',
-      pickerSelection: 'Enter link',
+      pickerSelection: 'Enter link to recipe',
       mealInfo: '',
       userId: '',
       date: new Date(),
@@ -51,10 +52,12 @@ export default class EnterMealDailyInput extends React.Component {
       ]);
       return;
     }
-    if (pickerSelection === 'Enter link') {
+    if (pickerSelection === 'Enter link to recipe') {
       fetch(
         Platform.OS === 'android'
-          ? `http://10.0.2.2:8080/Meal/infoFromLink?link=${mealInfo}&userId=${userId}&date=${formattedDate}`
+          ? `${
+              Constants.URL.android
+            }/Meal/infoFromLink?link=${mealInfo}&userId=${userId}&date=${formattedDate}`
           : `http://localhost:8080/Meal/infoFromLink?link=${mealInfo}&userId=${userId}&date=${formattedDate}`,
       )
         .then(res => res.json())
@@ -86,7 +89,9 @@ export default class EnterMealDailyInput extends React.Component {
     } else if (pickerSelection === 'Enter meal name') {
       fetch(
         Platform.OS === 'android'
-          ? `http://10.0.2.2:8080/Meal/infoFromName?name=${mealInfo}&userid=${userId}&date=${formattedDate}`
+          ? `${
+              Constants.URL.android
+            }/Meal/infoFromName?name=${mealInfo}&userid=${userId}&date=${formattedDate}`
           : `http://localhost:8080/Meal/infoFromName?name=${mealInfo}&userid=${userId}&date=${formattedDate}`,
       )
         .then(res => res.json())
@@ -126,7 +131,9 @@ export default class EnterMealDailyInput extends React.Component {
       console.log('Recipe: ' + mealInfo);
       fetch(
         Platform.OS === 'android'
-          ? `http://10.0.2.2:8080/Meal/infoFromRecipe?recipe=${mealInfo}&userId=${userId}&date=${formattedDate}&name=${name}`
+          ? `${
+              Constants.URL.android
+            }/Meal/infoFromRecipe?recipe=${mealInfo}&userId=${userId}&date=${formattedDate}&name=${name}`
           : `http://localhost:8080/Meal/infoFromRecipe?recipe=${mealInfo}&userId=${userId}&date=${formattedDate}&name=${name}`,
       )
         .then(res => res.json())
@@ -170,7 +177,9 @@ export default class EnterMealDailyInput extends React.Component {
     console.log('userid from addToFavs: ' + userId);
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Meal/addToFavorites?mealId=${mealId}&userId=${userId}`
+        ? `${
+            Constants.URL.android
+          }/Meal/addToFavorites?mealId=${mealId}&userId=${userId}`
         : `http://localhost:8080/Meal/addToFavorites?mealId=${mealId}&userId=${userId}`,
     )
       .then(res => res.json())
@@ -233,7 +242,7 @@ export default class EnterMealDailyInput extends React.Component {
   }
 
   render() {
-    console.log('Date' + this.state.date);
+    // console.log('Date' + this.state.date);
     const DatePicker = () => {
       const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
@@ -259,7 +268,7 @@ export default class EnterMealDailyInput extends React.Component {
 
       return (
         <View>
-          <TouchableOpacity style={styles.button} onPress={showDatePicker}>
+          <TouchableOpacity style={styles.datePicker} onPress={showDatePicker}>
             <Text style={styles.text}>{this.state.formattedDate}</Text>
           </TouchableOpacity>
           <DateTimePickerModal
@@ -273,53 +282,30 @@ export default class EnterMealDailyInput extends React.Component {
       );
     };
     return (
-      <View style={styles.heading}>
-        <View
-          style={{
-            flex: 0.2,
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingBottom: '2%',
-            //backgroundColor: 'white',
-          }}>
-          <Text style={{textAlign: 'center', fontSize: 20}}>
-            What did you eat?
-          </Text>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            flex: 0.3,
-            //backgroundColor: 'green',
-          }}>
-          <View style={{flex: 0.4, marginLeft: '15%'}}>
-            <Text style={{fontSize: 17}}>Select Date: </Text>
+      <View style={styles.container}>
+        <Text style={styles.heading}>What did you eat?</Text>
+        <View style={styles.rowContainer}>
+          <View style={styles.leftContainer}>
+            <Text style={styles.text}>Date:</Text>
           </View>
-          <View style={{flex: 0.6, marginTop: '4%'}}>
+          <View style={styles.rightContainer}>
             <DatePicker />
           </View>
         </View>
-        <View style={{padding: '4%'}} />
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            flex: 0.3,
-            //backgroundColor: 'white',
-          }}>
-          <View style={{flex: 0.4, marginLeft: '15%'}}>
-            <Text style={{fontSize: 16}}>Select Input Type: </Text>
-          </View>
-          <View style={{flex: 0.6}}>
+        <View style={styles.rowContainer}>
+          <Text style={styles.text}>Input Type:</Text>
+          <View style={styles.rightContainer}>
             <Picker
-              itemStyle={{fontSize: 16, marginRight: '15%'}}
+              style={styles.picker}
+              itemStyle={{fontSize: 16}}
               selectedValue={this.state.pickerSelection}
-              style={{}}
               onValueChange={(itemValue, itemIndex) =>
                 this.setState({pickerSelection: itemValue})
               }>
-              <Picker.Item label="Enter link to recipe" value="Enter link" />
+              <Picker.Item
+                label="Enter link to recipe"
+                value="Enter link to recipe"
+              />
               <Picker.Item
                 label="Enter my own recipe"
                 value="Enter your own recipe"
@@ -328,23 +314,21 @@ export default class EnterMealDailyInput extends React.Component {
             </Picker>
           </View>
         </View>
-        <View style={{padding: '4%'}} />
         <View
           style={{
-            flex: 0.3,
-            justifyContent: 'center',
-            //backgroundColor: 'white',
+            width: '100%',
+            paddingLeft: 50,
+            paddingRight: 50,
           }}>
           {this.renderTextInput()}
         </View>
-        <View style={{padding: '6%'}} />
         <View>
           <TouchableOpacity
             onPress={() => {
               const {route} = this.props;
               const {userId} = route.params;
               this.setState({userId: userId});
-              console.log('From meal i/p page: ' + userId);
+              // console.log('From meal i/p page: ' + userId);
               this.props.navigation.navigate('FavMeals', {
                 userId: userId,
                 date: this.state.formattedDate,
@@ -356,20 +340,13 @@ export default class EnterMealDailyInput extends React.Component {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={{padding: '4%'}} />
-        <View style={{alignItems: 'center', flex: 1}}>
-          <TouchableOpacity onPress={this.addMeal} style={styles.btnStyle}>
+        <View style={{width: '100%', paddingLeft: 50, paddingRight: 50}}>
+          <TouchableOpacity onPress={this.addMeal} style={styles.primaryBtn}>
             <Text>Save Meal</Text>
           </TouchableOpacity>
-          <View
-            style={{
-              flex: 0.03,
-              //backgroundColor: 'green'
-            }}
-          />
           <TouchableOpacity
-            onPress={this.renderHomePage}
-            style={styles.btnStyle}>
+            onPress={this.props.navigation.goBack}
+            style={styles.secondaryBtn}>
             <Text>Done</Text>
           </TouchableOpacity>
         </View>
@@ -378,70 +355,84 @@ export default class EnterMealDailyInput extends React.Component {
   }
 }
 
+export default function(props) {
+  const navigation = useNavigation();
+  const route = useRoute();
+  return (
+    <EnterMealDailyInput {...props} navigation={navigation} route={route} />
+  );
+}
+
 const styles = StyleSheet.create({
-  heading: {
-    fontSize: 24,
-    fontWeight: '500',
+  container: {
     flex: 1,
-    marginTop: '10%',
+    width: Constants.DIMENSIONS.screenWidth,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    // justifyContent: 'center',
+  },
+  heading: {
+    marginTop: 20,
+    textAlign: 'center',
+    fontSize: 18,
+  },
+  rowContainer: {
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    padding: 12,
+    alignItems: 'center',
+    marginLeft: 40,
+    marginRight: 40,
+  },
+  leftContainer: {
+    flex: 1,
+    justifyContent: 'flex-start',
+  },
+  rightContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
   },
   fieldText: {
     fontSize: 16,
-    //justifyContent: 'center',
-    //alignItems: 'center',
-    marginLeft: '15%',
-    marginRight: '40%',
     borderBottomWidth: 0.5,
-    //alignSelf: 'stretch',
-    width: '100%',
+    // alignSelf: 'stretch',
+    // width: '100%',
+    // width: Constants.DIMENSIONS.screenWidth,
   },
-  alignLeftView: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
-  btnStyle: {
-    backgroundColor: 'darkseagreen',
-    color: 'black',
-    borderRadius: 2,
-    borderColor: '#3eb245',
-    width: '70%',
-    height: '12%',
-    //alignContent: 'center',
-    justifyContent: 'center', //text in the middle of the button
-    alignItems: 'center', //text in the middle of the butto
-    //alignSelf: 'stretch',
-    //mar
-  },
-  /*textalign for the text to be in the center for "bamboo."*/
   picker: {
-    width: 100,
+    //TODO
   },
   textArea: {
     fontSize: 16,
-    //justifyContent: 'center',
-    //alignItems: 'center',
-    marginLeft: '15%',
-    marginRight: '40%',
-    borderWidth: 0.5,
-    //alignSelf: 'stretch',
-    width: '100%',
-    height: '100%',
   },
   linkStyle: {
     alignItems: 'center',
   },
   text: {
     fontSize: 16,
-    // width: 100,
   },
-  button: {
-    backgroundColor: 'darkseagreen',
-    padding: 2,
-    marginRight: '15%',
-    alignItems: 'center',
-    borderRadius: 2,
-    height: '65%',
+  primaryBtn: {
+    backgroundColor: Constants.COLORS.primary.main,
+    borderRadius: 60,
+    borderColor: Constants.COLORS.primary.main,
+    padding: 12,
     justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+  },
+  secondaryBtn: {
+    borderRadius: 60,
+    borderWidth: 2,
+    borderColor: Constants.COLORS.primary.main,
+    padding: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  datePicker: {
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: Constants.COLORS.primary.main,
   },
 });

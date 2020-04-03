@@ -9,6 +9,8 @@ import {
   Alert,
   Platform,
 } from 'react-native';
+import FavMeals from './FavMeals';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
 // Sources:
 // https://reactnative.dev/docs/images
@@ -19,7 +21,7 @@ import {
 // https://reactnativecode.com/add-onpress-onclick-image/
 // https://www.tutorialspoint.com/react_native/react_native_listview.htm
 
-export default class FavActivities extends Component {
+class FavActivities extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,7 +37,11 @@ export default class FavActivities extends Component {
     const {date} = route.params;
     Alert.alert(
       'Adding Activity',
-      "Are you sure you want to add activity " + item.type + " to " + date + " ?",
+      'Are you sure you want to add activity ' +
+        item.type +
+        ' to ' +
+        date +
+        ' ?',
       [
         {text: 'Yes', onPress: () => this.saveActivityFromFavorties(item)},
         {text: 'No'},
@@ -164,7 +170,9 @@ export default class FavActivities extends Component {
               style={styles.rowcontainer}
               onPress={() => this.confirmAdd(item)}>
               <View style={{flex: 1}}>
-                <Text style={styles.text}>{item.type} , {item.minutes} minutes</Text>
+                <Text style={styles.text}>
+                  {item.type} , {item.minutes} minutes
+                </Text>
               </View>
               <View style={styles.rowview}>
                 <TouchableOpacity onPress={() => this.deleteConfirm(item)}>
@@ -180,6 +188,12 @@ export default class FavActivities extends Component {
       </ScrollView>
     );
   }
+}
+
+export default function(props) {
+  const navigation = useNavigation();
+  const route = useRoute();
+  return <FavActivities {...props} navigation={navigation} route={route} />;
 }
 
 const styles = StyleSheet.create({
