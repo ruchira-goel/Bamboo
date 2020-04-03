@@ -8,14 +8,18 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native';
-import URL from './url';
+import {LinearGradient} from 'expo-linear-gradient';
+import * as Constants from './Constants';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
-export default class ChangePass extends React.Component {
+class ChangePass extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       pass: '',
       encryptedPassword: '',
+      borderColorA: Constants.COLORS.gray,
+      borderColorB: Constants.COLORS.gray,
     };
   }
 
@@ -52,8 +56,12 @@ export default class ChangePass extends React.Component {
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `${URL.android}/User/changePass?userId=${userId}&encryptedPassword=${encryptedPassword}`
-        : `http://localhost:8080/User/changePass?userId=${userId}&encryptedPassword=${encryptedPassword}`,
+        ? `${
+            Constants.URL.android
+          }/User/changePass?userId=${userId}&encryptedPassword=${encryptedPassword}`
+        : `${
+            Constants.URL.ios
+          }/User/changePass?userId=${userId}&encryptedPassword=${encryptedPassword}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -72,87 +80,91 @@ export default class ChangePass extends React.Component {
       });
   };
 
+  onFocus(field) {
+    field === 'a'
+      ? this.setState({
+          borderColorA: Constants.COLORS.primary.main,
+        })
+      : this.setState({
+          borderColorB: Constants.COLORS.primary.main,
+        });
+  }
+
+  onBlur(field) {
+    field === 'a'
+      ? this.setState({
+          borderColorA: Constants.COLORS.gray,
+        })
+      : this.setState({
+          borderColorB: Constants.COLORS.gray,
+        });
+  }
+
   render() {
     return (
-      <View style={styles.heading}>
-        <View style={{padding: '2%'}} />
-        <View style={styles.spacingHigh} />
+      <View style={styles.container}>
         <TextInput
-          style={styles.fieldText}
+          onBlur={() => this.onBlur('a')}
+          onFocus={() => this.onFocus('a')}
+          style={[styles.fieldText, {borderColor: this.state.borderColorA}]}
           autoCapitalize="none"
-          placeholder="Enter password"
+          placeholder="Enter new password"
           secureTextEntry={true}
           onChangeText={pass => this.setState({pass})} //setting the password when user enters it
         />
-        <View style={{padding: '3%'}} />
         <TextInput
-          style={styles.fieldText}
+          onBlur={() => this.onBlur('b')}
+          onFocus={() => this.onFocus('b')}
+          style={[styles.fieldText, {borderColor: this.state.borderColorB}]}
           autoCapitalize="none"
-          placeholder="Enter password again"
+          placeholder="Retype new password"
           secureTextEntry={true}
           onChangeText={encryptedPassword => this.setState({encryptedPassword})} //setting the confirm password when user enters it, not encrypted yet
         />
-        <View style={{padding: '3%'}} />
-        <View style={styles.spacingSmall} />
-        <View style={styles.container}>
-          <TouchableOpacity onPress={this.login} style={styles.btnStyle}>
-            <Text>Change Password</Text>
-          </TouchableOpacity>
-          <View style={{padding: '2%'}} />
-        </View>
+        <TouchableOpacity onPress={this.login}>
+          <LinearGradient
+            colors={['#aaddaa', '#96d297', '#00c880']}
+            style={styles.btnStyle}
+            start={[0.0, 0.0]}
+            end={[1.0, 1.0]}>
+            <Text style={styles.btnText}>Change Password</Text>
+          </LinearGradient>
+        </TouchableOpacity>
       </View>
     );
   }
 }
 
+export default function(props) {
+  const navigation = useNavigation();
+  const route = useRoute();
+  return <ChangePass {...props} navigation={navigation} route={route} />;
+}
+
 const styles = StyleSheet.create({
-  heading: {
-    fontSize: 24,
-    fontWeight: '500',
-    flex: 1,
-    marginTop: '35%',
-  },
   container: {
     flex: 1,
-    //width: '40%',
-    //height: '20%',
-    alignItems: 'center',
-    alignContent: 'center',
-    //backgroundColor: 'blue',
-    //marginBottom: '70%',
-    //marginLeft: '30%',
-  },
-  spacingHigh: {
-    padding: 15,
-  },
-  spacingSmall: {
-    padding: 10,
+    justifyContent: 'center',
   },
   fieldText: {
     fontSize: 16,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: '15%',
-    marginRight: '15%',
-    borderBottomWidth: 0.5,
-  },
-  alignLeftView: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
+    borderWidth: 1.5,
+    borderRadius: 4,
+    marginBottom: 30,
+    padding: 10,
   },
   btnStyle: {
-    backgroundColor: '#3eb245',
-    color: 'black',
-    borderRadius: 2,
-    borderColor: '#3eb245',
-    width: '40%',
-    height: '11%',
-    justifyContent: 'center', //text in the middle of the button
-    alignItems: 'center', //text in the middle of the button
+    backgroundColor: Constants.COLORS.primary.main,
+    borderRadius: 4,
+    borderColor: Constants.COLORS.primary.main,
+    padding: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 30,
   },
-  linkStyle: {
-    marginBottom: '70%',
+  btnText: {
+    fontSize: 16,
   },
-  /*textalign for the text to be in the center for "bamboo."*/
 });
