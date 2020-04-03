@@ -8,15 +8,19 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {LinearGradient} from 'expo-linear-gradient';
 
-import URL from './url';
+import * as Constants from './Constants';
 
-export default class Login extends React.Component {
+class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
       encryptedPassword: '',
+      borderColorA: Constants.COLORS.gray,
+      borderColorB: Constants.COLORS.gray,
     };
   }
 
@@ -35,8 +39,12 @@ export default class Login extends React.Component {
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `${URL.android}/User/login?email=${email}&encryptedPassword=${encryptedPassword}`
-        : `http://localhost:8080/User/login?email=${email}&encryptedPassword=${encryptedPassword}`,
+        ? `${
+            Constants.URL.android
+          }/User/login?email=${email}&encryptedPassword=${encryptedPassword}`
+        : `${
+            Constants.URL.ios
+          }/User/login?email=${email}&encryptedPassword=${encryptedPassword}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -50,114 +58,128 @@ export default class Login extends React.Component {
           }
         } else {
           //going to home screen
-          this.props.navigation.replace('HomeScreen', {
-            userId: data.userId,
-            email: email,
-            encryptedPassword: encryptedPassword,
+          this.props.navigation.navigate('Root', {
+            screen: 'Home',
+            params: {
+              userId: data.userId,
+              email: email,
+              encryptedPassword: encryptedPassword,
+            },
           });
         }
       });
   };
 
+  onFocus(field) {
+    field === 'a'
+      ? this.setState({
+          borderColorA: Constants.COLORS.primary.main,
+        })
+      : this.setState({
+          borderColorB: Constants.COLORS.primary.main,
+        });
+  }
+
+  onBlur(field) {
+    field === 'a'
+      ? this.setState({
+          borderColorA: Constants.COLORS.gray,
+        })
+      : this.setState({
+          borderColorB: Constants.COLORS.gray,
+        });
+  }
+
   render() {
     return (
-      <View style={styles.heading}>
+      <View styles={styles.container}>
         <Text style={styles.title}>Bamboo.</Text>
-        <View style={{padding: '2%'}} />
-        <View style={styles.spacingHigh} />
         <TextInput
-          style={styles.fieldText}
+          onBlur={() => this.onBlur('a')}
+          onFocus={() => this.onFocus('a')}
+          style={[styles.fieldText, {borderColor: this.state.borderColorA}]}
           autoCapitalize="none"
-          placeholder="Enter email"
+          placeholder="Email"
           onChangeText={email => this.setState({email})} //setting the email when user enters it
         />
-        <View style={{padding: '3%'}} />
         <TextInput
-          style={styles.fieldText}
+          onBlur={() => this.onBlur('b')}
+          onFocus={() => this.onFocus('b')}
+          style={[styles.fieldText, {borderColor: this.state.borderColorB}]}
           autoCapitalize="none"
-          placeholder="Enter password"
+          placeholder="Password"
           secureTextEntry={true}
           onChangeText={encryptedPassword => this.setState({encryptedPassword})} //setting the password when user enters it, not encrypted yet
         />
-        <View style={{padding: '3%'}} />
-        <View style={styles.spacingSmall} />
-        <View style={styles.container}>
-          <TouchableOpacity onPress={this.login} style={styles.btnStyle}>
-            <Text>Login</Text>
+        <TouchableOpacity onPress={this.login}>
+          <LinearGradient
+            colors={['#aaddaa', '#96d297', '#00c880']}
+            style={styles.btnStyle}
+            start={[0.0, 0.0]}
+            end={[1.0, 1.0]}>
+            <Text style={styles.btnText}>Login</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          <Text style={{padding: 15}}>Don't have an account? </Text>
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate('Root', {
+                screen: 'SignUp',
+              })
+            }
+            style={styles.linkStyle}>
+            <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
+              Sign Up!
+            </Text>
           </TouchableOpacity>
-          <View style={{padding: '2%'}} />
-          <View style={{flex: 1, flexDirection: 'row'}}>
-            <Text style={{padding: 15}}>Don't have an account? </Text>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.replace('SignUp')}
-              style={styles.linkStyle}>
-              <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
-                Signup!
-              </Text>
-            </TouchableOpacity>
-          </View>
         </View>
       </View>
     );
   }
 }
 
+export default function(props) {
+  const navigation = useNavigation();
+  return <Login {...props} navigation={navigation} />;
+}
+
 const styles = StyleSheet.create({
-  heading: {
-    fontSize: 24,
-    fontWeight: '500',
-    flex: 1,
-    marginTop: '7%',
+  container: {
+    alignItems: 'center',
+    alignContent: 'center',
   },
   title: {
-    margin: 12,
+    marginTop: 50,
+    marginBottom: 50,
     fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
     textDecorationColor: 'gray',
   },
-  container: {
-    flex: 1,
-    //width: '40%',
-    //height: '20%',
-    alignItems: 'center',
-    alignContent: 'center',
-    //backgroundColor: 'blue',
-    //marginBottom: '70%',
-    //marginLeft: '30%',
-  },
-  spacingHigh: {
-    padding: 15,
-  },
-  spacingSmall: {
-    padding: 10,
-  },
   fieldText: {
     fontSize: 16,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: '15%',
-    marginRight: '15%',
-    borderBottomWidth: 0.5,
-  },
-  alignLeftView: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
+    borderWidth: 1.5,
+    borderRadius: 4,
+    marginBottom: 30,
+    padding: 10,
   },
   btnStyle: {
-    backgroundColor: '#3eb245',
-    color: 'black',
-    borderRadius: 2,
-    borderColor: '#3eb245',
-    width: '40%',
-    height: '11%',
-    justifyContent: 'center', //text in the middle of the button
-    alignItems: 'center', //text in the middle of the button
+    backgroundColor: Constants.COLORS.primary.main,
+    borderRadius: 4,
+    borderColor: Constants.COLORS.primary.main,
+    padding: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 30,
+  },
+  btnText: {
+    fontSize: 16,
   },
   linkStyle: {
     marginBottom: '70%',
     padding: 15,
   },
-  /*textalign for the text to be in the center for "bamboo."*/
 });

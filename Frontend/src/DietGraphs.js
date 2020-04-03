@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {Text, View, StyleSheet, Dimensions, Platform} from 'react-native';
 
-const screenWidth = Dimensions.get('window').width;
-
 import {
   VictoryBar,
   VictoryChart,
@@ -10,7 +8,8 @@ import {
   VictoryAxis,
   VictoryLabel,
 } from 'victory-native';
-import URL from './url';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import * as Constants from './Constants';
 
 let today = new Date();
 let day = today.getDay();
@@ -31,7 +30,7 @@ for (let i = 0; i < 7; i++) {
   }
 }
 
-export default class DietGraphs extends Component {
+class DietGraphs extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -44,7 +43,9 @@ export default class DietGraphs extends Component {
     const {userId} = route.params;
     fetch(
       Platform.OS === 'android'
-        ? `${URL.android}/User/weekCaloriesConsumption?userId=${userId}`
+        ? `${
+            Constants.URL.android
+          }/User/weekCaloriesConsumption?userId=${userId}`
         : `http://localhost:8080/User/weekCaloriesConsumption?userId=${userId}`,
     )
       .then(res => res.text())
@@ -77,11 +78,12 @@ export default class DietGraphs extends Component {
         <VictoryChart
           padding={{left: 70, top: 50, right: 40, bottom: 50}}
           domainPadding={20}
-          width={screenWidth}>
-          {/*theme={VictoryTheme.material}>*/}
+          width={Constants.DIMENSIONS.screenWidth}
+          // theme={VictoryTheme.material}
+        >
           <VictoryLabel
             text="Daily Calories Consumed"
-            x={screenWidth / 2}
+            x={Constants.DIMENSIONS.screenWidth / 2}
             y={30}
             textAnchor="middle"
           />
@@ -109,11 +111,17 @@ export default class DietGraphs extends Component {
   }
 }
 
+export default function(props) {
+  const navigation = useNavigation();
+  const route = useRoute();
+  return <DietGraphs {...props} navigation={navigation} route={route} />;
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5fcff',
+    // backgroundColor: '#f5fcff',
   },
 });

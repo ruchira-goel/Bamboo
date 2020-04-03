@@ -6,6 +6,8 @@ import {useNavigation} from '@react-navigation/native';
 
 class Settings extends Component {
   render() {
+    const userId = this.props.userId;
+    const email = this.props.email;
     return (
       <View style={styles.container}>
         <Text style={styles.heading}>Account</Text>
@@ -17,7 +19,7 @@ class Settings extends Component {
           </View>
           <View style={styles.rightContainer}>
             <Text style={[styles.text, {color: 'rgba(0, 0, 0, 0.5)'}]}>
-              email@example.com
+              {email}
             </Text>
           </View>
         </TouchableOpacity>
@@ -26,6 +28,9 @@ class Settings extends Component {
             // goes back to Home screen instead of Settings
             this.props.navigation.navigate('Root', {
               screen: 'ChangePass',
+              params: {
+                userId: userId,
+              },
             })
           }
           style={[styles.selectBox, {marginBottom: 20}]}>

@@ -9,8 +9,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-const screenWidth = Dimensions.get('window').width;
-
 /*
 https://github.com/sxywu/react-d3-example/blob/master/src/visualizations/LineChart.js
 https://www.npmjs.com/package/react-native-responsive-linechart
@@ -28,9 +26,8 @@ import {
   VictoryAxis,
   VictoryLabel,
 } from 'victory-native';
-import URL from './url';
-import BUTTONS from './styles/buttons';
-import COLORS from './styles/colors';
+import * as Constants from './Constants';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
 let today = new Date();
 let day = today.getDay();
@@ -51,7 +48,7 @@ for (let i = 0; i < 7; i++) {
   }
 }
 
-export default class ExerciseGraphs extends Component {
+class ExerciseGraphs extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -69,7 +66,7 @@ export default class ExerciseGraphs extends Component {
     const {userId} = route.params;
     fetch(
       Platform.OS === 'android'
-        ? `${URL.android}/User/weekExerciseTime?userId=${userId}`
+        ? `${Constants.URL.android}/User/weekExerciseTime?userId=${userId}`
         : `http://localhost:8080/User/weekExerciseTime?userId=${userId}`,
     )
       .then(res => res.text())
@@ -97,7 +94,7 @@ export default class ExerciseGraphs extends Component {
       );
     fetch(
       Platform.OS === 'android'
-        ? `${URL.android}/User/weekExerciseCalories?userId=${userId}`
+        ? `${Constants.URL.android}/User/weekExerciseCalories?userId=${userId}`
         : `http://localhost:8080/User/weekExerciseCalories?userId=${userId}`,
     )
       .then(res => res.text())
@@ -157,11 +154,12 @@ export default class ExerciseGraphs extends Component {
         <VictoryChart
           padding={{left: 70, top: 50, right: 40, bottom: 50}}
           domainPadding={20}
-          width={screenWidth}>
-          {/*theme={VictoryTheme.material}>*/}
+          width={Constants.DIMENSIONS.screenWidth}
+          // theme={VictoryTheme.material}
+        >
           <VictoryLabel
             text="Daily Exercise"
-            x={screenWidth / 2}
+            x={Constants.DIMENSIONS.screenWidth / 2}
             y={30}
             textAnchor="middle"
           />
@@ -204,12 +202,18 @@ export default class ExerciseGraphs extends Component {
   }
 }
 
+export default function(props) {
+  const navigation = useNavigation();
+  const route = useRoute();
+  return <ExerciseGraphs {...props} navigation={navigation} route={route} />;
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5fcff',
+    // backgroundColor: Constants.COLORS.background,
   },
   active: {
     backgroundColor: '#455a64',
