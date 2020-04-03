@@ -1,10 +1,53 @@
 import React, {Component} from 'react';
-import {Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Alert,
+  Platform,
+} from 'react-native';
 import ChangePass from './ChangePass';
 import * as Constants from './Constants';
 import {useNavigation} from '@react-navigation/native';
+import URL from './url';
 
 class Settings extends Component {
+  delAccountConfirm = () => {
+    Alert.alert(
+      'Confirm Delete',
+      'All data associated with your account will be deleted. You will not be able to recover any of the saved data. Are you sure you want to delete your account?',
+      [{text: 'Yes', onPress: this.delAccount}, {text: 'No'}],
+    );
+  };
+
+  delAccount = () => {
+    console.log('here');
+    const {route} = this.props;
+    const {userId} = route.params;
+    console.log(userId);
+    fetch(
+      Platform.OS === 'android'
+        ? `${Constants.URL.android}/User/delAccount?userId=${userId}`
+        : `http://localhost:8080/User/delAccount?userId=${userId}`,
+    )
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        if (!data) {
+          Alert.alert(
+            'Error',
+            'Something went wrong, please try again later.',
+            [{text: 'OK'}],
+          );
+        } else {
+          //going to home screen
+          this.props.navigation.replace('Login');
+        }
+      });
+  };
+
   render() {
     const userId = this.props.userId;
     const email = this.props.email;
@@ -62,6 +105,27 @@ class Settings extends Component {
         {/*<ChangePass />*/}
         <Text style={styles.heading}>Units</Text>
         <Text style={styles.heading}>Notifications</Text>
+        <Text style={styles.heading}>Danger Zone</Text>
+        <TouchableOpacity
+          onPress={this.delAccountConfirm}
+          style={[styles.selectBox, {marginBottom: 20}]}>
+          <View style={styles.leftContainer}>
+            <Text style={[styles.text, {color: '#F32013'}]}>
+              Delete account
+            </Text>
+          </View>
+          <View style={styles.rightContainer}>
+            <Image
+              source={require('./img/forward-arrow.png')}
+              style={{
+                width: 16,
+                height: 16,
+                opacity: 0.5,
+                resizeMode: 'contain',
+              }}
+            />
+          </View>
+        </TouchableOpacity>
       </View>
     );
   }

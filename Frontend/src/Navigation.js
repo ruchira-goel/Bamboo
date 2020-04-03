@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useState, useEffect} from 'react';
-import {StatusBar} from 'react-native';
+import {Alert, StatusBar} from 'react-native';
 import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import {
   NavigationContainer,
@@ -297,20 +297,31 @@ function CustomDrawerContent(props) {
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
+      {/*<DrawerItem*/}
+      {/*  label="Profile"*/}
+      {/*  onPress={() =>*/}
+      {/*    props.navigation.jumpTo('Profile', {*/}
+      {/*      params: {*/}
+      {/*        userId: props.userId,*/}
+      {/*      },*/}
+      {/*    })*/}
+      {/*  }*/}
+      {/*/>*/}
       <DrawerItem
-        label="Profile"
+        label="Logout"
         onPress={() =>
-          props.navigation.jumpTo('Profile', {
-            params: {
-              userId: props.userId,
+          Alert.alert('Confirm Logout', 'Are you sure you want to logout?', [
+            {
+              text: 'Yes',
+              onPress: () =>
+                props.navigation.navigate('Root', {
+                  screen: 'Login',
+                }),
             },
-          })
+            {text: 'No'},
+          ])
         }
       />
-      {/*<DrawerItem*/}
-      {/*  label="Logout"*/}
-      {/*  onPress={() => props.navigation.toggleDrawer()}*/}
-      {/*/>*/}
     </DrawerContentScrollView>
   );
 }
@@ -369,6 +380,7 @@ export default function Navigation() {
         drawerContentOptions={{
           activeTintColor: Constants.COLORS.primary.main,
         }}
+        drawerContent={props => CustomDrawerContent(props)}
         edgeWidth={0}>
         <Drawer.Screen
           name="Root"
