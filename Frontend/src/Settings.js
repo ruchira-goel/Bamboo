@@ -7,6 +7,8 @@ import {
   Image,
   Alert,
   Platform,
+  Switch,
+  ScrollView,
 } from 'react-native';
 import ChangePass from './ChangePass';
 import * as Constants from './Constants';
@@ -52,7 +54,7 @@ class Settings extends Component {
     const userId = this.props.userId;
     const email = this.props.email;
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <Text style={styles.heading}>Account</Text>
         <TouchableOpacity
           style={[
@@ -85,7 +87,11 @@ class Settings extends Component {
           }
           style={[
             styles.selectBox,
-            {marginBottom: 20, borderTopLeftRadius: 0, borderTopRightRadius: 0},
+            {
+              marginBottom: 20,
+              borderTopLeftRadius: 0,
+              borderTopRightRadius: 0,
+            },
           ]}>
           <View style={styles.leftContainer}>
             <Text style={styles.text}>Change password</Text>
@@ -104,7 +110,79 @@ class Settings extends Component {
         </TouchableOpacity>
         {/*<ChangePass />*/}
         <Text style={styles.heading}>Units</Text>
+        <TouchableOpacity
+          disabled={true}
+          style={[styles.selectBox, {marginBottom: 20}]}>
+          <View style={styles.leftContainer}>
+            <Text style={styles.text}>TODO</Text>
+          </View>
+          <View style={styles.rightContainer}>
+            <Switch
+              // onValueChange={this.toggleSwitch}
+              value={true}
+            />
+          </View>
+        </TouchableOpacity>
         <Text style={styles.heading}>Notifications</Text>
+        <TouchableOpacity
+          disabled={true}
+          style={[
+            styles.selectBox,
+            {
+              borderBottomWidth: 0,
+              borderBottomLeftRadius: 0,
+              borderBottomRightRadius: 0,
+            },
+          ]}>
+          <View style={styles.leftContainer}>
+            <Text style={styles.text}>TODO</Text>
+          </View>
+          <View style={styles.rightContainer}>
+            <Switch
+              // onValueChange={this.toggleSwitch}
+              value={true}
+            />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          disabled={true}
+          style={[
+            styles.selectBox,
+            {
+              borderBottomWidth: 0,
+              borderRadius: 0,
+            },
+          ]}>
+          <View style={styles.leftContainer}>
+            <Text style={styles.text}>TODO</Text>
+          </View>
+          <View style={styles.rightContainer}>
+            <Switch
+              // onValueChange={this.toggleSwitch}
+              value={true}
+            />
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          disabled={true}
+          style={[
+            styles.selectBox,
+            {
+              borderTopLeftRadius: 0,
+              borderTopRightRadius: 0,
+              marginBottom: 20,
+            },
+          ]}>
+          <View style={styles.leftContainer}>
+            <Text style={styles.text}>TODO</Text>
+          </View>
+          <View style={styles.rightContainer}>
+            <Switch
+              // onValueChange={this.toggleSwitch}
+              value={true}
+            />
+          </View>
+        </TouchableOpacity>
         <Text style={styles.heading}>Danger Zone</Text>
         <TouchableOpacity
           onPress={this.delAccountConfirm}
@@ -126,7 +204,7 @@ class Settings extends Component {
             />
           </View>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     );
   }
 }

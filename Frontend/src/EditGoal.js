@@ -9,11 +9,12 @@ import {
   Platform,
 } from 'react-native';
 import {Dropdown} from 'react-native-material-dropdown';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
 // TODO: On back press, ViewGoals should be re-rendered i.e. backend should be fetched again (componentDidMount)
 // TODO: Submit button needs to be edited to be centered
 
-export default class EditGoal extends React.Component {
+class EditGoal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -325,6 +326,12 @@ export default class EditGoal extends React.Component {
       </View>
     );
   }
+}
+
+export default function(props) {
+  const navigation = useNavigation();
+  const route = useRoute();
+  return <EditGoal {...props} navigation={navigation} route={route} />;
 }
 
 const styles = StyleSheet.create({

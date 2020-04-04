@@ -28,6 +28,9 @@ import ChangePass from './ChangePass';
 import EnterCharacteristics from './EnterCharacteristics';
 import FavMeals from './FavMeals';
 import FavActivities from './FavActivities';
+import ViewGoals from './ViewGoals';
+import SetGoal from './SetGoal';
+import EditGoal from './EditGoal';
 
 function MenuHeader({screenName}) {
   const nav = useNavigation();
@@ -209,6 +212,30 @@ function FavActivitiesScreen({route, navigation}) {
     </View>
   );
 }
+function ViewGoalsScreen({route, navigation}) {
+  return (
+    <View style={{alignItems: 'center'}}>
+      <StackHeader screenName={'My Goals'} />
+      <ViewGoals />
+    </View>
+  );
+}
+function SetGoalScreen({route, navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <StackHeader screenName={'Set Goal'} />
+      <SetGoal />
+    </View>
+  );
+}
+function EditGoalScreen({route, navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <StackHeader screenName={'Edit Goal'} />
+      <EditGoal />
+    </View>
+  );
+}
 function DietGraphsScreen({route, navigation}) {
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
@@ -268,7 +295,7 @@ function HomeScreen({route, navigation}) {
         style={styles.button}
         onPress={() =>
           navigation.navigate('Root', {
-            screen: 'Exercise Graphs',
+            screen: 'ExerciseGraphs',
             params: {
               userId: userId,
             },
@@ -280,13 +307,37 @@ function HomeScreen({route, navigation}) {
         style={styles.button}
         onPress={() =>
           navigation.navigate('Root', {
-            screen: 'Diet Graphs',
+            screen: 'DietGraphs',
             params: {
               userId: userId,
             },
           })
         }>
         <Text style={styles.text}>Diet Graphs</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() =>
+          navigation.navigate('Root', {
+            screen: 'ViewGoals',
+            params: {
+              userId: userId,
+            },
+          })
+        }>
+        <Text style={styles.text}>Goals</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() =>
+          navigation.navigate('Root', {
+            screen: 'SetGoal',
+            params: {
+              userId: userId,
+            },
+          })
+        }>
+        <Text style={styles.text}>Set Goals</Text>
       </TouchableOpacity>
     </View>
   );
@@ -340,17 +391,23 @@ function Root() {
       {/*<Stack.Screen name="EnterCharacteristics" component={EnterCharacteristicsScreen} />*/}
 
       <Stack.Screen name="Home" component={HomeScreen} />
+
       <Stack.Screen name="Meal" component={MealScreen} />
       <Stack.Screen name="FavMeals" component={FavMealsScreen} />
 
       <Stack.Screen name="Exercise" component={ExerciseScreen} />
       <Stack.Screen name="FavActivities" component={FavActivitiesScreen} />
 
-      <Stack.Screen name="Diet Graphs" component={DietGraphsScreen} />
-      <Stack.Screen name="Exercise Graphs" component={ExerciseGraphsScreen} />
+      <Stack.Screen name="ViewGoals" component={ViewGoalsScreen} />
+      <Stack.Screen name="SetGoal" component={SetGoalScreen} />
+      <Stack.Screen name="EditGoal" component={EditGoalScreen} />
+
+      <Stack.Screen name="DietGraphs" component={DietGraphsScreen} />
+      <Stack.Screen name="ExerciseGraphs" component={ExerciseGraphsScreen} />
 
       <Stack.Screen name="ChangePass" component={ChangePassScreen} />
       {/*
+      TODO:
       enter characteristics
       view goals
       edit goal
@@ -415,6 +472,15 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight,
     padding: 10,
     backgroundColor: Constants.COLORS.primary.main,
+    // shadowColor: "#000",
+    // shadowOffset: {
+    //     width: 0,
+    //     height: 4,
+    // },
+    // shadowOpacity: 0.30,
+    // shadowRadius: 4.65,
+    //
+    // elevation: 8,
   },
   leftContainer: {
     flex: 1,

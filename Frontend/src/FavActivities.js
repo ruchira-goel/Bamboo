@@ -10,6 +10,7 @@ import {
   Platform,
 } from 'react-native';
 import FavMeals from './FavMeals';
+import * as Constants from './Constants';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
 // Sources:
@@ -60,7 +61,9 @@ class FavActivities extends Component {
     console.log('');
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Activity/saveActivityFromFavorites?userId=${userId}&activityId=${
+        ? `${
+            Constants.URL.android
+          }/Activity/saveActivityFromFavorites?userId=${userId}&activityId=${
             item.id
           }&date=${date}`
         : `http://localhost:8080/Activity/saveActivityFromFavorites?userId=${userId}&activityId=${
@@ -92,7 +95,7 @@ class FavActivities extends Component {
     console.log('In the favmeals page: ' + userId);
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Activity/getFavorites?userId=${userId}`
+        ? `${Constants.URL.android}/Activity/getFavorites?userId=${userId}`
         : `http://localhost:8080/Activity/getFavorites?userId=${userId}`,
     )
       .then(res => res.json())
@@ -128,9 +131,9 @@ class FavActivities extends Component {
     console.log(item.id);
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Activity/deleteFavorite?userId=${userId}&activityId=${
-            item.id
-          }`
+        ? `${
+            Constants.URL.android
+          }/Activity/deleteFavorite?userId=${userId}&activityId=${item.id}`
         : `http://localhost:8080/Activity/deleteFavorite?userId=${userId}&activityId=${
             item.id
           }`,

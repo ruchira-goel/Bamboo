@@ -413,22 +413,15 @@ class HealthProfile extends Component {
                 {this.state.isMetric ? 'Metric' : 'Imperial'}
               </Text>
               <Switch
-                style={styles.switch}
                 onValueChange={this.toggleSwitch}
-                value={this.state.isMetric}
+                value={isMetric}
                 disabled={!this.state.editable}
               />
             </View>
           </ScrollView>
         </View>
-        <TouchableOpacity onPress={this.onPress}>
-          <LinearGradient
-            colors={['#aaddaa', '#96d297', '#00c880']}
-            style={styles.btnStyle}
-            start={[0.0, 0.0]}
-            end={[1.0, 1.0]}>
-            <Text style={styles.btnText}>{this.state.buttonValue}</Text>
-          </LinearGradient>
+        <TouchableOpacity onPress={this.onPress} style={styles.btnStyle}>
+          <Text style={styles.btnText}>{this.state.buttonValue}</Text>
         </TouchableOpacity>
       </View>
     );

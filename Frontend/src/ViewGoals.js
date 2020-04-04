@@ -9,6 +9,8 @@ import {
   Alert,
   Platform,
 } from 'react-native';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import * as Constants from './Constants';
 
 // Sources:
 // https://reactnative.dev/docs/images
@@ -70,7 +72,7 @@ class ViewGoals extends Component {
     console.log('In the view goals page: ' + userId);
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/fetchGoals?userId=${userId}`
+        ? `${Constants.URL.android}/User/fetchGoals?userId=${userId}`
         : `http://localhost:8080/User/fetchGoals?userId=${userId}`,
     )
       .then(res => res.json())
@@ -120,7 +122,7 @@ class ViewGoals extends Component {
     console.log(item.id);
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Goal/deleteGoal?userId=${userId}&goalId=${
+        ? `${Constants.URL.android}/Goal/deleteGoal?userId=${userId}&goalId=${
             item.id
           }`
         : `http://localhost:8080/Goal/deleteGoal?userId=${userId}&goalId=${
@@ -151,69 +153,116 @@ class ViewGoals extends Component {
 
   render() {
     return (
-      <ScrollView>
-        <View style={styles.heading}>
-          <Text style={styles.textheader}>
+      <View styles={{flex: 1, height: Constants.DIMENSIONS.screenHeight}}>
+        <ScrollView style={styles.container}>
+          <Text style={styles.heading}>
             Here are all the goals you've saved!
           </Text>
           {this.state.goals.map((item, index) => (
             <TouchableOpacity
               key={item.id}
-              style={styles.rowcontainer}
+              style={styles.rowContainer}
               onPress={() => this.trackProgress(item)}>
               <View style={{flex: 1}}>
                 <Text style={styles.text}>{item.name}</Text>
               </View>
-              <View style={styles.rowview}>
+              <View style={styles.rowView}>
                 <TouchableOpacity onPress={() => this.edit(item)}>
                   <Image
                     source={require('./img/edit.png')}
-                    style={styles.ImageIconStyle}
+                    style={styles.imageIconStyle}
                   />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.deleteConfirm(item)}>
                   <Image
                     source={require('./img/delete.png')}
-                    style={styles.ImageIconStyle}
+                    style={styles.imageIconStyle}
                   />
                 </TouchableOpacity>
               </View>
             </TouchableOpacity>
           ))}
-        </View>
-      </ScrollView>
+          <View style={styles.fabView}>
+            <TouchableOpacity
+              style={styles.floatingActionButton}
+              onPress={() =>
+                this.props.navigation.navigate('Root', {
+                  screen: 'SetGoal',
+                  params: {
+                    userId: this.props.userId,
+                  },
+                })
+              }>
+              <Image
+                source={require('./img/plus.png')}
+                style={{
+                  width: 30,
+                  height: 30,
+                  resizeMode: 'contain',
+                }}
+              />
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </View>
     );
   }
 }
-export default ViewGoals;
+
+export default function(props) {
+  const navigation = useNavigation();
+  const route = useRoute();
+  return <ViewGoals {...props} navigation={navigation} route={route} />;
+}
 
 const styles = StyleSheet.create({
-  heading: {
-    fontSize: 24,
-    fontWeight: '500',
-    flex: 1,
-    marginTop: '10%',
+  container: {
+    // fontSize: 24,
+    // fontWeight: '500',
+    marginBottom: 100,
   },
-  rowcontainer: {
-    flex: 1,
+  footer: {
+    // flex: 1,
+    position: 'absolute',
+    bottom: 0,
+    height: 50,
+    backgroundColor: 'pink',
+    // marginTop: 100,
+  },
+  rowContainer: {
     padding: 10,
     height: 100,
     marginTop: 3,
-    backgroundColor: '#3eb245',
+    backgroundColor: '#fff',
     justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
   },
-  rowview: {
+  rowView: {
     // position: 'absolute',
     // right: 0,
     flexDirection: 'row',
   },
-  textheader: {
-    color: 'black',
+  heading: {
     margin: '10%',
-    textAlign: 'center',
+    textAlign: 'left',
     fontSize: 24,
+  },
+  fabView: {
+    position: 'absolute',
+    top: '10%',
+    right: 10,
+    flex: 1,
+  },
+  floatingActionButton: {
+    // borderWidth: 1,
+    // borderColor: 'rgba(0,0,0,0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 60,
+    height: 60,
+    backgroundColor: Constants.COLORS.accent.main,
+    borderRadius: 100,
   },
   text: {
     margin: 7,
@@ -223,7 +272,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     textAlignVertical: 'center',
   },
-  ImageIconStyle: {
+  imageIconStyle: {
     marginTop: 10,
     marginLeft: 10,
     marginRight: 5,

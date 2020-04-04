@@ -9,11 +9,12 @@ import {
   Platform,
 } from 'react-native';
 import {Dropdown} from 'react-native-material-dropdown';
-import URL from './url';
+import * as Constants from './Constants';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
 // TODO: Submit button needs to be edited to be centered
 
-export default class SetGoal extends React.Component {
+class SetGoal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -89,7 +90,9 @@ export default class SetGoal extends React.Component {
       return;
     }
     if (amount <= 0 || this.isAmountInvalid(amount)) {
-      Alert.alert('Invalid amount', 'Please enter a valid amount.', [{text: 'OK'}]);
+      Alert.alert('Invalid amount', 'Please enter a valid amount.', [
+        {text: 'OK'},
+      ]);
       return;
     }
     // Second condition taken from user Andy
@@ -118,7 +121,9 @@ export default class SetGoal extends React.Component {
     }
     fetch(
       Platform.OS === 'android'
-        ? `${URL.android}/Goal/addGoal?userId=${userId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`
+        ? `${
+            Constants.URL.android
+          }/Goal/addGoal?userId=${userId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`
         : `http://localhost:8080/Goal/addGoal?userId=${userId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`,
     )
       .then(res => res.json())
@@ -264,6 +269,12 @@ export default class SetGoal extends React.Component {
       </View>
     );
   }
+}
+
+export default function(props) {
+  const navigation = useNavigation();
+  const route = useRoute();
+  return <SetGoal {...props} navigation={navigation} route={route} />;
 }
 
 const styles = StyleSheet.create({
