@@ -7,16 +7,13 @@ import com.bamboo.demo.Handlers.UserHandler;
 import com.bamboo.demo.Models.DailyInfo;
 import com.bamboo.demo.Models.Sex;
 import com.bamboo.demo.Models.User;
-import com.bamboo.demo.Repos.ActivityRepo;
-import com.bamboo.demo.Repos.DailyInfoRepo;
-import com.bamboo.demo.Repos.MealRepo;
-import com.bamboo.demo.Repos.UserRepo;
+import com.bamboo.demo.Repos.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
-import java.util.Date;
+import javax.mail.MessagingException;
 import java.util.List;
 
 @RestController
@@ -26,8 +23,8 @@ public class UserController {
     private ActivityHandler activityHandler;
     private MealHandler mealHandler;
 
-    public UserController(UserRepo userRepo, DailyInfoRepo di, MealRepo mealRepo, ActivityRepo activityRepo) {
-        this.userHandler = new UserHandler(userRepo, di, mealRepo, activityRepo); //Check
+    public UserController(UserRepo userRepo, DailyInfoRepo di, MealRepo mealRepo, ActivityRepo activityRepo, GoalRepo goalRepo) {
+        this.userHandler = new UserHandler(userRepo, di, mealRepo, activityRepo, goalRepo); //Check
         this.di = new DIHandler(di);
 
     }
@@ -112,5 +109,10 @@ public class UserController {
     public User changePass(@RequestParam(value = "userId") String userId,
                            @RequestParam(value = "encryptedPassword") String encryptedPassword) throws IllegalAccessException {
         return userHandler.changePass(userId, encryptedPassword);
+    }
+
+    @RequestMapping("/User/recoverAccount")
+    public void recoverAccount(@RequestParam(value = "userId") String userId) throws MessagingException {
+        userHandler.recoverAccount(userId);
     }
 }

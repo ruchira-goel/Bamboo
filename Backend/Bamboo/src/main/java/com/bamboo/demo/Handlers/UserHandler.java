@@ -3,26 +3,30 @@ package com.bamboo.demo.Handlers;
 import com.bamboo.demo.Models.DailyInfo;
 import com.bamboo.demo.Models.Sex;
 import com.bamboo.demo.Models.User;
-import com.bamboo.demo.Repos.ActivityRepo;
-import com.bamboo.demo.Repos.DailyInfoRepo;
-import com.bamboo.demo.Repos.MealRepo;
-import com.bamboo.demo.Repos.UserRepo;
+import com.bamboo.demo.Repos.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 
 public class UserHandler {
     private UserRepo userRepo;
     private DailyInfoRepo dailyInfoRepo;
     private MealRepo mealRepo;
     private ActivityRepo activityRepo;
+    private GoalRepo goalRepo;
 
-    public UserHandler(UserRepo userRepo, DailyInfoRepo dailyInfoRepo, MealRepo mealRepo, ActivityRepo activityRepo) {
+    public UserHandler(UserRepo userRepo, DailyInfoRepo dailyInfoRepo, MealRepo mealRepo, ActivityRepo activityRepo, GoalRepo goalRepo) {
         this.userRepo = userRepo;
         this.dailyInfoRepo = dailyInfoRepo;
         this.mealRepo = mealRepo;
         this.activityRepo = activityRepo;
+        this.goalRepo = goalRepo;
 
     }
 
@@ -108,10 +112,46 @@ public class UserHandler {
         this.activityRepo.deleteAllByUserId(userId);
         this.mealRepo.deleteAllByUserId(userId);
         this.dailyInfoRepo.deleteAllByUserId(userId);
+        this.goalRepo.deleteAllByUserId(userId);
         this.userRepo.deleteByUserId(userId);
         return mealRepo.findAllByUserId(userId).isEmpty() &&
                 dailyInfoRepo.findAllByUserId(userId).isEmpty() &&
-                dailyInfoRepo.findAllByUserId(userId).isEmpty() &&
+                activityRepo.findAllByUserId(userId).isEmpty() &&
+                goalRepo.findAllByUserId(userId).isEmpty() &&
                 userRepo.findUserByUserId(userId) == null;
+    }
+
+    /*sources:
+        https://www.tutorialspoint.com/spring_boot/spring_boot_sending_email.htm
+        https://stackoverflow.com/questions/19115732/send-mail-in-javax-mail-without-authentication
+    */
+    public void recoverAccount(String userId) throws MessagingException {
+        User user = this.userRepo.findUserByUserId(userId);
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "false");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props);
+        Message msg = new MimeMessage(session);
+        try {
+            msg.setFrom(new InternetAddress(user.getEmail(), false));
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(user.getEmail()));
+            msg.setSubject("Password Reset");
+            msg.setContent("Reset your password here: ", "text/html");
+        } catch (MessagingException e) {
+            throw new MessagingException("There was an error sending the email, please try again later.");
+        }
+
+        msg.setSentDate(new Date());
+
+//        MimeBodyPart messageBodyPart = new MimeBodyPart();
+//        messageBodyPart.setContent("Tutorials point email", "text/html");
+//
+//        Multipart multipart = new MimeMultipart();
+//        multipart.addBodyPart(messageBodyPart);
+        //msg.setContent(multipart);
+        Transport.send(msg);
     }
 }

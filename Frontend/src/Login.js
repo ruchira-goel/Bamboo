@@ -18,45 +18,6 @@ export default class Login extends React.Component {
     };
   }
 
-  login = () => {
-    const {email, encryptedPassword} = this.state;
-    if (!email) {
-      Alert.alert('Email Empty', 'Please enter an email address.', [
-        {text: 'OK'},
-      ]);
-      return;
-    }
-    if (!encryptedPassword) {
-      Alert.alert('Password Empty', 'Please enter a password.', [{text: 'OK'}]);
-      return;
-    }
-    //sending request to retrieve the corresponding user object for login
-    fetch(
-      Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/login?email=${email}&encryptedPassword=${encryptedPassword}`
-        : `http://localhost:8080/User/login?email=${email}&encryptedPassword=${encryptedPassword}`,
-    )
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-        if (data.error) {
-          //throwing error when login fails - wrong password / email not registered yet
-          if (data.message === "This email isn't registered yet") {
-            Alert.alert('Not registered', data.message, [{text: 'OK'}]);
-          } else if (data.message === 'You entered the wrong password!') {
-            Alert.alert('Incorrect password', data.message, [{text: 'OK'}]);
-          }
-        } else {
-          //going to home screen
-          this.props.navigation.replace('HomeScreen', {
-            userId: data.userId,
-            email: email,
-            encryptedPassword: encryptedPassword,
-          });
-        }
-      });
-  };
-
   render() {
     return (
       <View style={styles.heading}>
@@ -84,13 +45,23 @@ export default class Login extends React.Component {
             <Text>Login</Text>
           </TouchableOpacity>
           <View style={{padding: '2%'}} />
-          <View style={{flex: 1, flexDirection: 'row'}}>
+          <View style={{flex: 0.4, flexDirection: 'row'}}>
             <Text style={{padding: 15}}>Don't have an account? </Text>
             <TouchableOpacity
               onPress={() => this.props.navigation.replace('SignUp')}
               style={styles.linkStyle}>
               <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
                 Signup!
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{flex: 0.4, flexDirection: 'row'}}>
+            <Text style={{padding: 15}}>Forgot Password? </Text>
+            <TouchableOpacity
+              onPress={this.forgotPassword}
+              style={styles.linkStyle}>
+              <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
+                Reset Password
               </Text>
             </TouchableOpacity>
           </View>
@@ -115,12 +86,12 @@ const styles = StyleSheet.create({
     textDecorationColor: 'gray',
   },
   container: {
-    flex: 1,
+    flex: 0.5,
     //width: '40%',
     //height: '20%',
     alignItems: 'center',
     alignContent: 'center',
-    //backgroundColor: 'blue',
+    // backgroundColor: 'blue',
     //marginBottom: '70%',
     //marginLeft: '30%',
   },
@@ -149,13 +120,13 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     borderColor: '#3eb245',
     width: '40%',
-    height: '11%',
+    height: '18%',
     justifyContent: 'center', //text in the middle of the button
     alignItems: 'center', //text in the middle of the button
   },
   linkStyle: {
     marginBottom: '70%',
-    padding: 15,
+    padding: '4%',
   },
   /*textalign for the text to be in the center for "bamboo."*/
 });
