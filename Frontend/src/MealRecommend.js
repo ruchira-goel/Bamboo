@@ -9,6 +9,7 @@ import {
   Platform,
 } from 'react-native';
 import {Dropdown} from 'react-native-material-dropdown';
+import CheckBox from 'react-native-check-box';
 import URL from './url';
 
 export default class MealRecommend extends React.Component {
@@ -24,19 +25,25 @@ export default class MealRecommend extends React.Component {
       fatLimitType: '',
       proteinLimitType: '',
       carbsLimitType: '',
+      isCheckedCal: false,
+      isCheckedFat: false,
+      isCheckedProtein: false,
+      isCheckedCarbs: false,
+      limitOpts: [
+        {
+          value: 'Less than',
+        },
+        {
+          value: 'Greater than',
+        },
+      ],
     };
   }
-  render() {
-    const limitOpts = [
-      {
-        value: 'Less than',
-      },
-      {
-        value: 'Greater than',
-      },
-    ];
-    return (
-      <View style={{flex: 1}}>
+
+  renderCal = () => {
+    if (this.state.isCheckedCal) {
+      const {limitOpts} = this.state;
+      return (
         <View
           style={{
             flexDirection: 'row',
@@ -71,6 +78,14 @@ export default class MealRecommend extends React.Component {
             onChangeText={calories => this.setState({calories})}
           />
         </View>
+      );
+    }
+  };
+
+  renderFat = () => {
+    const {limitOpts} = this.state;
+    if (this.state.isCheckedFat) {
+      return (
         <View
           style={{
             flexDirection: 'row',
@@ -105,6 +120,14 @@ export default class MealRecommend extends React.Component {
             onChangeText={fat => this.setState({fat})}
           />
         </View>
+      );
+    }
+  };
+
+  renderProtein = () => {
+    const {limitOpts} = this.state;
+    if (this.state.isCheckedProtein) {
+      return (
         <View
           style={{
             flexDirection: 'row',
@@ -139,6 +162,14 @@ export default class MealRecommend extends React.Component {
             onChangeText={protein => this.setState({protein})}
           />
         </View>
+      );
+    }
+  };
+
+  renderCarbs = () => {
+    const {limitOpts} = this.state;
+    if (this.state.isCheckedCarbs) {
+      return (
         <View
           style={{
             flexDirection: 'row',
@@ -173,9 +204,156 @@ export default class MealRecommend extends React.Component {
             onChangeText={carbs => this.setState({carbs})}
           />
         </View>
+      );
+    }
+  };
+
+  inputCheck = () => {
+    const {
+      isCheckedCal,
+      isCheckedCarbs,
+      isCheckedFat,
+      isCheckedProtein,
+      proteinLimitType,
+      carbsLimitType,
+      fatLimitType,
+      calLimitType,
+      calories,
+      fat,
+      protein,
+      carbs,
+    } = this.state;
+    if (
+      !isCheckedCal &&
+      !isCheckedCarbs &&
+      !isCheckedFat &&
+      !isCheckedProtein
+    ) {
+      Alert.alert('Select Item', 'Select at least one nutrient!', [
+        {text: 'OK'},
+      ]);
+    }
+    if (isCheckedCal) {
+      if (calLimitType === '') {
+        Alert.alert(
+          'Enter Limit Type',
+          'Please enter a limit type for calories.',
+          [{text: 'OK'}],
+        );
+        return;
+      }
+      if (calories === '') {
+        Alert.alert('Enter Calories', 'Please enter an amount for calories.', [
+          {text: 'OK'},
+        ]);
+        return;
+      }
+    }
+    if (isCheckedFat) {
+      if (fatLimitType === '') {
+        Alert.alert(
+          'Enter Limit Type',
+          'Please enter a limit type for fat.',
+          [{text: 'OK'}],
+        );
+        return;
+      }
+      if (fat === '') {
+        Alert.alert('Enter Fat', 'Please enter an amount for fat.', [
+          {text: 'OK'},
+        ]);
+        return;
+      }
+    }
+    if (isCheckedProtein) {
+      if (proteinLimitType === '') {
+        Alert.alert(
+          'Enter Limit Type',
+          'Please enter a limit type for protein.',
+          [{text: 'OK'}],
+        );
+        return;
+      }
+      if (protein === '') {
+        Alert.alert('Enter Protein', 'Please enter an amount for protein.', [
+          {text: 'OK'},
+        ]);
+        return;
+      }
+    }
+    if (isCheckedCarbs) {
+      if (carbsLimitType === '') {
+        Alert.alert(
+          'Enter Limit Type',
+          'Please enter a limit type for carbs.',
+          [{text: 'OK'}],
+        );
+        return;
+      }
+      if (carbs === '') {
+        Alert.alert('Enter Calories', 'Please enter an amount for carbs.', [
+          {text: 'OK'},
+        ]);
+        return;
+      }
+      this.getRecommendedMeals();
+    }
+  };
+
+  getRecommendedMeals = () => {
+    
+  }
+
+  render() {
+    return (
+      <View style={{flex: 1}}>
+        <CheckBox
+          style={{flex: 0.05, padding: 10}}
+          onClick={() => {
+            this.setState({
+              isCheckedCal: !this.state.isCheckedCal,
+            });
+          }}
+          isChecked={this.state.isCheckedCal}
+          leftText={'Set Calories'}
+        />
+        <CheckBox
+          style={{flex: 0.05, padding: 10}}
+          onClick={() => {
+            this.setState({
+              isCheckedFat: !this.state.isCheckedFat,
+            });
+          }}
+          isChecked={this.state.isCheckedFat}
+          leftText={'Set Fat'}
+        />
+        <CheckBox
+          style={{flex: 0.05, padding: 10}}
+          onClick={() => {
+            this.setState({
+              isCheckedProtein: !this.state.isCheckedProtein,
+            });
+          }}
+          isChecked={this.state.isCheckedProtein}
+          leftText={'Set Protein'}
+        />
+        <CheckBox
+          style={{flex: 0.05, padding: 10}}
+          onClick={() => {
+            this.setState({
+              isCheckedCarbs: !this.state.isCheckedCarbs,
+            });
+          }}
+          isChecked={this.state.isCheckedCarbs}
+          leftText={'Set Carbs'}
+        />
+        {this.renderCal()}
+        {this.renderFat()}
+        {this.renderProtein()}
+        {this.renderCarbs()}
         <View style={{padding: '4%'}} />
         <View style={{flex: 0.65, alignContent: 'center'}}>
-          <TouchableOpacity onPress={this.submit} style={styles.button}>
+          <TouchableOpacity onPress={this.inputCheck} style={styles.button}>
             <Text>Submit</Text>
           </TouchableOpacity>
         </View>
