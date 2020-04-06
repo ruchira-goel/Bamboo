@@ -29,6 +29,8 @@ export default class MealRecommend extends React.Component {
       isCheckedFat: false,
       isCheckedProtein: false,
       isCheckedCarbs: false,
+      isCheckedNumMeals: false,
+      numMeals: '',
       limitOpts: [
         {
           value: 'Less than',
@@ -39,6 +41,26 @@ export default class MealRecommend extends React.Component {
       ],
     };
   }
+
+  renderNumMeals = () => {
+    if (this.state.isCheckedNumMeals) {
+      return (
+        <View
+          style={{flex: 0.1, justifyContent: 'center', alignItems: 'center'}}>
+          <TextInput
+            placeholder="Enter number of meals"
+            keyboardType={'numeric'}
+            onChangeText={numMeals => this.setState({numMeals})} //setting the email when user enters it
+            style={{
+              borderBottomWidth: 0.5,
+              width: '50%',
+              textAlign: 'center',
+            }}
+          />
+        </View>
+      );
+    }
+  };
 
   renderCal = () => {
     if (this.state.isCheckedCal) {
@@ -194,7 +216,8 @@ export default class MealRecommend extends React.Component {
               paddingTop: '10%',
               padding: '5%',
               flex: 0.4,
-              height: '15%',
+              height: '100%',
+              fontSize: 16,
               //backgroundColor: 'blue',
               justifyContent: 'center',
               borderBottomWidth: 0.5,
@@ -214,6 +237,7 @@ export default class MealRecommend extends React.Component {
       isCheckedCarbs,
       isCheckedFat,
       isCheckedProtein,
+      isCheckedNumMeals,
       proteinLimitType,
       carbsLimitType,
       fatLimitType,
@@ -222,7 +246,25 @@ export default class MealRecommend extends React.Component {
       fat,
       protein,
       carbs,
+      numMeals,
     } = this.state;
+    console.log('entered');
+    if (isCheckedNumMeals && numMeals === '') {
+      Alert.alert(
+        'Enter Number of Meals',
+        'Enter the number of meals you want recommended.',
+        [{text: 'OK'}],
+      );
+      return;
+    }
+    if (isCheckedNumMeals && (numMeals <= 0 || numMeals >= 100)) {
+      Alert.alert(
+        'Enter Valid Number',
+        'Enter a number between 0 and 100.',
+        [{text: 'OK'}],
+      );
+      return;
+    }
     if (
       !isCheckedCal &&
       !isCheckedCarbs &&
@@ -232,8 +274,11 @@ export default class MealRecommend extends React.Component {
       Alert.alert('Select Item', 'Select at least one nutrient!', [
         {text: 'OK'},
       ]);
+      return;
     }
     if (isCheckedCal) {
+      console.log(calLimitType);
+      console.log(calories);
       if (calLimitType === '') {
         Alert.alert(
           'Enter Limit Type',
@@ -251,11 +296,9 @@ export default class MealRecommend extends React.Component {
     }
     if (isCheckedFat) {
       if (fatLimitType === '') {
-        Alert.alert(
-          'Enter Limit Type',
-          'Please enter a limit type for fat.',
-          [{text: 'OK'}],
-        );
+        Alert.alert('Enter Limit Type', 'Please enter a limit type for fat.', [
+          {text: 'OK'},
+        ]);
         return;
       }
       if (fat === '') {
@@ -265,6 +308,7 @@ export default class MealRecommend extends React.Component {
         return;
       }
     }
+    //hudsiqe
     if (isCheckedProtein) {
       if (proteinLimitType === '') {
         Alert.alert(
@@ -296,17 +340,90 @@ export default class MealRecommend extends React.Component {
         ]);
         return;
       }
-      this.getRecommendedMeals();
     }
+    console.log('ended');
+    this.getRecommendedMeals();
   };
 
   getRecommendedMeals = () => {
-    
-  }
+    const {route} = this.props;
+    const {userId} = route.params;
+    const {
+      isCheckedCal,
+      isCheckedCarbs,
+      isCheckedFat,
+      isCheckedProtein,
+      proteinLimitType,
+      carbsLimitType,
+      fatLimitType,
+      calLimitType,
+      calories,
+      fat,
+      protein,
+      carbs,
+      isCheckedNumMeals,
+      numMeals
+    } = this.state;
+    let request = `/Meal/getRecommended?userId=${userId}&calLimitType=`;
+    if (isCheckedCal) {
+      request = request.concat(`${calLimitType}&calories=${calories}`);
+    } else {
+      request = request.concat('&calories=0');
+    }
+    request = request.concat('&fatLimitType=');
+    if (isCheckedFat) {
+      request = request.concat(`${fatLimitType}&fat=${fat}`);
+    } else {
+      request = request.concat('&fat=0');
+    }
+    request = request.concat('&proteinLimitType=');
+    if (isCheckedProtein) {
+      request = request.concat(`${proteinLimitType}&protein=${protein}`);
+    } else {
+      request = request.concat('&protein=0');
+    }
+    request = request.concat('&carbsLimitType=');
+    if (isCheckedCarbs) {
+      request = request.concat(`${carbsLimitType}&carbs=${carbs}`);
+    } else {
+      request = request.concat('&carbs=0');
+    }
+    if (isCheckedNumMeals) {
+      request = request.concat(`&numMeals=${numMeals}`);
+    } else {
+      request = request.concat(`&numMeals=0`);
+    }
+    console.log('Request: ' + request);
+    fetch(
+      Platform.OS === 'android'
+        ? `${URL.android}${request}`
+        : `http://localhost:8080/${request}`,
+    )
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        if (data.error) {
+          //throwing error when login fails - wrong password / email not registered yet
+          Alert.alert('Error', data.message, [{text: 'OK'}]);
+        } else {
+          Alert.alert('Success', 'Meal Recommendations:', [{text: 'OK'}]);
+        }
+      });
+  };
 
   render() {
     return (
       <View style={{flex: 1}}>
+        <CheckBox
+          style={{flex: 0.05, padding: 10}}
+          onClick={() => {
+            this.setState({
+              isCheckedNumMeals: !this.state.isCheckedNumMeals,
+            });
+          }}
+          isChecked={this.state.isCheckedNumMeals}
+          leftText={'Set number of meals'}
+        />
         <CheckBox
           style={{flex: 0.05, padding: 10}}
           onClick={() => {
@@ -347,6 +464,7 @@ export default class MealRecommend extends React.Component {
           isChecked={this.state.isCheckedCarbs}
           leftText={'Set Carbs'}
         />
+        {this.renderNumMeals()}
         {this.renderCal()}
         {this.renderFat()}
         {this.renderProtein()}

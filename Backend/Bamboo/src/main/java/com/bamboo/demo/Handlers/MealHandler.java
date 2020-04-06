@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.net.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -211,6 +212,68 @@ public class MealHandler {
 //            System.out.println("Progress: " + goal.getGoalProgress(date));
 //            System.out.println("Hello");
         }
+    }
+
+    public ArrayList<Meal> getRecommendedMeals(String userId, String calLimit, double calories, String fatLimit,
+                                               double fat, String proteinLimit, double protein, String carbsLimit,
+                                               double carbs, int numMeals) throws IOException {
+        User user = this.userRepo.findById(userId).get();
+        String request = "https://api.spoonacular.com/recipes/findByNutrients?apiKey=5ccdaac983d344338fe187bb2b7e5501";
+        System.out.println(carbsLimit);
+        if (!carbsLimit.equals("")) {
+            if (LimitType.valueOfLimitType(carbsLimit) == LimitType.GREATERTHAN) {
+                request += "&maxCarbs=";
+            } else if (LimitType.valueOfLimitType(carbsLimit) == LimitType.LESSTHAN) {
+                request += "&minCarbs=";
+            }
+            request += Double.toString(carbs);
+        }
+        if (!proteinLimit.equals("")) {
+            if (LimitType.valueOfLimitType(proteinLimit) == LimitType.GREATERTHAN) {
+                request += "&maxProtein=";
+            } else if (LimitType.valueOfLimitType(proteinLimit) == LimitType.LESSTHAN) {
+                request += "&minProtein=";
+            }
+            request += Double.toString(protein);
+        }
+        if (!calLimit.equals("")) {
+            if (LimitType.valueOfLimitType(calLimit) == LimitType.GREATERTHAN) {
+                request += "&maxCalories=";
+            } else if (LimitType.valueOfLimitType(calLimit) == LimitType.LESSTHAN) {
+                request += "&minCalories=";
+            }
+            request += Double.toString(calories);
+        }
+        if (!fatLimit.equals("")) {
+            if (LimitType.valueOfLimitType(fatLimit) == LimitType.GREATERTHAN) {
+                request += "&maxFat=";
+            } else if (LimitType.valueOfLimitType(fatLimit) == LimitType.LESSTHAN) {
+                request += "&minFat=";
+            }
+            request += Double.toString(fat);
+        }
+        if (numMeals != 0) {
+            request += "&number=" + numMeals;
+        }
+        System.out.println(request);
+        URL url = new URL(request);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("Content-type", "application/json");
+
+        BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        JSONArray mealArray = new JSONArray(input.readLine());
+        System.out.println(mealArray);
+        ArrayList<Meal> recommended = new ArrayList<>();
+        for (int i = 0; i < mealArray.length(); i++) {
+            JSONObject mealObject = mealArray.getJSONObject(i);
+            Meal meal = new Meal(userId, mealObject.get("title").toString(), Double.parseDouble(mealObject.get("calories").toString()),
+                    Double.parseDouble(mealObject.get("fat").toString()), Double.parseDouble(mealObject.get("carbs").toString()),
+                    Double.parseDouble(mealObject.get("protein").toString()));
+            recommended.add(meal);
+        }
+        return recommended;
+        //https://api.spoonacular.com/recipes/findByNutrients?apiKey=5ccdaac983d344338fe187bb2b7e5501&maxFat=100&number=2
     }
 
     public List<Meal> display() {
