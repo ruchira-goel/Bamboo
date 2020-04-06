@@ -267,13 +267,17 @@ public class MealHandler {
         ArrayList<Meal> recommended = new ArrayList<>();
         for (int i = 0; i < mealArray.length(); i++) {
             JSONObject mealObject = mealArray.getJSONObject(i);
-            Meal meal = new Meal(userId, mealObject.get("title").toString(), Double.parseDouble(mealObject.get("calories").toString()),
-                    Double.parseDouble(mealObject.get("fat").toString()), Double.parseDouble(mealObject.get("carbs").toString()),
-                    Double.parseDouble(mealObject.get("protein").toString()));
+            String fatString = mealObject.get("fat").toString();
+            String carbsString = mealObject.get("carbs").toString();
+            String proteinString = mealObject.get("protein").toString();
+            Meal meal = new Meal(userId, mealObject.get("title").toString(),
+                    Double.parseDouble(mealObject.get("calories").toString()),
+                    Double.parseDouble(fatString.substring(0, fatString.length() - 1)),
+                    Double.parseDouble(carbsString.substring(0, carbsString.length() - 1)),
+                    Double.parseDouble(proteinString.substring(0, proteinString.length() - 1)));
             recommended.add(meal);
         }
         return recommended;
-        //https://api.spoonacular.com/recipes/findByNutrients?apiKey=5ccdaac983d344338fe187bb2b7e5501&maxFat=100&number=2
     }
 
     public List<Meal> display() {

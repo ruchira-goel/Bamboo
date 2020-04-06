@@ -258,11 +258,9 @@ export default class MealRecommend extends React.Component {
       return;
     }
     if (isCheckedNumMeals && (numMeals <= 0 || numMeals >= 100)) {
-      Alert.alert(
-        'Enter Valid Number',
-        'Enter a number between 0 and 100.',
-        [{text: 'OK'}],
-      );
+      Alert.alert('Enter Valid Number', 'Enter a number between 0 and 100.', [
+        {text: 'OK'},
+      ]);
       return;
     }
     if (
@@ -362,7 +360,7 @@ export default class MealRecommend extends React.Component {
       protein,
       carbs,
       isCheckedNumMeals,
-      numMeals
+      numMeals,
     } = this.state;
     let request = `/Meal/getRecommended?userId=${userId}&calLimitType=`;
     if (isCheckedCal) {
@@ -391,7 +389,7 @@ export default class MealRecommend extends React.Component {
     if (isCheckedNumMeals) {
       request = request.concat(`&numMeals=${numMeals}`);
     } else {
-      request = request.concat(`&numMeals=0`);
+      request = request.concat('&numMeals=0');
     }
     console.log('Request: ' + request);
     fetch(
@@ -406,7 +404,11 @@ export default class MealRecommend extends React.Component {
           //throwing error when login fails - wrong password / email not registered yet
           Alert.alert('Error', data.message, [{text: 'OK'}]);
         } else {
-          Alert.alert('Success', 'Meal Recommendations:', [{text: 'OK'}]);
+          this.props.navigation.navigate('RecommendedMealsList', {
+            userId: userId,
+            meals: data,
+          });
+          //Alert.alert('Success', 'Meal Recommendations:', [{text: 'OK'}]);
         }
       });
   };
