@@ -153,11 +153,25 @@ class ViewGoals extends Component {
 
   render() {
     return (
-      <View styles={{flex: 1, height: Constants.DIMENSIONS.screenHeight}}>
+      <View>
         <ScrollView style={styles.container}>
           <Text style={styles.heading}>
             Here are all the goals you've saved!
           </Text>
+          <View style={{alignSelf: 'center', width: '50%', marginBottom: 10}}>
+            <TouchableOpacity
+              style={styles.primaryBtn}
+              onPress={() =>
+                this.props.navigation.navigate('Root', {
+                  screen: 'SetGoal',
+                  params: {
+                    userId: this.props.userId,
+                  },
+                })
+              }>
+              <Text>Set a new goal</Text>
+            </TouchableOpacity>
+          </View>
           {this.state.goals.map((item, index) => (
             <TouchableOpacity
               key={item.id}
@@ -182,27 +196,27 @@ class ViewGoals extends Component {
               </View>
             </TouchableOpacity>
           ))}
-          <View style={styles.fabView}>
-            <TouchableOpacity
-              style={styles.floatingActionButton}
-              onPress={() =>
-                this.props.navigation.navigate('Root', {
-                  screen: 'SetGoal',
-                  params: {
-                    userId: this.props.userId,
-                  },
-                })
-              }>
-              <Image
-                source={require('./img/plus.png')}
-                style={{
-                  width: 30,
-                  height: 30,
-                  resizeMode: 'contain',
-                }}
-              />
-            </TouchableOpacity>
-          </View>
+          {/*<View style={styles.fabView}>*/}
+          {/*  <TouchableOpacity*/}
+          {/*    style={styles.floatingActionButton}*/}
+          {/*    onPress={() =>*/}
+          {/*      this.props.navigation.navigate('Root', {*/}
+          {/*        screen: 'SetGoal',*/}
+          {/*        params: {*/}
+          {/*          userId: this.props.userId,*/}
+          {/*        },*/}
+          {/*      })*/}
+          {/*    }>*/}
+          {/*    <Image*/}
+          {/*      source={require('./img/plus.png')}*/}
+          {/*      style={{*/}
+          {/*        width: 30,*/}
+          {/*        height: 30,*/}
+          {/*        resizeMode: 'contain',*/}
+          {/*      }}*/}
+          {/*    />*/}
+          {/*  </TouchableOpacity>*/}
+          {/*</View>*/}
         </ScrollView>
       </View>
     );
@@ -219,15 +233,8 @@ const styles = StyleSheet.create({
   container: {
     // fontSize: 24,
     // fontWeight: '500',
-    marginBottom: 100,
-  },
-  footer: {
-    // flex: 1,
-    position: 'absolute',
-    bottom: 0,
-    height: 50,
-    backgroundColor: 'pink',
-    // marginTop: 100,
+    // marginBottom: 100,
+    // height: Constants.DIMENSIONS.screenHeight,
   },
   rowContainer: {
     padding: 10,
@@ -245,8 +252,8 @@ const styles = StyleSheet.create({
   },
   heading: {
     margin: '10%',
-    textAlign: 'left',
-    fontSize: 24,
+    // textAlign: 'left',
+    fontSize: 18,
   },
   fabView: {
     position: 'absolute',
@@ -279,5 +286,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     height: 25,
     width: 25,
+  },
+  primaryBtn: {
+    backgroundColor: Constants.COLORS.accent.main,
+    borderRadius: 60,
+    borderColor: Constants.COLORS.accent.main,
+    padding: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
   },
 });
