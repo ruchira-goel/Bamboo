@@ -329,7 +329,7 @@ class ExerciseInput extends Component {
 
       return (
         <View>
-          <TouchableOpacity style={styles.button} onPress={showDatePicker}>
+          <TouchableOpacity style={styles.datePicker} onPress={showDatePicker}>
             <Text style={styles.text}>{this.state.formattedDate}</Text>
           </TouchableOpacity>
           <DateTimePickerModal
@@ -345,159 +345,126 @@ class ExerciseInput extends Component {
 
     return (
       <View style={styles.container}>
-        <ScrollView>
-          <View style={{width: '50%', left: '25%'}}>
-            <Dropdown
-              label="Category"
-              data={[
-                {
-                  value: 'Bicycling',
-                },
-                {
-                  value: 'Conditioning Exercise',
-                },
-                {
-                  value: 'Running',
-                },
-                {
-                  value: 'Sports',
-                },
-                {
-                  value: 'Water Activities',
-                },
-                {
-                  value: 'Winter Activities',
-                },
-              ]}
-              onChangeText={value => {
-                this.setState({category: value});
-                this.setState({
-                  activityList: this.getActivityList(this.state.category),
-                });
-              }}
+        <View style={styles.dropdown}>
+          <Dropdown
+            label="Category"
+            data={[
+              {
+                value: 'Bicycling',
+              },
+              {
+                value: 'Conditioning Exercise',
+              },
+              {
+                value: 'Running',
+              },
+              {
+                value: 'Sports',
+              },
+              {
+                value: 'Water Activities',
+              },
+              {
+                value: 'Winter Activities',
+              },
+            ]}
+            onChangeText={value => {
+              this.setState({category: value});
+              this.setState({
+                activityList: this.getActivityList(this.state.category),
+              });
+            }}
+          />
+        </View>
+        <View style={styles.dropdown}>
+          <Dropdown
+            label="Activity"
+            disabled={this.state.activityDisabled}
+            data={this.state.activityList}
+            onChangeText={value => {
+              this.setState({activity: value});
+              this.setState({
+                showDistance: this.setDistanceVisibility(this.state.activity),
+              });
+            }}
+          />
+        </View>
+
+        <View style={styles.rowContainer}>
+          {/*<View style={styles.leftContainer}>*/}
+          <Text style={styles.text}>Date:</Text>
+          {/*</View>*/}
+          {/*<View style={styles.rightContainer}>*/}
+          <DatePicker />
+          {/*</View>*/}
+        </View>
+
+        <View style={styles.rowContainer}>
+          {/*<View style={styles.leftContainer}>*/}
+          <Text style={styles.text}>Duration:</Text>
+          {/*</View>*/}
+          {/*<View style={styles.rightContainer}>*/}
+          <TextInput
+            onChangeText={hours => this.setState({hours})}
+            style={[styles.textInput, {width: 40}]}
+            keyboardType={'numeric'}
+            placeholder="hh"
+            maxLength={2}
+          />
+          <Text style={styles.text}>:</Text>
+          <TextInput
+            onChangeText={minutes => this.setState({minutes})}
+            style={[styles.textInput, {width: 40}]}
+            keyboardType={'numeric'}
+            placeholder="mm"
+            maxLength={2}
+          />
+          {/*</View>*/}
+        </View>
+
+        {this.state.showDistance && (
+          <View style={styles.rowContainer}>
+            <Text style={[styles.text]}>Distance:</Text>
+            <TextInput
+              onChangeText={distance => this.setState({distance})}
+              style={[styles.textInput, {width: 40}]}
+              keyboardType={'numeric'}
+              placeholder="00"
+              maxLength={10}
             />
+            <Text style={styles.text}>km</Text>
           </View>
-          <View style={{width: '50%', left: '25%'}}>
-            <Dropdown
-              label="Activity"
-              disabled={this.state.activityDisabled}
-              data={this.state.activityList}
-              onChangeText={value => {
-                this.setState({activity: value});
-                this.setState({
-                  showDistance: this.setDistanceVisibility(this.state.activity),
-                });
-              }}
-            />
-          </View>
-          <View style={styles.inputContainer}>
-            <View
-              style={{
-                width: '50%',
-                justifyContent: 'center',
-                alignItems: 'flex-start',
-              }}>
-              <Text style={[styles.text]}>Date:</Text>
-            </View>
-            <View
-              style={{
-                width: '50%',
-                justifyContent: 'center',
-                alignItems: 'flex-end',
-              }}>
-              <DatePicker />
-            </View>
-          </View>
-          <View style={styles.inputContainer}>
-            <View
-              style={{
-                width: '50%',
-                justifyContent: 'center',
-                alignItems: 'flex-start',
-              }}>
-              <Text style={[styles.text]}>Duration:</Text>
-            </View>
-            <View
-              style={{
-                width: '50%',
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-                flexDirection: 'row',
-              }}>
-              <TextInput
-                onChangeText={hours => this.setState({hours})}
-                style={[styles.textInput, {width: 40}]}
-                keyboardType={'numeric'}
-                placeholder="hh"
-                maxLength={2}
-              />
-              <Text style={styles.text}>:</Text>
-              <TextInput
-                onChangeText={minutes => this.setState({minutes})}
-                style={[styles.textInput, {width: 40}]}
-                keyboardType={'numeric'}
-                placeholder="mm"
-                maxLength={2}
-              />
-            </View>
-          </View>
-          <View style={{padding: '5%'}} />
-          <View>
-            <TouchableOpacity
-              onPress={() => {
-                const {route} = this.props;
-                const {userId} = route.params;
-                this.setState({userId: userId});
-                console.log('From meal i/p page: ' + userId);
-                this.props.navigation.navigate('FavActivities', {
-                  userId: userId,
-                  date: this.state.formattedDate,
-                });
-              }}
-              style={styles.linkStyle}>
-              <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
-                Or select an activity from your favorites!
-              </Text>
-            </TouchableOpacity>
-          </View>
-          {this.state.showDistance && (
-            <View style={styles.inputContainer}>
-              <View
-                style={{
-                  width: '50%',
-                  justifyContent: 'center',
-                  alignItems: 'flex-start',
-                }}>
-                <Text style={[styles.text]}>Distance:</Text>
-              </View>
-              <View
-                style={{
-                  width: '50%',
-                  justifyContent: 'flex-end',
-                  alignItems: 'center',
-                  flexDirection: 'row',
-                }}>
-                <TextInput
-                  onChangeText={distance => this.setState({distance})}
-                  style={[styles.textInput, {width: 40}]}
-                  keyboardType={'numeric'}
-                  maxLength={10}
-                />
-                <Text style={styles.text}>km</Text>
-              </View>
-            </View>
-          )}
-        </ScrollView>
+        )}
+
         <TouchableOpacity
-          style={BUTTONS.primaryButton}
-          onPress={this.addExercise}>
-          <Text style={BUTTONS.primaryButtonText}>Add</Text>
+          onPress={() => {
+            const {route} = this.props;
+            const {userId} = route.params;
+            this.setState({userId: userId});
+            // console.log('From meal i/p page: ' + userId);
+            this.props.navigation.navigate('FavActivities', {
+              userId: userId,
+              date: this.state.formattedDate,
+            });
+          }}
+          style={styles.linkStyle}>
+          <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
+            Or select an activity from your favorites!
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={this.props.navigation.goBack}
-          style={styles.btnStyle}>
-          <Text>Done</Text>
-        </TouchableOpacity>
+
+        <View style={{width: '100%', paddingLeft: 50, paddingRight: 50}}>
+          <TouchableOpacity
+            style={styles.primaryBtn}
+            onPress={this.addExercise}>
+            <Text>Add</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={this.props.navigation.goBack}
+            style={styles.secondaryBtn}>
+            <Text>Done</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -512,37 +479,76 @@ export default function(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: Constants.DIMENSIONS.screenWidth,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    // justifyContent: 'center',
   },
-  contentContainer: {
+  dropdown: {
+    // marginTop: 20,
+    // textAlign: 'center',
+    // fontSize: 18,
+    width: '50%',
+  },
+  rowContainer: {
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    padding: 12,
+    alignItems: 'center',
+    // marginLeft: 40,
+    // marginRight: 40,
+    width: '50%',
+  },
+  leftContainer: {
     flex: 1,
-    margin: 0,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+  },
+  rightContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
   },
   textInput: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#d3d3d3',
     fontSize: 16,
+    borderBottomWidth: 0.5,
     textAlign: 'center',
+    // alignSelf: 'stretch',
+    // width: '100%',
+    // width: Constants.DIMENSIONS.screenWidth,
   },
-  inputContainer: {
-    flexDirection: 'row',
-    // alignSelf: 'center',
-    width: '50%',
-    paddingTop: 35,
-    left: '25%',
+  picker: {
+    //TODO
   },
-  text: {
+  textArea: {
     fontSize: 16,
-    // width: 100,
-  },
-  button: {
-    borderWidth: 1,
-    borderRadius: 8,
-    borderColor: '#000',
-    backgroundColor: COLORS.primaryColor,
-    padding: 2,
   },
   linkStyle: {
     alignItems: 'center',
+  },
+  text: {
+    fontSize: 16,
+  },
+  primaryBtn: {
+    backgroundColor: Constants.COLORS.primary.main,
+    borderRadius: 60,
+    borderColor: Constants.COLORS.primary.main,
+    padding: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+  },
+  secondaryBtn: {
+    borderRadius: 60,
+    borderWidth: 2,
+    borderColor: Constants.COLORS.primary.main,
+    padding: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  datePicker: {
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: Constants.COLORS.primary.main,
   },
 });
