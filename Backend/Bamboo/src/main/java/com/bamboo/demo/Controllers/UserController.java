@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class UserController {
@@ -125,9 +125,10 @@ public class UserController {
         return userHandler.getWeekCaloriesConsumption(userId);
     }
 
-//    @RequestMapping("/User/getSavedRecommendationValues")
-//    public Map<Nutrient, Pair<LimitType, Double>> getSavedRecommendationValues(
-//            @RequestParam(value = "userId") String userId) {
-//        return userHandler.getSavedRecommendationValues(userId);
-//    }
+    @RequestMapping("/User/getSavedRecommendationValues")
+    public HashMap<String, List<Object>> getSavedRecommendationValues(
+            @RequestParam(value = "userId") String userId) {
+        System.out.println(userHandler.getSavedRecommendationValues(userId));
+        return userHandler.getSavedRecommendationValues(userId);
+    }
 }

@@ -204,19 +204,20 @@ public class MealHandler {
         final String PROTEIN = "PROTEIN";
         final String CALORIES = "CALORIES";
         final String FAT = "FAT";
+        final String NUMMEALS = "NUMMEALS";
         HashMap<String, List<Object>> nutrientLimits = new HashMap<>();
         String request = "https://api.spoonacular.com/recipes/findByNutrients?apiKey=5ccdaac983d344338fe187bb2b7e5501";
         if (!carbsLimit.equals("")) {
             if (LimitType.valueOfLimitType(carbsLimit) == LimitType.GREATERTHAN) {
                 request += "&maxCarbs=";
                 nutrientLimits.put(CARBS, new ArrayList<Object>() {{
-                    add(LimitType.GREATERTHAN);
+                    add(LimitType.GREATERTHAN.name());
                     add(carbs);
                 }});
             } else if (LimitType.valueOfLimitType(carbsLimit) == LimitType.LESSTHAN) {
                 request += "&minCarbs=";
                 nutrientLimits.put(CARBS, new ArrayList<Object>() {{
-                    add(LimitType.LESSTHAN);
+                    add(LimitType.LESSTHAN.name());
                     add(carbs);
                 }});
             }
@@ -226,13 +227,13 @@ public class MealHandler {
             if (LimitType.valueOfLimitType(proteinLimit) == LimitType.GREATERTHAN) {
                 request += "&maxProtein=";
                 nutrientLimits.put(PROTEIN, new ArrayList<Object>() {{
-                    add(LimitType.GREATERTHAN);
+                    add(LimitType.GREATERTHAN.name());
                     add(protein);
                 }});
             } else if (LimitType.valueOfLimitType(proteinLimit) == LimitType.LESSTHAN) {
                 request += "&minProtein=";
                 nutrientLimits.put(PROTEIN, new ArrayList<Object>() {{
-                    add(LimitType.LESSTHAN);
+                    add(LimitType.LESSTHAN.name());
                     add(protein);
                 }});
             }
@@ -242,13 +243,13 @@ public class MealHandler {
             if (LimitType.valueOfLimitType(calLimit) == LimitType.GREATERTHAN) {
                 request += "&maxCalories=";
                 nutrientLimits.put(CALORIES, new ArrayList<Object>() {{
-                    add(LimitType.GREATERTHAN);
+                    add(LimitType.GREATERTHAN.name());
                     add(calories);
                 }});
             } else if (LimitType.valueOfLimitType(calLimit) == LimitType.LESSTHAN) {
                 request += "&minCalories=";
                 nutrientLimits.put(CALORIES, new ArrayList<Object>() {{
-                    add(LimitType.LESSTHAN);
+                    add(LimitType.LESSTHAN.name());
                     add(calories);
                 }});
             }
@@ -258,23 +259,27 @@ public class MealHandler {
             if (LimitType.valueOfLimitType(fatLimit) == LimitType.GREATERTHAN) {
                 request += "&maxFat=";
                 nutrientLimits.put(FAT, new ArrayList<Object>() {{
-                    add(LimitType.GREATERTHAN);
+                    add(LimitType.GREATERTHAN.name());
                     add(fat);
                 }});
             } else if (LimitType.valueOfLimitType(fatLimit) == LimitType.LESSTHAN) {
                 request += "&minFat=";
                 nutrientLimits.put(FAT, new ArrayList<Object>() {{
-                    add(LimitType.LESSTHAN);
+                    add(LimitType.LESSTHAN.name());
                     add(fat);
                 }});
             }
             request += Double.toString(fat);
         }
-        user.setNutrientLimits(nutrientLimits);
-        this.userRepo.save(user);
         if (numMeals != 0) {
             request += "&number=" + numMeals;
+            nutrientLimits.put(NUMMEALS, new ArrayList<Object>() {{
+                add(LimitType.EQUAL);
+                add(numMeals);
+            }});
         }
+        user.setNutrientLimits(nutrientLimits);
+        this.userRepo.save(user);
         URL url = new URL(request);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");

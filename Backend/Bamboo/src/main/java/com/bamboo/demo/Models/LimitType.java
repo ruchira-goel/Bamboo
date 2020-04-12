@@ -2,6 +2,7 @@ package com.bamboo.demo.Models;
 
 public enum LimitType {
     LESSTHAN("Less than"),
+    EQUAL("Equal"),
     GREATERTHAN("Greater than");
 
     String name;

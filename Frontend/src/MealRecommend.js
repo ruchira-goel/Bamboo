@@ -31,7 +31,6 @@ export default class MealRecommend extends React.Component {
       isCheckedCarbs: false,
       isCheckedNumMeals: false,
       numMeals: '',
-      savedRecommendationValues: [],
       limitOpts: [
         {
           value: 'Less than',
@@ -43,42 +42,21 @@ export default class MealRecommend extends React.Component {
     };
   }
 
-  renderFirst = () => {
-    const {route} = this.props;
-    const {userId} = route.params;
-    fetch(
-      Platform.OS === 'android'
-        ? `${URL.android}/User/getSavedRecommendationValues?userId=${userId}`
-        : `http://localhost:8080/User/getSavedRecommendationValues?userId=${userId}`,
-    )
-      .then(res => res.json())
-      .then(data => {
-        console.log('Saved recommendation values: ' + data);
-        if (data.error) {
-          Alert.alert('Error', data.message, [{text: 'OK'}]);
-        } else if (data.isEmpty) {
-          return false;
-        } else {
-          this.setState({savedRecommendationValues: data});
-          return true;
-        }
-      });
-  };
-
   renderNumMeals = () => {
     if (this.state.isCheckedNumMeals) {
       return (
         <View
           style={{flex: 0.1, justifyContent: 'center', alignItems: 'center'}}>
           <TextInput
-            placeholder="Enter number of meals"
-            keyboardType={'numeric'}
-            onChangeText={numMeals => this.setState({numMeals})} //setting the email when user enters it
             style={{
               borderBottomWidth: 0.5,
               width: '50%',
               textAlign: 'center',
             }}
+            placeholder='Enter number of meals'
+            defaultValue={this.state.numMeals}
+            onChangeText={numMeals => this.setState({numMeals})} //setting the email when user enters it
+            keyboardType={'numeric'}
           />
         </View>
       );
@@ -101,6 +79,7 @@ export default class MealRecommend extends React.Component {
           <Dropdown
             label="Limit type"
             data={limitOpts}
+            defaultValue={this.state.calLimitType}
             onChangeText={value => {
               this.setState({calLimitType: value});
             }}
@@ -120,6 +99,7 @@ export default class MealRecommend extends React.Component {
             }}
             keyboardType={'numeric'}
             placeholder="Enter amount"
+            value={this.state.calories}
             onChangeText={calories => this.setState({calories})}
           />
         </View>
@@ -143,6 +123,7 @@ export default class MealRecommend extends React.Component {
           <Dropdown
             label="Limit type"
             data={limitOpts}
+            defaultValue={this.state.fatLimitType}
             onChangeText={value => {
               this.setState({fatLimitType: value});
             }}
@@ -162,6 +143,7 @@ export default class MealRecommend extends React.Component {
             }}
             keyboardType={'numeric'}
             placeholder="Enter amount"
+            value={this.state.fat}
             onChangeText={fat => this.setState({fat})}
           />
         </View>
@@ -185,6 +167,7 @@ export default class MealRecommend extends React.Component {
           <Dropdown
             label="Limit type"
             data={limitOpts}
+            defaultValue={this.state.proteinLimitType}
             onChangeText={value => {
               this.setState({proteinLimitType: value});
             }}
@@ -204,6 +187,7 @@ export default class MealRecommend extends React.Component {
             }}
             keyboardType={'numeric'}
             placeholder="Enter amount"
+            value={this.state.protein}
             onChangeText={protein => this.setState({protein})}
           />
         </View>
@@ -227,6 +211,7 @@ export default class MealRecommend extends React.Component {
           <Dropdown
             label="Limit type"
             data={limitOpts}
+            defaultValue={this.state.carbsLimitType}
             onChangeText={value => {
               this.setState({carbsLimitType: value});
             }}
@@ -247,6 +232,7 @@ export default class MealRecommend extends React.Component {
             }}
             keyboardType={'numeric'}
             placeholder="Enter amount"
+            value={this.state.carbs}
             onChangeText={carbs => this.setState({carbs})}
           />
         </View>
@@ -434,77 +420,175 @@ export default class MealRecommend extends React.Component {
       });
   };
 
+  componentWillMount(): void {
+    const {route} = this.props;
+    const {userId} = route.params;
+    fetch(
+      Platform.OS === 'android'
+        ? `${URL.android}/User/getSavedRecommendationValues?userId=${userId}`
+        : `http://localhost:8080/User/getSavedRecommendationValues?userId=${userId}`,
+    )
+      .then(res => res.json())
+      .then(data => {
+        if (data.error) {
+          Alert.alert('Error', data.message, [{text: 'OK'}]);
+        } else if (data.isEmpty) {
+        } else {
+          console.log(
+            'Here: ' + data.PROTEIN + data.CARBS + data.CALORIES + data.FAT,
+          );
+          if (data.PROTEIN !== undefined) {
+            this.setState({
+              protein: data.PROTEIN[1],
+              isCheckedProtein: true,
+              proteinLimitType:
+                data.PROTEIN[0] === 'GREATERTHAN'
+                  ? 'Greater than'
+                  : 'Less than',
+            });
+          }
+          if (data.FAT !== undefined) {
+            this.setState({
+              fat: data.FAT[1],
+              isCheckedFat: true,
+              fatLimitType:
+                data.FAT[0] === 'GREATERTHAN' ? 'Greater than' : 'Less than',
+            });
+          }
+          if (data.CARBS !== undefined) {
+            this.setState({
+              carbs: data.CARBS[1],
+              isCheckedCarbs: true,
+              carbsLimitType:
+                data.CARBS[0] === 'GREATERTHAN' ? 'Greater than' : 'Less than',
+            });
+          }
+          if (data.CALORIES !== undefined) {
+            this.setState({
+              calories: data.CALORIES[1],
+              isCheckedCal: true,
+              calLimitType:
+                data.CALORIES[0] === 'GREATERTHAN'
+                  ? 'Greater than'
+                  : 'Less than',
+            });
+          }
+          if (data.NUMMEALS !== undefined) {
+            this.setState(
+              {
+                numMeals: data.NUMMEALS[1],
+                isCheckedNumMeals: true,
+              },
+              () => {
+                console.log('N: ' + this.state.numMeals);
+              },
+            );
+          }
+        }
+      });
+  }
+
   render() {
-    if (this.renderFirst()) {
-      const {savedRecommendationValues} = this.state;
-      //render
-    } else {
-      return (
-        <View style={{flex: 1}}>
-          <CheckBox
-            style={{flex: 0.05, padding: 10}}
-            onClick={() => {
-              this.setState({
+    return (
+      <View style={{flex: 1}}>
+        <CheckBox
+          style={{flex: 0.05, padding: 10}}
+          onClick={() => {
+            this.setState(
+              {
                 isCheckedNumMeals: !this.state.isCheckedNumMeals,
-              });
-            }}
-            isChecked={this.state.isCheckedNumMeals}
-            leftText={'Set number of meals'}
-          />
-          <CheckBox
-            style={{flex: 0.05, padding: 10}}
-            onClick={() => {
-              this.setState({
+              },
+              () => {
+                if (!this.state.isCheckedNumMeals) {
+                  this.setState({numMeals: 0});
+                }
+              },
+            );
+          }}
+          isChecked={this.state.isCheckedNumMeals}
+          leftText={'Set number of meals'}
+        />
+        <CheckBox
+          style={{flex: 0.05, padding: 10}}
+          onClick={() => {
+            this.setState(
+              {
                 isCheckedCal: !this.state.isCheckedCal,
-              });
-            }}
-            isChecked={this.state.isCheckedCal}
-            leftText={'Set Calories'}
-          />
-          <CheckBox
-            style={{flex: 0.05, padding: 10}}
-            onClick={() => {
-              this.setState({
+              },
+              () => {
+                if (!this.state.isCheckedCal) {
+                  this.setState({calories: 0});
+                }
+              },
+            );
+          }}
+          isChecked={this.state.isCheckedCal}
+          leftText={'Set Calories'}
+        />
+        <CheckBox
+          style={{flex: 0.05, padding: 10}}
+          onClick={() => {
+            this.setState(
+              {
                 isCheckedFat: !this.state.isCheckedFat,
-              });
-            }}
-            isChecked={this.state.isCheckedFat}
-            leftText={'Set Fat'}
-          />
-          <CheckBox
-            style={{flex: 0.05, padding: 10}}
-            onClick={() => {
-              this.setState({
+              },
+              () => {
+                if (!this.state.isCheckedFat) {
+                  this.setState({fat: 0});
+                }
+              },
+            );
+          }}
+          isChecked={this.state.isCheckedFat}
+          leftText={'Set Fat'}
+        />
+        <CheckBox
+          style={{flex: 0.05, padding: 10}}
+          onClick={() => {
+            this.setState(
+              {
                 isCheckedProtein: !this.state.isCheckedProtein,
-              });
-            }}
-            isChecked={this.state.isCheckedProtein}
-            leftText={'Set Protein'}
-          />
-          <CheckBox
-            style={{flex: 0.05, padding: 10}}
-            onClick={() => {
-              this.setState({
+              },
+              () => {
+                if (!this.state.isCheckedProtein) {
+                  this.setState({protein: 0});
+                }
+              },
+            );
+          }}
+          isChecked={this.state.isCheckedProtein}
+          leftText={'Set Protein'}
+        />
+        <CheckBox
+          style={{flex: 0.05, padding: 10}}
+          onClick={() => {
+            this.setState(
+              {
                 isCheckedCarbs: !this.state.isCheckedCarbs,
-              });
-            }}
-            isChecked={this.state.isCheckedCarbs}
-            leftText={'Set Carbs'}
-          />
-          {this.renderNumMeals()}
-          {this.renderCal()}
-          {this.renderFat()}
-          {this.renderProtein()}
-          {this.renderCarbs()}
-          <View style={{padding: '4%'}}/>
-          <View style={{flex: 0.65, alignContent: 'center'}}>
-            <TouchableOpacity onPress={this.inputCheck} style={styles.button}>
-              <Text>Submit</Text>
-            </TouchableOpacity>
-          </View>
+              },
+              () => {
+                if (!this.state.isCheckedCarbs) {
+                  this.setState({carbs: 0});
+                }
+              },
+            );
+          }}
+          isChecked={this.state.isCheckedCarbs}
+          leftText={'Set Carbs'}
+        />
+        {this.renderNumMeals()}
+        {this.renderCal()}
+        {this.renderFat()}
+        {this.renderProtein()}
+        {this.renderCarbs()}
+        <View style={{padding: '4%'}} />
+        <View style={{flex: 0.65, alignContent: 'center'}}>
+          <TouchableOpacity onPress={this.inputCheck} style={styles.button}>
+            <Text>Submit</Text>
+          </TouchableOpacity>
         </View>
-      );
-    }
+      </View>
+    );
   }
 }
 

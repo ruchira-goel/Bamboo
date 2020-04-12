@@ -4,7 +4,8 @@ public enum NutrientLimits {
     PROTEIN("Protein"),
     CALORIES("Calories"),
     CARBS("Carbs"),
-    FAT("Fat");
+    FAT("Fat"),
+    NUMMEALS("NumMeals");
 
 
     String name;
