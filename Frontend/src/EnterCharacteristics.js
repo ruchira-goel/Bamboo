@@ -30,6 +30,7 @@ export default class EnterCharacteristics extends React.Component {
       sex: '',
       feet: '',
       inches: '',
+      lifestyle: '',
     };
   }
 
@@ -43,7 +44,7 @@ export default class EnterCharacteristics extends React.Component {
 
   addCharacteristics = () => {
     const {route} = this.props;
-    let {height, weight, age, sex, feet, inches} = this.state;
+    let {height, weight, age, sex, feet, inches, lifestyle} = this.state;
     const {userId} = route.params;
     console.log('id: ' + userId);
 
@@ -68,6 +69,10 @@ export default class EnterCharacteristics extends React.Component {
       Alert.alert('Sex Field empty', 'Please enter your sex.', [{text: 'OK'}]);
       return;
     }
+    if (!lifestyle) {
+      Alert.alert('Lifestyle Field empty', 'Please enter your lifestyle.', [{text: 'OK'}]);
+      return;
+    }
     if (height <= 0 || this.isInvalid(height)) {
       Alert.alert('Invalid height', 'Please enter a valid height.', [
         {text: 'OK'},
@@ -87,8 +92,10 @@ export default class EnterCharacteristics extends React.Component {
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&isMetric=${!this.state.switchValue}`
-        : `http://localhost:8080/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&isMetric=${!this.state.switchValue}`,
+        ? `http://10.0.2.2:8080/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&lifestyle=${lifestyle}&
+            isMetric=${!this.state.switchValue}`
+        : `http://localhost:8080/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&lifestyle=${lifestyle}&
+            isMetric=${!this.state.switchValue}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -198,6 +205,20 @@ export default class EnterCharacteristics extends React.Component {
             data={[{value: 'Female'}, {value: 'Male'}, {value: 'Other'}]}
             onChangeText={value => {
               this.setState({sex: value});
+            }}
+          />
+        </View>
+        <View style={{flex: 0.3, width: '50%'}}>
+          <Dropdown
+            selectedItemColor="#3eb245"
+            label="Lifestyle"
+            data={[
+              {value: 'Sedentary'},
+              {value: 'Moderately Active'},
+              {value: 'Extremely Active'},
+            ]}
+            onChangeText={value => {
+              this.setState({lifestyle: value});
             }}
           />
         </View>

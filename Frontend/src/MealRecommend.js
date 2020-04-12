@@ -330,6 +330,7 @@ export default class MealRecommend extends React.Component {
       !isCheckedFat &&
       !isCheckedProtein
     ) {
+      // load meals based on user's characteristics
       Alert.alert('Select Item', 'Select at least one nutrient!', [
         {text: 'OK'},
       ]);

@@ -42,6 +42,7 @@ public class UserController {
                                    @RequestParam(value = "weight") double weight,
                                    @RequestParam(value = "age") int age,
                                    @RequestParam(value = "sex") String sex,
+                                   @RequestParam(value = "lifestyle") String lifestyle,
                                    @RequestParam(value = "isMetric") boolean isMetric) throws IllegalAccessException {
         Sex sexEnum = Sex.OTHER;
         switch (sex) {
@@ -59,7 +60,19 @@ public class UserController {
                 break;
 
         }
-        return userHandler.addCharacteristics(userId, height, weight, age, sexEnum, isMetric);
+        Lifestyle lStyle = Lifestyle.UNSPECIFIED;
+        switch (lifestyle) {
+            case "Sedentary":
+                lStyle = Lifestyle.SEDENTARY;
+                break;
+            case "Moderately Active":
+                lStyle = Lifestyle.MODERATE;
+                break;
+            case "Extremely Active":
+                lStyle = Lifestyle.EXTREME;
+                break;
+        }
+        return userHandler.addCharacteristics(userId, height, weight, age, sexEnum, lStyle, isMetric);
     }
 
     @RequestMapping("/User/all")

@@ -19,6 +19,12 @@ public class User {
     private double weight;
     private int age;                            //changes
     private Sex sex;
+    private Lifestyle lifestyle;
+
+    public void setLifestyle(Lifestyle lifestyle) {
+        this.lifestyle = lifestyle;
+    }
+
     private ArrayList<String> goalIds;
     private HashMap<String, String> dailyInfo;    //String is id of the daily info obj
     private ArrayList<String> favMeals;
