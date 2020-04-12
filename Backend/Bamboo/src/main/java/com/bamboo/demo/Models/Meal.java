@@ -31,15 +31,13 @@ public class Meal {
     }
 
     public double getValue(TrackedItem trackedItem) {
-        if(trackedItem ==  TrackedItem.G_OF_PROTEIN) {
+        if (trackedItem == TrackedItem.G_OF_PROTEIN) {
             return this.protein;
         } else if (trackedItem == TrackedItem.CALORIES) {
             return this.calories;
         }
         return 0;
     }
-
-    //private NutritionInfo nutritionInfo;
 
     public double getCalories() {
         return calories;
@@ -96,12 +94,4 @@ public class Meal {
     public void setName(String name) {
         this.name = name;
     }
-
-    //public NutritionInfo getNutritionInfo() {
-//        return nutritionInfo;
-//    }
-
-//    public void setNutritionInfo(NutritionInfo nutritionInfo) {
-//        this.nutritionInfo = nutritionInfo;
-//    }
 }

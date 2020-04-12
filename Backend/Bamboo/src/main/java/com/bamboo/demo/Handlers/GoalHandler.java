@@ -31,11 +31,6 @@ public class GoalHandler {
                         String trackedItem, String duration) {
 
         String name = limitType + " " + amount + " of " + trackedItem + " per " + duration;
-        System.out.println(Type.valueOfType(type));
-        System.out.println(LimitType.valueOfLimitType(limitType));
-        System.out.println(TrackedItem.valueOfTrackedItem(trackedItem));
-        System.out.println(Duration.valueOfDuration(duration));
-
         Goal goal = new Goal(userId, Type.valueOfType(type), Duration.valueOfDuration(duration),
                 LimitType.valueOfLimitType(limitType), TrackedItem.valueOfTrackedItem(trackedItem), amount);
         goal.setName(name);
@@ -98,8 +93,6 @@ public class GoalHandler {
     }
 
     public double fetchGoalProgress(String userId, String goalId) throws IllegalAccessException {
-        System.out.println("UserID " + userId);
-        System.out.println("GoalId " + goalId);
         User user = this.userRepo.findUserByUserId(userId);
         Optional<Goal> goal = this.goalRepo.findById(goalId);
         if (!goal.isPresent()) {
@@ -111,36 +104,25 @@ public class GoalHandler {
         Date currentDate = new Date(System.currentTimeMillis());
         String dateFormat = formatter.format(currentDate);
 
-        System.out.println(dateFormat);
-
         double goalProgress = 0.0;
-
 
         if (goalObj.getType() == Type.MEAL) {
             if (goalObj.getDuration() == Duration.DAY) {
                 try {
-                    System.out.println("Hello hello");
                     goalObj.checkMealProgress(mealRepo, dailyInfoRepo, goalRepo, dateFormat);
                     goalProgress = goalObj.getGoalProgress(dateFormat);
-                    System.out.println("Goal Progress " + goalProgress);
                 } catch (NullPointerException e) {
-                    System.out.println("An exception");
                     goalProgress = 0.0;
                 }
             } else {
-//            Date newDate = currentDate;
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.DAY_OF_WEEK, -(cal.get(Calendar.DAY_OF_WEEK) - 2));
                 Date newDate = cal.getTime();
                 String newDateF = formatter.format(newDate);
                 System.out.println(newDateF);
                 while (!newDateF.equals(dateFormat)) {
-//            for (int i = 6; i >= 0; i--) {
-//                newDate = new Date(newDate.getTime() - 2);
-                    System.out.println("New Date : " + formatter.format(newDate));
                     goalObj.checkMealProgress(mealRepo, dailyInfoRepo, goalRepo, newDateF);
                     goalProgress = goalProgress + goalObj.getGoalProgress(newDateF);
-                    System.out.println("Current Goal progress " + goalObj.getGoalProgress(newDateF));
                     Instant current = newDate.toInstant();
                     current = current.plus(1, ChronoUnit.DAYS);
                     newDate = Date.from(current);
@@ -148,34 +130,23 @@ public class GoalHandler {
                 }
                 goalObj.checkExerciseProgress(activityRepo, dailyInfoRepo, goalRepo, newDateF);
                 goalProgress = goalProgress + goalObj.getGoalProgress(newDateF);
-                System.out.println("Current Goal progress " + goalObj.getGoalProgress(newDateF));
             }
         } else {
             if (goalObj.getDuration() == Duration.DAY) {
                 try {
-                    System.out.println("Hello hello");
                     goalObj.checkExerciseProgress(activityRepo, dailyInfoRepo, goalRepo, dateFormat);
                     goalProgress = goalObj.getGoalProgress(dateFormat);
-                    System.out.println("Goal Progress " + goalProgress);
                 } catch (NullPointerException e) {
-                    System.out.println("An exception");
                     goalProgress = 0.0;
                 }
             } else {
-//            Date newDate = currentDate;
                 Calendar cal = Calendar.getInstance();
                 cal.add(Calendar.DAY_OF_WEEK, -(cal.get(Calendar.DAY_OF_WEEK) - 2));
                 Date newDate = cal.getTime();
                 String newDateF = formatter.format(newDate);
-                System.out.println(newDateF);
-                boolean firstDay = true;
                 while (!newDateF.equals(dateFormat)) {
-//            for (int i = 6; i >= 0; i--) {
-//                newDate = new Date(newDate.getTime() - 2);
-                    System.out.println("New Date : " + formatter.format(newDate));
                     goalObj.checkExerciseProgress(activityRepo, dailyInfoRepo, goalRepo, newDateF);
                     goalProgress = goalProgress + goalObj.getGoalProgress(newDateF);
-                    System.out.println("Current Goal progress " + goalObj.getGoalProgress(newDateF));
                     Instant current = newDate.toInstant();
                     current = current.plus(1, ChronoUnit.DAYS);
                     newDate = Date.from(current);
@@ -183,13 +154,11 @@ public class GoalHandler {
                 }
                 goalObj.checkExerciseProgress(activityRepo, dailyInfoRepo, goalRepo, newDateF);
                 goalProgress = goalProgress + goalObj.getGoalProgress(newDateF);
-                System.out.println("Current Goal progress " + goalObj.getGoalProgress(newDateF));
             }
         }
 
         this.goalRepo.save(goalObj);
         this.userRepo.save(user);
-        System.out.println("Goal Progress = " + (goalProgress * 100));
         DecimalFormat df = new DecimalFormat("#.##");
         goalProgress = Double.parseDouble(df.format(goalProgress * 100));
         return goalProgress;

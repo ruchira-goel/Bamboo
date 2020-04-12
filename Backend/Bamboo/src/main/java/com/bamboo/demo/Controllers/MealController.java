@@ -6,7 +6,6 @@ import com.bamboo.demo.Repos.DailyInfoRepo;
 import com.bamboo.demo.Repos.GoalRepo;
 import com.bamboo.demo.Repos.MealRepo;
 import com.bamboo.demo.Repos.UserRepo;
-import org.json.JSONArray;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -84,8 +83,8 @@ public class MealController {
 
     @RequestMapping("/Meal/getRecommended")
     public ArrayList<Meal> getRecommendedMeals(String userId, String calLimitType, double calories, String fatLimitType,
-                                         double fat, String proteinLimitType, double protein, String carbsLimitType,
-                                         double carbs, int numMeals) throws IOException {
+                                               double fat, String proteinLimitType, double protein, String carbsLimitType,
+                                               double carbs, int numMeals) throws IOException {
         return mealHandler.getRecommendedMeals(userId, calLimitType, calories, fatLimitType, fat, proteinLimitType,
                 protein, carbsLimitType, carbs, numMeals);
     }

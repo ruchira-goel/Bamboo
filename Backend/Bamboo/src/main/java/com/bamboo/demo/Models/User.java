@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 @Document(collection = "Users")
@@ -23,6 +24,7 @@ public class User {
     private ArrayList<String> favMeals;
     private ArrayList<String> favExerciseRoutine;
     private boolean isMetric;
+    private HashMap<String, List<Object>> nutrientLimits;
 
     public boolean isMetric() {
         return isMetric;
@@ -51,14 +53,23 @@ public class User {
     public User(String email, String encryptedPassword) {
         this.email = email;
         this.encryptedPassword = encryptedPassword;
-        this.dailyInfo  =  new HashMap<>();
+        this.dailyInfo = new HashMap<>();
         this.goalIds = new ArrayList<>();
-        this.favMeals =new ArrayList<>();
+        this.favMeals = new ArrayList<>();
         this.favExerciseRoutine = new ArrayList<>();
+        this.nutrientLimits = new HashMap<>();
     }
 
     public HashMap<String, String> getDailyInfo() {
         return dailyInfo;
+    }
+
+    public HashMap<String, List<Object>> getNutrientLimits() {
+        return nutrientLimits;
+    }
+
+    public void setNutrientLimits(HashMap<String, List<Object>> nutrientLimits) {
+        this.nutrientLimits = nutrientLimits;
     }
 
     public String getUserId() {

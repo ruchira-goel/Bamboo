@@ -3,21 +3,13 @@ package com.bamboo.demo.Handlers;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
 import java.net.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHeaders;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -46,11 +38,13 @@ public class MealHandler {
     }
 
     public Meal saveMealFromLink(String link, String userId, String date) throws IOException, JSONException, IllegalAccessException {
-        URL url = new URL("https://api.spoonacular.com/recipes/extract?apiKey=5ccdaac983d344338fe187bb2b7e5501&url=" + link);
+        URL url = new URL("https://api.spoonacular.com/recipes/extract?apiKey=5ccdaac983d344338fe187bb2b7e5501&url="
+                + link);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Content-type", "application/json");
-        connection.setRequestProperty("User-agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+        connection.setRequestProperty("User-agent",
+                "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
         BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String jsonText = in.readLine();
         JSONObject json = new JSONObject(jsonText);
@@ -61,7 +55,8 @@ public class MealHandler {
             throw new IllegalAccessException("Meal not found");
         }
 
-        URL nutritionURL = new URL("https://api.spoonacular.com/recipes/" + recipeId + "/nutritionWidget.json?apiKey=5ccdaac983d344338fe187bb2b7e5501");
+        URL nutritionURL = new URL("https://api.spoonacular.com/recipes/" + recipeId +
+                "/nutritionWidget.json?apiKey=5ccdaac983d344338fe187bb2b7e5501");
         HttpURLConnection con = (HttpURLConnection) nutritionURL.openConnection();
         con.setRequestMethod("GET");
         con.setRequestProperty("Content-type", "application/json");
@@ -82,18 +77,18 @@ public class MealHandler {
 
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         Date currentDate = new Date(System.currentTimeMillis());
-        //String date = formatter.format(currentDate);
         addToDate(date, meal);
 
         return meal;
     }
 
 
-    public Meal saveMealFromName(String name, String userId,String date) throws IOException, JSONException, IllegalAccessException {
+    public Meal saveMealFromName(String name, String userId, String date) throws IOException, JSONException {
         try {
             User user = this.userRepo.findById(userId).get();
             System.out.println("the name is " + name);
-            URL url = new URL("https://api.spoonacular.com/recipes/guessNutrition?apiKey=5ccdaac983d344338fe187bb2b7e5501&title=" + name);
+            URL url = new URL("https://api.spoonacular.com/recipes/guessNutrition?apiKey=5ccdaac983d344338fe187bb2b7e5501&title="
+                    + name);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Content-type", "application/json");
@@ -111,7 +106,6 @@ public class MealHandler {
 
             System.out.println("Date: HERE " + date);
             addToDate(date, meal);
-
             return meal;
         } catch (IOException e) {
             throw new IOException("Meal not found");
@@ -122,18 +116,15 @@ public class MealHandler {
 
     public Meal saveMealFromRecipe(String date, String userId, String recipe, String name) throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost("https://api.spoonacular.com/recipes/parseIngredients?apiKey=5ccdaac983d344338fe187bb2b7e5501"); //enter link
+        HttpPost httpPost = new HttpPost
+                ("https://api.spoonacular.com/recipes/parseIngredients?apiKey=5ccdaac983d344338fe187bb2b7e5501"); //enter link
         List<NameValuePair> urlParams = new ArrayList<>();
         urlParams.add(new BasicNameValuePair("includeNutrition", "true"));
         urlParams.add(new BasicNameValuePair("servings", "1"));
         urlParams.add(new BasicNameValuePair("ingredientList", recipe));
         httpPost.setEntity(new UrlEncodedFormEntity(urlParams));
         CloseableHttpResponse response = httpClient.execute(httpPost);
-       // System.out.println(EntityUtils.toString(response.getEntity()));
         JSONArray jsonarray = new JSONArray(EntityUtils.toString(response.getEntity()));
-        System.out.println(jsonarray);
-        //for()
-        //System.out.println(nutritionJson.get());
 
         Meal meal = new Meal();
         double fat = 0;
@@ -144,17 +135,13 @@ public class MealHandler {
             JSONObject nutrition;
             try {
                 nutrition = (JSONObject) jsonarray.getJSONObject(i).get("nutrition");
-            }  catch(Exception e) {
+            } catch (Exception e) {
                 throw new IOException("Ingredients not found");
             }
-            System.out.println(nutrition);
             JSONArray nutrients = nutrition.getJSONArray("nutrients");             //nutrients array
-            System.out.println(nutrients);
             for (int j = 0; j < nutrients.length(); j++) {
                 String title = nutrients.getJSONObject(j).get("title").toString();      //title of nutrient
-                System.out.println("title: " + title);
                 double amount = (double) nutrients.getJSONObject(j).get("amount");
-                System.out.println(amount);
                 switch (title) {
                     case "Fat":
                         fat += amount;
@@ -205,12 +192,7 @@ public class MealHandler {
         for (Goal goal : goals) {
             if (goal.getType() == Type.MEAL) {
                 goal.checkMealProgress(mealRepo, dailyInfoRepo, goalRepo, date);
-                goal = this.goalRepo.findGoalById(goal.getId());
-                System.out.println("Progress in MealHandler = " + goal.getGoalProgress(date));
             }
-//            System.out.println("THIS IS " + date);
-//            System.out.println("Progress: " + goal.getGoalProgress(date));
-//            System.out.println("Hello");
         }
     }
 
@@ -218,44 +200,81 @@ public class MealHandler {
                                                double fat, String proteinLimit, double protein, String carbsLimit,
                                                double carbs, int numMeals) throws IOException {
         User user = this.userRepo.findById(userId).get();
+        final String CARBS = "CARBS";
+        final String PROTEIN = "PROTEIN";
+        final String CALORIES = "CALORIES";
+        final String FAT = "FAT";
+        HashMap<String, List<Object>> nutrientLimits = new HashMap<>();
         String request = "https://api.spoonacular.com/recipes/findByNutrients?apiKey=5ccdaac983d344338fe187bb2b7e5501";
-        System.out.println(carbsLimit);
         if (!carbsLimit.equals("")) {
             if (LimitType.valueOfLimitType(carbsLimit) == LimitType.GREATERTHAN) {
                 request += "&maxCarbs=";
+                nutrientLimits.put(CARBS, new ArrayList<Object>() {{
+                    add(LimitType.GREATERTHAN);
+                    add(carbs);
+                }});
             } else if (LimitType.valueOfLimitType(carbsLimit) == LimitType.LESSTHAN) {
                 request += "&minCarbs=";
+                nutrientLimits.put(CARBS, new ArrayList<Object>() {{
+                    add(LimitType.LESSTHAN);
+                    add(carbs);
+                }});
             }
             request += Double.toString(carbs);
         }
         if (!proteinLimit.equals("")) {
             if (LimitType.valueOfLimitType(proteinLimit) == LimitType.GREATERTHAN) {
                 request += "&maxProtein=";
+                nutrientLimits.put(PROTEIN, new ArrayList<Object>() {{
+                    add(LimitType.GREATERTHAN);
+                    add(protein);
+                }});
             } else if (LimitType.valueOfLimitType(proteinLimit) == LimitType.LESSTHAN) {
                 request += "&minProtein=";
+                nutrientLimits.put(PROTEIN, new ArrayList<Object>() {{
+                    add(LimitType.LESSTHAN);
+                    add(protein);
+                }});
             }
             request += Double.toString(protein);
         }
         if (!calLimit.equals("")) {
             if (LimitType.valueOfLimitType(calLimit) == LimitType.GREATERTHAN) {
                 request += "&maxCalories=";
+                nutrientLimits.put(CALORIES, new ArrayList<Object>() {{
+                    add(LimitType.GREATERTHAN);
+                    add(calories);
+                }});
             } else if (LimitType.valueOfLimitType(calLimit) == LimitType.LESSTHAN) {
                 request += "&minCalories=";
+                nutrientLimits.put(CALORIES, new ArrayList<Object>() {{
+                    add(LimitType.LESSTHAN);
+                    add(calories);
+                }});
             }
             request += Double.toString(calories);
         }
         if (!fatLimit.equals("")) {
             if (LimitType.valueOfLimitType(fatLimit) == LimitType.GREATERTHAN) {
                 request += "&maxFat=";
+                nutrientLimits.put(FAT, new ArrayList<Object>() {{
+                    add(LimitType.GREATERTHAN);
+                    add(fat);
+                }});
             } else if (LimitType.valueOfLimitType(fatLimit) == LimitType.LESSTHAN) {
                 request += "&minFat=";
+                nutrientLimits.put(FAT, new ArrayList<Object>() {{
+                    add(LimitType.LESSTHAN);
+                    add(fat);
+                }});
             }
             request += Double.toString(fat);
         }
+        user.setNutrientLimits(nutrientLimits);
+        this.userRepo.save(user);
         if (numMeals != 0) {
             request += "&number=" + numMeals;
         }
-        System.out.println(request);
         URL url = new URL(request);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
@@ -263,7 +282,6 @@ public class MealHandler {
 
         BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         JSONArray mealArray = new JSONArray(input.readLine());
-        System.out.println(mealArray);
         ArrayList<Meal> recommended = new ArrayList<>();
         for (int i = 0; i < mealArray.length(); i++) {
             JSONObject mealObject = mealArray.getJSONObject(i);
@@ -312,10 +330,6 @@ public class MealHandler {
     }
 
     public boolean saveMealFromFavorites(String userId, String mealId, String date) {
-//        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-//        Date currentDate = new Date(System.currentTimeMillis());
-        //String date = formatter.format(currentDate);
-        System.out.println(date);
         addToDate(date, this.mealRepo.findById(mealId).get());
         return true;
     }

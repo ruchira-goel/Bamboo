@@ -31,6 +31,7 @@ export default class MealRecommend extends React.Component {
       isCheckedCarbs: false,
       isCheckedNumMeals: false,
       numMeals: '',
+      savedRecommendationValues: [],
       limitOpts: [
         {
           value: 'Less than',
@@ -41,6 +42,28 @@ export default class MealRecommend extends React.Component {
       ],
     };
   }
+
+  renderFirst = () => {
+    const {route} = this.props;
+    const {userId} = route.params;
+    fetch(
+      Platform.OS === 'android'
+        ? `${URL.android}/User/getSavedRecommendationValues?userId=${userId}`
+        : `http://localhost:8080/User/getSavedRecommendationValues?userId=${userId}`,
+    )
+      .then(res => res.json())
+      .then(data => {
+        console.log('Saved recommendation values: ' + data);
+        if (data.error) {
+          Alert.alert('Error', data.message, [{text: 'OK'}]);
+        } else if (data.isEmpty) {
+          return false;
+        } else {
+          this.setState({savedRecommendationValues: data});
+          return true;
+        }
+      });
+  };
 
   renderNumMeals = () => {
     if (this.state.isCheckedNumMeals) {
@@ -401,84 +424,87 @@ export default class MealRecommend extends React.Component {
       .then(data => {
         console.log(data);
         if (data.error) {
-          //throwing error when login fails - wrong password / email not registered yet
           Alert.alert('Error', data.message, [{text: 'OK'}]);
         } else {
           this.props.navigation.navigate('RecommendedMealsList', {
             userId: userId,
             meals: data,
           });
-          //Alert.alert('Success', 'Meal Recommendations:', [{text: 'OK'}]);
         }
       });
   };
 
   render() {
-    return (
-      <View style={{flex: 1}}>
-        <CheckBox
-          style={{flex: 0.05, padding: 10}}
-          onClick={() => {
-            this.setState({
-              isCheckedNumMeals: !this.state.isCheckedNumMeals,
-            });
-          }}
-          isChecked={this.state.isCheckedNumMeals}
-          leftText={'Set number of meals'}
-        />
-        <CheckBox
-          style={{flex: 0.05, padding: 10}}
-          onClick={() => {
-            this.setState({
-              isCheckedCal: !this.state.isCheckedCal,
-            });
-          }}
-          isChecked={this.state.isCheckedCal}
-          leftText={'Set Calories'}
-        />
-        <CheckBox
-          style={{flex: 0.05, padding: 10}}
-          onClick={() => {
-            this.setState({
-              isCheckedFat: !this.state.isCheckedFat,
-            });
-          }}
-          isChecked={this.state.isCheckedFat}
-          leftText={'Set Fat'}
-        />
-        <CheckBox
-          style={{flex: 0.05, padding: 10}}
-          onClick={() => {
-            this.setState({
-              isCheckedProtein: !this.state.isCheckedProtein,
-            });
-          }}
-          isChecked={this.state.isCheckedProtein}
-          leftText={'Set Protein'}
-        />
-        <CheckBox
-          style={{flex: 0.05, padding: 10}}
-          onClick={() => {
-            this.setState({
-              isCheckedCarbs: !this.state.isCheckedCarbs,
-            });
-          }}
-          isChecked={this.state.isCheckedCarbs}
-          leftText={'Set Carbs'}
-        />
-        {this.renderNumMeals()}
-        {this.renderCal()}
-        {this.renderFat()}
-        {this.renderProtein()}
-        {this.renderCarbs()}
-        <View style={{padding: '4%'}} />
-        <View style={{flex: 0.65, alignContent: 'center'}}>
-          <TouchableOpacity onPress={this.inputCheck} style={styles.button}>
-            <Text>Submit</Text>
-          </TouchableOpacity>
+    if (this.renderFirst()) {
+      const {savedRecommendationValues} = this.state;
+      //render
+    } else {
+      return (
+        <View style={{flex: 1}}>
+          <CheckBox
+            style={{flex: 0.05, padding: 10}}
+            onClick={() => {
+              this.setState({
+                isCheckedNumMeals: !this.state.isCheckedNumMeals,
+              });
+            }}
+            isChecked={this.state.isCheckedNumMeals}
+            leftText={'Set number of meals'}
+          />
+          <CheckBox
+            style={{flex: 0.05, padding: 10}}
+            onClick={() => {
+              this.setState({
+                isCheckedCal: !this.state.isCheckedCal,
+              });
+            }}
+            isChecked={this.state.isCheckedCal}
+            leftText={'Set Calories'}
+          />
+          <CheckBox
+            style={{flex: 0.05, padding: 10}}
+            onClick={() => {
+              this.setState({
+                isCheckedFat: !this.state.isCheckedFat,
+              });
+            }}
+            isChecked={this.state.isCheckedFat}
+            leftText={'Set Fat'}
+          />
+          <CheckBox
+            style={{flex: 0.05, padding: 10}}
+            onClick={() => {
+              this.setState({
+                isCheckedProtein: !this.state.isCheckedProtein,
+              });
+            }}
+            isChecked={this.state.isCheckedProtein}
+            leftText={'Set Protein'}
+          />
+          <CheckBox
+            style={{flex: 0.05, padding: 10}}
+            onClick={() => {
+              this.setState({
+                isCheckedCarbs: !this.state.isCheckedCarbs,
+              });
+            }}
+            isChecked={this.state.isCheckedCarbs}
+            leftText={'Set Carbs'}
+          />
+          {this.renderNumMeals()}
+          {this.renderCal()}
+          {this.renderFat()}
+          {this.renderProtein()}
+          {this.renderCarbs()}
+          <View style={{padding: '4%'}}/>
+          <View style={{flex: 0.65, alignContent: 'center'}}>
+            <TouchableOpacity onPress={this.inputCheck} style={styles.button}>
+              <Text>Submit</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    );
+      );
+    }
   }
 }
 
@@ -512,8 +538,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     justifyContent: 'center',
     alignItems: 'center',
-    //marginLeft: '25%',
-    // marginRight: '25%',
     borderBottomWidth: 0.5,
   },
   alignLeftView: {

@@ -1,15 +1,9 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
   Text,
   View,
-  TouchableOpacity,
-  ScrollView,
-  Image,
   StyleSheet,
   FlatList,
-  SafeAreaView,
-  Alert,
-  Platform,
 } from 'react-native';
 
 // Sources:

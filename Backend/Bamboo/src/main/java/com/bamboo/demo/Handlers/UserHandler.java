@@ -86,7 +86,6 @@ public class UserHandler {
         return userObj;
     }
 
-
     public ArrayList<Goal> fetchGoals(String userId) throws IllegalAccessException {
         Optional<User> userObj = this.userRepo.findByUserId(userId);
         if (!userObj.isPresent()) {
@@ -165,7 +164,6 @@ public class UserHandler {
             str.append(i);
             str.append(" ");
         }
-
         return str.toString().trim();
     }
 
@@ -202,7 +200,6 @@ public class UserHandler {
             str.append(i);
             str.append(" ");
         }
-
         return str.toString().trim();
     }
 
@@ -239,7 +236,10 @@ public class UserHandler {
             str.append(i);
             str.append(" ");
         }
-
         return str.toString().trim();
     }
+
+//    public Map<Nutrient, Pair<LimitType, Double>> getSavedRecommendationValues(String userId) {
+//        return this.userRepo.findUserByUserId(userId).getSavedRecommendationValues();
+//    }
 }

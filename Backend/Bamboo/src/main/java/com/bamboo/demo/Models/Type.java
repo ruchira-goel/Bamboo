@@ -18,7 +18,7 @@ public enum Type {
     //Following code is from user matzeihnsein from
     //https://stackoverflow.com/questions/8389150/java-enum-elements-with-spaces
     public static Type valueOfType(String value) {
-        for (Type type: Type.class.getEnumConstants()) {
+        for (Type type : Type.class.getEnumConstants()) {
             if (type.toString().equals(value)) {
                 return type;
             }

@@ -18,7 +18,7 @@ public enum Duration {
     //Following code is from user matzeihnsein from
     //https://stackoverflow.com/questions/8389150/java-enum-elements-with-spaces
     public static Duration valueOfDuration(String value) {
-        for (Duration duration: Duration.class.getEnumConstants()) {
+        for (Duration duration : Duration.class.getEnumConstants()) {
             if (duration.toString().equals(value)) {
                 return duration;
             }
