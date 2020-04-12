@@ -44,6 +44,7 @@ export default class MealRecommend extends React.Component {
 
   renderNumMeals = () => {
     if (this.state.isCheckedNumMeals) {
+      console.log('Number: ' + this.state.numMeals);
       return (
         <View
           style={{flex: 0.1, justifyContent: 'center', alignItems: 'center'}}>
@@ -53,9 +54,9 @@ export default class MealRecommend extends React.Component {
               width: '50%',
               textAlign: 'center',
             }}
-            placeholder='Enter number of meals'
-            defaultValue={this.state.numMeals}
-            onChangeText={numMeals => this.setState({numMeals})} //setting the email when user enters it
+            placeholder="Enter number of meals"
+            defaultValue={this.state.numMeals.toString()}
+            onChangeText={numMeals => this.setState({numMeals})}
             keyboardType={'numeric'}
           />
         </View>
@@ -71,37 +72,50 @@ export default class MealRecommend extends React.Component {
           style={{
             flexDirection: 'row',
             alignContent: 'center',
-            flex: 0.1,
+            flex: 0.2,
             padding: '1%',
-            //backgroundColor: 'green',
+            //backgroundColor: 'blue',
           }}>
           <Text style={{flex: 0.2, padding: '9%'}}>Calories</Text>
-          <Dropdown
-            label="Limit type"
-            data={limitOpts}
-            defaultValue={this.state.calLimitType}
-            onChangeText={value => {
-              this.setState({calLimitType: value});
-            }}
-            selectedItemColor="#3eb245"
-            containerStyle={{width: '40%', flex: 0.35}}
-          />
-          <View style={{padding: '4%'}} />
-          <TextInput
+          <View
             style={{
-              paddingTop: '10%',
-              padding: '5%',
-              flex: 0.4,
-              height: '15%',
-              //backgroundColor: 'blue',
-              justifyContent: 'center',
-              borderBottomWidth: 0.5,
-            }}
-            keyboardType={'numeric'}
-            placeholder="Enter amount"
-            value={this.state.calories}
-            onChangeText={calories => this.setState({calories})}
-          />
+              flex: 0.6,
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              //backgroundColor: 'green'
+            }}>
+            <Dropdown
+              label="Limit type"
+              data={limitOpts}
+              defaultValue={this.state.calLimitType}
+              onChangeText={value => {
+                this.setState({calLimitType: value});
+              }}
+              selectedItemColor="#3eb245"
+              containerStyle={{width: '100%', flex: 0.35}}
+            />
+          </View>
+          <View
+            style={{
+              flex: 0.6,
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+              //backgroundColor: 'green'
+            }}>
+            <TextInput
+              style={{
+                borderBottomWidth: 0.6,
+                width: '60%',
+                height: '40%',
+                textAlign: 'center',
+                //backgroundColor: 'yellow',
+              }}
+              keyboardType={'numeric'}
+              placeholder="Enter amount"
+              defaultValue={this.state.calories.toString()}
+              onChangeText={calories => this.setState({calories})}
+            />
+          </View>
         </View>
       );
     }
@@ -115,37 +129,50 @@ export default class MealRecommend extends React.Component {
           style={{
             flexDirection: 'row',
             alignContent: 'center',
-            flex: 0.1,
+            flex: 0.2,
             padding: '1%',
-            //backgroundColor: 'green',
+            //backgroundColor: 'blue',
           }}>
           <Text style={{flex: 0.2, padding: '9%'}}>Fat</Text>
-          <Dropdown
-            label="Limit type"
-            data={limitOpts}
-            defaultValue={this.state.fatLimitType}
-            onChangeText={value => {
-              this.setState({fatLimitType: value});
-            }}
-            selectedItemColor="#3eb245"
-            containerStyle={{width: '40%', flex: 0.35}}
-          />
-          <View style={{padding: '4%'}} />
-          <TextInput
+          <View
             style={{
-              paddingTop: '10%',
-              padding: '5%',
-              flex: 0.4,
-              height: '15%',
-              //backgroundColor: 'blue',
-              justifyContent: 'center',
-              borderBottomWidth: 0.5,
-            }}
-            keyboardType={'numeric'}
-            placeholder="Enter amount"
-            value={this.state.fat}
-            onChangeText={fat => this.setState({fat})}
-          />
+              flex: 0.6,
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              //backgroundColor: 'green'
+            }}>
+            <Dropdown
+              label="Limit type"
+              data={limitOpts}
+              defaultValue={this.state.fatLimitType}
+              onChangeText={value => {
+                this.setState({fatLimitType: value});
+              }}
+              selectedItemColor="#3eb245"
+              containerStyle={{width: '100%', flex: 0.35}}
+            />
+          </View>
+          <View
+            style={{
+              flex: 0.6,
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+              //backgroundColor: 'green'
+            }}>
+            <TextInput
+              style={{
+                borderBottomWidth: 0.6,
+                width: '60%',
+                height: '40%',
+                textAlign: 'center',
+                //backgroundColor: 'yellow',
+              }}
+              keyboardType={'numeric'}
+              placeholder="Enter amount"
+              defaultValue={this.state.fat.toString()}
+              onChangeText={fat => this.setState({fat})}
+            />
+          </View>
         </View>
       );
     }
@@ -159,37 +186,50 @@ export default class MealRecommend extends React.Component {
           style={{
             flexDirection: 'row',
             alignContent: 'center',
-            flex: 0.1,
+            flex: 0.2,
             padding: '1%',
-            //backgroundColor: 'green',
+            //backgroundColor: 'blue',
           }}>
           <Text style={{flex: 0.2, padding: '9%'}}>Protein</Text>
-          <Dropdown
-            label="Limit type"
-            data={limitOpts}
-            defaultValue={this.state.proteinLimitType}
-            onChangeText={value => {
-              this.setState({proteinLimitType: value});
-            }}
-            selectedItemColor="#3eb245"
-            containerStyle={{width: '40%', flex: 0.35}}
-          />
-          <View style={{padding: '4%'}} />
-          <TextInput
+          <View
             style={{
-              paddingTop: '10%',
-              padding: '5%',
-              flex: 0.4,
-              height: '15%',
-              //backgroundColor: 'blue',
-              justifyContent: 'center',
-              borderBottomWidth: 0.5,
-            }}
-            keyboardType={'numeric'}
-            placeholder="Enter amount"
-            value={this.state.protein}
-            onChangeText={protein => this.setState({protein})}
-          />
+              flex: 0.6,
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              //backgroundColor: 'green',
+            }}>
+            <Dropdown
+              label="Limit type"
+              data={limitOpts}
+              defaultValue={this.state.proteinLimitType}
+              onChangeText={value => {
+                this.setState({proteinLimitType: value});
+              }}
+              selectedItemColor="#3eb245"
+              containerStyle={{width: '100%', flex: 0.35}}
+            />
+          </View>
+          <View
+            style={{
+              flex: 0.6,
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+              //backgroundColor: 'green'
+            }}>
+            <TextInput
+              style={{
+                borderBottomWidth: 0.6,
+                width: '60%',
+                height: '40%',
+                textAlign: 'center',
+                //backgroundColor: 'yellow',
+              }}
+              keyboardType={'numeric'}
+              placeholder="Enter amount"
+              defaultValue={this.state.protein.toString()}
+              onChangeText={protein => this.setState({protein})}
+            />
+          </View>
         </View>
       );
     }
@@ -203,38 +243,50 @@ export default class MealRecommend extends React.Component {
           style={{
             flexDirection: 'row',
             alignContent: 'center',
-            flex: 0.1,
+            flex: 0.2,
             padding: '1%',
-            //backgroundColor: 'green',
+            //backgroundColor: 'blue',
           }}>
           <Text style={{flex: 0.2, padding: '9%'}}>Carbs</Text>
-          <Dropdown
-            label="Limit type"
-            data={limitOpts}
-            defaultValue={this.state.carbsLimitType}
-            onChangeText={value => {
-              this.setState({carbsLimitType: value});
-            }}
-            selectedItemColor="#3eb245"
-            containerStyle={{width: '40%', flex: 0.35}}
-          />
-          <View style={{padding: '4%'}} />
-          <TextInput
+          <View
             style={{
-              paddingTop: '10%',
-              padding: '5%',
-              flex: 0.4,
-              height: '100%',
-              fontSize: 16,
-              //backgroundColor: 'blue',
-              justifyContent: 'center',
-              borderBottomWidth: 0.5,
-            }}
-            keyboardType={'numeric'}
-            placeholder="Enter amount"
-            value={this.state.carbs}
-            onChangeText={carbs => this.setState({carbs})}
-          />
+              flex: 0.6,
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              //backgroundColor: 'green'
+            }}>
+            <Dropdown
+              label="Limit type"
+              data={limitOpts}
+              defaultValue={this.state.carbsLimitType}
+              onChangeText={value => {
+                this.setState({carbsLimitType: value});
+              }}
+              selectedItemColor="#3eb245"
+              containerStyle={{width: '100%', flex: 0.35}}
+            />
+          </View>
+          <View
+            style={{
+              flex: 0.6,
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+              //backgroundColor: 'green'
+            }}>
+            <TextInput
+              style={{
+                borderBottomWidth: 0.6,
+                width: '60%',
+                height: '40%',
+                textAlign: 'center',
+                //backgroundColor: 'yellow',
+              }}
+              keyboardType={'numeric'}
+              placeholder="Enter amount"
+              defaultValue={this.state.carbs.toString()}
+              onChangeText={carbs => this.setState({carbs})}
+            />
+          </View>
         </View>
       );
     }
@@ -315,7 +367,6 @@ export default class MealRecommend extends React.Component {
         return;
       }
     }
-    //hudsiqe
     if (isCheckedProtein) {
       if (proteinLimitType === '') {
         Alert.alert(
@@ -500,7 +551,7 @@ export default class MealRecommend extends React.Component {
               },
               () => {
                 if (!this.state.isCheckedNumMeals) {
-                  this.setState({numMeals: 0});
+                  this.setState({numMeals: ''});
                 }
               },
             );
@@ -517,7 +568,7 @@ export default class MealRecommend extends React.Component {
               },
               () => {
                 if (!this.state.isCheckedCal) {
-                  this.setState({calories: 0});
+                  this.setState({calories: ''});
                 }
               },
             );
@@ -534,7 +585,7 @@ export default class MealRecommend extends React.Component {
               },
               () => {
                 if (!this.state.isCheckedFat) {
-                  this.setState({fat: 0});
+                  this.setState({fat: ''});
                 }
               },
             );
@@ -551,7 +602,7 @@ export default class MealRecommend extends React.Component {
               },
               () => {
                 if (!this.state.isCheckedProtein) {
-                  this.setState({protein: 0});
+                  this.setState({protein: ''});
                 }
               },
             );
@@ -576,15 +627,25 @@ export default class MealRecommend extends React.Component {
           isChecked={this.state.isCheckedCarbs}
           leftText={'Set Carbs'}
         />
-        {this.renderNumMeals()}
-        {this.renderCal()}
-        {this.renderFat()}
-        {this.renderProtein()}
-        {this.renderCarbs()}
-        <View style={{padding: '4%'}} />
-        <View style={{flex: 0.65, alignContent: 'center'}}>
-          <TouchableOpacity onPress={this.inputCheck} style={styles.button}>
-            <Text>Submit</Text>
+        <View style={{flex: 0.5}}>
+          {this.renderNumMeals()}
+          {this.renderCal()}
+          {this.renderFat()}
+          {this.renderProtein()}
+          {this.renderCarbs()}
+        </View>
+        <View style={styles.button}>
+          <TouchableOpacity
+            onPress={this.inputCheck}
+            style={{
+              justifyContent: 'center',
+              width: '50%',
+              height: '25%',
+              backgroundColor: 'darkseagreen',
+            }}>
+            <Text style={{justifyContent: 'center', textAlign: 'center'}}>
+              Submit
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -618,8 +679,6 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   fieldText: {
-    flex: 0.25,
-    fontSize: 16,
     justifyContent: 'center',
     alignItems: 'center',
     borderBottomWidth: 0.5,
@@ -634,12 +693,9 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   button: {
-    flex: 0.08,
+    flex: 0.4,
+    marginTop: '10%',
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'darkseagreen',
-    width: '50%',
-    marginLeft: '25%',
   },
   /*textalign for the text to be in the center for "bamboo."*/
 });
