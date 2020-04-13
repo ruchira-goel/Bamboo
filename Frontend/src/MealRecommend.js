@@ -526,15 +526,10 @@ export default class MealRecommend extends React.Component {
             });
           }
           if (data.NUMMEALS !== undefined) {
-            this.setState(
-              {
-                numMeals: data.NUMMEALS[1],
-                isCheckedNumMeals: true,
-              },
-              () => {
-                console.log('N: ' + this.state.numMeals);
-              },
-            );
+            this.setState({
+              numMeals: data.NUMMEALS[1],
+              isCheckedNumMeals: true,
+            });
           }
         }
       });
@@ -543,6 +538,12 @@ export default class MealRecommend extends React.Component {
   render() {
     return (
       <View style={{flex: 1}}>
+        <Text style={{fontSize: 16, marginTop: '2%'}}>
+          Check a box, select the limit type and enter a value to limit a
+          nutrient.
+          Note that if you select a nutrient and do not enter any value, it will
+          be calculated based on your health characteristics.
+        </Text>
         <CheckBox
           style={{flex: 0.05, padding: 10}}
           onClick={() => {

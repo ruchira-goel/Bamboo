@@ -92,10 +92,8 @@ export default class EnterCharacteristics extends React.Component {
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&lifestyle=${lifestyle}&
-            isMetric=${!this.state.switchValue}`
-        : `http://localhost:8080/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&lifestyle=${lifestyle}&
-            isMetric=${!this.state.switchValue}`,
+        ? `http://10.0.2.2:8080/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&lifestyle=${lifestyle}&isMetric=${!this.state.switchValue}`
+        : `http://localhost:8080/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&lifestyle=${lifestyle}&isMetric=${!this.state.switchValue}`,
     )
       .then(res => res.json())
       .then(data => {

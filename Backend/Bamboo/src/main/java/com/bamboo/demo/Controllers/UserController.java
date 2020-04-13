@@ -70,6 +70,9 @@ public class UserController {
             case "Extremely Active":
                 lStyle = Lifestyle.EXTREME;
                 break;
+            case "Low" :
+                lStyle = Lifestyle.LOW;
+                break;
         }
         return userHandler.addCharacteristics(userId, height, weight, age, sexEnum, lStyle, isMetric);
     }

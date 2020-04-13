@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import BUTTONS from './styles/buttons';
 import URL from './url';
+import {Dropdown} from 'react-native-material-dropdown';
 
 // TODO:
 // 1. put user's name in header
@@ -30,6 +31,7 @@ export default class HealthProfile extends Component {
       inches: '',
       isMetric: '',
       weightLb: '',
+      lifestyle: '',
       buttonValue: 'Edit',
       editable: false,
       inputStyle: styles.text,
@@ -45,18 +47,39 @@ export default class HealthProfile extends Component {
     )
       .then(res => res.json())
       .then(data => {
+        console.log(this.getLifestyle(data.lifestyle));
         this.setState({
           height: data.height.toString(),
           weight: data.weight.toString(),
           age: data.age.toString(),
           sex: data.sex,
           isMetric: data.metric,
+          lifestyle: this.getLifestyle(data.lifestyle),
         });
         let weightLb = (data.weight * 2.20462).toString();
         this.setState({weighLb: weightLb});
         this.calculateFeetInches();
       });
   }
+
+  getLifestyle(lifestyle) {
+    var lifeStyleString;
+    switch (lifestyle) {
+      case 'LOW':
+        lifeStyleString = 'Low';
+        break;
+      case 'MODERATE':
+        lifeStyleString = 'Moderately Active';
+        break;
+      case 'EXTREME':
+        lifeStyleString = 'Extremely Active';
+        break;
+      case 'SEDENTARY':
+        lifeStyleString = 'Sedentary';
+        break;
+    }
+    return lifeStyleString;
+  };
 
   calculateFeetInches() {
     let feet = Math.floor(this.state.height / 30.48);
@@ -79,7 +102,7 @@ export default class HealthProfile extends Component {
   };
 
   onSave = () => {
-    let {height, weight, age, sex, feet, inches, isMetric} = this.state;
+    let {height, weight, age, sex, feet, inches, isMetric, lifestyle} = this.state;
     const {route} = this.props;
     const {userId} = route.params;
     if (!height && feet && inches) {
@@ -109,8 +132,8 @@ export default class HealthProfile extends Component {
     }
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&isMetric=${isMetric}`
-        : `http://localhost:8080/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&isMetric=${isMetric}`,
+        ? `http://10.0.2.2:8080/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&lifestyle=${lifestyle}&isMetric=${isMetric}`
+        : `http://localhost:8080/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&lifestyle=${lifestyle}&isMetric=${isMetric}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -211,98 +234,138 @@ export default class HealthProfile extends Component {
     }
   }
 
+  renderLifestyle = () => {
+    if (this.state.editable) {
+      return (
+        <Dropdown
+          label="Lifestyle"
+          data={[{value: 'Sedentary'}, {value: 'Low'}, {value: 'Moderately Active'}, {value: 'Extremely Active'}]}
+          defaultValue={this.state.lifestyle}
+          onChangeText={value => {
+            this.setState({lifestyle: value});
+          }}
+          selectedItemColor="#3eb245"
+          containerStyle={{width: '100%', flex: 0.5, justifyContent: 'flex-start',
+          }}
+          editable={this.state.editable}
+        />
+      )
+    } else {
+      const {lifestyle} = this.state;
+      return (
+        <TextInput
+          onChangeText={lifestyle => this.setState({lifestyle})}
+          style={[
+            styles.textInput,
+            this.state.inputStyle,
+            styles.text,
+            {width: '100%', flex: 0.5},
+          ]}
+          defaultValue={lifestyle}
+          placeholderTextColor="#000000"
+          editable={this.state.editable}
+          maxLength={20}
+        />
+      )
+    }
+  }
+
 
   render() {
-    let {height, weight, age, sex, feet, inches, isMetric} = this.state;
+    let {height, weight, age, sex, feet, inches, isMetric, lifestyle} = this.state;
     const {route} = this.props;
     const {userId} = route.params;
     fetch(
       Platform.OS === 'android'
         ? `10.0.2.2:8080/User/getCharacteristics?userId=${userId}`
         : `http://localhost:8080/User/getCharacteristics?userId=${userId}`,
-    )
-      .then(res => res.json())
-      .then(data => {});
-    return (
-      <View style={styles.container}>
-        <View style={styles.contentContainer}>
-          {/*<Text style={styles.header}>[Name]'s Health Profile</Text>*/}
-          <ScrollView>
-            <View>{this.renderHeight()}</View>
-            <View style={styles.inputContainer}>
-              <Text style={[styles.text, {padding: 2}]}>Weight:</Text>
-              <TextInput
-                onChangeText={weight => {
-                  this.setState({weight});
-                  this.setState({weightLb: (weight * 2.20462).toString()});
-                }}
-                keyboardType={'numeric'}
-                style={[
-                  styles.textInput,
-                  this.state.inputStyle,
-                  styles.text,
-                  {width: 80},
-                ]}
-                defaultValue={isMetric ?  this.state.weight : this.state.weighLb}
-                placeholderTextColor="#000000"
-                editable={this.state.editable}
-                maxLength={20}
-              />
-              <Text style={[styles.text, {padding: 2}]}>{isMetric ? 'kg' : 'lb'}</Text>
-            </View>
-            <View style={styles.inputContainer}>
-              <Text style={[styles.text, {padding: 2}]}>Age:</Text>
-              <TextInput
-                onChangeText={age => this.setState({age})}
-                keyboardType={'numeric'}
-                style={[
-                  styles.textInput,
-                  this.state.inputStyle,
-                  styles.text,
-                  {width: 80},
-                ]}
-                defaultValue={age}
-                placeholderTextColor="#000000"
-                editable={this.state.editable}
-                maxLength={20}
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <Text style={[styles.text, {padding: 2}]}>Sex:</Text>
-              <TextInput
-                onChangeText={sex => this.setState({sex})}
-                style={[
-                  styles.textInput,
-                  this.state.inputStyle,
-                  styles.text,
-                  {width: 80},
-                ]}
-                defaultValue={sex}
-                placeholderTextColor="#000000"
-                editable={this.state.editable}
-                maxLength={20}
-              />
-            </View>
-            <View style={styles.inputContainer}>
-              <Text style={[styles.text, {padding: 2}]}>
-                {this.state.isMetric ? 'Metric' : 'Imperial'}
-              </Text>
-              <Switch
-                style={styles.switch}
-                onValueChange={this.toggleSwitch}
-                value={this.state.isMetric}
-              />
-            </View>
-          </ScrollView>
+)
+.then(res => res.json())
+.then(data => {});
+return (
+  <View style={styles.container}>
+    <View style={styles.contentContainer}>
+      {/*<Text style={styles.header}>[Name]'s Health Profile</Text>*/}
+      <ScrollView>
+        <View>{this.renderHeight()}</View>
+        <View style={styles.inputContainer}>
+          <Text style={[styles.text, {padding: 2}]}>Weight:</Text>
+          <TextInput
+            onChangeText={weight => {
+              this.setState({weight});
+              this.setState({weightLb: (weight * 2.20462).toString()});
+            }}
+            keyboardType={'numeric'}
+            style={[
+              styles.textInput,
+              this.state.inputStyle,
+              styles.text,
+              {width: 80},
+            ]}
+            defaultValue={isMetric ?  this.state.weight : this.state.weighLb}
+            placeholderTextColor="#000000"
+            editable={this.state.editable}
+            maxLength={20}
+          />
+          <Text style={[styles.text, {padding: 2}]}>{isMetric ? 'kg' : 'lb'}</Text>
         </View>
-        <TouchableOpacity style={BUTTONS.primaryButton} onPress={this.onPress}>
-          <Text style={BUTTONS.primaryButtonText}>
-            {this.state.buttonValue}
+        <View style={styles.inputContainer}>
+          <Text style={[styles.text, {padding: 2}]}>Age:</Text>
+          <TextInput
+            onChangeText={age => this.setState({age})}
+            keyboardType={'numeric'}
+            style={[
+              styles.textInput,
+              this.state.inputStyle,
+              styles.text,
+              {width: 80},
+            ]}
+            defaultValue={age}
+            placeholderTextColor="#000000"
+            editable={this.state.editable}
+            maxLength={20}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={[styles.text, {padding: 2}]}>Sex:</Text>
+          <TextInput
+            onChangeText={sex => this.setState({sex})}
+            style={[
+              styles.textInput,
+              this.state.inputStyle,
+              styles.text,
+              {width: 80},
+            ]}
+            defaultValue={sex}
+            placeholderTextColor="#000000"
+            editable={this.state.editable}
+            maxLength={20}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={[styles.text, {padding: 2}]}>Lifestyle:</Text>
+          {this.renderLifestyle()}
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={[styles.text, {padding: 2}]}>
+            {this.state.isMetric ? 'Metric' : 'Imperial'}
           </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
+          <Switch
+            style={styles.switch}
+            onValueChange={this.toggleSwitch}
+            value={this.state.isMetric}
+          />
+        </View>
+      </ScrollView>
+    </View>
+    <TouchableOpacity style={BUTTONS.primaryButton} onPress={this.onPress}>
+      <Text style={BUTTONS.primaryButtonText}>
+        {this.state.buttonValue}
+      </Text>
+    </TouchableOpacity>
+  </View>
+);
+}
 }
 
 const styles = StyleSheet.create({
@@ -324,13 +387,14 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flexDirection: 'row',
-    // alignSelf: 'center',
     paddingTop: 35,
-    paddingLeft: '20%',
+    alignItems: 'center',
+    paddingLeft: '10%',
   },
   text: {
     fontSize: 20,
     width: 100,
+    flex: 0.3,
   },
   switch: {
     textAlign: 'center',
