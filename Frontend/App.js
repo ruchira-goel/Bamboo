@@ -27,6 +27,7 @@ import ExerciseGraphs from './src/ExerciseGraphs';
 import DietGraphs from './src/DietGraphs';
 import FavMeals from './src/FavMeals';
 import FavActivities from './src/FavActivities';
+import PreferredExerciseCategories from './src/PreferredExerciseCategories';
 
 const Stack = createStackNavigator();
 
@@ -99,6 +100,11 @@ function App() {
         />
         <Stack.Screen name="ExerciseGraphs" component={ExerciseGraphs} />
         <Stack.Screen name="DietGraphs" component={DietGraphs} />
+        <Stack.Screen
+          name="PreferredExerciseCategories"
+          component={PreferredExerciseCategories}
+          headerShown={'false'}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

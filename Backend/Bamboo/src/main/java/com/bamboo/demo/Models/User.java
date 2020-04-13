@@ -23,6 +23,7 @@ public class User {
     private ArrayList<String> favMeals;
     private ArrayList<String> favExerciseRoutine;
     private boolean isMetric;
+    private ArrayList<String> preferredExerciseCategories;
 
     public boolean isMetric() {
         return isMetric;
@@ -55,6 +56,7 @@ public class User {
         this.goalIds = new ArrayList<>();
         this.favMeals =new ArrayList<>();
         this.favExerciseRoutine = new ArrayList<>();
+        this.preferredExerciseCategories = new ArrayList<>();
     }
 
     public HashMap<String, String> getDailyInfo() {
@@ -136,5 +138,13 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(email, encryptedPassword);
+    }
+
+    public ArrayList<String> getPreferredExerciseCategories() {
+        return preferredExerciseCategories;
+    }
+
+    public void setPreferredExerciseCategories(ArrayList<String> preferredExerciseCategories) {
+        this.preferredExerciseCategories = preferredExerciseCategories;
     }
 }

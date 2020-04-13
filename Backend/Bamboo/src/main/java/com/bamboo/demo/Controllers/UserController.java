@@ -133,4 +133,16 @@ public class UserController {
     public String weekCaloriesConsumption(@RequestParam(value = "userId") String userId) {
         return userHandler.getWeekCaloriesConsumption(userId);
     }
+
+    @RequestMapping("/User/fetchPreferredExerciseCategories")
+    public ArrayList<String> fetchPreferredExerciseCategories(@RequestParam(value = "userId") String userId) {
+        return userHandler.fetchPreferredExerciseCategories(userId);
+    }
+
+    @RequestMapping("/User/changePreferredExerciseCategories")
+    public boolean changePreferredExerciseCategories(@RequestParam(value = "userId") String userId,
+                                                    @RequestParam(value = "category") String category,
+                                                    @RequestParam(value = "addOrRemove") int addOrRemove) {
+        return userHandler.changePreferredExerciseCategories(userId, category, addOrRemove);
+    }
 }

@@ -35,7 +35,11 @@ export default class FavActivities extends Component {
     const {date} = route.params;
     Alert.alert(
       'Adding Activity',
-      "Are you sure you want to add activity " + item.type + " to " + date + " ?",
+      'Are you sure you want to add activity ' +
+        item.type +
+        ' to ' +
+        date +
+        ' ?',
       [
         {text: 'Yes', onPress: () => this.saveActivityFromFavorties(item)},
         {text: 'No'},
@@ -164,7 +168,9 @@ export default class FavActivities extends Component {
               style={styles.rowcontainer}
               onPress={() => this.confirmAdd(item)}>
               <View style={{flex: 1}}>
-                <Text style={styles.text}>{item.type} , {item.minutes} minutes</Text>
+                <Text style={styles.text}>
+                  {item.type} , {item.minutes} minutes
+                </Text>
               </View>
               <View style={styles.rowview}>
                 <TouchableOpacity onPress={() => this.deleteConfirm(item)}>

@@ -242,4 +242,26 @@ public class UserHandler {
 
         return str.toString().trim();
     }
+
+    public ArrayList<String> fetchPreferredExerciseCategories(String userId) {
+        User user = this.userRepo.findUserByUserId(userId);
+        return user.getPreferredExerciseCategories();
+    }
+
+    public boolean changePreferredExerciseCategories(String userId, String category, int addOrRemove) {
+        User user = this.userRepo.findUserByUserId(userId);
+        if (addOrRemove == 1) {
+            if (!user.getPreferredExerciseCategories().contains(category)) {
+                user.getPreferredExerciseCategories().add(category);
+            }
+        } else {
+            if (user.getPreferredExerciseCategories().contains(category)) {
+                user.getPreferredExerciseCategories().remove(category);
+            } else {
+                return false;
+            }
+        }
+        this.userRepo.save(user);
+        return true;
+    }
 }
