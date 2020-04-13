@@ -145,4 +145,16 @@ public class UserController {
                                                     @RequestParam(value = "addOrRemove") int addOrRemove) {
         return userHandler.changePreferredExerciseCategories(userId, category, addOrRemove);
     }
+
+    @RequestMapping("/User/saveExercisePreferences")
+    public boolean saveExercisePreferences(@RequestParam(value = "userId") String userId,
+                                           @RequestParam(value = "daysInWeek") int daysInWeek,
+                                           @RequestParam(value = "hoursPerDay") int hoursPerDay) {
+        return userHandler.saveExercisePreferences(userId, daysInWeek, hoursPerDay);
+    }
+
+    @RequestMapping("/User/fetchExercisePreferences")
+    public ArrayList<Integer> fetchExercisePreferences(@RequestParam(value = "userId") String userId) {
+        return userHandler.fetchExercisePreferences(userId);
+    }
 }

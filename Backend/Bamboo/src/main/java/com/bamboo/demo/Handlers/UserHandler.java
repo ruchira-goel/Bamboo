@@ -3,6 +3,7 @@ package com.bamboo.demo.Handlers;
 import com.bamboo.demo.Models.*;
 import com.bamboo.demo.Repos.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -263,5 +264,27 @@ public class UserHandler {
         }
         this.userRepo.save(user);
         return true;
+    }
+
+    public boolean saveExercisePreferences(String userId, int daysInWeek, int hoursPerDay) {
+        User user = this.userRepo.findUserByUserId(userId);
+
+        user.setPreferredExerciseDaysInWeek(daysInWeek);
+        user.setPreferredExerciseHoursPerday(hoursPerDay);
+
+        this.userRepo.save(user);
+
+        return true;
+    }
+
+    public ArrayList<Integer> fetchExercisePreferences(String userId) {
+        User user = this.userRepo.findUserByUserId(userId);
+
+        ArrayList<Integer> list = new ArrayList<>();
+
+        list.add(user.getPreferredExerciseDaysInWeek());
+        list.add(user.getPreferredExerciseHoursPerday());
+
+        return list;
     }
 }

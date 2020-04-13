@@ -153,6 +153,15 @@ export default class PreferredExerciseCategories extends Component {
       });
   }
 
+  nextPage() {
+    const {route} = this.props;
+    const {userId} = route.params;
+    this.setState({userId: userId});
+    this.props.navigation.navigate('ExercisePreferences', {
+      userId: userId,
+    });
+  }
+
   render() {
     return (
       <ScrollView>
@@ -168,7 +177,7 @@ export default class PreferredExerciseCategories extends Component {
               <View style={{flex: 1}}>
                 <Text style={styles.text}>{item.name}</Text>
               </View>
-              <View style={styles.rowview}>
+              <View>
                 <TouchableOpacity onPress={() => this.selectOrUnselect(item)}>
                   <Image
                     source={require('./img/check.png')}
@@ -186,6 +195,14 @@ export default class PreferredExerciseCategories extends Component {
               </View>
             </TouchableOpacity>
           ))}
+          <View>
+            <TouchableOpacity onPress={() => this.nextPage()}>
+              <Image
+                source={require('./img/next.png')}
+                style={styles.nextButton}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
     );
@@ -228,12 +245,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     textAlignVertical: 'center',
   },
-  ImageIconStyle: {
-    marginTop: 10,
-    marginLeft: 10,
-    marginRight: 5,
-    marginBottom: 10,
-    height: 25,
-    width: 25,
+  nextButton: {
+    position: 'absolute',
+    // resizeMode: 'stretch',
+    height: 100,
+    width: 100,
+    bottom: 30,
+    right: 30,
   },
 });

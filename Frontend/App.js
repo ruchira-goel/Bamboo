@@ -28,6 +28,7 @@ import DietGraphs from './src/DietGraphs';
 import FavMeals from './src/FavMeals';
 import FavActivities from './src/FavActivities';
 import PreferredExerciseCategories from './src/PreferredExerciseCategories';
+import ExercisePreferences from './src/ExercisePreferences';
 
 const Stack = createStackNavigator();
 
@@ -103,6 +104,11 @@ function App() {
         <Stack.Screen
           name="PreferredExerciseCategories"
           component={PreferredExerciseCategories}
+          headerShown={'false'}
+        />
+        <Stack.Screen
+          name="ExercisePreferences"
+          component={ExercisePreferences}
           headerShown={'false'}
         />
       </Stack.Navigator>
