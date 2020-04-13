@@ -214,7 +214,7 @@ class SetGoal extends React.Component {
               marginLeft: '15%',
               marginRight: '15%',
             }}>
-            Current Goal: {this.state.limitType} {this.state.amount} of{' '}
+            Current Goal: {this.state.limitType} {this.state.amount}{' '}
             {this.state.trackedItem} per {this.state.duration}.
           </Text>
         </View>
@@ -261,9 +261,9 @@ class SetGoal extends React.Component {
             containerStyle={{width: '50%'}}
           />
         </View>
-        <View style={{flex: 1}}>
-          <TouchableOpacity onPress={this.submit} style={styles.linkStyle}>
-            <Text>Submit</Text>
+        <View style={{alignSelf: 'center', width: '50%', marginBottom: 10}}>
+          <TouchableOpacity onPress={this.submit} style={styles.primaryBtn}>
+            <Text>Save Goal</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -280,7 +280,7 @@ export default function(props) {
 const styles = StyleSheet.create({
   heading: {
     fontSize: 24,
-    fontWeight: '500',
+    // fontWeight: '500',
     flex: 1,
     marginTop: '7%',
   },
@@ -324,5 +324,13 @@ const styles = StyleSheet.create({
     marginBottom: '70%',
     padding: 15,
   },
-  /*textalign for the text to be in the center for "bamboo."*/
+  primaryBtn: {
+    backgroundColor: Constants.COLORS.primary.main,
+    borderRadius: 60,
+    borderColor: Constants.COLORS.primary.main,
+    padding: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+  },
 });

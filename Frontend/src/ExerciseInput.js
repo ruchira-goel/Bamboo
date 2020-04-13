@@ -457,7 +457,7 @@ class ExerciseInput extends Component {
           <TouchableOpacity
             style={styles.primaryBtn}
             onPress={this.addExercise}>
-            <Text>Add</Text>
+            <Text>Save Activity</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={this.props.navigation.goBack}
