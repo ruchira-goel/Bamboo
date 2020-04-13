@@ -214,6 +214,7 @@ export default class EnterCharacteristics extends React.Component {
             label="Lifestyle"
             data={[
               {value: 'Sedentary'},
+              {value: 'Low Active'},
               {value: 'Moderately Active'},
               {value: 'Extremely Active'},
             ]}

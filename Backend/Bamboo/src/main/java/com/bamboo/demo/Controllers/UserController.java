@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -141,7 +140,11 @@ public class UserController {
     @RequestMapping("/User/getSavedRecommendationValues")
     public HashMap<String, List<Object>> getSavedRecommendationValues(
             @RequestParam(value = "userId") String userId) {
-        System.out.println(userHandler.getSavedRecommendationValues(userId));
         return userHandler.getSavedRecommendationValues(userId);
+    }
+
+    @RequestMapping("/User/getDietRequirements")
+    public HashMap<String, Double> getDietRequirements(@RequestParam(value="userId") String userId) {
+        return userHandler.calculateDietRequirements(userId);
     }
 }

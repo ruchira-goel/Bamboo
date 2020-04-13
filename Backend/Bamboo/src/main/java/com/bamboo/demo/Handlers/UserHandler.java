@@ -244,4 +244,49 @@ public class UserHandler {
     public HashMap<String, List<Object>> getSavedRecommendationValues(String userId) {
         return this.userRepo.findUserByUserId(userId).getNutrientLimits();
     }
+
+    //calculation values sources:
+    //https://www.calculator.net/bmr-calculator.html - calories based on height, weight, age
+    //http://www.checkyourhealth.org/eat-healthy/cal_calculator.php - calories based on physical activity
+
+    public HashMap<String, Double> calculateDietRequirements(String userId) {
+        User user = this.userRepo.findUserByUserId(userId);
+        double height = user.getHeight();
+        double weight = user.getWeight();
+        double age = user.getAge();
+        Lifestyle lifestyle = user.getLifestyle();
+        Sex sex = user.getSex();
+        double caloriesRequired = 0;
+        double fatRequired = 0;
+        double carbsRequired = 0;
+        double proteinRequired = 0;
+        if (sex == Sex.FEMALE) {
+            caloriesRequired = 9.247 * weight + 3.098 * height - 4.330 * age + 447.593;
+        } else if (sex == Sex.MALE) {
+            caloriesRequired = 13.397 * weight + 4.799 * height - 5.677 * age + 88.362;
+        }
+        switch(lifestyle){
+            case SEDENTARY:
+                caloriesRequired *=  1.2;
+                break;
+            case LOW:
+                caloriesRequired *= 1.375;
+                break;
+            case MODERATE:
+                caloriesRequired *=1.55;
+                break;
+            case EXTREME:
+                caloriesRequired *= 1.725;
+                break;
+        }
+        //TODO: calculate other requirements
+        double finalCaloriesRequired = caloriesRequired;
+        return new HashMap<String, Double>(){{
+            put("Calories", finalCaloriesRequired);
+            put("Fat", fatRequired);
+            put("Protein", proteinRequired);
+            put("Carbs", carbsRequired);
+
+        }};
+    }
 }

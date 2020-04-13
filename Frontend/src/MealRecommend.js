@@ -330,7 +330,6 @@ export default class MealRecommend extends React.Component {
       !isCheckedFat &&
       !isCheckedProtein
     ) {
-      // load meals based on user's characteristics
       Alert.alert('Select Item', 'Select at least one nutrient!', [
         {text: 'OK'},
       ]);
@@ -348,6 +347,7 @@ export default class MealRecommend extends React.Component {
         return;
       }
       if (calories === '') {
+        // calculate with
         Alert.alert('Enter Calories', 'Please enter an amount for calories.', [
           {text: 'OK'},
         ]);

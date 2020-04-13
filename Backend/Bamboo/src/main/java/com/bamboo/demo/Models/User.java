@@ -21,6 +21,10 @@ public class User {
     private Sex sex;
     private Lifestyle lifestyle;
 
+    public Lifestyle getLifestyle() {
+        return lifestyle;
+    }
+
     public void setLifestyle(Lifestyle lifestyle) {
         this.lifestyle = lifestyle;
     }
