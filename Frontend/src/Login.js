@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 
 import URL from './url';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
+
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -19,6 +21,7 @@ export default class Login extends React.Component {
       encryptedPassword: '',
     };
   }
+
 
   login = () => {
     const {email, encryptedPassword} = this.state;
