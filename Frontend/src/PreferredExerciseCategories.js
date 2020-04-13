@@ -104,15 +104,6 @@ export default class PreferredExerciseCategories extends Component {
     });
     console.log('New categories:', categories);
     this.setState({categories: categories});
-
-    // {
-    //   this.state.preferred.map((item, index) => (
-    //     this.state.categories.map((item1, index1) => (
-    //     {item === item1.name ?
-    //      item1.check = true;
-    //       item1.opacity = 1;
-    //     }
-    // }
   }
 
   selectOrUnselect(item) {
