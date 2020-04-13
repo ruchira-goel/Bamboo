@@ -33,7 +33,6 @@ export default class ExercisePreferences extends React.Component {
     const {route} = this.props;
     const {userId} = route.params;
     this.setState({userId: userId});
-    console.log('In the edit goals page: ' + userId);
     fetch(
       Platform.OS === 'android'
         ? `http://10.0.2.2:8080/User/fetchExercisePreferences?userId=${userId}`
@@ -53,11 +52,10 @@ export default class ExercisePreferences extends React.Component {
           this.setState({
             fetch: data,
           });
-          this.setState({
-            daysInWeek: fetch[0],
-            hoursPerDay: fetch[1],
-          });
           console.log(this.state);
+          var daysInWeek = this.state.fetch[0];
+          var hoursPerDay = this.state.fetch[1];
+          this.setState({daysInWeek: daysInWeek, hoursPerDay: hoursPerDay});
         }
       });
   }

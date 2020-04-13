@@ -277,13 +277,13 @@ public class UserHandler {
         return true;
     }
 
-    public ArrayList<Integer> fetchExercisePreferences(String userId) {
+    public ArrayList<String> fetchExercisePreferences(String userId) {
         User user = this.userRepo.findUserByUserId(userId);
 
-        ArrayList<Integer> list = new ArrayList<>();
+        ArrayList<String> list = new ArrayList<>();
 
-        list.add(user.getPreferredExerciseDaysInWeek());
-        list.add(user.getPreferredExerciseHoursPerday());
+        list.add(String.valueOf(user.getPreferredExerciseDaysInWeek()));
+        list.add(String.valueOf(user.getPreferredExerciseHoursPerday()));
 
         return list;
     }

@@ -154,7 +154,7 @@ public class UserController {
     }
 
     @RequestMapping("/User/fetchExercisePreferences")
-    public ArrayList<Integer> fetchExercisePreferences(@RequestParam(value = "userId") String userId) {
+    public ArrayList<String> fetchExercisePreferences(@RequestParam(value = "userId") String userId) {
         return userHandler.fetchExercisePreferences(userId);
     }
 }
