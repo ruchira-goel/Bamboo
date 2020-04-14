@@ -24,6 +24,17 @@ public class User {
     private ArrayList<String> favExerciseRoutine;
     private boolean isMetric;
 
+    //notification settings:
+    boolean dailyInputReminder;
+
+    public boolean isDailyInputReminder() {
+        return dailyInputReminder;
+    }
+
+    public void setDailyInputReminder(boolean dailyInputReminder) {
+        this.dailyInputReminder = dailyInputReminder;
+    }
+
     public boolean isMetric() {
         return isMetric;
     }
@@ -55,6 +66,9 @@ public class User {
         this.goalIds = new ArrayList<>();
         this.favMeals =new ArrayList<>();
         this.favExerciseRoutine = new ArrayList<>();
+
+        //initialize all notifications to be true
+        this.dailyInputReminder = true;
     }
 
     public HashMap<String, String> getDailyInfo() {

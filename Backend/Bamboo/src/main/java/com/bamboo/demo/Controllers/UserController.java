@@ -44,6 +44,18 @@ public class UserController {
         return userHandler.signupUser(name, email, password);
     }
 
+    @RequestMapping("/User/addNotifSettings")
+    public User signup(@RequestParam(value = "userId") String userId,
+                       @RequestParam(value = "dailyInput") boolean dailyInput) {
+        return userHandler.addNotifSettings(userId, dailyInput);
+    }
+
+    @RequestMapping("/User/getUser")
+    public User signup(@RequestParam(value = "userId") String userId) throws IllegalAccessException {
+        System.out.println("daily input reminder is " + userHandler.getUser(userId).isDailyInputReminder());
+        return userHandler.getUser(userId);
+    }
+
     @RequestMapping("/User/addCharacteristics")          //add health characteristics request
     public User addCharacteristics(@RequestParam(value = "userId") String userId,
                                    @RequestParam(value = "height") double height,

@@ -10,8 +10,7 @@ import {
 } from 'react-native';
 
 import URL from './url';
-import PushNotificationIOS from '@react-native-community/push-notification-ios';
-
+import NotifService from './NotifService';
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -20,7 +19,17 @@ export default class Login extends React.Component {
       email: '',
       encryptedPassword: '',
     };
+    this.notif = new NotifService(
+      this.onRegister.bind(this),
+    );
   }
+
+  onRegister(token) {
+    Alert.alert('Registered !', JSON.stringify(token));
+    console.log(token);
+    this.setState({registerToken: token.token, gcmRegistered: true});
+  }
+
 
 
   login = () => {
@@ -38,7 +47,9 @@ export default class Login extends React.Component {
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `${URL.android}/User/login?email=${email}&encryptedPassword=${encryptedPassword}`
+        ? `${
+            URL.android
+          }/User/login?email=${email}&encryptedPassword=${encryptedPassword}`
         : `http://localhost:8080/User/login?email=${email}&encryptedPassword=${encryptedPassword}`,
     )
       .then(res => res.json())

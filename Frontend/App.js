@@ -27,6 +27,7 @@ import ExerciseGraphs from './src/ExerciseGraphs';
 import DietGraphs from './src/DietGraphs';
 import FavMeals from './src/FavMeals';
 import FavActivities from './src/FavActivities';
+import NotifSettings from './src/NotifSettings';
 
 const Stack = createStackNavigator();
 
@@ -95,6 +96,11 @@ function App() {
         <Stack.Screen
           name="SetGoal"
           component={SetGoal}
+          headerShown={'false'}
+        />
+        <Stack.Screen
+          name="NotifSettings"
+          component={NotifSettings}
           headerShown={'false'}
         />
         <Stack.Screen name="ExerciseGraphs" component={ExerciseGraphs} />

@@ -242,4 +242,20 @@ public class UserHandler {
 
         return str.toString().trim();
     }
+
+    public User addNotifSettings(String userId, boolean dailyInput) {
+        User user = this.userRepo.findUserByUserId(userId);
+        user.setDailyInputReminder(dailyInput);
+        this.userRepo.save(user);
+        return user;
+    }
+
+    public User getUser(String userId) throws IllegalAccessException {
+        Optional<User> user = this.userRepo.findByUserId(userId);
+        if (!user.isPresent()) {
+            throw new IllegalAccessException("There was an error locating your account");
+        }
+        User userObj = user.get();
+        return userObj;
+    }
 }
