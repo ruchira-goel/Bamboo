@@ -15,6 +15,7 @@ repositories {
 dependencies {
     compile ("org.json:json:20141113")
     compile 'org.apache.httpcomponents:httpclient:4.5'
+    compile('org.springframework.boot:spring-boot-starter-mail')
     implementation "org.springframework.boot:spring-boot-starter-security"
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation 'org.springframework.boot:spring-boot-starter-web'

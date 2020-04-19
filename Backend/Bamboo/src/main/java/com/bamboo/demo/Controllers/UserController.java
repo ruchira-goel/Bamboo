@@ -1,5 +1,6 @@
 package com.bamboo.demo.Controllers;
 
+import com.bamboo.demo.EmailSender;
 import com.bamboo.demo.Handlers.ActivityHandler;
 import com.bamboo.demo.Handlers.DIHandler;
 import com.bamboo.demo.Handlers.MealHandler;
@@ -9,13 +10,14 @@ import com.bamboo.demo.Models.Goal;
 import com.bamboo.demo.Models.Sex;
 import com.bamboo.demo.Models.User;
 import com.bamboo.demo.Repos.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import javax.mail.MessagingException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -25,10 +27,12 @@ public class UserController {
     private ActivityHandler activityHandler;
     private MealHandler mealHandler;
 
-    public UserController(UserRepo userRepo, DailyInfoRepo di, MealRepo mealRepo, ActivityRepo activityRepo, GoalRepo goalRepo) {
+    @Autowired
+    private EmailSender emailSender;
+
+    public UserController(UserRepo userRepo, DailyInfoRepo di, MealRepo mealRepo, ActivityRepo activityRepo, GoalRepo goalRepo, EmailSender emailSender) {
         this.userHandler = new UserHandler(userRepo, di, mealRepo, activityRepo, goalRepo); //Check
         this.di = new DIHandler(di);
-
     }
 
     @RequestMapping("/User/login")          //login request
@@ -132,5 +136,10 @@ public class UserController {
     @RequestMapping("/User/weekCaloriesConsumption")
     public String weekCaloriesConsumption(@RequestParam(value = "userId") String userId) {
         return userHandler.getWeekCaloriesConsumption(userId);
+    }
+
+    @RequestMapping("/User/recoverAccount")
+    public void recoverAccount(@RequestParam(value = "userId") String userId) throws MessagingException {
+        this.emailSender.sendSimpleMessage(userId);
     }
 }
