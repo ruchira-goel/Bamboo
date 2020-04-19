@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.Optional;
 
 //Source: https://www.youtube.com/watch?v=9DLX8PMXaw0
 
@@ -23,19 +24,27 @@ public class EmailSender {
         this.userRepo = userRepo;
     }
 
-    public void sendSimpleMessage(String userId) throws MessagingException {
-        User user = this.userRepo.findUserByUserId(userId);
+    public boolean sendSimpleMessage(String email) throws MessagingException, IllegalAccessException {
+        Optional<User> user = this.userRepo.findUserByEmail(email);
+        if (!user.isPresent()) {
+            throw new IllegalAccessException("This email isn't registered yet");
+        }
 
-        MimeMessage mimeMessage = emailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+        try {
+            MimeMessage mimeMessage = emailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
-        String link = ""; //TODO: Prepare link to redirect to password entering page
+            String link = ""; //TODO: Prepare link to redirect to password entering page
 
-        helper.setSubject("Reset Password");
-        helper.setTo(user.getEmail());
-        helper.setText("Reset your password here" + link, true);
+            helper.setSubject("Reset Password");
+            helper.setTo(email);
+            helper.setText("Reset your password here" + link, true);
 
-        emailSender.send(mimeMessage);
+            emailSender.send(mimeMessage);
+        } catch(MessagingException exception) {
+            throw new MessagingException("Couldn't send email");
+        }
+        return true;
 
     }
 

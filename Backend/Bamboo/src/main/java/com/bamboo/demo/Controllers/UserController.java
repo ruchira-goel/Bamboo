@@ -139,7 +139,7 @@ public class UserController {
     }
 
     @RequestMapping("/User/recoverAccount")
-    public void recoverAccount(@RequestParam(value = "userId") String userId) throws MessagingException {
-        this.emailSender.sendSimpleMessage(userId);
+    public boolean recoverAccount(@RequestParam(value = "email") String email) throws MessagingException, IllegalAccessException {
+        return this.emailSender.sendSimpleMessage(email);
     }
 }
