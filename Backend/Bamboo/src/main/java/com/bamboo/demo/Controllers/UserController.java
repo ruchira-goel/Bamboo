@@ -11,10 +11,8 @@ import com.bamboo.demo.Models.Sex;
 import com.bamboo.demo.Models.User;
 import com.bamboo.demo.Repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.util.ArrayList;
@@ -29,6 +27,9 @@ public class UserController {
 
     @Autowired
     private EmailSender emailSender;
+
+    @Autowired
+    ApplicationEventPublisher eventPublisher;
 
     public UserController(UserRepo userRepo, DailyInfoRepo di, MealRepo mealRepo, ActivityRepo activityRepo, GoalRepo goalRepo, EmailSender emailSender) {
         this.userHandler = new UserHandler(userRepo, di, mealRepo, activityRepo, goalRepo); //Check

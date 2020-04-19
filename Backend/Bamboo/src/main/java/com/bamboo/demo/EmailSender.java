@@ -34,11 +34,13 @@ public class EmailSender {
             MimeMessage mimeMessage = emailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
-            String link = ""; //TODO: Prepare link to redirect to password entering page
+            String link = "http://localhost:8080/User/"; //TODO: Prepare link to redirect to password entering page
 
             helper.setSubject("Reset Password");
             helper.setTo(email);
-            helper.setText("Reset your password here" + link, true);
+            //helper.setText("Reset your password here: " + link, true);
+            helper.setText("<html><body>hi,<br/><a href='http://localhost:8080/newPassword?email="+
+                    email+"'> Click here</a> to reset password</body></html>",true);
 
             emailSender.send(mimeMessage);
         } catch(MessagingException exception) {
