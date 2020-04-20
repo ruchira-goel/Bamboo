@@ -216,14 +216,14 @@ const styles = StyleSheet.create({
     // backgroundColor: Constants.COLORS.background,
   },
   active: {
-    backgroundColor: '#455a64',
+    backgroundColor: Constants.COLORS.primary.main,
     padding: 15,
     margin: 5,
     width: 100,
     borderRadius: 40,
   },
   inactive: {
-    backgroundColor: '#b0bec5',
+    backgroundColor: '#b3c4b4',
     padding: 15,
     margin: 5,
     width: 100,

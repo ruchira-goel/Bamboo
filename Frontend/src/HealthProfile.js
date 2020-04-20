@@ -297,7 +297,7 @@ class HealthProfile extends Component {
                     onFocus={() => this.onFocus('a')}
                     onChangeText={feet => this.setState({feet})}
                     keyboardType={'numeric'}
-                    // textAlign={'right'}
+                    textAlign={'right'}
                     style={[
                       this.state.inputStyle,
                       {borderColor: this.state.borderColorA},
@@ -319,7 +319,7 @@ class HealthProfile extends Component {
                     onFocus={() => this.onFocus('a')}
                     onChangeText={inches => this.setState({inches})}
                     keyboardType={'numeric'}
-                    // textAlign={'right'}
+                    textAlign={'right'}
                     style={[
                       this.state.inputStyle,
                       {borderColor: this.state.borderColorA},
@@ -346,7 +346,7 @@ class HealthProfile extends Component {
                     : weightLb => this.setState({weightLb})
                 }
                 keyboardType={'numeric'}
-                // textAlign={'right'}
+                textAlign={'right'}
                 style={[
                   this.state.inputStyle,
                   {borderColor: this.state.borderColorB},
@@ -368,7 +368,7 @@ class HealthProfile extends Component {
                 onFocus={() => this.onFocus('c')}
                 onChangeText={age => this.setState({age})}
                 keyboardType={'numeric'}
-                // textAlign={'right'}
+                textAlign={'right'}
                 style={[
                   this.state.inputStyle,
                   {borderColor: this.state.borderColorC},
@@ -408,16 +408,16 @@ class HealthProfile extends Component {
                 </Text>
               )}
             </View>
-            <View style={styles.rowContainer}>
-              <Text style={styles.text}>
-                {this.state.isMetric ? 'Metric' : 'Imperial'}
-              </Text>
-              <Switch
-                onValueChange={this.toggleSwitch}
-                value={isMetric}
-                disabled={!this.state.editable}
-              />
-            </View>
+            {/*<View style={styles.rowContainer}>*/}
+            {/*  <Text style={styles.text}>*/}
+            {/*    {this.state.isMetric ? 'Metric' : 'Imperial'}*/}
+            {/*  </Text>*/}
+            {/*  <Switch*/}
+            {/*    onValueChange={this.toggleSwitch}*/}
+            {/*    value={isMetric}*/}
+            {/*    disabled={!this.state.editable}*/}
+            {/*  />*/}
+            {/*</View>*/}
           </ScrollView>
         </View>
         <TouchableOpacity onPress={this.onPress} style={styles.btnStyle}>
@@ -442,6 +442,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     backgroundColor: Constants.COLORS.background,
+    justifyContent: 'space-evenly',
   },
   header: {
     marginTop: 20,
