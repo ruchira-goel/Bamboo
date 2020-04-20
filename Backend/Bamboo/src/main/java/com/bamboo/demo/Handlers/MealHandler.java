@@ -207,9 +207,20 @@ public class MealHandler {
         final String NUMMEALS = "NUMMEALS";
         HashMap<String, List<Object>> nutrientLimits = new HashMap<>();
         String request = "https://api.spoonacular.com/recipes/complexSearch?apiKey=5ccdaac983d344338fe187bb2b7e5501";
+        StringBuilder intolerances = new StringBuilder();
+        ArrayList<String> allergies = user.getAllergies();
+        for (int i = 0; i < allergies.size(); i++) {
+            intolerances.append(allergies.get(i));
+            if (i != allergies.size() - 1) {
+                intolerances.append(",");
+            }
+        }
+        request += "&intolerances=" + intolerances;
+        request += "&diet=" + user.getDiet().name();
         if(!carbsLow.equals("")) {
             request += "&minCarbs=";
-            nutrientLimits.put("MINCARBS", new ArrayList<Object>() {{
+            //MINCARBS instead of carbs?
+            nutrientLimits.put(CARBS, new ArrayList<Object>() {{
                 add(LimitType.LESSTHAN.name());
                 add(carbsLow);
             }});
@@ -217,7 +228,7 @@ public class MealHandler {
         }
         if (!carbsHigh.equals("")) {
             request += "&maxCarbs=";
-            nutrientLimits.put("MAXCARBS", new ArrayList<Object>() {{
+            nutrientLimits.put(CARBS, new ArrayList<Object>() {{
                 add(LimitType.GREATERTHAN.name());
                 add(carbsHigh);
             }});

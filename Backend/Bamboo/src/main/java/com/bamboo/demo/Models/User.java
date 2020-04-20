@@ -26,6 +26,24 @@ public class User {
     private ArrayList<String> favExerciseRoutine;
     private boolean isMetric;
     private HashMap<String, List<Object>> nutrientLimits;
+    private ArrayList<String> allergies;
+    private Diet diet;
+
+    public Diet getDiet() {
+        return diet;
+    }
+
+    public void setDiet(Diet diet) {
+        this.diet = diet;
+    }
+
+    public ArrayList<String> getAllergies() {
+        return allergies;
+    }
+
+    public void setAllergies(ArrayList<String> allergies) {
+        this.allergies = allergies;
+    }
 
     public Lifestyle getLifestyle() {
         return lifestyle;
