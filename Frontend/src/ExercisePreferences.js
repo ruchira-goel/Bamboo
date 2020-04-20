@@ -21,6 +21,13 @@ export default class ExercisePreferences extends React.Component {
       daysInWeek: '',
       hoursPerDay: '',
       fetch: [],
+      su: false,
+      m: false,
+      t: false,
+      w: false,
+      th: false,
+      f: false,
+      sa: false,
     };
     this.fetchPreferences();
   }
@@ -128,19 +135,104 @@ export default class ExercisePreferences extends React.Component {
     return (
       <View style={styles.heading}>
         <Text style={styles.title}>
-          How many days a week do you generally exercise?
+          Which days of the week do you want to exercise?
         </Text>
-        <View style={{padding: '2%'}} />
-        <View>
-          <TextInput
-            style={styles.fieldText}
-            // autoCapitalize="none"
-            keyboardType={'numeric'}
-            placeholder="Number of days"
-            defaultValue={this.state.daysInWeek.toString()}
-            onChangeText={daysInWeek => this.setState({daysInWeek})}
-          />
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity
+            onPress={value => {
+              this.setState({su: !this.state.su});
+            }}>
+            <View
+              style={[
+                styles.buttonCircle,
+                {backgroundColor: this.state.su ? 'orange' : 'silver'},
+              ]}>
+              <Text style={styles.buttonText}>Su</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={value => {
+              this.setState({m: !this.state.m});
+            }}>
+            <View
+              style={[
+                styles.buttonCircle,
+                {backgroundColor: this.state.m ? 'orange' : 'silver'},
+              ]}>
+              <Text style={styles.buttonText}>M</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={value => {
+              this.setState({t: !this.state.t});
+            }}>
+            <View
+              style={[
+                styles.buttonCircle,
+                {backgroundColor: this.state.t ? 'orange' : 'silver'},
+              ]}>
+              <Text style={styles.buttonText}>T</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={value => {
+              this.setState({w: !this.state.w});
+            }}>
+            <View
+              style={[
+                styles.buttonCircle,
+                {backgroundColor: this.state.w ? 'orange' : 'silver'},
+              ]}>
+              <Text style={styles.buttonText}>W</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={value => {
+              this.setState({th: !this.state.th});
+            }}>
+            <View
+              style={[
+                styles.buttonCircle,
+                {backgroundColor: this.state.th ? 'orange' : 'silver'},
+              ]}>
+              <Text style={styles.buttonText}>Th</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={value => {
+              this.setState({f: !this.state.f});
+            }}>
+            <View
+              style={[
+                styles.buttonCircle,
+                {backgroundColor: this.state.f ? 'orange' : 'silver'},
+              ]}>
+              <Text style={styles.buttonText}>F</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={value => {
+              this.setState({sa: !this.state.sa});
+            }}>
+            <View
+              style={[
+                styles.buttonCircle,
+                {backgroundColor: this.state.sa ? 'orange' : 'silver'},
+              ]}>
+              <Text style={styles.buttonText}>Sa</Text>
+            </View>
+          </TouchableOpacity>
         </View>
+        {/*<View>*/}
+        {/*  <TextInput*/}
+        {/*    style={styles.fieldText}*/}
+        {/*    // autoCapitalize="none"*/}
+        {/*    keyboardType={'numeric'}*/}
+        {/*    placeholder="Number of days"*/}
+        {/*    defaultValue={this.state.daysInWeek.toString()}*/}
+        {/*    onChangeText={daysInWeek => this.setState({daysInWeek})}*/}
+        {/*  />*/}
+        {/*</View>*/}
         <View style={{padding: '4%'}} />
         <Text style={styles.title}>
           How many hours a day do you generally exercise in one stretch?
@@ -199,4 +291,20 @@ const styles = StyleSheet.create({
     alignItems: 'center', //text in the middle of the button
   },
   /*textalign for the text to be in the center for "bamboo."*/
+  buttonCircle: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'silver',
+    borderColor: '#000',
+    width: 30,
+    height: 30,
+    borderRadius: 100,
+    borderWidth: 2,
+    margin: 4,
+  },
+  buttonText: {
+    textAlign: 'center',
+    fontSize: 16 - 2 * 2,
+    lineHeight: 16 - (Platform.OS === 'ios' ? 2 * 2 : 2),
+  },
 });
