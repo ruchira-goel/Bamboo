@@ -38,9 +38,7 @@ public class EmailSender {
 
             helper.setSubject("Reset Password");
             helper.setTo(email);
-            //helper.setText("Reset your password here: " + link, true);
-            helper.setText("<html><body>hi,<br/><a href='http://localhost:8080/newPassword?email="+
-                    email+"'> Click here</a> to reset password</body></html>",true);
+            helper.setText("<html><body>Hi,<br/><a href='http://localhost:8080/resetPassword/"+user.get().getUserId()+"'> Click here</a> to reset password</body></html>",true);
 
             emailSender.send(mimeMessage);
         } catch(MessagingException exception) {

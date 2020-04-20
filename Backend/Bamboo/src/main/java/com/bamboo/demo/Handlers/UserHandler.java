@@ -14,7 +14,8 @@ public class UserHandler {
     private ActivityRepo activityRepo;
     private GoalRepo goalRepo;
 
-    public UserHandler(UserRepo userRepo, DailyInfoRepo dailyInfoRepo, MealRepo mealRepo, ActivityRepo activityRepo, GoalRepo goalRepo) {
+    public UserHandler(UserRepo userRepo, DailyInfoRepo dailyInfoRepo, MealRepo mealRepo, ActivityRepo activityRepo,
+                       GoalRepo goalRepo) {
         this.userRepo = userRepo;
         this.dailyInfoRepo = dailyInfoRepo;
         this.mealRepo = mealRepo;

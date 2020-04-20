@@ -2,15 +2,15 @@ package com.bamboo.demo;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class ResetPassword {
 
-    @GetMapping("/resetPassword")
-    public String greeting(@RequestParam(name="email") String email, Model model) {
-        model.addAttribute("name", email);
+    @RequestMapping(path="/resetPassword/{userId}")
+    public String greeting(Model model, @PathVariable("userId") String userId) {
+        model.addAttribute("name", "Hajera");
         return "resetPassword";
     }
 }

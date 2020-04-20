@@ -11,7 +11,6 @@ import com.bamboo.demo.Models.Sex;
 import com.bamboo.demo.Models.User;
 import com.bamboo.demo.Repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
@@ -22,14 +21,9 @@ import java.util.List;
 public class UserController {
     private UserHandler userHandler;
     private DIHandler di;
-    private ActivityHandler activityHandler;
-    private MealHandler mealHandler;
 
     @Autowired
     private EmailSender emailSender;
-
-    @Autowired
-    ApplicationEventPublisher eventPublisher;
 
     public UserController(UserRepo userRepo, DailyInfoRepo di, MealRepo mealRepo, ActivityRepo activityRepo, GoalRepo goalRepo, EmailSender emailSender) {
         this.userHandler = new UserHandler(userRepo, di, mealRepo, activityRepo, goalRepo); //Check
@@ -56,7 +50,6 @@ public class UserController {
                                    @RequestParam(value = "age") int age,
                                    @RequestParam(value = "sex") String sex,
                                    @RequestParam(value = "isMetric") boolean isMetric) throws IllegalAccessException {
-        //System.out.println("email is " + email);
         Sex sexEnum = Sex.OTHER;
         switch (sex) {
             case "Female":
@@ -142,5 +135,10 @@ public class UserController {
     @RequestMapping("/User/recoverAccount")
     public boolean recoverAccount(@RequestParam(value = "email") String email) throws MessagingException, IllegalAccessException {
         return this.emailSender.sendSimpleMessage(email);
+    }
+
+    @RequestMapping("/reset")
+    public String resetPass() {
+        return "resetPassword";
     }
 }
