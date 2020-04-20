@@ -17,6 +17,7 @@ export default class MealRecommend extends React.Component {
     super(props);
     this.state = {
       userId: '',
+      userRequirements: '',
       calories: '',
       fat: '',
       protein: '',
@@ -338,38 +339,86 @@ export default class MealRecommend extends React.Component {
     if (isCheckedCal) {
       console.log(calLimitType);
       console.log(calories);
-      if (calLimitType === '') {
+      // if (calLimitType === '') {
+      //   Alert.alert(
+      //     'Enter Limit Type',
+      //     'Please enter a limit type for calories.',
+      //     [{text: 'OK'}],
+      //   );
+      //   return;
+      // }
+      // if (calories === '') {
+      //   // calculate with
+      //   Alert.alert('Enter Calories', 'Please enter an amount for calories.', [
+      //     {text: 'OK'},
+      //   ]);
+      //   return;
+      // }
+      if (calLimitType === '' && calories !== '') {
         Alert.alert(
           'Enter Limit Type',
           'Please enter a limit type for calories.',
           [{text: 'OK'}],
         );
         return;
-      }
-      if (calories === '') {
+      } else if (calories === '' && calLimitType !== '') {
         // calculate with
         Alert.alert('Enter Calories', 'Please enter an amount for calories.', [
           {text: 'OK'},
         ]);
         return;
+      } else if (calories === '' && calLimitType === '') {
+        this.getDietaryRestrictions();
       }
     }
     if (isCheckedFat) {
-      if (fatLimitType === '') {
+      // if (fatLimitType === '') {
+      //   Alert.alert('Enter Limit Type', 'Please enter a limit type for fat.', [
+      //     {text: 'OK'},
+      //   ]);
+      //   return;
+      // }
+      // if (fat === '') {
+      //   Alert.alert('Enter Fat', 'Please enter an amount for fat.', [
+      //     {text: 'OK'},
+      //   ]);
+      //   return;
+      // }
+      if (fatLimitType === '' && fat !== '') {
         Alert.alert('Enter Limit Type', 'Please enter a limit type for fat.', [
           {text: 'OK'},
         ]);
         return;
-      }
-      if (fat === '') {
+      } else if (fat === '' && fatLimitType !== '') {
+        // calculate with
         Alert.alert('Enter Fat', 'Please enter an amount for fat.', [
           {text: 'OK'},
         ]);
         return;
+      } else if (
+        fat === '' &&
+        fatLimitType === '' &&
+        this.state.userRequirements === ''
+      ) {
+        this.getDietaryRestrictions();
       }
     }
     if (isCheckedProtein) {
-      if (proteinLimitType === '') {
+      // if (proteinLimitType === '') {
+      //   Alert.alert(
+      //     'Enter Limit Type',
+      //     'Please enter a limit type for protein.',
+      //     [{text: 'OK'}],
+      //   );
+      //   return;
+      // }
+      // if (protein === '') {
+      //   Alert.alert('Enter Protein', 'Please enter an amount for protein.', [
+      //     {text: 'OK'},
+      //   ]);
+      //   return;
+      // }
+      if (proteinLimitType === '' && protein !== '') {
         Alert.alert(
           'Enter Limit Type',
           'Please enter a limit type for protein.',
@@ -377,15 +426,35 @@ export default class MealRecommend extends React.Component {
         );
         return;
       }
-      if (protein === '') {
+      if (protein === '' && proteinLimitType !== '') {
         Alert.alert('Enter Protein', 'Please enter an amount for protein.', [
           {text: 'OK'},
         ]);
         return;
+      } else if (
+        protein === '' &&
+        proteinLimitType === '' &&
+        this.state.userRequirements === ''
+      ) {
+        this.getDietaryRestrictions();
       }
     }
     if (isCheckedCarbs) {
-      if (carbsLimitType === '') {
+      // if (carbsLimitType === '') {
+      //   Alert.alert(
+      //     'Enter Limit Type',
+      //     'Please enter a limit type for carbs.',
+      //     [{text: 'OK'}],
+      //   );
+      //   return;
+      // }
+      // if (carbs === '') {
+      //   Alert.alert('Enter Calories', 'Please enter an amount for carbs.', [
+      //     {text: 'OK'},
+      //   ]);
+      //   return;
+      // }
+      if (carbsLimitType === '' && carbs !== '') {
         Alert.alert(
           'Enter Limit Type',
           'Please enter a limit type for carbs.',
@@ -393,11 +462,17 @@ export default class MealRecommend extends React.Component {
         );
         return;
       }
-      if (carbs === '') {
+      if (carbs === '' && carbsLimitType !== '') {
         Alert.alert('Enter Calories', 'Please enter an amount for carbs.', [
           {text: 'OK'},
         ]);
         return;
+      } else if (
+        carbs === '' &&
+        carbsLimitType === '' &&
+        this.state.userRequirements === ''
+      ) {
+        this.getDietaryRestrictions();
       }
     }
     console.log('ended');
@@ -422,28 +497,49 @@ export default class MealRecommend extends React.Component {
       carbs,
       isCheckedNumMeals,
       numMeals,
+      userRequirements,
     } = this.state;
     let request = `/Meal/getRecommended?userId=${userId}&calLimitType=`;
     if (isCheckedCal) {
-      request = request.concat(`${calLimitType}&calories=${calories}`);
+      if (calLimitType === '' && calories === '') {
+        const dietCalories = userRequirements.caloriesRequired;
+        request = request.concat(`Less than&calories=${dietCalories}`);
+      } else {
+        request = request.concat(`${calLimitType}&calories=${calories}`);
+      }
     } else {
       request = request.concat('&calories=0');
     }
     request = request.concat('&fatLimitType=');
     if (isCheckedFat) {
-      request = request.concat(`${fatLimitType}&fat=${fat}`);
+      if (fatLimitType === '' && fat === '') {
+        const dietFat = userRequirements.fatRequired;
+        request = request.concat(`Less than&fat=${dietFat}`);
+      } else {
+        request = request.concat(`${fatLimitType}&fat=${fat}`);
+      }
     } else {
       request = request.concat('&fat=0');
     }
     request = request.concat('&proteinLimitType=');
     if (isCheckedProtein) {
-      request = request.concat(`${proteinLimitType}&protein=${protein}`);
+      if (proteinLimitType === '' && protein === '') {
+        const dietProtein = userRequirements.proteinRequired;
+        request = request.concat(`Less than&protein=${dietProtein}`);
+      } else {
+        request = request.concat(`${proteinLimitType}&protein=${protein}`);
+      }
     } else {
       request = request.concat('&protein=0');
     }
     request = request.concat('&carbsLimitType=');
     if (isCheckedCarbs) {
-      request = request.concat(`${carbsLimitType}&carbs=${carbs}`);
+      if (carbsLimitType === '' && carbs === '') {
+        const dietCarbs = userRequirements.carbsRequired;
+        request = request.concat(`Less than&carbs=${dietCarbs}`);
+      } else {
+        request = request.concat(`${carbsLimitType}&carbs=${carbs}`);
+      }
     } else {
       request = request.concat('&carbs=0');
     }
@@ -468,6 +564,25 @@ export default class MealRecommend extends React.Component {
             userId: userId,
             meals: data,
           });
+        }
+      });
+  };
+
+  getDietaryRestrictions = () => {
+    const {route} = this.props;
+    const {userId} = route.params;
+    fetch(
+      Platform.OS === 'android'
+        ? `${URL.android}/User/getDietRequirements?userId=${userId}`
+        : `http://localhost:8080/User/getDietRequirements?userId=${userId}`,
+    )
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        if (data.error) {
+          Alert.alert('Error', data.message, [{text: 'OK'}]);
+        } else {
+          this.setState({userRequirements: data});
         }
       });
   };
@@ -540,9 +655,8 @@ export default class MealRecommend extends React.Component {
       <View style={{flex: 1}}>
         <Text style={{fontSize: 16, marginTop: '2%'}}>
           Check a box, select the limit type and enter a value to limit a
-          nutrient.
-          Note that if you select a nutrient and do not enter any value, it will
-          be calculated based on your health characteristics.
+          nutrient. Note that if you select a nutrient and do not enter any
+          value, it will be calculated based on your health characteristics.
         </Text>
         <CheckBox
           style={{flex: 0.05, padding: 10}}

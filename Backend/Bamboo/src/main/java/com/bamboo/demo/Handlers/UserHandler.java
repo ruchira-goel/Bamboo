@@ -245,9 +245,15 @@ public class UserHandler {
         return this.userRepo.findUserByUserId(userId).getNutrientLimits();
     }
 
-    //calculation values sources:
-    //https://www.calculator.net/bmr-calculator.html - calories based on height, weight, age
-    //http://www.checkyourhealth.org/eat-healthy/cal_calculator.php - calories based on physical activity
+    /**
+     * Calculation sources:
+     * 1. Calories based on height, weight, age: https://www.calculator.net/bmr-calculator.html
+     * 2. Calories based on physical activity: http://www.checkyourhealth.org/eat-healthy/cal_calculator.php
+     * 3. Calories based on all characteristics: https://www.aqua-calc.com/calculate/daily-calorie-needs
+     * 3. Carbs: https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/carbohydrates/art-20045705
+     * 4. Fat: https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/expert-answers/fat-grams/faq-20058496
+     * 5. Protein: https://wa.kaiserpermanente.org/healthAndWellness?item=%2Fcommon%2FhealthAndWellness%2Fconditions%2Fdiabetes%2FfoodBalancing.html
+     */
 
     public HashMap<String, Double> calculateDietRequirements(String userId) {
         User user = this.userRepo.findUserByUserId(userId);
@@ -257,36 +263,54 @@ public class UserHandler {
         Lifestyle lifestyle = user.getLifestyle();
         Sex sex = user.getSex();
         double caloriesRequired = 0;
-        double fatRequired = 0;
-        double carbsRequired = 0;
-        double proteinRequired = 0;
-        if (sex == Sex.FEMALE) {
-            caloriesRequired = 9.247 * weight + 3.098 * height - 4.330 * age + 447.593;
-        } else if (sex == Sex.MALE) {
-            caloriesRequired = 13.397 * weight + 4.799 * height - 5.677 * age + 88.362;
-        }
-        switch(lifestyle){
+//        if (sex == Sex.FEMALE) {
+//            caloriesRequired = 9.247 * weight + 3.098 * height - 4.330 * age + 447.593;
+//        } else if (sex == Sex.MALE) {
+//            caloriesRequired = 13.397 * weight + 4.799 * height - 5.677 * age + 88.362;
+//        }
+        double pa = 0;
+        switch (lifestyle) {
             case SEDENTARY:
-                caloriesRequired *=  1.2;
+                pa = 1;
+                //caloriesRequired *= 1.2;
                 break;
             case LOW:
-                caloriesRequired *= 1.375;
+                if (sex == Sex.MALE) {
+                    pa = 1.12;
+                } else if (sex == Sex.FEMALE) {
+                    pa = 1.14;
+                }
+                //caloriesRequired *= 1.375;
                 break;
             case MODERATE:
-                caloriesRequired *=1.55;
+                pa = 1.27;
+                //caloriesRequired *= 1.55;
                 break;
             case EXTREME:
-                caloriesRequired *= 1.725;
+                if (sex == Sex.MALE) {
+                    pa = 1.54;
+                } else if (sex == Sex.FEMALE) {
+                    pa = 1.45;
+                }
+                //caloriesRequired *= 1.725;
                 break;
         }
-        //TODO: calculate other requirements
+        if (sex == Sex.MALE) {
+            caloriesRequired = 864 - 9.72 * age + pa * (14.2 * weight + 503 * height);
+        } else if (sex == Sex.FEMALE) {
+            caloriesRequired = 387 - 7.31 * age + pa * (10.9 * weight + 660.7 * height);
+        }
+        caloriesRequired /= 3;
+        double proteinRequired = 0.2 * caloriesRequired / 4 / 3; //maxProt, min is 12%
+        double fatRequired = 0.35 * caloriesRequired / 9 / 3;  //maxFat, min is 20%
+        double carbsRequired = 0.65 * caloriesRequired / 4 / 3;    //maxcarbs, min is 45%
+
         double finalCaloriesRequired = caloriesRequired;
-        return new HashMap<String, Double>(){{
+        return new HashMap<String, Double>() {{
             put("Calories", finalCaloriesRequired);
             put("Fat", fatRequired);
             put("Protein", proteinRequired);
             put("Carbs", carbsRequired);
-
         }};
     }
 }

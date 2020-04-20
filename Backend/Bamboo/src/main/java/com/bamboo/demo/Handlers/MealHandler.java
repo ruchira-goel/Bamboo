@@ -196,9 +196,9 @@ public class MealHandler {
         }
     }
 
-    public ArrayList<Meal> getRecommendedMeals(String userId, String calLimit, double calories, String fatLimit,
-                                               double fat, String proteinLimit, double protein, String carbsLimit,
-                                               double carbs, int numMeals) throws IOException {
+    public ArrayList<Meal> getRecommendedMeals(String userId, String calLow, String calHigh, String fatLow, String fatHigh,
+                                               String proteinLow, String proteinHigh, String carbsLow, String carbsHigh,
+                                               int numMeals) throws IOException {
         User user = this.userRepo.findById(userId).get();
         final String CARBS = "CARBS";
         final String PROTEIN = "PROTEIN";
@@ -206,70 +206,70 @@ public class MealHandler {
         final String FAT = "FAT";
         final String NUMMEALS = "NUMMEALS";
         HashMap<String, List<Object>> nutrientLimits = new HashMap<>();
-        String request = "https://api.spoonacular.com/recipes/findByNutrients?apiKey=5ccdaac983d344338fe187bb2b7e5501";
-        if (!carbsLimit.equals("")) {
-            if (LimitType.valueOfLimitType(carbsLimit) == LimitType.GREATERTHAN) {
-                request += "&maxCarbs=";
-                nutrientLimits.put(CARBS, new ArrayList<Object>() {{
-                    add(LimitType.GREATERTHAN.name());
-                    add(carbs);
-                }});
-            } else if (LimitType.valueOfLimitType(carbsLimit) == LimitType.LESSTHAN) {
-                request += "&minCarbs=";
-                nutrientLimits.put(CARBS, new ArrayList<Object>() {{
-                    add(LimitType.LESSTHAN.name());
-                    add(carbs);
-                }});
-            }
-            request += Double.toString(carbs);
+        String request = "https://api.spoonacular.com/recipes/complexSearch?apiKey=5ccdaac983d344338fe187bb2b7e5501";
+        if(!carbsLow.equals("")) {
+            request += "&minCarbs=";
+            nutrientLimits.put("MINCARBS", new ArrayList<Object>() {{
+                add(LimitType.LESSTHAN.name());
+                add(carbsLow);
+            }});
+            request += carbsLow;
         }
-        if (!proteinLimit.equals("")) {
-            if (LimitType.valueOfLimitType(proteinLimit) == LimitType.GREATERTHAN) {
-                request += "&maxProtein=";
-                nutrientLimits.put(PROTEIN, new ArrayList<Object>() {{
-                    add(LimitType.GREATERTHAN.name());
-                    add(protein);
-                }});
-            } else if (LimitType.valueOfLimitType(proteinLimit) == LimitType.LESSTHAN) {
-                request += "&minProtein=";
-                nutrientLimits.put(PROTEIN, new ArrayList<Object>() {{
-                    add(LimitType.LESSTHAN.name());
-                    add(protein);
-                }});
-            }
-            request += Double.toString(protein);
+        if (!carbsHigh.equals("")) {
+            request += "&maxCarbs=";
+            nutrientLimits.put("MAXCARBS", new ArrayList<Object>() {{
+                add(LimitType.GREATERTHAN.name());
+                add(carbsHigh);
+            }});
+            request += carbsHigh;
         }
-        if (!calLimit.equals("")) {
-            if (LimitType.valueOfLimitType(calLimit) == LimitType.GREATERTHAN) {
-                request += "&maxCalories=";
-                nutrientLimits.put(CALORIES, new ArrayList<Object>() {{
-                    add(LimitType.GREATERTHAN.name());
-                    add(calories);
-                }});
-            } else if (LimitType.valueOfLimitType(calLimit) == LimitType.LESSTHAN) {
-                request += "&minCalories=";
-                nutrientLimits.put(CALORIES, new ArrayList<Object>() {{
-                    add(LimitType.LESSTHAN.name());
-                    add(calories);
-                }});
-            }
-            request += Double.toString(calories);
+        if(!proteinHigh.equals("")) {
+            request += "&maxProtein=";
+            nutrientLimits.put(PROTEIN, new ArrayList<Object>() {{
+                add(LimitType.GREATERTHAN.name());
+                add(proteinHigh);
+            }});
+            request += proteinHigh;
         }
-        if (!fatLimit.equals("")) {
-            if (LimitType.valueOfLimitType(fatLimit) == LimitType.GREATERTHAN) {
-                request += "&maxFat=";
-                nutrientLimits.put(FAT, new ArrayList<Object>() {{
-                    add(LimitType.GREATERTHAN.name());
-                    add(fat);
-                }});
-            } else if (LimitType.valueOfLimitType(fatLimit) == LimitType.LESSTHAN) {
-                request += "&minFat=";
-                nutrientLimits.put(FAT, new ArrayList<Object>() {{
-                    add(LimitType.LESSTHAN.name());
-                    add(fat);
-                }});
-            }
-            request += Double.toString(fat);
+        if(!proteinLow.equals("")) {
+            request += "&minProtein=";
+            nutrientLimits.put(PROTEIN, new ArrayList<Object>() {{
+                add(LimitType.LESSTHAN.name());
+                add(proteinLow);
+            }});
+            request += proteinLow;
+        }
+        if(!fatHigh.equals("")) {
+            request += "&maxFat=";
+            nutrientLimits.put(FAT, new ArrayList<Object>() {{
+                add(LimitType.GREATERTHAN.name());
+                add(fatHigh);
+            }});
+            request += fatHigh;
+        }
+        if(!fatLow.equals("")) {
+            request += "&minFat=";
+            nutrientLimits.put(FAT, new ArrayList<Object>() {{
+                add(LimitType.LESSTHAN.name());
+                add(fatLow);
+            }});
+            request += fatLow;
+        }
+        if(!calLow.equals("")) {
+            request += "&minCalories=";
+            nutrientLimits.put(CALORIES, new ArrayList<Object>() {{
+                add(LimitType.LESSTHAN.name());
+                add(calLow);
+            }});
+            request += calLow;
+        }
+        if (!calHigh.equals("")) {
+            request += "&maxCalories=";
+            nutrientLimits.put(CALORIES, new ArrayList<Object>() {{
+                add(LimitType.GREATERTHAN.name());
+                add(calHigh);
+            }});
+            request += calHigh;
         }
         if (numMeals != 0) {
             request += "&number=" + numMeals;

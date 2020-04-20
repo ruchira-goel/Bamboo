@@ -20,6 +20,12 @@ public class User {
     private int age;                            //changes
     private Sex sex;
     private Lifestyle lifestyle;
+    private ArrayList<String> goalIds;
+    private HashMap<String, String> dailyInfo;    //String is id of the daily info obj
+    private ArrayList<String> favMeals;
+    private ArrayList<String> favExerciseRoutine;
+    private boolean isMetric;
+    private HashMap<String, List<Object>> nutrientLimits;
 
     public Lifestyle getLifestyle() {
         return lifestyle;
@@ -28,13 +34,6 @@ public class User {
     public void setLifestyle(Lifestyle lifestyle) {
         this.lifestyle = lifestyle;
     }
-
-    private ArrayList<String> goalIds;
-    private HashMap<String, String> dailyInfo;    //String is id of the daily info obj
-    private ArrayList<String> favMeals;
-    private ArrayList<String> favExerciseRoutine;
-    private boolean isMetric;
-    private HashMap<String, List<Object>> nutrientLimits;
 
     public boolean isMetric() {
         return isMetric;
