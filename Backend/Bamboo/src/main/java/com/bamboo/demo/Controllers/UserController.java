@@ -133,4 +133,11 @@ public class UserController {
     public String weekCaloriesConsumption(@RequestParam(value = "userId") String userId) {
         return userHandler.getWeekCaloriesConsumption(userId);
     }
+
+    @RequestMapping("/User/saveDietaryRestrictions")
+    public boolean saveDietaryRestrictions(@RequestParam(value = "userId") String userId,
+                                           @RequestParam(value = "allergies") ArrayList<String> allergies,
+                                           @RequestParam(value = "diets") ArrayList<String> diets) {
+        return userHandler.saveDietaryRestrictions(userId, allergies, diets);
+    }
 }

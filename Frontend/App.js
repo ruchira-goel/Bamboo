@@ -27,6 +27,7 @@ import ExerciseGraphs from './src/ExerciseGraphs';
 import DietGraphs from './src/DietGraphs';
 import FavMeals from './src/FavMeals';
 import FavActivities from './src/FavActivities';
+import EnterDietaryRestrictions from './src/EnterDietaryRestrictions';
 
 const Stack = createStackNavigator();
 
@@ -55,6 +56,11 @@ function App() {
         <Stack.Screen
           name="EnterCharacteristics"
           component={EnterCharacteristics}
+          headerShown={'false'}
+        />
+        <Stack.Screen
+          name="EnterDietaryRestrictions"
+          component={EnterDietaryRestrictions}
           headerShown={'false'}
         />
         <Stack.Screen

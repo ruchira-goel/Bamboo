@@ -242,4 +242,20 @@ public class UserHandler {
 
         return str.toString().trim();
     }
+
+    public boolean saveDietaryRestrictions(String userId, ArrayList<String> allergies, ArrayList<String> diets) {
+        User user = this.userRepo.findUserByUserId(userId);
+        for (String allergy : allergies) {
+            if (!user.getAllergies().contains(allergy)) {
+                user.getAllergies().add(allergy);
+            }
+        }
+        for (String diet : diets) {
+            if (!user.getDiets().contains(diet)) {
+                user.getDiets().add(diet);
+            }
+        }
+        this.userRepo.save(user);
+        return true;
+    }
 }
