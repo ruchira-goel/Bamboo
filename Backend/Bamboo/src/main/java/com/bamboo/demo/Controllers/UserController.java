@@ -137,8 +137,9 @@ public class UserController {
         return this.emailSender.sendSimpleMessage(email);
     }
 
-    @RequestMapping("/reset")
-    public String resetPass() {
-        return "resetPassword";
+    @RequestMapping("/User/resetPass")
+    public User resetPass(@RequestParam(value = "email") String email,
+                            @RequestParam(value = "newPass") String newPass) {
+        return userHandler.resetPass(email, newPass);
     }
 }

@@ -240,7 +240,13 @@ public class UserHandler {
             str.append(i);
             str.append(" ");
         }
-
         return str.toString().trim();
+    }
+
+    public User resetPass(String email, String newPass) {
+        User user =  userRepo.findUserByEmail(email).get();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        user.setEncryptedPassword(passwordEncoder.encode(newPass));
+        return this.userRepo.save(user);
     }
 }

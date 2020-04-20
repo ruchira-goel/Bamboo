@@ -29,16 +29,13 @@ public class EmailSender {
         if (!user.isPresent()) {
             throw new IllegalAccessException("This email isn't registered yet");
         }
-
         try {
             MimeMessage mimeMessage = emailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
-            String link = "http://localhost:8080/User/"; //TODO: Prepare link to redirect to password entering page
-
             helper.setSubject("Reset Password");
             helper.setTo(email);
-            helper.setText("<html><body>Hi,<br/><a href='http://localhost:8080/resetPassword/"+user.get().getUserId()+"'> Click here</a> to reset password</body></html>",true);
+            helper.setText("<html><body>Hi,<br/><a href='http://localhost:8080/resetPassword/"+email+"/"+ user.get().getToken().getUuid(),true);
 
             emailSender.send(mimeMessage);
         } catch(MessagingException exception) {

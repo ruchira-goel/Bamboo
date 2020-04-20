@@ -3,7 +3,6 @@ package com.bamboo.demo.Models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-//import javax.persistence.Column;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -24,6 +23,7 @@ public class User {
     private ArrayList<String> favMeals;
     private ArrayList<String> favExerciseRoutine;
     private boolean isMetric;
+    private Token token;
 
     public boolean isMetric() {
         return isMetric;
@@ -56,6 +56,15 @@ public class User {
         this.goalIds = new ArrayList<>();
         this.favMeals =new ArrayList<>();
         this.favExerciseRoutine = new ArrayList<>();
+        this.token = null;
+    }
+
+    public Token getToken() {
+        return token;
+    }
+
+    public void setToken(Token token) {
+        this.token = token;
     }
 
     public HashMap<String, String> getDailyInfo() {
