@@ -11,8 +11,9 @@ import {
 } from 'react-native';
 import React from 'react';
 import MultiSelect from 'react-native-multiple-select';
-import {Dropdown} from 'react-native-material-dropdown';
-import URL from './url';
+import {MaterialIcons} from '@expo/vector-icons';
+// import {MaterialIcons} from 'expo-font/';
+import * as Font from 'expo-font';
 
 // TODO: In android, toggle switch to change units overlaps with sex dropdown
 
@@ -74,7 +75,17 @@ export default class EnterDietaryRestrictions extends React.Component {
     this.state = {
       selectedAllergyItems: [],
       selectedDiets: [],
+      assetsLoaded: false,
     };
+  }
+
+  async componentDidMount() {
+    await Font.loadAsync({
+      'roboto-regular': require('./assets/font/Roboto-Regular.ttf'),
+      'Material Design Icons': require('./assets/font/MaterialIcons-Regular.ttf'),
+    });
+
+    this.setState({assetsLoaded: true});
   }
 
   next() {
@@ -128,80 +139,88 @@ export default class EnterDietaryRestrictions extends React.Component {
   };
 
   render() {
-    const {selectedAllergyItems, selectedDiets} = this.state;
-    return (
-      <View style={styles.fullContainer}>
-        <Text style={styles.paragraph}>
-          Do you have any dietary restrictions? (Hit next to skip)
-        </Text>
-        <View style={{flex: 1}}>
-          <MultiSelect
-            hideTags
-            items={allergies}
-            uniqueKey="id"
-            ref={component => {
-              this.multiSelect = component;
-            }}
-            onSelectedItemsChange={this.onSelectedAllergyChange}
-            selectedItems={selectedAllergyItems}
-            selectText="Enter any allergies/intolerances you may have (Optional)"
-            searchInputPlaceholderText="Search Items"
-            onChangeInput={text => console.log(text)}
-            altFontFamily="system font"
-            tagRemoveIconColor="#CCC"
-            tagBorderColor="#CCC"
-            tagTextColor="#CCC"
-            selectedItemTextColor="#CCC"
-            selectedItemIconColor="#CCC"
-            itemTextColor="#000"
-            displayKey="name"
-            searchInputStyle={{color: '#CCC'}}
-            submitButtonColor="#CCC"
-            submitButtonText="Submit"
-          />
-          <View>
-            {this.multiSelect &&
-              this.multiSelect.getSelectedItemsExt(selectedAllergyItems)}
+    const {selectedAllergyItems, selectedDiets, assetsLoaded} = this.state;
+    if (assetsLoaded) {
+      return (
+        <View style={styles.fullContainer}>
+          <Text style={styles.paragraph}>
+            Do you have any dietary restrictions? (Hit next to skip)
+          </Text>
+          <View style={{flex: 1}}>
+            <MultiSelect
+              hideTags
+              items={allergies}
+              uniqueKey="id"
+              ref={component => {
+                this.multiSelect1 = component;
+              }}
+              onSelectedItemsChange={this.onSelectedAllergyChange}
+              selectedItems={selectedAllergyItems}
+              selectText="Enter any allergies/intolerances you may have (Optional)"
+              searchInputPlaceholderText="Search Items"
+              onChangeInput={text => console.log(text)}
+              altFontFamily="roboto-regular"
+              tagRemoveIconColor="#CCC"
+              tagBorderColor="#CCC"
+              tagTextColor="#CCC"
+              selectedItemTextColor="#CCC"
+              selectedItemIconColor="#CCC"
+              itemTextColor="#000"
+              displayKey="name"
+              searchInputStyle={{color: '#CCC'}}
+              submitButtonColor="#CCC"
+              submitButtonText="Submit"
+            />
+            <View>
+              {this.multiSelect1 &&
+                this.multiSelect1.getSelectedItemsExt(selectedAllergyItems)}
+            </View>
           </View>
-        </View>
-        <View style={{padding: '2%'}} />
-        <View style={{flex: 1}}>
-          <MultiSelect
-            hideTags
-            items={diets}
-            uniqueKey="id"
-            ref={component => {
-              this.multiSelect = component;
-            }}
-            onSelectedItemsChange={this.onSelectedDietChange}
-            selectedItems={selectedAllergyItems}
-            selectText="Enter the diets that you follow (Optional)"
-            searchInputPlaceholderText="Search Items"
-            onChangeInput={text => console.log(text)}
-            altFontFamily="system font"
-            tagRemoveIconColor="#CCC"
-            tagBorderColor="#CCC"
-            tagTextColor="#CCC"
-            selectedItemTextColor="#CCC"
-            selectedItemIconColor="#CCC"
-            itemTextColor="#000"
-            displayKey="name"
-            searchInputStyle={{color: '#CCC'}}
-            submitButtonColor="#CCC"
-            submitButtonText="Submit"
-          />
-          <View>
-            {this.multiSelect &&
-              this.multiSelect.getSelectedItemsExt(selectedDiets)}
+          <View style={{padding: '2%'}} />
+          <View style={{flex: 1}}>
+            <MultiSelect
+              hideTags
+              items={diets}
+              uniqueKey="id"
+              ref={component => {
+                this.multiSelect = component;
+              }}
+              onSelectedItemsChange={this.onSelectedDietChange}
+              selectedItems={selectedAllergyItems}
+              selectText="Enter the diets that you follow (Optional)"
+              searchInputPlaceholderText="Search Items"
+              onChangeInput={text => console.log(text)}
+              altFontFamily="roboto-regular"
+              tagRemoveIconColor="#CCC"
+              tagBorderColor="#CCC"
+              tagTextColor="#CCC"
+              selectedItemTextColor="#CCC"
+              selectedItemIconColor="#CCC"
+              itemTextColor="#000"
+              displayKey="name"
+              searchInputStyle={{color: '#CCC'}}
+              submitButtonColor="#CCC"
+              submitButtonText="Submit"
+            />
+            <View>
+              {this.multiSelect &&
+                this.multiSelect.getSelectedItemsExt(selectedDiets)}
+            </View>
           </View>
-        </View>
 
-        <View style={{padding: '5%'}} />
-        <TouchableOpacity onPress={this.next()} style={styles.btnStyle}>
-          <Text>Next</Text>
-        </TouchableOpacity>
-      </View>
-    );
+          <View style={{padding: '5%'}} />
+          <TouchableOpacity onPress={this.next()} style={styles.btnStyle}>
+            <Text>Next</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.fullContainer}>
+          <Text style={styles.paragraph}>Loading...</Text>
+        </View>
+      );
+    }
   }
 }
 
