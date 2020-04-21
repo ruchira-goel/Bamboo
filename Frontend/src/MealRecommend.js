@@ -18,18 +18,26 @@ export default class MealRecommend extends React.Component {
     this.state = {
       userId: '',
       userRequirements: '',
-      calories: '',
-      fat: '',
-      protein: '',
-      carbs: '',
-      calLimitType: '',
-      fatLimitType: '',
-      proteinLimitType: '',
-      carbsLimitType: '',
+      calLow: '',
+      calHigh: '',
+      fatLow: '',
+      fatHigh: '',
+      proteinLow: '',
+      proteinHigh: '',
+      carbsLow: '',
+      carbsHigh: '',
       isCheckedCal: false,
       isCheckedFat: false,
       isCheckedProtein: false,
       isCheckedCarbs: false,
+      isCheckedCalLow: false,
+      isCheckedCalHigh: false,
+      isCheckedProteinLow: false,
+      isCheckedProteinHigh: false,
+      isCheckedCarbsLow: false,
+      isCheckedCarbsHigh: false,
+      isCheckedFatLow: false,
+      isCheckedFatHigh: false,
       isCheckedNumMeals: false,
       numMeals: '',
       limitOpts: [
@@ -43,12 +51,67 @@ export default class MealRecommend extends React.Component {
     };
   }
 
+  renderLimits = (nutrient, limit) => {
+    if (this.state['isChecked' + nutrient]) {
+      let checkBoxLimit = 'isChecked' + nutrient + limit;
+      let nutrientLimit = nutrient.toLowerCase() + limit;
+      let label = limit === 'High' ? 'Upper Limit' : 'Lower Limit';
+      return (
+        <View style={{flex: 0.5}}>
+          <View style={{flex: 0.5, flexDirection: 'row'}}>
+            <CheckBox
+              style={{width: '50%', height: '50%'}}
+              onClick={() => {
+                this.setState(
+                  {
+                    [checkBoxLimit]: !this.state[checkBoxLimit],
+                  },
+                  () => {
+                    if (!this.state[checkBoxLimit]) {
+                      this.setState({[nutrientLimit]: ''});
+                    }
+                  },
+                );
+              }}
+              isChecked={this.state[checkBoxLimit]}
+              leftText={label}
+            />
+            {this.renderTextInput(this.state[checkBoxLimit], nutrientLimit)}
+          </View>
+        </View>
+      );
+    }
+  };
+
+  renderTextInput = (check, value) => {
+    console.log(check);
+    if (check) {
+      return (
+        <View style={{flex: 1, alignItems: 'center'}}>
+          <TextInput
+            style={{
+              borderBottomWidth: 0.5,
+              width: '60%',
+              textAlign: 'center',
+              align: 'center',
+              height: '88%',
+            }}
+            placeholder="Amount"
+            defaultValue={this.state[value]}
+            onChangeText={amount => this.setState({[value]: amount})}
+            keyboardType={'numeric'}
+          />
+        </View>
+      );
+    }
+  };
+
   renderNumMeals = () => {
     if (this.state.isCheckedNumMeals) {
       console.log('Number: ' + this.state.numMeals);
       return (
         <View
-          style={{flex: 0.1, justifyContent: 'center', alignItems: 'center'}}>
+          style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <TextInput
             style={{
               borderBottomWidth: 0.5,
@@ -650,12 +713,23 @@ export default class MealRecommend extends React.Component {
       });
   }
 
+  renderLabel = (nutrient) => {
+    if (this.state['isChecked' + nutrient]) {
+      return (
+        <View style={{flex: 1, justifyContent: 'center'}}>
+          <Text style={{textAlign: 'center'}}>{nutrient} Limits</Text>
+        </View>
+      )
+    }
+  }
+
   render() {
+    console.log(this.state.proteinHigh);
     return (
       <View style={{flex: 1}}>
         <Text style={{fontSize: 16, marginTop: '2%'}}>
-          Check a box, select the limit type and enter a value to limit a
-          nutrient. Note that if you select a nutrient and do not enter any
+          Check a box, select limit type(s) and enter value(s) to limit a
+          nutrient. Note that if you select a limit and do not enter any
           value, it will be calculated based on your health characteristics.
         </Text>
         <CheckBox
@@ -743,12 +817,77 @@ export default class MealRecommend extends React.Component {
           isChecked={this.state.isCheckedCarbs}
           leftText={'Set Carbs'}
         />
-        <View style={{flex: 0.5}}>
-          {this.renderNumMeals()}
-          {this.renderCal()}
-          {this.renderFat()}
-          {this.renderProtein()}
-          {this.renderCarbs()}
+        <View style={{flex: 0.2}}>{this.renderNumMeals()}</View>
+        <View style={{padding: '3%'}}/>
+        <View style={{flex: 0.3, flexDirection: 'row',
+          //backgroundColor: 'green',
+          height: '20%'}}>
+          <View
+            style={{
+              flex: 0.4,
+              justifyContent: 'center',
+              height: '100%',
+              //backgroundColor: 'pink',
+            }}>
+            {this.renderLabel('Cal')}
+          </View>
+          <View style={{flex: 1, flexDirection: 'column', height: '90%'}}>
+            {this.renderLimits('Cal', 'High')}
+            {this.renderLimits('Cal', 'Low')}
+          </View>
+        </View>
+        <View style={{flex: 0.3,
+          flexDirection: 'row',
+          //backgroundColor: 'green',
+          height: '20%'}}>
+          <View
+            style={{
+              flex: 0.4,
+              justifyContent: 'center',
+              height: '90%',
+              //backgroundColor: 'pink',
+            }}>
+            {/*<Text style={{textAlign: 'center'}}>Fat Limits</Text>*/}
+            {this.renderLabel('Fat')}
+          </View>
+          <View style={{flex: 1, flexDirection: 'column', height: '100%'}}>
+            {this.renderLimits('Fat', 'High')}
+            {this.renderLimits('Fat', 'Low')}
+          </View>
+        </View>
+        <View style={{flex: 0.3, flexDirection: 'row',
+          //backgroundColor: 'green',
+          height: '20%'}}>
+          <View
+            style={{
+              flex: 0.4,
+              justifyContent: 'center',
+              height: '90%',
+              //backgroundColor: 'pink',
+            }}>
+            {this.renderLabel('Protein')}
+          </View>
+          <View style={{flex: 1, flexDirection: 'column', height: '100%'}}>
+            {this.renderLimits('Protein', 'High')}
+            {this.renderLimits('Protein', 'Low')}
+          </View>
+        </View>
+        <View style={{flex: 0.3, flexDirection: 'row',
+          //backgroundColor: 'green',
+          height: '20%'}}>
+          <View
+            style={{
+              flex: 0.4,
+              justifyContent: 'center',
+              height: '90%',
+             // backgroundColor: 'pink',
+            }}>
+            {this.renderLabel('Carbs')}
+          </View>
+          <View style={{flex: 1, flexDirection: 'column', height: '100%'}}>
+            {this.renderLimits('Carbs', 'High')}
+            {this.renderLimits('Carbs', 'Low')}
+          </View>
         </View>
         <View style={styles.button}>
           <TouchableOpacity
@@ -809,7 +948,7 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   button: {
-    flex: 0.4,
+    flex: 1,
     marginTop: '10%',
     alignItems: 'center',
   },

@@ -82,10 +82,10 @@ public class MealController {
     }
 
     @RequestMapping("/Meal/getRecommended")
-    public ArrayList<Meal> getRecommendedMeals(String userId, String calLimitType, double calories, String fatLimitType,
-                                               double fat, String proteinLimitType, double protein, String carbsLimitType,
-                                               double carbs, int numMeals) throws IOException {
-        return mealHandler.getRecommendedMeals(userId, calLimitType, calories, fatLimitType, fat, proteinLimitType,
-                protein, carbsLimitType, carbs, numMeals);
+    public ArrayList<Meal> getRecommendedMeals(String userId, String calLow, String calHigh, String fatLow, String fatHigh,
+                                               String proteinLow, String proteinHigh, String carbsLow, String carbsHigh,
+                                               int numMeals) throws IOException {
+        return mealHandler.getRecommendedMeals(userId, calLow,calHigh, fatLow, fatHigh,
+                proteinLow, proteinHigh, carbsLow, carbsHigh, numMeals);
     }
 }
