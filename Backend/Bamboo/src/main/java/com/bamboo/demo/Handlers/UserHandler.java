@@ -2,9 +2,11 @@ package com.bamboo.demo.Handlers;
 
 import com.bamboo.demo.Models.*;
 import com.bamboo.demo.Repos.*;
+import org.json.JSONObject;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 public class UserHandler {
@@ -243,9 +245,10 @@ public class UserHandler {
         return str.toString().trim();
     }
 
-    public User addNotifSettings(String userId, boolean dailyInput) {
+    public User addNotifSettings(String userId, boolean dailyInput, boolean goalStreak) {
         User user = this.userRepo.findUserByUserId(userId);
         user.setDailyInputReminder(dailyInput);
+        user.setGoalStreakNotif(goalStreak);
         this.userRepo.save(user);
         return user;
     }
@@ -255,7 +258,51 @@ public class UserHandler {
         if (!user.isPresent()) {
             throw new IllegalAccessException("There was an error locating your account");
         }
-        User userObj = user.get();
-        return userObj;
+        return user.get();
+    }
+
+    public String getGoalStreakNotificationMessage(String userId) {
+        User user = this.userRepo.findUserByUserId(userId);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        int streak = 0;
+        int offset = 24*60*60*1000;
+        while_loop:
+        while (true) {
+            Date date = new Date(System.currentTimeMillis() - offset*(streak + 1));
+            for (String goalId : user.getGoalIds()) {
+                Goal goal = goalRepo.findGoalById(goalId);
+                if (goal.getDuration() == Duration.WEEK) {
+                    //the goal streak is only for daily goals, so we skip this goal
+                    continue;
+                }
+                if (goal.getLimitType() == LimitType.GREATERTHAN && goal.getGoalProgress(dateFormat.format(date)) < 1) {
+                    //goal was to have greater than, progress less than 100%, not achieved
+                    break while_loop;
+                } else if (goal.getLimitType() == LimitType.LESSTHAN && goal.getGoalProgress(dateFormat.format(date)) > 1) {
+                    //goal was to have less than, progress over 100%, not achieved
+                    break while_loop;
+                }
+                //else current goal was achieved for this date
+            } //loops through each goal
+            streak++;
+        } //loops through each previous day
+
+        //now streak should be the number of days before this that all daily goals were achieved
+        JSONObject message = new JSONObject();
+        if (streak == 0) {
+            message.put("message", "Good luck with your goals today, you’ve got this!");
+        } else if (streak > 0 && streak < 10) {
+            message.put("message", "You’ve completed all daily goals for " +  streak + " day(s) straight now, keep it up!");
+        } else {
+
+            message.put("message", "You’ve completed all daily goals for " + streak + " days straight now, you’re on fire!");
+        }
+        System.out.println(message.toString());
+        return message.toString();
+    }
+
+    public boolean hasGoals(String userId) {
+        //false is user has no goals, true if they do
+        return !userRepo.findUserByUserId(userId).getGoalIds().isEmpty();
     }
 }

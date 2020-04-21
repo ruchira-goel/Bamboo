@@ -19,9 +19,7 @@ export default class Login extends React.Component {
       email: '',
       encryptedPassword: '',
     };
-    this.notif = new NotifService(
-      this.onRegister.bind(this),
-    );
+    this.notif = new NotifService(this.onRegister.bind(this));
   }
 
   onRegister(token) {
@@ -29,8 +27,6 @@ export default class Login extends React.Component {
     console.log(token);
     this.setState({registerToken: token.token, gcmRegistered: true});
   }
-
-
 
   login = () => {
     const {email, encryptedPassword} = this.state;
@@ -63,6 +59,8 @@ export default class Login extends React.Component {
             Alert.alert('Incorrect password', data.message, [{text: 'OK'}]);
           }
         } else {
+          //set up notifications
+          this.notif.scheduleNotifications(data.userId);
           //going to home screen
           this.props.navigation.replace('HomeScreen', {
             userId: data.userId,

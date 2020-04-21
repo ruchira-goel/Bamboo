@@ -9,6 +9,7 @@ import com.bamboo.demo.Models.Goal;
 import com.bamboo.demo.Models.Sex;
 import com.bamboo.demo.Models.User;
 import com.bamboo.demo.Repos.*;
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,14 +46,24 @@ public class UserController {
     }
 
     @RequestMapping("/User/addNotifSettings")
-    public User signup(@RequestParam(value = "userId") String userId,
-                       @RequestParam(value = "dailyInput") boolean dailyInput) {
-        return userHandler.addNotifSettings(userId, dailyInput);
+    public User addNotifSettings(@RequestParam(value = "userId") String userId,
+                                 @RequestParam(value = "dailyInput") boolean dailyInput,
+                                 @RequestParam(value = "goalStreak") boolean goalStreak) {
+        return userHandler.addNotifSettings(userId, dailyInput, goalStreak);
+    }
+
+    @RequestMapping("/User/getGoalStreakNotificationMessage")
+    public String getGoalStreakNotificationMessage(@RequestParam(value = "userId") String userId) {
+        return userHandler.getGoalStreakNotificationMessage(userId);
+    }
+
+    @RequestMapping("/User/hasGoals")
+    public boolean hasGoals (@RequestParam(value = "userId") String userId) {
+        return userHandler.hasGoals(userId);
     }
 
     @RequestMapping("/User/getUser")
-    public User signup(@RequestParam(value = "userId") String userId) throws IllegalAccessException {
-        System.out.println("daily input reminder is " + userHandler.getUser(userId).isDailyInputReminder());
+    public User getUser(@RequestParam(value = "userId") String userId) throws IllegalAccessException {
         return userHandler.getUser(userId);
     }
 

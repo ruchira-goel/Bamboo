@@ -26,6 +26,15 @@ public class User {
 
     //notification settings:
     boolean dailyInputReminder;
+    boolean goalStreakNotif;
+
+    public boolean isGoalStreakNotif() {
+        return goalStreakNotif;
+    }
+
+    public void setGoalStreakNotif(boolean goalStreakNotif) {
+        this.goalStreakNotif = goalStreakNotif;
+    }
 
     public boolean isDailyInputReminder() {
         return dailyInputReminder;

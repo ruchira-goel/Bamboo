@@ -18,6 +18,7 @@ export default class NotifSettings extends React.Component {
     this.state = {
       userId: '',
       dailyInput: '',
+      goalStreak: '',
       buttonValue: 'Edit',
       editable: false,
     };
@@ -27,7 +28,7 @@ export default class NotifSettings extends React.Component {
     );
   }
 
-  UNSAFE_componentWillMount(): void {
+  componentDidMount(): void {
     const {route} = this.props;
     const {userId} = route.params;
     this.setState({userId: userId});
@@ -40,6 +41,7 @@ export default class NotifSettings extends React.Component {
       .then(data => {
         this.setState({
           dailyInput: data.dailyInputReminder,
+          goalStreak: data.goalStreakNotif,
         });
       });
   }
@@ -59,8 +61,12 @@ export default class NotifSettings extends React.Component {
     Alert.alert('Permissions', JSON.stringify(perms));
   }
 
-  toggleSwitch = value => {
+  toggleDailyInputSwitch = value => {
     this.setState({dailyInput: value});
+  };
+
+  toggleGoalStreakSwitch = value => {
+    this.setState({goalStreak: value});
   };
 
   onPress = () => {
@@ -79,25 +85,18 @@ export default class NotifSettings extends React.Component {
   };
 
   onSave = () => {
-    if (!this.state.dailyInput) {
-      this.notif.cancelAll();
-    }
-    if (this.state.dailyInput) {
-      this.notif.scheduleNotif(
-        '30',
-        'Daily input',
-        "Don't forget to enter your daily food and exercise!",
-        'minute',
-      );
-    }
     fetch(
       Platform.OS === 'android'
         ? `http://10.0.2.2:8080/User/addNotifSettings?userId=${
             this.state.userId
-          }&dailyInput=${this.state.dailyInput}`
+          }&dailyInput=${this.state.dailyInput}&goalStreak=${
+            this.state.goalStreak
+          }`
         : `http://localhost:8080/User/addNotifSettings?userId=${
             this.state.userId
-          }&dailyInput=${this.state.dailyInput}`,
+          }&dailyInput=${this.state.dailyInput}&goalStreak=${
+            this.state.goalStreak
+          }`,
     )
       .then(res => res.json())
       .then(data => {
@@ -111,7 +110,7 @@ export default class NotifSettings extends React.Component {
             );
           }
         } else {
-          //going to home screen
+          this.notif.scheduleNotifications(this.state.userId);
         }
       });
   };
@@ -125,9 +124,20 @@ export default class NotifSettings extends React.Component {
           </Text>
           <Switch
             style={styles.switch}
-            onValueChange={this.toggleSwitch}
+            onValueChange={this.toggleDailyInputSwitch}
             disabled={!this.state.editable}
             value={this.state.dailyInput}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={[styles.text, {padding: 2}]}>
+            Goal Streaks
+          </Text>
+          <Switch
+            style={styles.switch}
+            onValueChange={this.toggleGoalStreakSwitch}
+            disabled={!this.state.editable}
+            value={this.state.goalStreak}
           />
         </View>
         <TouchableOpacity style={BUTTONS.primaryButton} onPress={this.onPress}>
