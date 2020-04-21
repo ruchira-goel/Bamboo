@@ -110,8 +110,7 @@ export default class MealRecommend extends React.Component {
     if (this.state.isCheckedNumMeals) {
       console.log('Number: ' + this.state.numMeals);
       return (
-        <View
-          style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <TextInput
             style={{
               borderBottomWidth: 0.5,
@@ -128,234 +127,6 @@ export default class MealRecommend extends React.Component {
     }
   };
 
-  renderCal = () => {
-    if (this.state.isCheckedCal) {
-      const {limitOpts} = this.state;
-      return (
-        <View
-          style={{
-            flexDirection: 'row',
-            alignContent: 'center',
-            flex: 0.2,
-            padding: '1%',
-            //backgroundColor: 'blue',
-          }}>
-          <Text style={{flex: 0.2, padding: '9%'}}>Calories</Text>
-          <View
-            style={{
-              flex: 0.6,
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              //backgroundColor: 'green'
-            }}>
-            <Dropdown
-              label="Limit type"
-              data={limitOpts}
-              defaultValue={this.state.calLimitType}
-              onChangeText={value => {
-                this.setState({calLimitType: value});
-              }}
-              selectedItemColor="#3eb245"
-              containerStyle={{width: '100%', flex: 0.35}}
-            />
-          </View>
-          <View
-            style={{
-              flex: 0.6,
-              justifyContent: 'flex-end',
-              alignItems: 'center',
-              //backgroundColor: 'green'
-            }}>
-            <TextInput
-              style={{
-                borderBottomWidth: 0.6,
-                width: '60%',
-                height: '40%',
-                textAlign: 'center',
-                //backgroundColor: 'yellow',
-              }}
-              keyboardType={'numeric'}
-              placeholder="Enter amount"
-              defaultValue={this.state.calories.toString()}
-              onChangeText={calories => this.setState({calories})}
-            />
-          </View>
-        </View>
-      );
-    }
-  };
-
-  renderFat = () => {
-    const {limitOpts} = this.state;
-    if (this.state.isCheckedFat) {
-      return (
-        <View
-          style={{
-            flexDirection: 'row',
-            alignContent: 'center',
-            flex: 0.2,
-            padding: '1%',
-            //backgroundColor: 'blue',
-          }}>
-          <Text style={{flex: 0.2, padding: '9%'}}>Fat</Text>
-          <View
-            style={{
-              flex: 0.6,
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              //backgroundColor: 'green'
-            }}>
-            <Dropdown
-              label="Limit type"
-              data={limitOpts}
-              defaultValue={this.state.fatLimitType}
-              onChangeText={value => {
-                this.setState({fatLimitType: value});
-              }}
-              selectedItemColor="#3eb245"
-              containerStyle={{width: '100%', flex: 0.35}}
-            />
-          </View>
-          <View
-            style={{
-              flex: 0.6,
-              justifyContent: 'flex-end',
-              alignItems: 'center',
-              //backgroundColor: 'green'
-            }}>
-            <TextInput
-              style={{
-                borderBottomWidth: 0.6,
-                width: '60%',
-                height: '40%',
-                textAlign: 'center',
-                //backgroundColor: 'yellow',
-              }}
-              keyboardType={'numeric'}
-              placeholder="Enter amount"
-              defaultValue={this.state.fat.toString()}
-              onChangeText={fat => this.setState({fat})}
-            />
-          </View>
-        </View>
-      );
-    }
-  };
-
-  renderProtein = () => {
-    const {limitOpts} = this.state;
-    if (this.state.isCheckedProtein) {
-      return (
-        <View
-          style={{
-            flexDirection: 'row',
-            alignContent: 'center',
-            flex: 0.2,
-            padding: '1%',
-            //backgroundColor: 'blue',
-          }}>
-          <Text style={{flex: 0.2, padding: '9%'}}>Protein</Text>
-          <View
-            style={{
-              flex: 0.6,
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              //backgroundColor: 'green',
-            }}>
-            <Dropdown
-              label="Limit type"
-              data={limitOpts}
-              defaultValue={this.state.proteinLimitType}
-              onChangeText={value => {
-                this.setState({proteinLimitType: value});
-              }}
-              selectedItemColor="#3eb245"
-              containerStyle={{width: '100%', flex: 0.35}}
-            />
-          </View>
-          <View
-            style={{
-              flex: 0.6,
-              justifyContent: 'flex-end',
-              alignItems: 'center',
-              //backgroundColor: 'green'
-            }}>
-            <TextInput
-              style={{
-                borderBottomWidth: 0.6,
-                width: '60%',
-                height: '40%',
-                textAlign: 'center',
-                //backgroundColor: 'yellow',
-              }}
-              keyboardType={'numeric'}
-              placeholder="Enter amount"
-              defaultValue={this.state.protein.toString()}
-              onChangeText={protein => this.setState({protein})}
-            />
-          </View>
-        </View>
-      );
-    }
-  };
-
-  renderCarbs = () => {
-    const {limitOpts} = this.state;
-    if (this.state.isCheckedCarbs) {
-      return (
-        <View
-          style={{
-            flexDirection: 'row',
-            alignContent: 'center',
-            flex: 0.2,
-            padding: '1%',
-            //backgroundColor: 'blue',
-          }}>
-          <Text style={{flex: 0.2, padding: '9%'}}>Carbs</Text>
-          <View
-            style={{
-              flex: 0.6,
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              //backgroundColor: 'green'
-            }}>
-            <Dropdown
-              label="Limit type"
-              data={limitOpts}
-              defaultValue={this.state.carbsLimitType}
-              onChangeText={value => {
-                this.setState({carbsLimitType: value});
-              }}
-              selectedItemColor="#3eb245"
-              containerStyle={{width: '100%', flex: 0.35}}
-            />
-          </View>
-          <View
-            style={{
-              flex: 0.6,
-              justifyContent: 'flex-end',
-              alignItems: 'center',
-              //backgroundColor: 'green'
-            }}>
-            <TextInput
-              style={{
-                borderBottomWidth: 0.6,
-                width: '60%',
-                height: '40%',
-                textAlign: 'center',
-                //backgroundColor: 'yellow',
-              }}
-              keyboardType={'numeric'}
-              placeholder="Enter amount"
-              defaultValue={this.state.carbs.toString()}
-              onChangeText={carbs => this.setState({carbs})}
-            />
-          </View>
-        </View>
-      );
-    }
-  };
-
   inputCheck = () => {
     const {
       isCheckedCal,
@@ -363,14 +134,14 @@ export default class MealRecommend extends React.Component {
       isCheckedFat,
       isCheckedProtein,
       isCheckedNumMeals,
-      proteinLimitType,
-      carbsLimitType,
-      fatLimitType,
-      calLimitType,
-      calories,
-      fat,
-      protein,
-      carbs,
+      isCheckedCalLow,
+      isCheckedCalHigh,
+      isCheckedProteinLow,
+      isCheckedProteinHigh,
+      isCheckedCarbsLow,
+      isCheckedCarbsHigh,
+      isCheckedFatLow,
+      isCheckedFatHigh,
       numMeals,
     } = this.state;
     console.log('entered');
@@ -399,144 +170,18 @@ export default class MealRecommend extends React.Component {
       ]);
       return;
     }
-    if (isCheckedCal) {
-      console.log(calLimitType);
-      console.log(calories);
-      // if (calLimitType === '') {
-      //   Alert.alert(
-      //     'Enter Limit Type',
-      //     'Please enter a limit type for calories.',
-      //     [{text: 'OK'}],
-      //   );
-      //   return;
-      // }
-      // if (calories === '') {
-      //   // calculate with
-      //   Alert.alert('Enter Calories', 'Please enter an amount for calories.', [
-      //     {text: 'OK'},
-      //   ]);
-      //   return;
-      // }
-      if (calLimitType === '' && calories !== '') {
-        Alert.alert(
-          'Enter Limit Type',
-          'Please enter a limit type for calories.',
-          [{text: 'OK'}],
-        );
-        return;
-      } else if (calories === '' && calLimitType !== '') {
-        // calculate with
-        Alert.alert('Enter Calories', 'Please enter an amount for calories.', [
-          {text: 'OK'},
-        ]);
-        return;
-      } else if (calories === '' && calLimitType === '') {
-        this.getDietaryRestrictions();
-      }
-    }
-    if (isCheckedFat) {
-      // if (fatLimitType === '') {
-      //   Alert.alert('Enter Limit Type', 'Please enter a limit type for fat.', [
-      //     {text: 'OK'},
-      //   ]);
-      //   return;
-      // }
-      // if (fat === '') {
-      //   Alert.alert('Enter Fat', 'Please enter an amount for fat.', [
-      //     {text: 'OK'},
-      //   ]);
-      //   return;
-      // }
-      if (fatLimitType === '' && fat !== '') {
-        Alert.alert('Enter Limit Type', 'Please enter a limit type for fat.', [
-          {text: 'OK'},
-        ]);
-        return;
-      } else if (fat === '' && fatLimitType !== '') {
-        // calculate with
-        Alert.alert('Enter Fat', 'Please enter an amount for fat.', [
-          {text: 'OK'},
-        ]);
-        return;
-      } else if (
-        fat === '' &&
-        fatLimitType === '' &&
-        this.state.userRequirements === ''
-      ) {
-        this.getDietaryRestrictions();
-      }
-    }
-    if (isCheckedProtein) {
-      // if (proteinLimitType === '') {
-      //   Alert.alert(
-      //     'Enter Limit Type',
-      //     'Please enter a limit type for protein.',
-      //     [{text: 'OK'}],
-      //   );
-      //   return;
-      // }
-      // if (protein === '') {
-      //   Alert.alert('Enter Protein', 'Please enter an amount for protein.', [
-      //     {text: 'OK'},
-      //   ]);
-      //   return;
-      // }
-      if (proteinLimitType === '' && protein !== '') {
-        Alert.alert(
-          'Enter Limit Type',
-          'Please enter a limit type for protein.',
-          [{text: 'OK'}],
-        );
-        return;
-      }
-      if (protein === '' && proteinLimitType !== '') {
-        Alert.alert('Enter Protein', 'Please enter an amount for protein.', [
-          {text: 'OK'},
-        ]);
-        return;
-      } else if (
-        protein === '' &&
-        proteinLimitType === '' &&
-        this.state.userRequirements === ''
-      ) {
-        this.getDietaryRestrictions();
-      }
-    }
-    if (isCheckedCarbs) {
-      // if (carbsLimitType === '') {
-      //   Alert.alert(
-      //     'Enter Limit Type',
-      //     'Please enter a limit type for carbs.',
-      //     [{text: 'OK'}],
-      //   );
-      //   return;
-      // }
-      // if (carbs === '') {
-      //   Alert.alert('Enter Calories', 'Please enter an amount for carbs.', [
-      //     {text: 'OK'},
-      //   ]);
-      //   return;
-      // }
-      if (carbsLimitType === '' && carbs !== '') {
-        Alert.alert(
-          'Enter Limit Type',
-          'Please enter a limit type for carbs.',
-          [{text: 'OK'}],
-        );
-        return;
-      }
-      if (carbs === '' && carbsLimitType !== '') {
-        Alert.alert('Enter Calories', 'Please enter an amount for carbs.', [
-          {text: 'OK'},
-        ]);
-        return;
-      } else if (
-        carbs === '' &&
-        carbsLimitType === '' &&
-        this.state.userRequirements === ''
-      ) {
-        this.getDietaryRestrictions();
-      }
+    if (
+      !isCheckedCalHigh &&
+      !isCheckedCalLow &&
+      !isCheckedFatHigh &&
+      !isCheckedFatLow &&
+      !isCheckedCarbsLow &&
+      !isCheckedCarbsHigh &&
+      !isCheckedProteinHigh &&
+      !isCheckedProteinLow
+    ) {
+      Alert.alert('Select Limit', 'Select at least one limit!', [{text: 'OK'}]);
+      return;
     }
     console.log('ended');
     this.getRecommendedMeals();
@@ -546,70 +191,100 @@ export default class MealRecommend extends React.Component {
     const {route} = this.props;
     const {userId} = route.params;
     const {
-      isCheckedCal,
-      isCheckedCarbs,
-      isCheckedFat,
-      isCheckedProtein,
-      proteinLimitType,
-      carbsLimitType,
-      fatLimitType,
-      calLimitType,
-      calories,
-      fat,
-      protein,
-      carbs,
       isCheckedNumMeals,
-      numMeals,
+      isCheckedCalLow,
+      isCheckedCalHigh,
+      isCheckedProteinLow,
+      isCheckedProteinHigh,
+      isCheckedCarbsLow,
+      isCheckedCarbsHigh,
+      isCheckedFatLow,
+      isCheckedFatHigh,
       userRequirements,
+      numMeals,
     } = this.state;
-    let request = `/Meal/getRecommended?userId=${userId}&calLimitType=`;
-    if (isCheckedCal) {
-      if (calLimitType === '' && calories === '') {
-        const dietCalories = userRequirements.caloriesRequired;
-        request = request.concat(`Less than&calories=${dietCalories}`);
+    let {
+      calLow,
+      calHigh,
+      fatLow,
+      fatHigh,
+      proteinLow,
+      proteinHigh,
+      carbsLow,
+      carbsHigh,
+    } = this.state;
+    let request = `/Meal/getRecommended?userId=${userId}&`;
+    if (isCheckedCalLow) {
+      if (calLow === '') {
+        // TODO: calories lower limit not implemented yet
       } else {
-        request = request.concat(`${calLimitType}&calories=${calories}`);
+        request = request.concat(`calLow=${calLow}&`);
       }
-    } else {
-      request = request.concat('&calories=0');
     }
-    request = request.concat('&fatLimitType=');
-    if (isCheckedFat) {
-      if (fatLimitType === '' && fat === '') {
-        const dietFat = userRequirements.fatRequired;
-        request = request.concat(`Less than&fat=${dietFat}`);
-      } else {
-        request = request.concat(`${fatLimitType}&fat=${fat}`);
+    if (isCheckedCalHigh) {
+      if (calHigh === '') {
+        this.getDietaryRestrictions();
+        calHigh = userRequirements.calories;
       }
-    } else {
-      request = request.concat('&fat=0');
+      request = request.concat(`calHigh=${calHigh}&`);
     }
-    request = request.concat('&proteinLimitType=');
-    if (isCheckedProtein) {
-      if (proteinLimitType === '' && protein === '') {
-        const dietProtein = userRequirements.proteinRequired;
-        request = request.concat(`Less than&protein=${dietProtein}`);
-      } else {
-        request = request.concat(`${proteinLimitType}&protein=${protein}`);
+    if (isCheckedFatHigh) {
+      if (fatHigh === '') {
+        if (userRequirements === '') {
+          this.getDietaryRestrictions();
+        }
+        fatHigh = userRequirements.fatHigh;
       }
-    } else {
-      request = request.concat('&protein=0');
+      request = request.concat(`fatHigh=${fatHigh}&`);
     }
-    request = request.concat('&carbsLimitType=');
-    if (isCheckedCarbs) {
-      if (carbsLimitType === '' && carbs === '') {
-        const dietCarbs = userRequirements.carbsRequired;
-        request = request.concat(`Less than&carbs=${dietCarbs}`);
-      } else {
-        request = request.concat(`${carbsLimitType}&carbs=${carbs}`);
+    if (isCheckedFatLow) {
+      if (fatLow === '') {
+        if (userRequirements === '') {
+          this.getDietaryRestrictions();
+        }
+        fatLow = userRequirements.fatLow;
       }
-    } else {
-      request = request.concat('&carbs=0');
+      request = request.concat(`fatLow=${fatLow}&`);
+    }
+    if (isCheckedProteinHigh) {
+      if (proteinHigh === '') {
+        if (userRequirements === '') {
+          this.getDietaryRestrictions();
+        }
+      }
+      request = request.concat(`proteinHigh=${proteinHigh}&`);
+    }
+    if (isCheckedProteinLow) {
+      if (proteinLow === '') {
+        if (userRequirements === '') {
+          this.getDietaryRestrictions();
+        }
+        proteinLow = userRequirements.proteinLow;
+      }
+      request = request.concat(`proteinLow=${proteinLow}&`);
+    }
+    if (isCheckedCarbsHigh) {
+      if (carbsHigh === '') {
+        if (userRequirements === '') {
+          this.getDietaryRestrictions();
+        }
+        carbsHigh = userRequirements.carbsHigh;
+      }
+      request = request.concat(`carbsHigh=${carbsHigh}&`);
+    }
+    if (isCheckedCarbsLow) {
+      if (carbsLow === '') {
+        if (userRequirements === '') {
+          this.getDietaryRestrictions();
+        }
+        carbsLow = userRequirements.carbsLow;
+      }
+      request = request.concat(`carbsLow=${carbsLow}&`);
     }
     if (isCheckedNumMeals) {
-      request = request.concat(`&numMeals=${numMeals}`);
+      request = request.concat(`numMeals=${numMeals}`);
     } else {
-      request = request.concat('&numMeals=0');
+      request = request.concat('numMeals=0');
     }
     console.log('Request: ' + request);
     fetch(
@@ -664,45 +339,63 @@ export default class MealRecommend extends React.Component {
           Alert.alert('Error', data.message, [{text: 'OK'}]);
         } else if (data.isEmpty) {
         } else {
-          console.log(
-            'Here: ' + data.PROTEIN + data.CARBS + data.CALORIES + data.FAT,
-          );
-          if (data.PROTEIN !== undefined) {
-            this.setState({
-              protein: data.PROTEIN[1],
-              isCheckedProtein: true,
-              proteinLimitType:
-                data.PROTEIN[0] === 'GREATERTHAN'
-                  ? 'Greater than'
-                  : 'Less than',
-            });
-          }
-          if (data.FAT !== undefined) {
-            this.setState({
-              fat: data.FAT[1],
-              isCheckedFat: true,
-              fatLimitType:
-                data.FAT[0] === 'GREATERTHAN' ? 'Greater than' : 'Less than',
-            });
-          }
-          if (data.CARBS !== undefined) {
-            this.setState({
-              carbs: data.CARBS[1],
-              isCheckedCarbs: true,
-              carbsLimitType:
-                data.CARBS[0] === 'GREATERTHAN' ? 'Greater than' : 'Less than',
-            });
-          }
-          if (data.CALORIES !== undefined) {
-            this.setState({
-              calories: data.CALORIES[1],
-              isCheckedCal: true,
-              calLimitType:
-                data.CALORIES[0] === 'GREATERTHAN'
-                  ? 'Greater than'
-                  : 'Less than',
-            });
-          }
+          console.log('Here: ' + data.calHigh + data.fatHigh);
+          // if (data.calories !== undefined) {
+          //   this.setState({
+          //     calHigh: data.calories,
+          //     isCheckedCal: true,
+          //     isCheckedCalHigh: true,
+          //   });
+          // }
+          // if (data.proteinHigh !== undefined) {
+          //   this.setState({
+          //     proteinHigh: data.proteinHigh,
+          //     isCheckedProtein: true,
+          //     isCheckedProteinHigh: true,
+          //   });
+          // }
+          // if (data.proteinLow !== undefined) {
+          //   this.setState({
+          //     proteinLow: data.proteinLow,
+          //     isCheckedProtein: true,
+          //     isCheckedProteinLow: true,
+          //   });
+          // }
+          // if (data.fatHigh !== undefined) {
+          //   this.setState({
+          //     fatHigh: data.fatHigh,
+          //     isCheckedFat: true,
+          //     isCheckedFatHigh: true,
+          //   });
+          // }
+          // if (data.fatLow !== undefined) {
+          //   this.setState({
+          //     fatLow: data.fatLow,
+          //     isCheckedFat: true,
+          //     isCheckedFatLow: true,
+          //   });
+          // }
+          // if (data.carbsHigh !== undefined) {
+          //   this.setState({
+          //     carbsHigh: data.carbsHigh,
+          //     isCheckedCarbs: true,
+          //     isCheckedCarbsHigh: true,
+          //   });
+          // }
+          // if (data.carbsLow !== undefined) {
+          //   this.setState({
+          //     carbsLow: data.carbsLow,
+          //     isCheckedCarbs: true,
+          //     isCheckedCarbsLow: true,
+          //   });
+          // }
+          this.checkDietFields(data, 'Carbs', 'Low');
+          this.checkDietFields(data, 'Carbs', 'High');
+          this.checkDietFields(data, 'Fat', 'Low');
+          this.checkDietFields(data, 'Fat', 'High');
+          this.checkDietFields(data, 'Protein', 'Low');
+          this.checkDietFields(data, 'Protein', 'High');
+          this.checkDietFields(data, 'Cal', 'High');
           if (data.NUMMEALS !== undefined) {
             this.setState({
               numMeals: data.NUMMEALS[1],
@@ -713,15 +406,26 @@ export default class MealRecommend extends React.Component {
       });
   }
 
-  renderLabel = (nutrient) => {
+  //TODO: Test this
+  checkDietFields = (data, nutrient, limit) => {
+    if (data[nutrient.toLowerCase() + limit] !== undefined) {
+      this.setState({
+        [nutrient.toLowerCase() + limit]: data[nutrient + limit],
+        ['isChecked' + nutrient]: true,
+        ['isChecked' + nutrient + limit]: true,
+      });
+    }
+  };
+
+  renderLabel = nutrient => {
     if (this.state['isChecked' + nutrient]) {
       return (
         <View style={{flex: 1, justifyContent: 'center'}}>
           <Text style={{textAlign: 'center'}}>{nutrient} Limits</Text>
         </View>
-      )
+      );
     }
-  }
+  };
 
   render() {
     console.log(this.state.proteinHigh);
@@ -729,8 +433,8 @@ export default class MealRecommend extends React.Component {
       <View style={{flex: 1}}>
         <Text style={{fontSize: 16, marginTop: '2%'}}>
           Check a box, select limit type(s) and enter value(s) to limit a
-          nutrient. Note that if you select a limit and do not enter any
-          value, it will be calculated based on your health characteristics.
+          nutrient. Note that if you select a limit and do not enter any value,
+          it will be calculated based on your health characteristics.
         </Text>
         <CheckBox
           style={{flex: 0.05, padding: 10}}
@@ -818,10 +522,14 @@ export default class MealRecommend extends React.Component {
           leftText={'Set Carbs'}
         />
         <View style={{flex: 0.2}}>{this.renderNumMeals()}</View>
-        <View style={{padding: '3%'}}/>
-        <View style={{flex: 0.3, flexDirection: 'row',
-          //backgroundColor: 'green',
-          height: '20%'}}>
+        <View style={{padding: '3%'}} />
+        <View
+          style={{
+            flex: 0.3,
+            flexDirection: 'row',
+            //backgroundColor: 'green',
+            height: '20%',
+          }}>
           <View
             style={{
               flex: 0.4,
@@ -836,10 +544,13 @@ export default class MealRecommend extends React.Component {
             {this.renderLimits('Cal', 'Low')}
           </View>
         </View>
-        <View style={{flex: 0.3,
-          flexDirection: 'row',
-          //backgroundColor: 'green',
-          height: '20%'}}>
+        <View
+          style={{
+            flex: 0.3,
+            flexDirection: 'row',
+            //backgroundColor: 'green',
+            height: '20%',
+          }}>
           <View
             style={{
               flex: 0.4,
@@ -855,9 +566,13 @@ export default class MealRecommend extends React.Component {
             {this.renderLimits('Fat', 'Low')}
           </View>
         </View>
-        <View style={{flex: 0.3, flexDirection: 'row',
-          //backgroundColor: 'green',
-          height: '20%'}}>
+        <View
+          style={{
+            flex: 0.3,
+            flexDirection: 'row',
+            //backgroundColor: 'green',
+            height: '20%',
+          }}>
           <View
             style={{
               flex: 0.4,
@@ -872,15 +587,19 @@ export default class MealRecommend extends React.Component {
             {this.renderLimits('Protein', 'Low')}
           </View>
         </View>
-        <View style={{flex: 0.3, flexDirection: 'row',
-          //backgroundColor: 'green',
-          height: '20%'}}>
+        <View
+          style={{
+            flex: 0.3,
+            flexDirection: 'row',
+            //backgroundColor: 'green',
+            height: '20%',
+          }}>
           <View
             style={{
               flex: 0.4,
               justifyContent: 'center',
               height: '90%',
-             // backgroundColor: 'pink',
+              // backgroundColor: 'pink',
             }}>
             {this.renderLabel('Carbs')}
           </View>

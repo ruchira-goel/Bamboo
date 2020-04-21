@@ -301,16 +301,22 @@ public class UserHandler {
             caloriesRequired = 387 - 7.31 * age + pa * (10.9 * weight + 660.7 * height);
         }
         caloriesRequired /= 3;
-        double proteinRequired = 0.2 * caloriesRequired / 4 / 3; //maxProt, min is 12%
-        double fatRequired = 0.35 * caloriesRequired / 9 / 3;  //maxFat, min is 20%
-        double carbsRequired = 0.65 * caloriesRequired / 4 / 3;    //maxcarbs, min is 45%
+        double proteinHigh = 0.2 * caloriesRequired / 4 / 3; //maxProt, min is 12%
+        double proteinLow = 0.12 * caloriesRequired / 4 / 3;
+        double fatHigh = 0.35 * caloriesRequired / 9 / 3;  //maxFat, min is 20%
+        double fatLow = 0.2 * caloriesRequired / 9 / 3;
+        double carbsHigh = 0.65 * caloriesRequired / 4 / 3;    //maxcarbs, min is 45%
+        double carbsLow = 0.45 * caloriesRequired / 4 / 3;
 
         double finalCaloriesRequired = caloriesRequired;
         return new HashMap<String, Double>() {{
-            put("Calories", finalCaloriesRequired);
-            put("Fat", fatRequired);
-            put("Protein", proteinRequired);
-            put("Carbs", carbsRequired);
+            put("calHigh", finalCaloriesRequired);
+            put("fatHigh", fatHigh);
+            put("fatLow", fatLow);
+            put("proteinHigh", proteinHigh);
+            put("proteinLow", proteinLow);
+            put("carbsHigh", carbsHigh);
+            put("carbsLow", carbsLow);
         }};
     }
 }
