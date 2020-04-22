@@ -32,7 +32,7 @@ class Settings extends Component {
     fetch(
       Platform.OS === 'android'
         ? `${Constants.URL.android}/User/delAccount?userId=${userId}`
-        : `http://localhost:8080/User/delAccount?userId=${userId}`,
+        : `${Constants.URL.ios}/User/delAccount?userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {

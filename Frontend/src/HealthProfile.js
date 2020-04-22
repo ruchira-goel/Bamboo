@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import * as Constants from './Constants';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {LinearGradient} from 'expo-linear-gradient';
+// import {LinearGradient} from 'expo-linear-gradient';
 import RadioForm, {
   RadioButton,
   RadioButtonInput,

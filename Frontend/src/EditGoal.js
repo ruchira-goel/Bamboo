@@ -133,8 +133,8 @@ class EditGoal extends React.Component {
 
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Goal/editGoal?userId=${userId}&goalId=${goalId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`
-        : `http://localhost:8080/Goal/editGoal?userId=${userId}&goalId=${goalId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`,
+        ? `${Constants.URL.android}/Goal/editGoal?userId=${userId}&goalId=${goalId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`
+        : `${Constants.URL.ios}/Goal/editGoal?userId=${userId}&goalId=${goalId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -160,8 +160,8 @@ class EditGoal extends React.Component {
     console.log('In the edit goals page: ' + userId);
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Goal/fetchGoalInfo?userId=${userId}&goalId=${goalId}`
-        : `http://localhost:8080/Goal/fetchGoalInfo?userId=${userId}&goalId=${goalId}`,
+        ? `${Constants.URL.android}/Goal/fetchGoalInfo?userId=${userId}&goalId=${goalId}`
+        : `${Constants.URL.ios}/Goal/fetchGoalInfo?userId=${userId}&goalId=${goalId}`,
     )
       .then(res => res.json())
       .then(data => {

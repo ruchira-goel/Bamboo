@@ -124,7 +124,7 @@ class SetGoal extends React.Component {
         ? `${
             Constants.URL.android
           }/Goal/addGoal?userId=${userId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`
-        : `http://localhost:8080/Goal/addGoal?userId=${userId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`,
+        : `${Constants.URL.ios}/Goal/addGoal?userId=${userId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`,
     )
       .then(res => res.json())
       .then(data => {
