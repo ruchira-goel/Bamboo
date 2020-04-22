@@ -2,6 +2,7 @@ package com.bamboo.demo.Models;
 
 public enum LimitType {
     LESSTHAN("Less than"),
+    EQUAL("Equal"),
     GREATERTHAN("Greater than");
 
     String name;
@@ -18,7 +19,7 @@ public enum LimitType {
     //Following code is from user matzeihnsein from
     //https://stackoverflow.com/questions/8389150/java-enum-elements-with-spaces
     public static LimitType valueOfLimitType(String value) {
-        for (LimitType limitType: LimitType.class.getEnumConstants()) {
+        for (LimitType limitType : LimitType.class.getEnumConstants()) {
             if (limitType.toString().equals(value)) {
                 return limitType;
             }

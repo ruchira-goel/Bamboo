@@ -33,12 +33,7 @@ public class ActivityHandler {
                                  Date date) throws IOException, JSONException {
         User user = this.userRepo.findById(userId).get();
 
-//        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-//        Date currentDate = new Date(System.currentTimeMillis());
-//        String date = formatter.format(currentDate);
-
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        Date currentDate = new Date(System.currentTimeMillis());
         String dateFormat = formatter.format(date);
 
         Activity activity = new Activity(userId, activityName, time);
@@ -48,14 +43,12 @@ public class ActivityHandler {
         activity.setCalories(newCalories);
         this.activityRepo.save(activity);
 
-        System.out.println("Date: " + date);
         addToDate(dateFormat, activity);
 
         return activity;
     }
 
     public double findMET(Activity activity, double distance) {
-        //HashMap<String, Double> MET = activity.getMETValues();
         if (activity.getType().equalsIgnoreCase("running")) {
             System.out.println("Activity = running");
             double[] runningSpeeds = {4.0, 5.0, 5.2, 6.0, 6.7, 7.0, 7.5, 8, 8.6, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0};
@@ -72,12 +65,11 @@ public class ActivityHandler {
                     }
                 }
             }
-            System.out.println("Speed " + speed);
             double MET = 0.0;
-            System.out.println(activity.getType().toLowerCase() + " " + (String.format("%.1f", speed)).replace('.', '-'));
-            if (activity.getMETValues().containsKey(activity.getType().toLowerCase() + " " + (String.format("%.1f", speed)).replace('.', '-'))) {
-                System.out.println("Database has this value " + (String.format("%.1f", speed)).replace('.', '-'));
-                MET = activity.getMETValues().get(activity.getType().toLowerCase() + " " + (String.format("%.1f", speed)).replace('.', '-'));
+            if (activity.getMETValues().containsKey(activity.getType().toLowerCase()
+                    + " " + (String.format("%.1f", speed)).replace('.', '-'))) {
+                MET = activity.getMETValues().get(activity.getType().toLowerCase() + " " +
+                        (String.format("%.1f", speed)).replace('.', '-'));
             }
             return MET;
         } else {

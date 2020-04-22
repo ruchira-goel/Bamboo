@@ -30,6 +30,7 @@ export default class EnterCharacteristics extends React.Component {
       sex: '',
       feet: '',
       inches: '',
+      lifestyle: '',
     };
   }
 
@@ -43,7 +44,7 @@ export default class EnterCharacteristics extends React.Component {
 
   addCharacteristics = () => {
     const {route} = this.props;
-    let {height, weight, age, sex, feet, inches} = this.state;
+    let {height, weight, age, sex, feet, inches, lifestyle} = this.state;
     const {userId} = route.params;
     console.log('id: ' + userId);
 
@@ -66,6 +67,10 @@ export default class EnterCharacteristics extends React.Component {
     }
     if (!sex) {
       Alert.alert('Sex Field empty', 'Please enter your sex.', [{text: 'OK'}]);
+      return;
+    }
+    if (!lifestyle) {
+      Alert.alert('Lifestyle Field empty', 'Please enter your lifestyle.', [{text: 'OK'}]);
       return;
     }
     if (height <= 0 || this.isInvalid(height)) {
@@ -198,6 +203,21 @@ export default class EnterCharacteristics extends React.Component {
             data={[{value: 'Female'}, {value: 'Male'}, {value: 'Other'}]}
             onChangeText={value => {
               this.setState({sex: value});
+            }}
+          />
+        </View>
+        <View style={{flex: 0.3, width: '50%'}}>
+          <Dropdown
+            selectedItemColor="#3eb245"
+            label="Lifestyle"
+            data={[
+              {value: 'Sedentary'},
+              {value: 'Low Active'},
+              {value: 'Moderately Active'},
+              {value: 'Extremely Active'},
+            ]}
+            onChangeText={value => {
+              this.setState({lifestyle: value});
             }}
           />
         </View>

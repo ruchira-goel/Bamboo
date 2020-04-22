@@ -28,6 +28,8 @@ import DietGraphs from './src/DietGraphs';
 import FavMeals from './src/FavMeals';
 import FavActivities from './src/FavActivities';
 import NotifSettings from './src/NotifSettings';
+import MealRecommend from './src/MealRecommend';
+import RecommendedMealsList from './src/RecommendedMealsList';
 
 const Stack = createStackNavigator();
 
@@ -51,6 +53,16 @@ function App() {
         <Stack.Screen
           name="FavMeals"
           component={FavMeals}
+          headerShown={'false'}
+        />
+        <Stack.Screen
+          name="MealRecommend"
+          component={MealRecommend}
+          headerShown={'false'}
+        />
+        <Stack.Screen
+          name="RecommendedMealsList"
+          component={RecommendedMealsList}
           headerShown={'false'}
         />
         <Stack.Screen

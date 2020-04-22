@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 @Document(collection = "Users")
@@ -18,11 +19,40 @@ public class User {
     private double weight;
     private int age;                            //changes
     private Sex sex;
+    private Lifestyle lifestyle;
     private ArrayList<String> goalIds;
     private HashMap<String, String> dailyInfo;    //String is id of the daily info obj
     private ArrayList<String> favMeals;
     private ArrayList<String> favExerciseRoutine;
     private boolean isMetric;
+    //private HashMap<String, List<Object>> nutrientLimits;
+    private HashMap<String, String> nutrientLimits; //e.g. proteinHigh --> 50
+    private ArrayList<String> allergies;
+    private Diet diet;
+
+    public Diet getDiet() {
+        return diet;
+    }
+
+    public void setDiet(Diet diet) {
+        this.diet = diet;
+    }
+
+    public ArrayList<String> getAllergies() {
+        return allergies;
+    }
+
+    public void setAllergies(ArrayList<String> allergies) {
+        this.allergies = allergies;
+    }
+
+    public Lifestyle getLifestyle() {
+        return lifestyle;
+    }
+
+    public void setLifestyle(Lifestyle lifestyle) {
+        this.lifestyle = lifestyle;
+    }
 
     //notification settings:
     boolean dailyInputReminder;
@@ -71,17 +101,29 @@ public class User {
     public User(String email, String encryptedPassword) {
         this.email = email;
         this.encryptedPassword = encryptedPassword;
-        this.dailyInfo  =  new HashMap<>();
+        this.dailyInfo = new HashMap<>();
         this.goalIds = new ArrayList<>();
-        this.favMeals =new ArrayList<>();
+        this.favMeals = new ArrayList<>();
         this.favExerciseRoutine = new ArrayList<>();
 
         //initialize all notifications to be true
         this.dailyInputReminder = true;
+        this.nutrientLimits = new HashMap<>();
+        this.allergies = new ArrayList<>();
+        this.diet =  Diet.UNSPECIFIED;
+        this.lifestyle = Lifestyle.UNSPECIFIED;
     }
 
     public HashMap<String, String> getDailyInfo() {
         return dailyInfo;
+    }
+
+    public HashMap<String, String> getNutrientLimits() {
+        return nutrientLimits;
+    }
+
+    public void setNutrientLimits(HashMap<String, String> nutrientLimits) {
+        this.nutrientLimits = nutrientLimits;
     }
 
     public String getUserId() {

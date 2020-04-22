@@ -73,7 +73,7 @@ public class UserHandler {
     }
 
     //new user add characteristics
-    public User addCharacteristics(String userId, double height, double weight, int age, Sex sex, boolean isMetric) throws IllegalAccessException {
+    public User addCharacteristics(String userId, double height, double weight, int age, Sex sex, Lifestyle lifestyle, boolean isMetric) throws IllegalAccessException {
         Optional<User> user = this.userRepo.findByUserId(userId);
         if (!user.isPresent()) {
             throw new IllegalAccessException("There was an error locating your account, please try signing up again");
@@ -84,10 +84,10 @@ public class UserHandler {
         userObj.setAge(age);
         userObj.setSex(sex);
         userObj.setMetric(isMetric);
+        userObj.setLifestyle(lifestyle);
         this.userRepo.save(userObj);
         return userObj;
     }
-
 
     public ArrayList<Goal> fetchGoals(String userId) throws IllegalAccessException {
         Optional<User> userObj = this.userRepo.findByUserId(userId);
@@ -111,7 +111,7 @@ public class UserHandler {
     }
 
     public User changePass(String userId, String encryptedPassword) {
-        User user =  userRepo.findUserByUserId(userId);
+        User user = userRepo.findUserByUserId(userId);
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         user.setEncryptedPassword(passwordEncoder.encode(encryptedPassword));
         return this.userRepo.save(user);
@@ -131,19 +131,20 @@ public class UserHandler {
     /**
      * Get the total minutes of exercise a user did in the last week, ending with today's information.
      * Data intended for display on a graph.
+     *
      * @param userId user ID
      * @return string representation of total minutes of exercise on each of the past 7 days
      */
     public String getWeekExerciseTime(String userId) {
         int[] minutes = new int[7];
-        int offset = 24*60*60*1000;
+        int offset = 24 * 60 * 60 * 1000;
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
         User user = this.userRepo.findUserByUserId(userId);
         HashMap<String, String> dailyInfos = user.getDailyInfo();
 
         for (int i = 0; i < 7; i++) {
-            Date date = new Date(System.currentTimeMillis() - offset*i);
+            Date date = new Date(System.currentTimeMillis() - offset * i);
 
             Optional<DailyInfo> info = Optional.empty();
             if (dailyInfos.get(format.format(date)) != null) {
@@ -158,7 +159,7 @@ public class UserHandler {
                     if (activity.isPresent())
                         mins += activity.get().getMinutes();
                 }
-                minutes[6-i] = mins;
+                minutes[6 - i] = mins;
             }
         }
 
@@ -167,20 +168,19 @@ public class UserHandler {
             str.append(i);
             str.append(" ");
         }
-
         return str.toString().trim();
     }
 
     public String getWeekExerciseCalories(String userId) {
         int[] calories = new int[7];
-        int offset = 24*60*60*1000;
+        int offset = 24 * 60 * 60 * 1000;
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
         User user = this.userRepo.findUserByUserId(userId);
         HashMap<String, String> dailyInfos = user.getDailyInfo();
 
         for (int i = 0; i < 7; i++) {
-            Date date = new Date(System.currentTimeMillis() - offset*i);
+            Date date = new Date(System.currentTimeMillis() - offset * i);
 
             Optional<DailyInfo> info = Optional.empty();
             if (dailyInfos.get(format.format(date)) != null) {
@@ -195,7 +195,7 @@ public class UserHandler {
                     if (activity.isPresent())
                         cals += activity.get().getCalories();
                 }
-                calories[6-i] = cals;
+                calories[6 - i] = cals;
             }
         }
 
@@ -204,20 +204,19 @@ public class UserHandler {
             str.append(i);
             str.append(" ");
         }
-
         return str.toString().trim();
     }
 
     public String getWeekCaloriesConsumption(String userId) {
         int[] calories = new int[7];
-        int offset = 24*60*60*1000;
+        int offset = 24 * 60 * 60 * 1000;
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
         User user = this.userRepo.findUserByUserId(userId);
         HashMap<String, String> dailyInfos = user.getDailyInfo();
 
         for (int i = 0; i < 7; i++) {
-            Date date = new Date(System.currentTimeMillis() - offset*i);
+            Date date = new Date(System.currentTimeMillis() - offset * i);
 
             Optional<DailyInfo> info = Optional.empty();
             if (dailyInfos.get(format.format(date)) != null) {
@@ -232,7 +231,7 @@ public class UserHandler {
                     if (meal.isPresent())
                         cals += meal.get().getCalories();
                 }
-                calories[6-i] = cals;
+                calories[6 - i] = cals;
             }
         }
 
@@ -241,7 +240,6 @@ public class UserHandler {
             str.append(i);
             str.append(" ");
         }
-
         return str.toString().trim();
     }
 
@@ -309,5 +307,103 @@ public class UserHandler {
     public boolean hasGoals(String userId) {
         //false is user has no goals, true if they do
         return !userRepo.findUserByUserId(userId).getGoalIds().isEmpty();
+    }
+
+    public HashMap<String, String> getSavedRecommendationValues(String userId) {
+        return this.userRepo.findUserByUserId(userId).getNutrientLimits();
+    }
+
+    /**
+     * Calculation sources:
+     * 1. Calories based on height, weight, age: https://www.calculator.net/bmr-calculator.html
+     * 2. Calories based on physical activity: http://www.checkyourhealth.org/eat-healthy/cal_calculator.php
+     * 3. Calories based on all characteristics: https://www.aqua-calc.com/calculate/daily-calorie-needs
+     * 4. Limits of calories based on percentages for 3-meals a day: https://www.omnicalculator.com/health/meal-calorie#how-many-calories-per-meal-should-i-eat
+     * 5. Carbs: https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/carbohydrates/art-20045705
+     * 6. Fat: https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/expert-answers/fat-grams/faq-20058496
+     * 7. Protein: https://wa.kaiserpermanente.org/healthAndWellness?item=%2Fcommon%2FhealthAndWellness%2Fconditions%2Fdiabetes%2FfoodBalancing.html
+     */
+
+    public HashMap<String, Double> calculateDietRequirements(String userId) {
+        User user = this.userRepo.findUserByUserId(userId);
+        double height = user.getHeight() / 100;
+        double weight = user.getWeight();
+        double age = user.getAge();
+        Lifestyle lifestyle = user.getLifestyle();
+        Sex sex = user.getSex();
+        double caloriesRequired = 0;
+//        if (sex == Sex.FEMALE) {
+//            caloriesRequired = 9.247 * weight + 3.098 * height - 4.330 * age + 447.593;
+//        } else if (sex == Sex.MALE) {
+//            caloriesRequired = 13.397 * weight + 4.799 * height - 5.677 * age + 88.362;
+//        }
+        double pa = 0;
+        switch (lifestyle) {
+            case SEDENTARY:
+                pa = 1;
+                //caloriesRequired *= 1.2;
+                break;
+            case LOW:
+                if (sex == Sex.MALE) {
+                    pa = 1.12;
+                } else if (sex == Sex.FEMALE) {
+                    pa = 1.14;
+                }
+                //caloriesRequired *= 1.375;
+                break;
+            case MODERATE:
+                pa = 1.27;
+                //caloriesRequired *= 1.55;
+                break;
+            case EXTREME:
+                if (sex == Sex.MALE) {
+                    pa = 1.54;
+                } else if (sex == Sex.FEMALE) {
+                    pa = 1.45;
+                }
+                //caloriesRequired *= 1.725;
+                break;
+            default:
+                pa = 1;
+        }
+        if (sex == Sex.MALE) {
+            caloriesRequired = 864 - 9.72 * age + pa * (14.2 * weight + 503 * height);
+        } else if (sex == Sex.FEMALE) {
+            caloriesRequired = 387 - 7.31 * age + pa * (10.9 * weight + 660.7 * height);
+        } else {
+            caloriesRequired = 864 - 9.72 * age + pa * (14.2 * weight + 503 * height);
+        }
+        double calLow = caloriesRequired * 0.25;
+        double calHigh = caloriesRequired * 0.40;
+        double proteinHigh = 0.2 * caloriesRequired / 4 / 3; //maxProt, min is 12%
+        double proteinLow = 0.12 * caloriesRequired / 4 / 3;
+        double fatHigh = 0.35 * caloriesRequired / 9 / 3;  //maxFat, min is 20%
+        double fatLow = 0.2 * caloriesRequired / 9 / 3;
+        double carbsHigh = 0.65 * caloriesRequired / 4 / 3;    //maxcarbs, min is 45%
+        double carbsLow = 0.45 * caloriesRequired / 4 / 3;
+        return new HashMap<String, Double>() {{
+            put("calHigh", calHigh);
+            put("calLow", calLow);
+            put("fatHigh", fatHigh);
+            put("fatLow", fatLow);
+            put("proteinHigh", proteinHigh);
+            put("proteinLow", proteinLow);
+            put("carbsHigh", carbsHigh);
+            put("carbsLow", carbsLow);
+        }};
+    }
+
+    public void clearNutrientLimits(String userId) {
+        User user = this.userRepo.findUserByUserId(userId);
+        user.setNutrientLimits(new HashMap<>());
+        this.userRepo.save(user);
+    }
+
+    public void setChars(int age, double height, double weight, String userId) {
+        User user = this.userRepo.findUserByUserId(userId);
+        user.setAge(age);
+        user.setHeight(height);
+        user.setWeight(weight);
+        this.userRepo.save(user);
     }
 }

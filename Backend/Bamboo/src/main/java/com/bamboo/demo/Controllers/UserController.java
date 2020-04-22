@@ -1,35 +1,26 @@
 package com.bamboo.demo.Controllers;
 
-import com.bamboo.demo.Handlers.ActivityHandler;
 import com.bamboo.demo.Handlers.DIHandler;
-import com.bamboo.demo.Handlers.MealHandler;
 import com.bamboo.demo.Handlers.UserHandler;
-import com.bamboo.demo.Models.DailyInfo;
-import com.bamboo.demo.Models.Goal;
-import com.bamboo.demo.Models.Sex;
-import com.bamboo.demo.Models.User;
+import com.bamboo.demo.Models.*;
 import com.bamboo.demo.Repos.*;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
 public class UserController {
     private UserHandler userHandler;
     private DIHandler di;
-    private ActivityHandler activityHandler;
-    private MealHandler mealHandler;
 
     public UserController(UserRepo userRepo, DailyInfoRepo di, MealRepo mealRepo, ActivityRepo activityRepo, GoalRepo goalRepo) {
         this.userHandler = new UserHandler(userRepo, di, mealRepo, activityRepo, goalRepo); //Check
         this.di = new DIHandler(di);
-
     }
 
     @RequestMapping("/User/login")          //login request
@@ -73,8 +64,8 @@ public class UserController {
                                    @RequestParam(value = "weight") double weight,
                                    @RequestParam(value = "age") int age,
                                    @RequestParam(value = "sex") String sex,
+                                   @RequestParam(value = "lifestyle") String lifestyle,
                                    @RequestParam(value = "isMetric") boolean isMetric) throws IllegalAccessException {
-        //System.out.println("email is " + email);
         Sex sexEnum = Sex.OTHER;
         switch (sex) {
             case "Female":
@@ -91,7 +82,22 @@ public class UserController {
                 break;
 
         }
-        return userHandler.addCharacteristics(userId, height, weight, age, sexEnum, isMetric);
+        Lifestyle lStyle = Lifestyle.UNSPECIFIED;
+        switch (lifestyle) {
+            case "Sedentary":
+                lStyle = Lifestyle.SEDENTARY;
+                break;
+            case "Moderately Active":
+                lStyle = Lifestyle.MODERATE;
+                break;
+            case "Extremely Active":
+                lStyle = Lifestyle.EXTREME;
+                break;
+            case "Low":
+                lStyle = Lifestyle.LOW;
+                break;
+        }
+        return userHandler.addCharacteristics(userId, height, weight, age, sexEnum, lStyle, isMetric);
     }
 
     @RequestMapping("/User/all")
@@ -138,7 +144,7 @@ public class UserController {
 
     @RequestMapping("/User/changePass")          //login request
     public User changePass(@RequestParam(value = "userId") String userId,
-                           @RequestParam(value = "encryptedPassword") String encryptedPassword) throws IllegalAccessException {
+                           @RequestParam(value = "encryptedPassword") String encryptedPassword) {
         return userHandler.changePass(userId, encryptedPassword);
     }
 
@@ -155,5 +161,29 @@ public class UserController {
     @RequestMapping("/User/weekCaloriesConsumption")
     public String weekCaloriesConsumption(@RequestParam(value = "userId") String userId) {
         return userHandler.getWeekCaloriesConsumption(userId);
+    }
+
+    @RequestMapping("/User/getSavedRecommendationValues")
+    public HashMap<String, String> getSavedRecommendationValues(
+            @RequestParam(value = "userId") String userId) {
+        return userHandler.getSavedRecommendationValues(userId);
+    }
+
+    @RequestMapping("/User/getDietRequirements")
+    public HashMap<String, Double> getDietRequirements(@RequestParam(value = "userId") String userId) {
+        return userHandler.calculateDietRequirements(userId);
+    }
+
+    @RequestMapping("/User/clearNutrientLimits")
+    public void clearNutrientLimits(@RequestParam(value = "userId") String userId) {
+        userHandler.clearNutrientLimits(userId);
+    }
+
+    @RequestMapping("/User/setChars")
+    public void setChars(@RequestParam(value = "age") int age,
+                         @RequestParam(value = "height") double height,
+                         @RequestParam(value = "weight") double weight,
+                         @RequestParam(value = "userId") String userId) {
+        userHandler.setChars(age, height, weight, userId);
     }
 }

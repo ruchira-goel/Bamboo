@@ -35,7 +35,7 @@ public class ActivityController {
 
     @RequestMapping("/Activity/addToFavorites")
     public Activity addToFavorites(@RequestParam(value = "activityId") String activityId,
-                               @RequestParam(value = "userId") String userId) {
+                                   @RequestParam(value = "userId") String userId) {
         return activityHandler.addToFavorites(activityId, userId);
     }
 
@@ -52,8 +52,8 @@ public class ActivityController {
 
     @RequestMapping("/Activity/saveActivityFromFavorites")
     public boolean saveActivityFromFavorites(@RequestParam(value = "userId") String userId,
-                                         @RequestParam(value = "activityId") String activityId,
-                                         @RequestParam(value = "date") String date) {
+                                             @RequestParam(value = "activityId") String activityId,
+                                             @RequestParam(value = "date") String date) {
         return this.activityHandler.saveActivityFromFavorites(userId, activityId, date);
     }
 

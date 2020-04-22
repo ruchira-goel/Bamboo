@@ -4,12 +4,10 @@ import com.bamboo.demo.Handlers.GoalHandler;
 import com.bamboo.demo.Models.Goal;
 import com.bamboo.demo.Repos.*;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -19,7 +17,7 @@ public class GoalController {
 
     public GoalController(MealRepo mealRepo, DailyInfoRepo dailyInfoRepo, UserRepo userRepo,
                           GoalRepo goalRepo, ActivityRepo activityRepo) {
-        this.goalHandler = new GoalHandler(mealRepo, userRepo, dailyInfoRepo, goalRepo,activityRepo);
+        this.goalHandler = new GoalHandler(mealRepo, userRepo, dailyInfoRepo, goalRepo, activityRepo);
     }
 
     @RequestMapping("/Goal/addGoal")
@@ -29,7 +27,7 @@ public class GoalController {
                         @RequestParam(value = "amount") int amount,
                         @RequestParam(value = "trackedItem") String trackedItem,
                         @RequestParam(value = "duration") String duration) {
-        return this.goalHandler.addGoal(userId, type, limitType, amount,trackedItem, duration);
+        return this.goalHandler.addGoal(userId, type, limitType, amount, trackedItem, duration);
     }
 
     @RequestMapping("/Goal/fetchGoalInfo")
@@ -52,7 +50,7 @@ public class GoalController {
                          @RequestParam(value = "amount") int amount,
                          @RequestParam(value = "trackedItem") String trackedItem,
                          @RequestParam(value = "duration") String duration) throws IllegalAccessException {
-        return goalHandler.editGoal(userId, goalId, type, limitType, amount,trackedItem, duration);
+        return goalHandler.editGoal(userId, goalId, type, limitType, amount, trackedItem, duration);
     }
 
     @RequestMapping("/Goal/fetchGoalProgress")
