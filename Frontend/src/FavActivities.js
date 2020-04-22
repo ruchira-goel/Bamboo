@@ -66,7 +66,7 @@ class FavActivities extends Component {
           }/Activity/saveActivityFromFavorites?userId=${userId}&activityId=${
             item.id
           }&date=${date}`
-        : `${Constants.URL.ios}/Activity/saveActivityFromFavorites?userId=${userId}&activityId=${
+        : `http://localhost:8080/Activity/saveActivityFromFavorites?userId=${userId}&activityId=${
             item.id
           }&date=${date}`,
     )
@@ -96,7 +96,7 @@ class FavActivities extends Component {
     fetch(
       Platform.OS === 'android'
         ? `${Constants.URL.android}/Activity/getFavorites?userId=${userId}`
-        : `${Constants.URL.ios}/Activity/getFavorites?userId=${userId}`,
+        : `http://localhost:8080/Activity/getFavorites?userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -134,7 +134,7 @@ class FavActivities extends Component {
         ? `${
             Constants.URL.android
           }/Activity/deleteFavorite?userId=${userId}&activityId=${item.id}`
-        : `${Constants.URL.ios}/Activity/deleteFavorite?userId=${userId}&activityId=${
+        : `http://localhost:8080/Activity/deleteFavorite?userId=${userId}&activityId=${
             item.id
           }`,
     )

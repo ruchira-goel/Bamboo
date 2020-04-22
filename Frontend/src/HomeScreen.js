@@ -33,7 +33,7 @@ export default class HomeScreen extends React.Component {
     fetch(
       Platform.OS === 'android'
         ? `${URL.android}/User/delAccount?userId=${userId}`
-        : `${Constants.URL.ios}/User/delAccount?userId=${userId}`,
+        : `http://localhost:8080/User/delAccount?userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {

@@ -178,10 +178,7 @@ android {
     }
 }
 
-apply from: '../../node_modules/react-native-unimodules/gradle.groovy'
-
 dependencies {
-    addUnimodulesDependencies()
     implementation project(':react-native-svg')
     implementation project(':react-native-date-picker')
     implementation project(':react-native-duration-picker')

@@ -24,9 +24,9 @@ export const COLORS = {
 };
 
 export const URL = {
-  android: 'https://bamboo-307.herokuapp.com',
-  // android: '${Constants.URL.android}',
-  ios: 'https://bamboo-307.herokuapp.com',
+  android: 'https://cs-bamboo.herokuapp.com',
+  // android: 'http://10.0.2.2:8080',
+  ios: 'http://localhost:8080',
 };
 
 export const DIMENSIONS = {

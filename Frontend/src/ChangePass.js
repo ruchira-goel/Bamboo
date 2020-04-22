@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Platform,
 } from 'react-native';
-//import {LinearGradient} from 'expo-linear-gradient';
+import {LinearGradient} from 'expo-linear-gradient';
 import * as Constants from './Constants';
 import {useNavigation, useRoute} from '@react-navigation/native';
 

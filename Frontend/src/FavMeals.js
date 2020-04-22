@@ -55,10 +55,10 @@ class FavMeals extends Component {
     console.log("");
     fetch(
       Platform.OS === 'android'
-        ? `${Constants.URL.android}/Meal/saveMealFromFavorites?userId=${userId}&mealId=${
+        ? `http://10.0.2.2:8080/Meal/saveMealFromFavorites?userId=${userId}&mealId=${
             item.id
           }&date=${date}`
-        : `${Constants.URL.ios}/Meal/saveMealFromFavorites?userId=${userId}&mealId=${
+        : `http://localhost:8080/Meal/saveMealFromFavorites?userId=${userId}&mealId=${
             item.id
           }&date=${date}`,
     )
@@ -87,8 +87,8 @@ class FavMeals extends Component {
     console.log('In the favmeals page: ' + userId);
     fetch(
       Platform.OS === 'android'
-        ? `${Constants.URL.android}/Meal/getFavorites?userId=${userId}`
-        : `${Constants.URL.ios}/Meal/getFavorites?userId=${userId}`,
+        ? `http://10.0.2.2:8080/Meal/getFavorites?userId=${userId}`
+        : `http://localhost:8080/Meal/getFavorites?userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -124,10 +124,10 @@ class FavMeals extends Component {
     console.log(item.id);
     fetch(
       Platform.OS === 'android'
-        ? `${Constants.URL.android}/Meal/deleteFavorite?userId=${userId}&mealId=${
+        ? `http://10.0.2.2:8080/Meal/deleteFavorite?userId=${userId}&mealId=${
             item.id
           }`
-        : `${Constants.URL.ios}/Meal/deleteFavorite?userId=${userId}&mealId=${
+        : `http://localhost:8080/Meal/deleteFavorite?userId=${userId}&mealId=${
             item.id
           }`,
     )

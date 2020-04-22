@@ -58,7 +58,7 @@ class EnterMealDailyInput extends React.Component {
           ? `${
               Constants.URL.android
             }/Meal/infoFromLink?link=${mealInfo}&userId=${userId}&date=${formattedDate}`
-          : `${Constants.URL.ios}/Meal/infoFromLink?link=${mealInfo}&userId=${userId}&date=${formattedDate}`,
+          : `http://localhost:8080/Meal/infoFromLink?link=${mealInfo}&userId=${userId}&date=${formattedDate}`,
       )
         .then(res => res.json())
         .then(data => {
@@ -92,7 +92,7 @@ class EnterMealDailyInput extends React.Component {
           ? `${
               Constants.URL.android
             }/Meal/infoFromName?name=${mealInfo}&userid=${userId}&date=${formattedDate}`
-          : `${Constants.URL.ios}/Meal/infoFromName?name=${mealInfo}&userid=${userId}&date=${formattedDate}`,
+          : `http://localhost:8080/Meal/infoFromName?name=${mealInfo}&userid=${userId}&date=${formattedDate}`,
       )
         .then(res => res.json())
         .then(data => {
@@ -134,7 +134,7 @@ class EnterMealDailyInput extends React.Component {
           ? `${
               Constants.URL.android
             }/Meal/infoFromRecipe?recipe=${mealInfo}&userId=${userId}&date=${formattedDate}&name=${name}`
-          : `${Constants.URL.ios}/Meal/infoFromRecipe?recipe=${mealInfo}&userId=${userId}&date=${formattedDate}&name=${name}`,
+          : `http://localhost:8080/Meal/infoFromRecipe?recipe=${mealInfo}&userId=${userId}&date=${formattedDate}&name=${name}`,
       )
         .then(res => res.json())
         .then(data => {
@@ -180,7 +180,7 @@ class EnterMealDailyInput extends React.Component {
         ? `${
             Constants.URL.android
           }/Meal/addToFavorites?mealId=${mealId}&userId=${userId}`
-        : `${Constants.URL.ios}/Meal/addToFavorites?mealId=${mealId}&userId=${userId}`,
+        : `http://localhost:8080/Meal/addToFavorites?mealId=${mealId}&userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {

@@ -46,7 +46,7 @@ class DietGraphs extends Component {
         ? `${
             Constants.URL.android
           }/User/weekCaloriesConsumption?userId=${userId}`
-        : `${Constants.URL.ios}/User/weekCaloriesConsumption?userId=${userId}`,
+        : `http://localhost:8080/User/weekCaloriesConsumption?userId=${userId}`,
     )
       .then(res => res.text())
       .then(data =>
