@@ -276,7 +276,7 @@ class HealthProfile extends Component {
                     onFocus={() => this.onFocus('a')}
                     onChangeText={height => this.setState({height})}
                     keyboardType={'numeric'}
-                    // textAlign={'right'}
+                    textAlign={'right'}
                     style={[
                       this.state.inputStyle,
                       {borderColor: this.state.borderColorA},

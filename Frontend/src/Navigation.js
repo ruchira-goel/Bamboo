@@ -470,9 +470,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: StatusBar.currentHeight,
+    // marginTop: StatusBar.currentHeight,
     padding: 10,
-    paddingTop: getStatusBarHeight(),
+    paddingTop: getStatusBarHeight() + 10,
     backgroundColor: Constants.COLORS.primary.main,
     // shadowColor: "#000",
     // shadowOffset: {
