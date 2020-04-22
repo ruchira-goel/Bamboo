@@ -108,10 +108,9 @@ export default class NotifService {
               .then(hasDailyInfo => {
                 console.log('the has daily info is ' + hasDailyInfo);
                 if (hasDailyInfo.toString() === 'false') {
-                  this.scheduleGoalStreakNotification(userId);
+                  this.scheduleDailyInputReminder(userId);
                 }
               });
-            this.scheduleDailyInputReminder();
           }
           if (data.goalStreakNotif) {
             //check if the user actually has any goals:
