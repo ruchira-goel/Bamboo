@@ -124,7 +124,9 @@ class SetGoal extends React.Component {
         ? `${
             Constants.URL.android
           }/Goal/addGoal?userId=${userId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`
-        : `${Constants.URL.ios}/Goal/addGoal?userId=${userId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`,
+        : `${
+            Constants.URL.ios
+          }/Goal/addGoal?userId=${userId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -161,7 +163,7 @@ class SetGoal extends React.Component {
         <Text style={styles.title}>Select the type of goal:</Text>
         <View style={{padding: '2%'}} />
         <View
-          style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
+          style={{flex: 0.2, flexDirection: 'row', justifyContent: 'center'}}>
           <TouchableOpacity
             onPress={() => {
               this.setState({
@@ -171,16 +173,39 @@ class SetGoal extends React.Component {
               });
             }}
             style={{
-              backgroundColor: this.state.isMealGoal ? '#3eb245' : '#b3c4b4',
+              backgroundColor: this.state.isMealGoal
+                ? Constants.COLORS.primary.main
+                : 'white',
               color: 'black',
-              borderRadius: 2,
-              borderColor: this.state.isMealGoal ? '#3eb245' : '#b3c4b4',
               width: '40%',
               height: '100%',
-              justifyContent: 'center', //text in the middle of the button
+              borderRadius: 60,
+              borderWidth: this.state.isMealGoal ? 0 : 2,
+              borderColor: Constants.COLORS.primary.main,
+              padding: 2,
+              justifyContent: 'center',
               alignItems: 'center',
-            }}>
-            <Text>Diet</Text>
+            }}
+            // style={{
+            //   backgroundColor: this.state.isMealGoal ? '#3eb245' : '#b3c4b4',
+            //   color: 'black',
+            //   borderRadius: 2,
+            //   borderColor: this.state.isMealGoal ? '#3eb245' : '#b3c4b4',
+            //   width: '40%',
+            //   height: '100%',
+            //   justifyContent: 'center', //text in the middle of the button
+            //   alignItems: 'center',
+            // }}
+          >
+            <Text
+              style={{
+                fontSize: 14,
+                textDecorationColor: 'black',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              Diet
+            </Text>
           </TouchableOpacity>
           <View style={{padding: '2%'}} />
           <TouchableOpacity
@@ -192,16 +217,37 @@ class SetGoal extends React.Component {
               })
             }
             style={{
-              backgroundColor: !this.state.isMealGoal ? '#3eb245' : '#b3c4b4',
+              backgroundColor: !this.state.isMealGoal
+                ? Constants.COLORS.primary.main
+                : 'white',
               color: 'black',
-              borderRadius: 2,
-              borderColor: !this.state.isMealGoal ? '#3eb245' : '#b3c4b4',
               width: '40%',
               height: '100%',
-              justifyContent: 'center', //text in the middle of the button
+              borderRadius: 60,
+              borderWidth: !this.state.isMealGoal ? 0 : 2,
+              borderColor: Constants.COLORS.primary.main,
+              padding: 2,
+              justifyContent: 'center',
               alignItems: 'center',
-            }}>
-            <Text>Exercise</Text>
+            }}
+            // backgroundColor: !this.state.isMealGoal ? '#3eb245' : '#b3c4b4',
+            // color: 'black',
+            // borderRadius: 2,
+            // borderColor: !this.state.isMealGoal ? '#3eb245' : '#b3c4b4',
+            // width: '40%',
+            // height: '100%',
+            // justifyContent: 'center', //text in the middle of the button
+            // alignItems: 'center',
+          >
+            <Text
+              style={{
+                fontSize: 14,
+                textDecorationColor: 'black',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              Exercise
+            </Text>
           </TouchableOpacity>
         </View>
         <View>
@@ -218,50 +264,56 @@ class SetGoal extends React.Component {
             {this.state.trackedItem} per {this.state.duration}.
           </Text>
         </View>
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+        <View style={styles.dropdown}>
           <Dropdown
             label="Limit type"
             data={limitOpts}
             onChangeText={value => {
               this.setState({limitType: value});
             }}
-            selectedItemColor="#3eb245"
+            // selectedItemColor="#3eb245"
             containerStyle={{width: '50%'}}
           />
         </View>
         <View style={{padding: '2%'}} />
         <View>
           <TextInput
-            style={styles.fieldText}
-            // autoCapitalize="none"
+            // style={styles.fieldText}
+            style={[styles.textInput]}
             keyboardType={'numeric'}
             placeholder="Enter amount"
             onChangeText={amount => this.setState({amount})}
           />
         </View>
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+        <View style={styles.dropdown}>
           <Dropdown
             label="Goal Options"
             data={this.state.goalOptions}
             onChangeText={value => {
               this.setState({trackedItem: value});
             }}
-            selectedItemColor="#3eb245"
+            // selectedItemColor="#3eb245"
             containerStyle={{width: '50%'}}
           />
         </View>
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+        <View style={styles.dropdown}>
           <Dropdown
             label="Duration type"
             data={durationOpts}
             onChangeText={value => {
               this.setState({duration: value});
             }}
-            selectedItemColor="#3eb245"
+            // selectedItemColor="#3eb245"
             containerStyle={{width: '50%'}}
           />
         </View>
-        <View style={{alignSelf: 'center', width: '50%', marginBottom: 10}}>
+        <View
+          style={{
+            alignSelf: 'center',
+            width: '50%',
+            marginBottom: 10,
+            marginTop: 20,
+          }}>
           <TouchableOpacity onPress={this.submit} style={styles.primaryBtn}>
             <Text>Save Goal</Text>
           </TouchableOpacity>
@@ -283,6 +335,14 @@ const styles = StyleSheet.create({
     // fontWeight: '500',
     flex: 1,
     marginTop: '7%',
+  },
+  dropdown: {
+    // marginTop: 20,
+    // textAlign: 'center',
+    // fontSize: 18,
+    // width: '50%',
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   title: {
     margin: 12,
@@ -324,6 +384,17 @@ const styles = StyleSheet.create({
     marginBottom: '70%',
     padding: 15,
   },
+  textInput: {
+    fontSize: 16,
+    borderBottomWidth: 0.5,
+    marginLeft: '25%',
+    marginRight: '25%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    // alignSelf: 'stretch',
+    // width: '100%',
+    // width: Constants.DIMENSIONS.screenWidth,
+  },
   primaryBtn: {
     backgroundColor: Constants.COLORS.primary.main,
     borderRadius: 60,
@@ -332,5 +403,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
+  },
+  secondaryBtn: {
+    borderRadius: 60,
+    borderWidth: 2,
+    borderColor: Constants.COLORS.primary.main,
+    padding: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 10,
   },
 });

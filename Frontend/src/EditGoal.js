@@ -9,6 +9,7 @@ import {
   Platform,
 } from 'react-native';
 import {Dropdown} from 'react-native-material-dropdown';
+import * as Constants from './Constants';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
 // TODO: On back press, ViewGoals should be re-rendered i.e. backend should be fetched again (componentDidMount)

@@ -152,6 +152,9 @@ class ViewGoals extends Component {
   }
 
   render() {
+    console.log('User ID: ', this.props.userId);
+    const {route} = this.props;
+    const {userId} = route.params;
     return (
       <View>
         <ScrollView style={styles.container}>
@@ -165,7 +168,7 @@ class ViewGoals extends Component {
                 this.props.navigation.navigate('Root', {
                   screen: 'SetGoal',
                   params: {
-                    userId: this.props.userId,
+                    userId: userId,
                   },
                 })
               }>
