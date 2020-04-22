@@ -157,4 +157,17 @@ public class UserController {
     public ArrayList<String> fetchExercisePreferences(@RequestParam(value = "userId") String userId) {
         return userHandler.fetchExercisePreferences(userId);
     }
+
+    @RequestMapping("/User/generateExerciseRoutine")
+    public boolean generateExerciseRoutine(@RequestParam(value = "userId") String userId,
+                                           @RequestParam(value = "days") String days,
+                                           @RequestParam(value = "hours") int hours,
+                                           @RequestParam(value = "categories") String categories) {
+        return userHandler.generateExerciseRoutine(userId, days, hours, categories);
+    }
+
+    @RequestMapping("/User/getExerciseRoutine")
+    public ArrayList<String> getExerciseRoutine(@RequestParam(value = "userId") String userId) {
+        return userHandler.getExerciseRoutine(userId);
+    }
 }

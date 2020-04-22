@@ -25,6 +25,7 @@ public class User {
     private boolean isMetric;
     private ArrayList<String> preferredExerciseCategories;
     private int preferredExerciseDaysInWeek;
+    private ArrayList<String> exerciseRoutine;
 
     // TODO: MAKE IT DOUBLE
     private int preferredExerciseHoursPerday;
@@ -63,6 +64,7 @@ public class User {
         this.preferredExerciseCategories = new ArrayList<>();
         this.preferredExerciseDaysInWeek = 0;
         this.preferredExerciseHoursPerday = 0;
+        this.exerciseRoutine = new ArrayList<>();
     }
 
     public HashMap<String, String> getDailyInfo() {
@@ -168,5 +170,13 @@ public class User {
 
     public void setPreferredExerciseHoursPerday(int preferredExerciseHoursPerday) {
         this.preferredExerciseHoursPerday = preferredExerciseHoursPerday;
+    }
+
+    public void setExerciseRoutine(ArrayList<String> routine) {
+        exerciseRoutine = routine;
+    }
+
+    public ArrayList<String> getExerciseRoutine() {
+        return exerciseRoutine;
     }
 }

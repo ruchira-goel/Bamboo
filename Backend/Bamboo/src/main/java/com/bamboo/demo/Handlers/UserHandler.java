@@ -287,4 +287,100 @@ public class UserHandler {
 
         return list;
     }
+
+    public boolean generateExerciseRoutine(String userId, String days, int hours, String categories) {
+        User user = this.userRepo.findUserByUserId(userId);
+
+        // String values are "true" or "false"
+        // Correspond to: su m t w th f sa
+        String[] week = days.split("\\s+");
+        ArrayList<String> daysList = new ArrayList<>();
+        if (week[0].equals("true")) {
+            daysList.add("Sunday");
+        }
+        if (week[1].equals("true")) {
+            daysList.add("Monday");
+        }
+        if (week[2].equals("true")) {
+            daysList.add("Tuesday");
+        }
+        if (week[3].equals("true")) {
+            daysList.add("Wednesday");
+        }
+        if (week[4].equals("true")) {
+            daysList.add("Thursday");
+        }
+        if (week[5].equals("true")) {
+            daysList.add("Friday");
+        }
+        if (week[6].equals("true")) {
+            daysList.add("Saturday");
+        }
+
+        ArrayList<String> activities = new ArrayList<>();
+
+        String[] categoryList = categories.split("\\s+");
+        if (categoryList[0].equals("true")) {
+            activities.add("General");
+            activities.add("Stationary Bicycling");
+        }
+        if (categoryList[1].equals("true")) {
+            activities.add("Aerobic");
+            activities.add("Elliptical Trainer");
+            activities.add("Jump Rope");
+            activities.add("Pilates");
+            activities.add("Rowing");
+            activities.add("Weight Training");
+        }
+        if (categoryList[2].equals("true")) {
+            activities.add("Jogging");
+            activities.add("Running");
+        }
+        if (categoryList[3].equals("true")) {
+            activities.add("Badminton");
+            activities.add("Baseball/Softball");
+            activities.add("Basketball");
+            activities.add("Boxing");
+            activities.add("Football");
+            activities.add("Golf");
+            activities.add("Ping Pong");
+            activities.add("Soccer");
+            activities.add("Tennis");
+            activities.add("Volleyball");
+            activities.add("Wrestling");
+        }
+        if (categoryList[4].equals("true")) {
+            activities.add("Canoeing");
+            activities.add("Jet Skiing");
+            activities.add("Kayaking");
+            activities.add("Scuba Diving");
+            activities.add("Surfing");
+            activities.add("Swimming");
+        }
+        if (categoryList[5].equals("true")) {
+            activities.add("Ice Skating");
+            activities.add("Skiing");
+            activities.add("Sledding");
+            activities.add("Snowboarding");
+            activities.add("Ice Hockey");
+        }
+
+        // day category hours
+        ArrayList<String> routine = new ArrayList<>();
+        for (String day : daysList) {
+            int index = (int) (Math.random() * activities.size());
+            String str = day + " " + activities.get(index) + " " + hours;
+            routine.add(str);
+        }
+        user.setExerciseRoutine(routine);
+
+        this.userRepo.save(user);
+
+        return true;
+    }
+
+    public ArrayList<String> getExerciseRoutine(String userId) {
+        User user = this.userRepo.findUserByUserId(userId);
+        return user.getExerciseRoutine();
+    }
 }
