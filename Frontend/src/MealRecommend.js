@@ -337,8 +337,8 @@ export default class MealRecommend extends React.Component {
     console.log('Request: ' + request);
     fetch(
       Platform.OS === 'android'
-        ? `${URL.android}${request}`
-        : `http://localhost:8080/${request}`,
+        ? `${URL.android}/${request}`
+        : `${URL.ios}/${request}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -360,7 +360,7 @@ export default class MealRecommend extends React.Component {
     fetch(
       Platform.OS === 'android'
         ? `${URL.android}/User/getDietRequirements?userId=${userId}`
-        : `http://localhost:8080/User/getDietRequirements?userId=${userId}`,
+        : `${URL.ios}/User/getDietRequirements?userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -388,7 +388,7 @@ export default class MealRecommend extends React.Component {
     fetch(
       Platform.OS === 'android'
         ? `${URL.android}/User/getSavedRecommendationValues?userId=${userId}`
-        : `http://localhost:8080/User/getSavedRecommendationValues?userId=${userId}`,
+        : `${URL.ios}/User/getSavedRecommendationValues?userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {

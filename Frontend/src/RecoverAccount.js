@@ -27,7 +27,7 @@ export default class RecoverAccount extends Component {
     fetch(
       Platform.OS === 'android'
         ? `${URL.android}/User/recoverAccount?email=${email}`
-        : `http://localhost:8080/User/recoverAccount?email=${email}`,
+        : `${URL.ios}/User/recoverAccount?email=${email}`,
     )
       .then(res => res.json())
       .then(data => {
