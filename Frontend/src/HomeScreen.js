@@ -54,6 +54,7 @@ export default class HomeScreen extends React.Component {
   render() {
     const {route} = this.props;
     const {userId} = route.params;
+    console.log('User ID: ', this.props.userId);
     return (
       <View style={styles.heading}>
         <TouchableOpacity
