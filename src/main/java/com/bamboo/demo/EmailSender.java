@@ -41,7 +41,7 @@ public class EmailSender {
 
             helper.setSubject("Reset Password");
             helper.setTo(email);
-            helper.setText("<html><body>Hi,<br/><a href='http://localhost:8080/resetPassword/"+email+"/"+ user.get().getToken().getUuid()+ "'>Click here</a> to reset your password",true);
+            helper.setText("<html><body>Hi,<br/><a href='http://bamboo-307.herokuapp.com/resetPassword/"+email+"/"+ user.get().getToken().getUuid()+ "'>Click here</a> to reset your password",true);
 
             emailSender.send(mimeMessage);
         } catch(MessagingException exception) {
