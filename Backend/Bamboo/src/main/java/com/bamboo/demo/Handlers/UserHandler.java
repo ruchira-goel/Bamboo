@@ -336,6 +336,38 @@ public class UserHandler {
         user.setAge(age);
         user.setHeight(height);
         user.setWeight(weight);
+    }
+
+    public boolean saveDietaryRestrictions(String userId, ArrayList<String> allergies, String diet) {
+        User user = this.userRepo.findUserByUserId(userId);
+        user.getAllergies().clear();
+        for (String allergy : allergies) {
+            if (!user.getAllergies().contains(allergy)) {
+                user.getAllergies().add(allergy);
+            }
+        }
+        if (Diet.fromString(diet) != null) {
+            user.setDiet(Diet.fromString(diet));
+        } else {
+            try {
+                Diet newDiet = Diet.valueOf(diet);
+            } catch (IllegalArgumentException e) {
+                if (!(e.getMessage().equals("Diet not found"))) {
+                    user.setDiet(Diet.valueOf(diet));
+                }
+            }
+
+        }
         this.userRepo.save(user);
+        return true;
+    }
+
+    public User getDietaryRestrictions(String userId) throws IllegalAccessException {
+        Optional<User> user = this.userRepo.findByUserId(userId);
+        if (!user.isPresent()) {
+            throw new IllegalAccessException("There was an error locating your account, please try signing up again");
+        }
+        User userObj = user.get();
+        return userObj;
     }
 }

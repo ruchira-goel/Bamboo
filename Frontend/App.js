@@ -29,6 +29,8 @@ import FavMeals from './src/FavMeals';
 import FavActivities from './src/FavActivities';
 import MealRecommend from './src/MealRecommend';
 import RecommendedMealsList from './src/RecommendedMealsList';
+import EnterDietaryRestrictions from './src/EnterDietaryRestrictions';
+import EditDietaryRestrictions from './src/EditDietaryRestrictions';
 
 const Stack = createStackNavigator();
 
@@ -70,8 +72,18 @@ function App() {
           headerShown={'false'}
         />
         <Stack.Screen
+          name="EnterDietaryRestrictions"
+          component={EnterDietaryRestrictions}
+          headerShown={'false'}
+        />
+        <Stack.Screen
           name="HealthProfile"
           component={HealthProfile}
+          headerShown={'false'}
+        />
+        <Stack.Screen
+          name="EditDietaryRestrictions"
+          component={EditDietaryRestrictions}
           headerShown={'false'}
         />
         <Stack.Screen
