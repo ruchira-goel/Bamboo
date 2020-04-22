@@ -137,7 +137,7 @@ public class UserController {
     @RequestMapping("/User/saveDietaryRestrictions")
     public boolean saveDietaryRestrictions(@RequestParam(value = "userId") String userId,
                                            @RequestParam(value = "allergies") ArrayList<String> allergies,
-                                           @RequestParam(value = "diets") ArrayList<String> diets) {
-        return userHandler.saveDietaryRestrictions(userId, allergies, diets);
+                                           @RequestParam(value = "diet") String diet) {
+        return userHandler.saveDietaryRestrictions(userId, allergies, diet);
     }
 }

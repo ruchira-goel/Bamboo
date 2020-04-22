@@ -109,7 +109,7 @@ public class UserHandler {
     }
 
     public User changePass(String userId, String encryptedPassword) {
-        User user =  userRepo.findUserByUserId(userId);
+        User user = userRepo.findUserByUserId(userId);
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         user.setEncryptedPassword(passwordEncoder.encode(encryptedPassword));
         return this.userRepo.save(user);
@@ -129,19 +129,20 @@ public class UserHandler {
     /**
      * Get the total minutes of exercise a user did in the last week, ending with today's information.
      * Data intended for display on a graph.
+     *
      * @param userId user ID
      * @return string representation of total minutes of exercise on each of the past 7 days
      */
     public String getWeekExerciseTime(String userId) {
         int[] minutes = new int[7];
-        int offset = 24*60*60*1000;
+        int offset = 24 * 60 * 60 * 1000;
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
         User user = this.userRepo.findUserByUserId(userId);
         HashMap<String, String> dailyInfos = user.getDailyInfo();
 
         for (int i = 0; i < 7; i++) {
-            Date date = new Date(System.currentTimeMillis() - offset*i);
+            Date date = new Date(System.currentTimeMillis() - offset * i);
 
             Optional<DailyInfo> info = Optional.empty();
             if (dailyInfos.get(format.format(date)) != null) {
@@ -156,7 +157,7 @@ public class UserHandler {
                     if (activity.isPresent())
                         mins += activity.get().getMinutes();
                 }
-                minutes[6-i] = mins;
+                minutes[6 - i] = mins;
             }
         }
 
@@ -171,14 +172,14 @@ public class UserHandler {
 
     public String getWeekExerciseCalories(String userId) {
         int[] calories = new int[7];
-        int offset = 24*60*60*1000;
+        int offset = 24 * 60 * 60 * 1000;
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
         User user = this.userRepo.findUserByUserId(userId);
         HashMap<String, String> dailyInfos = user.getDailyInfo();
 
         for (int i = 0; i < 7; i++) {
-            Date date = new Date(System.currentTimeMillis() - offset*i);
+            Date date = new Date(System.currentTimeMillis() - offset * i);
 
             Optional<DailyInfo> info = Optional.empty();
             if (dailyInfos.get(format.format(date)) != null) {
@@ -193,7 +194,7 @@ public class UserHandler {
                     if (activity.isPresent())
                         cals += activity.get().getCalories();
                 }
-                calories[6-i] = cals;
+                calories[6 - i] = cals;
             }
         }
 
@@ -208,14 +209,14 @@ public class UserHandler {
 
     public String getWeekCaloriesConsumption(String userId) {
         int[] calories = new int[7];
-        int offset = 24*60*60*1000;
+        int offset = 24 * 60 * 60 * 1000;
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
         User user = this.userRepo.findUserByUserId(userId);
         HashMap<String, String> dailyInfos = user.getDailyInfo();
 
         for (int i = 0; i < 7; i++) {
-            Date date = new Date(System.currentTimeMillis() - offset*i);
+            Date date = new Date(System.currentTimeMillis() - offset * i);
 
             Optional<DailyInfo> info = Optional.empty();
             if (dailyInfos.get(format.format(date)) != null) {
@@ -230,7 +231,7 @@ public class UserHandler {
                     if (meal.isPresent())
                         cals += meal.get().getCalories();
                 }
-                calories[6-i] = cals;
+                calories[6 - i] = cals;
             }
         }
 
@@ -243,17 +244,15 @@ public class UserHandler {
         return str.toString().trim();
     }
 
-    public boolean saveDietaryRestrictions(String userId, ArrayList<String> allergies, ArrayList<String> diets) {
+    public boolean saveDietaryRestrictions(String userId, ArrayList<String> allergies, String diet) {
         User user = this.userRepo.findUserByUserId(userId);
         for (String allergy : allergies) {
             if (!user.getAllergies().contains(allergy)) {
                 user.getAllergies().add(allergy);
             }
         }
-        for (String diet : diets) {
-            if (!user.getDiets().contains(diet)) {
-                user.getDiets().add(diet);
-            }
+        if (Diet.fromString(diet) != null) {
+            user.setDiet(Diet.fromString(diet));
         }
         this.userRepo.save(user);
         return true;

@@ -24,7 +24,15 @@ public class User {
     private ArrayList<String> favExerciseRoutine;
     private boolean isMetric;
     private ArrayList<String> allergies;
-    private ArrayList<String> diets;
+    private Diet diet;
+
+    public Diet getDiet() {
+        return diet;
+    }
+
+    public void setDiet(Diet diet) {
+        this.diet = diet;
+    }
 
     public boolean isMetric() {
         return isMetric;
@@ -58,7 +66,6 @@ public class User {
         this.favMeals =new ArrayList<>();
         this.favExerciseRoutine = new ArrayList<>();
         this.allergies = new ArrayList<>();
-        this.diets = new ArrayList<>();
     }
 
     public HashMap<String, String> getDailyInfo() {
@@ -148,13 +155,5 @@ public class User {
 
     public void setAllergies(ArrayList<String> allergies) {
         this.allergies = allergies;
-    }
-
-    public ArrayList<String> getDiets() {
-        return diets;
-    }
-
-    public void setDiets(ArrayList<String> diets) {
-        this.diets = diets;
     }
 }

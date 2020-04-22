@@ -35,6 +35,7 @@ target 'Frontend' do
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   target 'FrontendTests' do
     inherit! :search_paths

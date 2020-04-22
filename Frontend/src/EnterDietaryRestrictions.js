@@ -8,13 +8,13 @@ import {
   Alert,
   TouchableOpacity,
   Platform,
+  SafeAreaView,
+  ScrollView,
 } from 'react-native';
 import React from 'react';
-import MultiSelect from 'react-native-multiple-select';
-import {MaterialIcons} from '@expo/vector-icons';
-// import {MaterialIcons} from 'expo-font/';
 import * as Font from 'expo-font';
-
+import {Dropdown} from 'react-native-material-dropdown';
+import MultiSelect from 'react-native-multiple-select';
 // TODO: In android, toggle switch to change units overlaps with sex dropdown
 
 let {screenHeight, screenWidth} = Dimensions.get('window');
@@ -22,7 +22,7 @@ let {screenHeight, screenWidth} = Dimensions.get('window');
 const allergies = [
   {
     id: '1',
-    name: 'Milk/Lactose',
+    name: 'Dairy',
   },
   {
     id: '2',
@@ -30,42 +30,43 @@ const allergies = [
   },
   {
     id: '3',
-    name: 'Shellfish',
-  },
-  {
-    id: '4',
     name: 'Gluten',
   },
   {
+    id: '4',
+    name: 'Grain',
+  },
+  {
     id: '5',
-    name: 'Peanut/Tree Nuts',
+    name: 'Peanut',
   },
   {
     id: '6',
-    name: 'Soybean',
+    name: 'Seafood',
   },
   {
     id: '7',
-    name: 'Fish',
-  },
-];
-
-const diets = [
-  {
-    id: '1',
-    name: 'Vegetarian',
+    name: 'Sesame',
   },
   {
-    id: '2',
-    name: 'Vegan',
+    id: '8',
+    name: 'Shellfish',
   },
   {
-    id: '3',
-    name: 'Kosher',
+    id: '9',
+    name: 'Soy',
   },
   {
-    id: '4',
-    name: 'Paleo',
+    id: '10',
+    name: 'Sulfite',
+  },
+  {
+    id: '11',
+    name: 'Tree Nut',
+  },
+  {
+    id: '12',
+    name: 'Wheat',
   },
 ];
 
@@ -74,25 +75,23 @@ export default class EnterDietaryRestrictions extends React.Component {
     super(props);
     this.state = {
       selectedAllergyItems: [],
-      selectedDiets: [],
       assetsLoaded: false,
+      selectedDiet: '__',
     };
   }
 
-  async componentDidMount() {
-    await Font.loadAsync({
-      'roboto-regular': require('./assets/font/Roboto-Regular.ttf'),
-      'Material Design Icons': require('./assets/font/MaterialIcons-Regular.ttf'),
-    });
-
+  componentDidMount() {
     this.setState({assetsLoaded: true});
   }
 
-  next() {
+  next = () => {
+    console.log('in selected allergy items');
+    console.log(this.state.selectedDiet);
+    console.log(this.state.selectedAllergyItems);
     if (
       (this.state.selectedAllergyItems &&
         this.state.selectedAllergyItems.length) ||
-      (this.state.selectedDiets && this.state.selectedDiets.length)
+      this.state.selectedDiet
     ) {
       // Array exists and is not empty
       this.saveDietaryRestrictions();
@@ -101,14 +100,16 @@ export default class EnterDietaryRestrictions extends React.Component {
 
   saveDietaryRestrictions = () => {
     const {route} = this.props;
-    let {selectedAllergyItems, selectedDiets} = this.state;
+    let {selectedAllergyItems, selectedDiet} = this.state;
     const {userId} = route.params;
+    this.setState({userId: userId});
+    console.log('Route ', this.props);
     console.log('id: ' + userId);
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/saveDietaryRestrictions?userId=${userId}&allergies=${selectedAllergyItems}&diets=${selectedDiets}`
-        : `http://localhost:8080/User/saveDietaryRestrictions?userId=${userId}&allergies=${selectedAllergyItems}&diets=${selectedDiets}`,
+        ? `http://10.0.2.2:8080/User/saveDietaryRestrictions?userId=${userId}&allergies=${selectedAllergyItems}&diet=${selectedDiet}`
+        : `http://localhost:8080/User/saveDietaryRestrictions?userId=${userId}&allergies=${selectedAllergyItems}&diet=${selectedDiet}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -131,88 +132,80 @@ export default class EnterDietaryRestrictions extends React.Component {
   };
 
   onSelectedAllergyChange = selectedItems => {
-    this.setState({selectedItems});
-  };
-
-  onSelectedDietChange = selectedItems => {
-    this.setState({selectedItems});
+    this.setState({selectedAllergyItems: selectedItems});
+    console.log(this.state.selectedAllergyItems);
   };
 
   render() {
-    const {selectedAllergyItems, selectedDiets, assetsLoaded} = this.state;
+    const {assetsLoaded, selectedAllergyItems} = this.state;
     if (assetsLoaded) {
       return (
-        <View style={styles.fullContainer}>
-          <Text style={styles.paragraph}>
-            Do you have any dietary restrictions? (Hit next to skip)
-          </Text>
-          <View style={{flex: 1}}>
-            <MultiSelect
-              hideTags
-              items={allergies}
-              uniqueKey="id"
-              ref={component => {
-                this.multiSelect1 = component;
-              }}
-              onSelectedItemsChange={this.onSelectedAllergyChange}
-              selectedItems={selectedAllergyItems}
-              selectText="Enter any allergies/intolerances you may have (Optional)"
-              searchInputPlaceholderText="Search Items"
-              onChangeInput={text => console.log(text)}
-              altFontFamily="roboto-regular"
-              tagRemoveIconColor="#CCC"
-              tagBorderColor="#CCC"
-              tagTextColor="#CCC"
-              selectedItemTextColor="#CCC"
-              selectedItemIconColor="#CCC"
-              itemTextColor="#000"
-              displayKey="name"
-              searchInputStyle={{color: '#CCC'}}
-              submitButtonColor="#CCC"
-              submitButtonText="Submit"
-            />
-            <View>
-              {this.multiSelect1 &&
-                this.multiSelect1.getSelectedItemsExt(selectedAllergyItems)}
+        <ScrollView>
+          <View style={styles.fullContainer}>
+            <Text style={styles.paragraph}>
+              Do you have any dietary restrictions? (Hit next to skip)
+            </Text>
+            <SafeAreaView style={{flex: 1, padding: 30, marginBottom: 50}}>
+              <View style={{flex: 1, padding: 30}}>
+                <Text style={styles.regText}>
+                  Enter any allergies/intolerances you may have (Optional)
+                </Text>
+                <MultiSelect
+                  hideTags
+                  items={allergies}
+                  uniqueKey="name"
+                  ref={component => {
+                    this.multiSelect = component;
+                  }}
+                  onSelectedItemsChange={this.onSelectedAllergyChange}
+                  selectedItems={selectedAllergyItems}
+                  selectText="Pick Items"
+                  searchInputPlaceholderText="Search Items..."
+                  onChangeInput={text => console.log(text)}
+                  tagRemoveIconColor="#CCC"
+                  tagBorderColor="#CCC"
+                  tagTextColor="#CCC"
+                  selectedItemTextColor="#CCC"
+                  selectedItemIconColor="#CCC"
+                  itemTextColor="#CCC"
+                  displayKey="name"
+                  searchInputStyle={{color: '#CCC'}}
+                  submitButtonColor="#48d22b"
+                  submitButtonText="Submit"
+                />
+              </View>
+            </SafeAreaView>
+            <View style={{padding: '2%'}} />
+            <View style={{flex: 1}}>
+              <Text style={styles.regText}>
+                Select your special diet, if any (Optional)
+              </Text>
+              <Dropdown
+                selectedItemColor="black"
+                label="Diet"
+                data={[
+                  {value: 'Gluten Free'},
+                  {value: 'Ketogenic'},
+                  {value: 'Vegetarian'},
+                  {value: 'Lacto-Vegetarian'},
+                  {value: 'Ovo-Vegetarian'},
+                  {value: 'Vegan'},
+                  {value: 'Pescetarian'},
+                  {value: 'Paleo'},
+                  {value: 'Primal'},
+                  {value: 'Whole30'},
+                ]}
+                onChangeText={value => {
+                  this.setState({selectedDiet: value});
+                }}
+              />
             </View>
+            <View style={{padding: '5%'}} />
+            <TouchableOpacity onPress={this.next} style={styles.btnStyle}>
+              <Text>Next</Text>
+            </TouchableOpacity>
           </View>
-          <View style={{padding: '2%'}} />
-          <View style={{flex: 1}}>
-            <MultiSelect
-              hideTags
-              items={diets}
-              uniqueKey="id"
-              ref={component => {
-                this.multiSelect = component;
-              }}
-              onSelectedItemsChange={this.onSelectedDietChange}
-              selectedItems={selectedAllergyItems}
-              selectText="Enter the diets that you follow (Optional)"
-              searchInputPlaceholderText="Search Items"
-              onChangeInput={text => console.log(text)}
-              altFontFamily="roboto-regular"
-              tagRemoveIconColor="#CCC"
-              tagBorderColor="#CCC"
-              tagTextColor="#CCC"
-              selectedItemTextColor="#CCC"
-              selectedItemIconColor="#CCC"
-              itemTextColor="#000"
-              displayKey="name"
-              searchInputStyle={{color: '#CCC'}}
-              submitButtonColor="#CCC"
-              submitButtonText="Submit"
-            />
-            <View>
-              {this.multiSelect &&
-                this.multiSelect.getSelectedItemsExt(selectedDiets)}
-            </View>
-          </View>
-
-          <View style={{padding: '5%'}} />
-          <TouchableOpacity onPress={this.next()} style={styles.btnStyle}>
-            <Text>Next</Text>
-          </TouchableOpacity>
-        </View>
+        </ScrollView>
       );
     } else {
       return (
@@ -228,21 +221,19 @@ const styles = StyleSheet.create({
   fullContainer: {
     flex: 1,
     backgroundColor: '#ecf0f1',
-    padding: '10%',
+    padding: '0%',
     textAlign: 'center',
     alignItems: 'center',
-  },
-  flexRowContainer: {
-    width: '80%',
-    flexDirection: 'row',
-    textAlign: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   paragraph: {
     margin: 24,
     fontSize: 18,
     fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  regText: {
+    margin: 20,
+    fontSize: 16,
     textAlign: 'center',
   },
   btnStyle: {
