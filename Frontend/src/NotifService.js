@@ -90,51 +90,28 @@ export default class NotifService {
           if (data.dailyInputReminder) {
             this.scheduleDailyInputReminder();
           }
-          if (data.goalStreakNotif && Boolean([this.userHasGoals(userId)])) {
-            this.scheduleGoalStreakNotification(userId);
+          if (data.goalStreakNotif) {
+            //check if the user actually has any goals:
+            fetch(
+              Platform.OS === 'android'
+                ? `10.0.2.2:8080//User/hasGoals?userId=${userId}`
+                : `http://localhost:8080//User/hasGoals?userId=${userId}`,
+            )
+              .then(res => res.json())
+              .then(hasGoals => {
+                if (hasGoals.toString() === 'true') {
+                  console.log('it will actually schedule');
+                  this.scheduleGoalStreakNotification(userId);
+                } else {
+                  console.log('it thinks user has no goals');
+                }
+              });
           }
         }
       });
   }
 
-  userHasGoals(userId) {
-    fetch(
-      Platform.OS === 'android'
-        ? `10.0.2.2:8080//User/hasGoals?userId=${userId}`
-        : `http://localhost:8080//User/hasGoals?userId=${userId}`,
-    )
-      .then(res => res.json())
-      .then(data => {
-        if (data.error) {
-          Alert.alert(
-            'Could not find account',
-            'There was an error locating your account, notifications could not be scheduled,',
-            [{text: 'OK'}],
-          );
-          return false;
-        } else {
-          return data.toString() === 'true';
-        }
-      });
-  }
 
-  static getGoalStreakMessage(userId) {
-    console.log('\n\n\n\nit tried to get the message\n\n\n\n');
-    let message;
-    fetch(
-      Platform.OS === 'android'
-        ? `10.0.2.2:8080//User/getGoalStreakNotificationMessage?userId=${userId}`
-        : `http://localhost:8080//User/getGoalStreakNotificationMessage?userId=${userId}`,
-    )
-      .then(res => res.json())
-      .then(data => {
-        if (data.error) {
-          return 'There was an error loading your goal streak, check back again tomorrow!';
-        } else {
-          message = data.message;
-        }
-      });
-  }
 
   scheduleGoalStreakNotification(userId) {
     let time = new Date();

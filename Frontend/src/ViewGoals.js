@@ -9,6 +9,7 @@ import {
   Alert,
   Platform,
 } from 'react-native';
+import NotifService from './NotifService';
 
 // Sources:
 // https://reactnative.dev/docs/images
@@ -144,6 +145,8 @@ class ViewGoals extends Component {
             item.name + ' successfully deleted.',
             [{text: 'OK'}],
           );
+          let notif = new NotifService();
+          notif.scheduleNotifications(userId);
           this.fetchGoals();
         }
       });

@@ -269,24 +269,30 @@ public class UserHandler {
         while_loop:
         while (true) {
             Date date = new Date(System.currentTimeMillis() - offset*(streak + 1));
+            boolean noDailyGoals = true;
             for (String goalId : user.getGoalIds()) {
                 Goal goal = goalRepo.findGoalById(goalId);
                 if (goal.getDuration() == Duration.WEEK) {
                     //the goal streak is only for daily goals, so we skip this goal
                     continue;
                 }
+                noDailyGoals = false;
                 if (goal.getLimitType() == LimitType.GREATERTHAN && goal.getGoalProgress(dateFormat.format(date)) < 1) {
                     //goal was to have greater than, progress less than 100%, not achieved
                     break while_loop;
-                } else if (goal.getLimitType() == LimitType.LESSTHAN && goal.getGoalProgress(dateFormat.format(date)) > 1) {
+                } else if (goal.getLimitType() == LimitType.LESSTHAN && goal.getGoalProgress(dateFormat.format(date)) > 1
+                        || !user.getDailyInfo().containsKey(dateFormat.format(date))) {
                     //goal was to have less than, progress over 100%, not achieved
+                    //OR there was no inputs on this date, so we cannot consider this goal achieved
                     break while_loop;
                 }
                 //else current goal was achieved for this date
             } //loops through each goal
+            if (noDailyGoals) {
+                break;
+            }
             streak++;
         } //loops through each previous day
-
         //now streak should be the number of days before this that all daily goals were achieved
         JSONObject message = new JSONObject();
         if (streak == 0) {
@@ -297,7 +303,6 @@ public class UserHandler {
 
             message.put("message", "You’ve completed all daily goals for " + streak + " days straight now, you’re on fire!");
         }
-        System.out.println(message.toString());
         return message.toString();
     }
 
