@@ -148,16 +148,16 @@ export default class HomeScreen extends React.Component {
             <Text>Diet Graphs</Text>
           </TouchableOpacity>
           <View style={{padding: '2%'}} />
-          <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate('PreferredExerciseCategories', {
-                userId: userId,
-              })
-            }
-            style={styles.btnStyle}>
-            <Text>Recommend an Exercise</Text>
-          </TouchableOpacity>
-          <View style={{padding: '2%'}} />
+          {/*<TouchableOpacity*/}
+          {/*  onPress={() =>*/}
+          {/*    this.props.navigation.navigate('PreferredExerciseCategories', {*/}
+          {/*      userId: userId,*/}
+          {/*    })*/}
+          {/*  }*/}
+          {/*  style={styles.btnStyle}>*/}
+          {/*  <Text>Recommend an Exercise</Text>*/}
+          {/*</TouchableOpacity>*/}
+          {/*<View style={{padding: '2%'}} />*/}
           <TouchableOpacity
             onPress={() =>
               this.props.navigation.navigate('ExercisePreferences', {
@@ -165,7 +165,7 @@ export default class HomeScreen extends React.Component {
               })
             }
             style={styles.btnStyle}>
-            <Text>Exercise Preferences</Text>
+            <Text>Exercise Routine Generator</Text>
           </TouchableOpacity>
           <View style={{padding: '2%'}} />
           <TouchableOpacity

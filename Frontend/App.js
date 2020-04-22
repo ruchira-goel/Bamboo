@@ -29,6 +29,7 @@ import FavMeals from './src/FavMeals';
 import FavActivities from './src/FavActivities';
 import PreferredExerciseCategories from './src/PreferredExerciseCategories';
 import ExercisePreferences from './src/ExercisePreferences';
+import ExerciseRoutine from './src/ExerciseRoutine';
 
 const Stack = createStackNavigator();
 
@@ -111,6 +112,7 @@ function App() {
           component={ExercisePreferences}
           headerShown={'false'}
         />
+        <Stack.Screen name="ExerciseRoutine" component={ExerciseRoutine} />
       </Stack.Navigator>
     </NavigationContainer>
   );
