@@ -10,6 +10,7 @@ import java.util.*;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -224,7 +225,7 @@ public class MealHandler {
         if (user.getDiet() != Diet.UNSPECIFIED) {
             request += "&diet=" + Diet.valueOfDiet(user.getDiet().toString());
         }
-        if(!carbsLow.equals("")) {
+        if (!carbsLow.equals("")) {
             request += "&minCarbs=";
             //MINCARBS instead of carbs?
             nutrientLimits.put("carbsLow", carbsLow);
@@ -235,27 +236,27 @@ public class MealHandler {
             nutrientLimits.put("carbsHigh", carbsHigh);
             request += carbsHigh;
         }
-        if(!proteinHigh.equals("")) {
+        if (!proteinHigh.equals("")) {
             request += "&maxProtein=";
             nutrientLimits.put("proteinHigh", proteinHigh);
             request += proteinHigh;
         }
-        if(!proteinLow.equals("")) {
+        if (!proteinLow.equals("")) {
             request += "&minProtein=";
             nutrientLimits.put("proteinLow", proteinLow);
             request += proteinLow;
         }
-        if(!fatHigh.equals("")) {
+        if (!fatHigh.equals("")) {
             request += "&maxFat=";
             nutrientLimits.put("fatHigh", fatHigh);
             request += fatHigh;
         }
-        if(!fatLow.equals("")) {
+        if (!fatLow.equals("")) {
             request += "&minFat=";
             nutrientLimits.put("fatLow", fatLow);
             request += fatLow;
         }
-        if(!calLow.equals("")) {
+        if (!calLow.equals("")) {
             request += "&minCalories=";
             nutrientLimits.put("calLow", calLow);
             request += calLow;
@@ -271,40 +272,44 @@ public class MealHandler {
         }
         user.setNutrientLimits(nutrientLimits);
         this.userRepo.save(user);
-        URL url = new URL(request);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
-        connection.setRequestProperty("Content-type", "application/json");
+//        URL url = new URL(request);
+//        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//        connection.setRequestMethod("GET");
+//        connection.setRequestProperty("Content-type", "application/json");
 
-        BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            JSONObject mealResults = new JSONObject(input.readLine());
-            JSONArray mealArray = mealResults.getJSONArray("results");
-            ArrayList<Meal> recommended = new ArrayList<>();
-            for (int i = 0; i < mealArray.length(); i++) {
-                Meal meal = new Meal();
-                JSONObject mealJson = mealArray.getJSONObject(i);
-                JSONArray nutritionArray = mealJson.getJSONArray("nutrition");
-                meal.setName(mealJson.get("title").toString());
-                for (int j = 0; j < nutritionArray.length(); j++) {
-                    JSONObject nutrient = nutritionArray.getJSONObject(j);
-                    String amount = nutrient.get("amount").toString();
-                    switch (nutrient.get("title").toString()) {
-                        case "Calories":
-                            meal.setCalories(Double.parseDouble(amount));
-                            break;
-                        case "Fat":
-                            meal.setFat(Double.parseDouble(amount));
-                            break;
-                        case "Protein":
-                            meal.setProtein(Double.parseDouble(amount));
-                            break;
-                        case "Carbohydrates":
-                            meal.setCarbs(Double.parseDouble(amount));
-                            break;
-                    }
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet(request);
+        CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
+
+        //BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+        JSONObject mealResults = new JSONObject(EntityUtils.toString(httpResponse.getEntity()));//input.readLine());
+        JSONArray mealArray = mealResults.getJSONArray("results");
+        ArrayList<Meal> recommended = new ArrayList<>();
+        for (int i = 0; i < mealArray.length(); i++) {
+            Meal meal = new Meal();
+            JSONObject mealJson = mealArray.getJSONObject(i);
+            JSONArray nutritionArray = mealJson.getJSONArray("nutrition");
+            meal.setName(mealJson.get("title").toString());
+            for (int j = 0; j < nutritionArray.length(); j++) {
+                JSONObject nutrient = nutritionArray.getJSONObject(j);
+                String amount = nutrient.get("amount").toString();
+                switch (nutrient.get("title").toString()) {
+                    case "Calories":
+                        meal.setCalories(Double.parseDouble(amount));
+                        break;
+                    case "Fat":
+                        meal.setFat(Double.parseDouble(amount));
+                        break;
+                    case "Protein":
+                        meal.setProtein(Double.parseDouble(amount));
+                        break;
+                    case "Carbohydrates":
+                        meal.setCarbs(Double.parseDouble(amount));
+                        break;
                 }
-                recommended.add(meal);
             }
+            recommended.add(meal);
+        }
         return recommended;
     }
 
