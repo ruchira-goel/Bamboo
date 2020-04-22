@@ -32,6 +32,8 @@ import FavActivities from './FavActivities';
 import ViewGoals from './ViewGoals';
 import SetGoal from './SetGoal';
 import EditGoal from './EditGoal';
+import ExerciseGenerator from './ExerciseGenerator';
+import ExerciseRoutine from './ExerciseRoutine';
 
 function MenuHeader({screenName}) {
   const nav = useNavigation();
@@ -262,6 +264,22 @@ function ChangePassScreen({route, navigation}) {
     </View>
   );
 }
+function ExerciseGeneratorScreen({route, navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <StackHeader screenName={'Exercise Routine Generator'} />
+      <ExerciseGenerator />
+    </View>
+  );
+}
+function ExerciseRoutineScreen({route, navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <StackHeader screenName={'Exercise Routine'} />
+      <ExerciseRoutine />
+    </View>
+  );
+}
 
 function HomeScreen({route, navigation}) {
   const {userId} = route.params;
@@ -340,6 +358,30 @@ function HomeScreen({route, navigation}) {
         }>
         <Text style={styles.text}>Set Goals</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() =>
+          navigation.navigate('Root', {
+            screen: 'ExerciseGenerator',
+            params: {
+              userId: userId,
+            },
+          })
+        }>
+        <Text style={styles.text}>Exercise Routine Generator</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() =>
+          navigation.navigate('Root', {
+            screen: 'ExerciseRoutine',
+            params: {
+              userId: userId,
+            },
+          })
+        }>
+        <Text style={styles.text}>Exercise Routine</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -407,6 +449,12 @@ function Root() {
       <Stack.Screen name="ExerciseGraphs" component={ExerciseGraphsScreen} />
 
       <Stack.Screen name="ChangePass" component={ChangePassScreen} />
+
+      <Stack.Screen
+        name="ExerciseGenerator"
+        component={ExerciseGeneratorScreen}
+      />
+      <Stack.Screen name="ExerciseRoutine" component={ExerciseRoutineScreen} />
       {/*
       TODO:
       enter characteristics
