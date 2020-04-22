@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Platform,
+  ScrollView,
 } from 'react-native';
 import URL from './url';
 
@@ -55,107 +56,129 @@ export default class HomeScreen extends React.Component {
     const {route} = this.props;
     const {userId} = route.params;
     return (
-      <View style={styles.heading}>
-        <TouchableOpacity
-          onPress={() =>
-            this.props.navigation.navigate('MealInput', {
-              userId: userId,
-            })
-          }
-          style={styles.btnStyle}>
-          <Text>Save Meal</Text>
-        </TouchableOpacity>
-        <View style={{padding: '2%'}} />
-        <TouchableOpacity onPress={this.logout} style={styles.btnStyle}>
-          <Text>Logout</Text>
-        </TouchableOpacity>
-        <View style={{padding: '2%'}} />
-        <TouchableOpacity
-          onPress={() =>
-            this.props.navigation.navigate('HealthProfile', {
-              userId: userId,
-            })
-          }
-          style={styles.btnStyle}>
-          <Text>Health Profile</Text>
-        </TouchableOpacity>
-        <View style={{padding: '2%'}} />
-        <TouchableOpacity
-          onPress={() =>
-            this.props.navigation.navigate('ExerciseInput', {
-              userId: userId,
-            })
-          }
-          style={styles.btnStyle}>
-          <Text>Exercise Input</Text>
-        </TouchableOpacity>
-        <View style={{padding: '2%'}} />
-        <TouchableOpacity
-          onPress={() =>
-            this.props.navigation.navigate('ChangePass', {
-              userId: userId,
-            })
-          }
-          style={styles.btnStyle}>
-          <Text>Change Password</Text>
-        </TouchableOpacity>
-        <View style={{padding: '2%'}} />
-        <TouchableOpacity
-          onPress={() =>
-            this.props.navigation.navigate('ViewGoals', {
-              userId: userId,
-            })
-          }
-          style={styles.btnStyle}>
-          <Text>View Goals</Text>
-        </TouchableOpacity>
-        <View style={{padding: '2%'}} />
-        <TouchableOpacity
-          onPress={this.delAccountConfirm}
-          style={styles.btnStyle}>
-          <Text>Delete Account</Text>
-        </TouchableOpacity>
-        <View style={{padding: '2%'}} />
-        <TouchableOpacity
-          onPress={() =>
-            this.props.navigation.navigate('SetGoal', {
-              userId: userId,
-            })
-          }
-          style={styles.btnStyle}>
-          <Text>Add Goal</Text>
-        </TouchableOpacity>
-        <View style={{padding: '2%'}} />
-        <TouchableOpacity
-          onPress={() =>
-            this.props.navigation.navigate('ExerciseGraphs', {
-              userId: userId,
-            })
-          }
-          style={styles.btnStyle}>
-          <Text>Exercise Graphs</Text>
-        </TouchableOpacity>
-        <View style={{padding: '2%'}} />
-        <TouchableOpacity
-          onPress={() =>
-            this.props.navigation.navigate('DietGraphs', {
-              userId: userId,
-            })
-          }
-          style={styles.btnStyle}>
-          <Text>Diet Graphs</Text>
-        </TouchableOpacity>
-        <View style={{padding: '2%'}} />
-        <TouchableOpacity
-          onPress={() =>
-            this.props.navigation.navigate('PreferredExerciseCategories', {
-              userId: userId,
-            })
-          }
-          style={styles.btnStyle}>
-          <Text>Recommend an Exercise</Text>
-        </TouchableOpacity>
-      </View>
+      <ScrollView>
+        <View style={styles.heading}>
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate('MealInput', {
+                userId: userId,
+              })
+            }
+            style={styles.btnStyle}>
+            <Text>Save Meal</Text>
+          </TouchableOpacity>
+          <View style={{padding: '2%'}} />
+          <TouchableOpacity onPress={this.logout} style={styles.btnStyle}>
+            <Text>Logout</Text>
+          </TouchableOpacity>
+          <View style={{padding: '2%'}} />
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate('HealthProfile', {
+                userId: userId,
+              })
+            }
+            style={styles.btnStyle}>
+            <Text>Health Profile</Text>
+          </TouchableOpacity>
+          <View style={{padding: '2%'}} />
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate('ExerciseInput', {
+                userId: userId,
+              })
+            }
+            style={styles.btnStyle}>
+            <Text>Exercise Input</Text>
+          </TouchableOpacity>
+          <View style={{padding: '2%'}} />
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate('ChangePass', {
+                userId: userId,
+              })
+            }
+            style={styles.btnStyle}>
+            <Text>Change Password</Text>
+          </TouchableOpacity>
+          <View style={{padding: '2%'}} />
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate('ViewGoals', {
+                userId: userId,
+              })
+            }
+            style={styles.btnStyle}>
+            <Text>View Goals</Text>
+          </TouchableOpacity>
+          <View style={{padding: '2%'}} />
+          <TouchableOpacity
+            onPress={this.delAccountConfirm}
+            style={styles.btnStyle}>
+            <Text>Delete Account</Text>
+          </TouchableOpacity>
+          <View style={{padding: '2%'}} />
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate('SetGoal', {
+                userId: userId,
+              })
+            }
+            style={styles.btnStyle}>
+            <Text>Add Goal</Text>
+          </TouchableOpacity>
+          <View style={{padding: '2%'}} />
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate('ExerciseGraphs', {
+                userId: userId,
+              })
+            }
+            style={styles.btnStyle}>
+            <Text>Exercise Graphs</Text>
+          </TouchableOpacity>
+          <View style={{padding: '2%'}} />
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate('DietGraphs', {
+                userId: userId,
+              })
+            }
+            style={styles.btnStyle}>
+            <Text>Diet Graphs</Text>
+          </TouchableOpacity>
+          <View style={{padding: '2%'}} />
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate('PreferredExerciseCategories', {
+                userId: userId,
+              })
+            }
+            style={styles.btnStyle}>
+            <Text>Recommend an Exercise</Text>
+          </TouchableOpacity>
+          <View style={{padding: '2%'}} />
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate('ExercisePreferences', {
+                userId: userId,
+              })
+            }
+            style={styles.btnStyle}>
+            <Text>Exercise Preferences</Text>
+          </TouchableOpacity>
+          <View style={{padding: '2%'}} />
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate('ExerciseRoutine', {
+                userId: userId,
+              })
+            }
+            style={styles.btnStyle}>
+            <Text>Exercise Routine</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     );
   }
 }
