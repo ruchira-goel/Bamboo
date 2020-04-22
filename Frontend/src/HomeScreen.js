@@ -82,6 +82,16 @@ export default class HomeScreen extends React.Component {
         <View style={{padding: '2%'}} />
         <TouchableOpacity
           onPress={() =>
+            this.props.navigation.navigate('EditDietaryRestrictions', {
+              userId: userId,
+            })
+          }
+          style={styles.btnStyle}>
+          <Text>View Dietary Restrictions</Text>
+        </TouchableOpacity>
+        <View style={{padding: '2%'}} />
+        <TouchableOpacity
+          onPress={() =>
             this.props.navigation.navigate('ExerciseInput', {
               userId: userId,
             })

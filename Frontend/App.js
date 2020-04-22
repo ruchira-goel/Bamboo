@@ -28,6 +28,7 @@ import DietGraphs from './src/DietGraphs';
 import FavMeals from './src/FavMeals';
 import FavActivities from './src/FavActivities';
 import EnterDietaryRestrictions from './src/EnterDietaryRestrictions';
+import EditDietaryRestrictions from './src/EditDietaryRestrictions';
 
 const Stack = createStackNavigator();
 
@@ -66,6 +67,11 @@ function App() {
         <Stack.Screen
           name="HealthProfile"
           component={HealthProfile}
+          headerShown={'false'}
+        />
+        <Stack.Screen
+          name="EditDietaryRestrictions"
+          component={EditDietaryRestrictions}
           headerShown={'false'}
         />
         <Stack.Screen

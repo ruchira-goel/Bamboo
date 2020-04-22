@@ -140,4 +140,9 @@ public class UserController {
                                            @RequestParam(value = "diet") String diet) {
         return userHandler.saveDietaryRestrictions(userId, allergies, diet);
     }
+
+    @RequestMapping("/User/getDietaryRestrictions")
+    public User getDietaryRestrictions(@RequestParam(value = "userId") String userId) throws IllegalAccessException {
+        return userHandler.getDietaryRestrictions(userId);
+    }
 }
