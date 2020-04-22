@@ -14,6 +14,7 @@ import {
   DrawerItem,
   DrawerItemList,
 } from '@react-navigation/drawer';
+import {getStatusBarHeight} from 'react-native-status-bar-height';
 
 import * as Constants from './Constants';
 import SettingsPage from '../src/Settings';
@@ -471,6 +472,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: StatusBar.currentHeight,
     padding: 10,
+    paddingTop: getStatusBarHeight(),
     backgroundColor: Constants.COLORS.primary.main,
     // shadowColor: "#000",
     // shadowOffset: {
