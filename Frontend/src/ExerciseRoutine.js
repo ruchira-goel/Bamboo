@@ -27,7 +27,6 @@ export default class ExerciseRoutine extends Component {
     const {route} = this.props;
     const {userId} = route.params;
     this.setState({userId: userId});
-    console.log('In the routine page: ' + userId);
     fetch(
       Platform.OS === 'android'
         ? `${URL.android}/User/getExerciseRoutine?userId=${userId}`

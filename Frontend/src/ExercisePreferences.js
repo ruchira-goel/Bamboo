@@ -154,7 +154,6 @@ export default class ExercisePreferences extends React.Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         if (data.error) {
           Alert.alert(
             data.message,
