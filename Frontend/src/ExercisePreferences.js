@@ -8,10 +8,8 @@ import {
   Alert,
   Platform,
   ScrollView,
-  Image,
   Dimensions,
 } from 'react-native';
-import {Dropdown} from 'react-native-material-dropdown';
 import URL from './url';
 
 export default class ExercisePreferences extends React.Component {
@@ -19,9 +17,7 @@ export default class ExercisePreferences extends React.Component {
     super(props);
     this.state = {
       userId: '',
-      daysInWeek: 0,
       hoursPerDay: 0,
-      numCategories: 0,
       su: false,
       m: false,
       t: false,
@@ -67,50 +63,15 @@ export default class ExercisePreferences extends React.Component {
           index: 5,
         },
       ],
-      preferred: [],
-      fetch: [],
     };
-    // this.fetchPreferredCategories();
-    this.fetchPreferences();
   }
 
   isAmountInvalid(str) {
     return /[-,_.]/g.test(str);
   }
 
-  fetchPreferences() {
-    const {route} = this.props;
-    const {userId} = route.params;
-    this.setState({userId: userId});
-    fetch(
-      Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/fetchExercisePreferences?userId=${userId}`
-        : `http://localhost:8080/User/fetchExercisePreferences?userId=${userId}`,
-    )
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-        if (data.error) {
-          Alert.alert(
-            data.message,
-            'Unable to fetch preferences at this time, please try again later.',
-            [{text: 'OK'}],
-          );
-        } else {
-          console.log('Now no errors, printing data:\n' + data);
-          this.setState({
-            fetch: data,
-          });
-          console.log(this.state);
-          var daysInWeek = this.state.fetch[0];
-          var hoursPerDay = this.state.fetch[1];
-          this.setState({daysInWeek: daysInWeek, hoursPerDay: hoursPerDay});
-        }
-      });
-  }
-
   submit = () => {
-    const {daysInWeek, hoursPerDay} = this.state;
+    const {hoursPerDay} = this.state;
     const {
       su,
       m,
@@ -154,18 +115,42 @@ export default class ExercisePreferences extends React.Component {
       );
       return;
     }
-    if (!bicycling && !conditioning && !running && !sports && !water && !winter) {
-      Alert.alert('No categories selected', 'Please select one or more exercise categories.', [
-        {text: 'OK'},
-      ]);
+    if (
+      !bicycling &&
+      !conditioning &&
+      !running &&
+      !sports &&
+      !water &&
+      !winter
+    ) {
+      Alert.alert(
+        'No categories selected',
+        'Please select one or more exercise categories.',
+        [{text: 'OK'}],
+      );
       return;
     }
+
+    let days = su + ' ' + m + ' ' + t + ' ' + w + ' ' + th + ' ' + f + ' ' + sa;
+    let categories =
+      bicycling +
+      ' ' +
+      conditioning +
+      ' ' +
+      running +
+      ' ' +
+      sports +
+      ' ' +
+      water +
+      ' ' +
+      winter;
+
     fetch(
       Platform.OS === 'android'
         ? `${
             URL.android
-          }/User/saveExercisePreferences?userId=${userId}&daysInWeek=${daysInWeek}&hoursPerDay=${hoursPerDay}`
-        : `http://localhost:8080/User/saveExercisePreferences?userId=${userId}&daysInWeek=${daysInWeek}&hoursPerDay=${hoursPerDay}`,
+          }/User/generateExerciseRoutine?userId=${userId}&days=${days}&hours=${hoursPerDay}&categories=${categories}`
+        : `http://localhost:8080/User/generateExerciseRoutine?userId=${userId}&days=${days}&hours=${hoursPerDay}&categories=${categories}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -184,28 +169,6 @@ export default class ExercisePreferences extends React.Component {
           );
         }
       });
-  };
-
-  categoryList = () => {
-    return this.state.categories.map(element => {
-      return (
-        <TouchableOpacity
-          onPress={value => {
-            // this.setState({element: !element.check});
-            this.test(element);
-          }}>
-          <View
-            style={[
-              styles.categoryList,
-              {
-                backgroundColor: element.check ? 'orange' : 'silver',
-              },
-            ]}>
-            <Text style={styles.categoryText}>{element.name}</Text>
-          </View>
-        </TouchableOpacity>
-      );
-    });
   };
 
   render() {
@@ -437,7 +400,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    // paddingHorizontal: '10%',
     justifyContent: 'space-between',
   },
   section: {
