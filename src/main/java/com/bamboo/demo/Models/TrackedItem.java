@@ -5,8 +5,7 @@ public enum TrackedItem {
     CALORIES("Calories"),
     MINUTES_OF_ACTIVITY("Minutes of exercise"),
     HOURS_OF_ACTIVITY("Hours of exercise"),
-    CALORIES_BURNED("Calories burned")
-    ;
+    CALORIES_BURNED("Calories burned");
 
     String name;
 
@@ -22,7 +21,7 @@ public enum TrackedItem {
     //Following code is from user matzeihnsein from
     //https://stackoverflow.com/questions/8389150/java-enum-elements-with-spaces
     public static TrackedItem valueOfTrackedItem(String value) {
-        for (TrackedItem trackedItem: TrackedItem.class.getEnumConstants()) {
+        for (TrackedItem trackedItem : TrackedItem.class.getEnumConstants()) {
             if (trackedItem.toString().equals(value)) {
                 return trackedItem;
             }
