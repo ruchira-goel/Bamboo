@@ -24,15 +24,14 @@ public class ResetPassword {
     @RequestMapping(path = "/resetPassword/{email}/{uuid}")
     public String greeting(Model model, @PathVariable("uuid") String uuid, @PathVariable("email") String email) {
         User user = this.userRepo.findUserByEmail(email).get();
-        if (user.getToken() == null) {
-            Token token = new Token(UUID.randomUUID(), LocalDateTime.now());
-            user.setToken(token);
-            return "resetPassword";
-        }
         Token token = user.getToken();
-        if (Math.abs(Duration.between(LocalDateTime.now(), token.getDate()).toMinutes()) > 15) {
+        if (token == null || !token.getUuid().toString().equals(uuid)) {
+            return "tokenError";
+        }
+        if (Math.abs(Duration.between(LocalDateTime.now(), token.getDate()).toMinutes()) < 15) {
             return "resetPassword";
         }
+        user.setToken(null);
         return "timeout";
     }
 }

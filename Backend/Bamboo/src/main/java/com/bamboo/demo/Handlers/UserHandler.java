@@ -246,6 +246,7 @@ public class UserHandler {
     public User resetPass(String email, String newPass) {
         User user =  userRepo.findUserByEmail(email).get();
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        user.setToken(null);
         user.setEncryptedPassword(passwordEncoder.encode(newPass));
         return this.userRepo.save(user);
     }
