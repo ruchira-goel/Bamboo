@@ -61,6 +61,22 @@ public class MealHandler {
         
         String mealName = json.get("title").toString();
         String recipeId = json.get("id").toString();
+        
+        if (recipeId.equals("-1")) {
+            throw new IllegalAccessException("Meal not found");
+        }
+        
+        httpGet = new HttpGet("https://api.spoonacular.com/recipes/" + recipeId + "/nutritionWidget.json?apiKey=5ccdaac983d344338fe187bb2b7e5501");
+        response = httpClient.execute(httpGet);
+        JSONObject nutritionJson = new JSONObject(EntityUtils.toString(response.getEntity()));
+
+//        URL nutritionURL = new URL("https://api.spoonacular.com/recipes/" + recipeId + "/nutritionWidget.json?apiKey=5ccdaac983d344338fe187bb2b7e5501");
+//        HttpURLConnection con = (HttpURLConnection) nutritionURL.openConnection();
+//        con.setRequestMethod("GET");
+//        con.setRequestProperty("Content-type", "application/json");
+//
+//        BufferedReader input = new BufferedReader(new InputStreamReader(con.getInputStream()));
+//        JSONObject nutritionJson = new JSONObject(input.readLine());
 
         //removing last character to get number for nutrition
         String fatStr = nutritionJson.get("fat").toString();
