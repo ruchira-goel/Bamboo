@@ -73,7 +73,7 @@ class ViewGoals extends Component {
     fetch(
       Platform.OS === 'android'
         ? `${Constants.URL.android}/User/fetchGoals?userId=${userId}`
-        : `http://localhost:8080/User/fetchGoals?userId=${userId}`,
+        : `${Constants.URL.ios}/User/fetchGoals?userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -125,7 +125,7 @@ class ViewGoals extends Component {
         ? `${Constants.URL.android}/Goal/deleteGoal?userId=${userId}&goalId=${
             item.id
           }`
-        : `http://localhost:8080/Goal/deleteGoal?userId=${userId}&goalId=${
+        : `${Constants.URL.ios}/Goal/deleteGoal?userId=${userId}&goalId=${
             item.id
           }`,
     )

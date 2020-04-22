@@ -9,7 +9,7 @@ import {
   Platform,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {LinearGradient} from 'expo-linear-gradient';
+//import {LinearGradient} from 'expo-linear-gradient';
 import * as Constants from './Constants';
 
 class SignUp extends React.Component {
@@ -213,13 +213,13 @@ class SignUp extends React.Component {
           onChangeText={confirmPassword => this.setState({confirmPassword})}
         />
         <TouchableOpacity onPress={this.signUp}>
-          <LinearGradient
-            colors={['#aaddaa', '#96d297', '#00c880']}
-            style={styles.btnStyle}
-            start={[0.0, 0.0]}
-            end={[1.0, 1.0]}>
-            <Text style={styles.btnText}>Sign Up</Text>
-          </LinearGradient>
+          {/*<LinearGradient*/}
+          {/*  colors={['#aaddaa', '#96d297', '#00c880']}*/}
+          {/*  style={styles.btnStyle}*/}
+          {/*  start={[0.0, 0.0]}*/}
+          {/*  end={[1.0, 1.0]}>*/}
+          {/*  <Text style={styles.btnText}>Sign Up</Text>*/}
+          {/*</LinearGradient>*/}
         </TouchableOpacity>
         <View style={{flex: 1, flexDirection: 'row'}}>
           <Text style={{padding: 15}}>Already have an account? </Text>

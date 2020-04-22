@@ -248,7 +248,7 @@ class ExerciseInput extends Component {
         ? `${
             Constants.URL.android
           }/Activity/saveActivity?&userId=${userId}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`
-        : `http://localhost:8080/Activity/saveActivity?&userId=${userId}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`,
+        : `${Constants.URL.ios}/Activity/saveActivity?&userId=${userId}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -278,7 +278,7 @@ class ExerciseInput extends Component {
         ? `${
             Constants.URL.android
           }/Activity/addToFavorites?activityId=${activityId}&userId=${userId}`
-        : `http://localhost:8080/Activity/addToFavorites?activityId=${activityId}&userId=${userId}`,
+        : `${Constants.URL.ios}/Activity/addToFavorites?activityId=${activityId}&userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {

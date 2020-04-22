@@ -32,6 +32,8 @@ import ViewGoals from './ViewGoals';
 import SetGoal from './SetGoal';
 import EditGoal from './EditGoal';
 
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+
 function MenuHeader({screenName}) {
   const nav = useNavigation();
 
@@ -471,6 +473,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: StatusBar.currentHeight,
     padding: 10,
+    paddingTop: getStatusBarHeight(),
     backgroundColor: Constants.COLORS.primary.main,
     // shadowColor: "#000",
     // shadowOffset: {

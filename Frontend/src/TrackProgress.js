@@ -46,8 +46,8 @@ export default class TrackProgress extends React.Component {
     console.log('In the track progress page: ' + userId);
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Goal/fetchGoalProgress?userId=${userId}&goalId=${goalId}`
-        : `http://localhost:8080/Goal/fetchGoalProgress?userId=${userId}&goalId=${goalId}`,
+        ? `${Constants.URL.android}/Goal/fetchGoalProgress?userId=${userId}&goalId=${goalId}`
+        : `${Constants.URL.ios}/Goal/fetchGoalProgress?userId=${userId}&goalId=${goalId}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -72,8 +72,8 @@ export default class TrackProgress extends React.Component {
       });
     // fetch(
     //   Platform.OS === 'android'
-    //     ? `http://10.0.2.2:8080/Goal/fetchGoalInfo?userId=${userId}&goalId=${goalId}`
-    //     : `http://localhost:8080/Goal/fetchGoalInfo?userId=${userId}&goalId=${goalId}`,
+    //     ? `${Constants.URL.android}/Goal/fetchGoalInfo?userId=${userId}&goalId=${goalId}`
+    //     : `${Constants.URL.ios}/Goal/fetchGoalInfo?userId=${userId}&goalId=${goalId}`,
     // )
     //   .then(res => res.json())
     //   .then(data => {

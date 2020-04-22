@@ -67,7 +67,7 @@ class ExerciseGraphs extends Component {
     fetch(
       Platform.OS === 'android'
         ? `${Constants.URL.android}/User/weekExerciseTime?userId=${userId}`
-        : `http://localhost:8080/User/weekExerciseTime?userId=${userId}`,
+        : `${Constants.URL.ios}/User/weekExerciseTime?userId=${userId}`,
     )
       .then(res => res.text())
       .then(data =>
@@ -95,7 +95,7 @@ class ExerciseGraphs extends Component {
     fetch(
       Platform.OS === 'android'
         ? `${Constants.URL.android}/User/weekExerciseCalories?userId=${userId}`
-        : `http://localhost:8080/User/weekExerciseCalories?userId=${userId}`,
+        : `${Constants.URL.ios}/User/weekExerciseCalories?userId=${userId}`,
     )
       .then(res => res.text())
       .then(data =>
