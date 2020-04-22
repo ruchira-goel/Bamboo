@@ -24,6 +24,7 @@ import com.bamboo.demo.Repos.UserRepo;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import static com.bamboo.demo.Constants.APIKEY;
 import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 
 public class MealHandler {
@@ -50,7 +51,8 @@ public class MealHandler {
 //        JSONObject json = new JSONObject(jsonText);
 
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet("https://api.spoonacular.com/recipes/extract?apiKey=5ccdaac983d344338fe187bb2b7e5501&url=" + link);
+        //HttpGet httpGet = new HttpGet("https://api.spoonacular.com/recipes/extract?apiKey=5ccdaac983d344338fe187bb2b7e5501&url=" + link);
+        HttpGet httpGet = new HttpGet("https://api.spoonacular.com/recipes/extract?apiKey=" + APIKEY +  "&url=" + link);
         CloseableHttpResponse response = httpClient.execute(httpGet);
         JSONObject json = new JSONObject(EntityUtils.toString(response.getEntity()));
 
@@ -62,7 +64,8 @@ public class MealHandler {
             throw new IllegalAccessException("Meal not found");
         }
 
-        httpGet = new HttpGet("https://api.spoonacular.com/recipes/" + recipeId + "/nutritionWidget.json?apiKey=5ccdaac983d344338fe187bb2b7e5501");
+        //httpGet = new HttpGet("https://api.spoonacular.com/recipes/" + recipeId + "/nutritionWidget.json?apiKey=5ccdaac983d344338fe187bb2b7e5501");
+        httpGet = new HttpGet("https://api.spoonacular.com/recipes/" + recipeId + "/nutritionWidget.json?apiKey=" + APIKEY);
         response = httpClient.execute(httpGet);
         JSONObject nutritionJson = new JSONObject(EntityUtils.toString(response.getEntity()));
 
@@ -106,7 +109,8 @@ public class MealHandler {
 //            JSONObject nutritionJson = new JSONObject(input.readLine());
 
             CloseableHttpClient httpClient = HttpClients.createDefault();
-            HttpGet httpGet = new HttpGet("https://api.spoonacular.com/recipes/guessNutrition?apiKey=5ccdaac983d344338fe187bb2b7e5501&title=" + name);
+            //HttpGet httpGet = new HttpGet("https://api.spoonacular.com/recipes/guessNutrition?apiKey=5ccdaac983d344338fe187bb2b7e5501&title=" + name);
+            HttpGet httpGet = new HttpGet("https://api.spoonacular.com/recipes/guessNutrition?apiKey=" + APIKEY +  "&title=" + name);
             CloseableHttpResponse response = httpClient.execute(httpGet);
             JSONObject nutritionJson = new JSONObject(EntityUtils.toString(response.getEntity()));
 
@@ -132,7 +136,9 @@ public class MealHandler {
     public Meal saveMealFromRecipe(String date, String userId, String recipe, String name) throws IOException {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpPost httpPost = new HttpPost
-                ("https://api.spoonacular.com/recipes/parseIngredients?apiKey=5ccdaac983d344338fe187bb2b7e5501"); //enter link
+                //("https://api.spoonacular.com/recipes/parseIngredients?apiKey=5ccdaac983d344338fe187bb2b7e5501"); //enter link
+                ("https://api.spoonacular.com/recipes/parseIngredients?apiKey=" + APIKEY); //enter link
+
         List<NameValuePair> urlParams = new ArrayList<>();
         urlParams.add(new BasicNameValuePair("includeNutrition", "true"));
         urlParams.add(new BasicNameValuePair("servings", "1"));
@@ -223,7 +229,8 @@ public class MealHandler {
         final String FAT = "FAT";
         final String NUMMEALS = "NUMMEALS";
         HashMap<String, String> nutrientLimits = new HashMap<>();
-        String request = "https://api.spoonacular.com/recipes/complexSearch?apiKey=5ccdaac983d344338fe187bb2b7e5501";
+        //String request = "https://api.spoonacular.com/recipes/complexSearch?apiKey=5ccdaac983d344338fe187bb2b7e5501";
+        String request = "https://api.spoonacular.com/recipes/complexSearch?apiKey=" + APIKEY;
         StringBuilder intolerances = new StringBuilder();
         ArrayList<String> allergies = user.getAllergies();
         for (int i = 0; i < allergies.size(); i++) {
