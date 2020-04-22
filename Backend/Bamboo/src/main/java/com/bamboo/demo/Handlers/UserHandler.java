@@ -241,7 +241,7 @@ public class UserHandler {
         return str.toString().trim();
     }
 
-    public HashMap<String, List<Object>> getSavedRecommendationValues(String userId) {
+    public HashMap<String, String> getSavedRecommendationValues(String userId) {
         return this.userRepo.findUserByUserId(userId).getNutrientLimits();
     }
 
@@ -250,14 +250,15 @@ public class UserHandler {
      * 1. Calories based on height, weight, age: https://www.calculator.net/bmr-calculator.html
      * 2. Calories based on physical activity: http://www.checkyourhealth.org/eat-healthy/cal_calculator.php
      * 3. Calories based on all characteristics: https://www.aqua-calc.com/calculate/daily-calorie-needs
-     * 3. Carbs: https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/carbohydrates/art-20045705
-     * 4. Fat: https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/expert-answers/fat-grams/faq-20058496
-     * 5. Protein: https://wa.kaiserpermanente.org/healthAndWellness?item=%2Fcommon%2FhealthAndWellness%2Fconditions%2Fdiabetes%2FfoodBalancing.html
+     * 4. Limits of calories based on percentages for 3-meals a day: https://www.omnicalculator.com/health/meal-calorie#how-many-calories-per-meal-should-i-eat
+     * 5. Carbs: https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/carbohydrates/art-20045705
+     * 6. Fat: https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/expert-answers/fat-grams/faq-20058496
+     * 7. Protein: https://wa.kaiserpermanente.org/healthAndWellness?item=%2Fcommon%2FhealthAndWellness%2Fconditions%2Fdiabetes%2FfoodBalancing.html
      */
 
     public HashMap<String, Double> calculateDietRequirements(String userId) {
         User user = this.userRepo.findUserByUserId(userId);
-        double height = user.getHeight();
+        double height = user.getHeight() / 100;
         double weight = user.getWeight();
         double age = user.getAge();
         Lifestyle lifestyle = user.getLifestyle();
@@ -294,23 +295,27 @@ public class UserHandler {
                 }
                 //caloriesRequired *= 1.725;
                 break;
+            default:
+                pa = 1;
         }
         if (sex == Sex.MALE) {
             caloriesRequired = 864 - 9.72 * age + pa * (14.2 * weight + 503 * height);
         } else if (sex == Sex.FEMALE) {
             caloriesRequired = 387 - 7.31 * age + pa * (10.9 * weight + 660.7 * height);
+        } else {
+            caloriesRequired = 864 - 9.72 * age + pa * (14.2 * weight + 503 * height);
         }
-        caloriesRequired /= 3;
+        double calLow = caloriesRequired * 0.25;
+        double calHigh = caloriesRequired * 0.40;
         double proteinHigh = 0.2 * caloriesRequired / 4 / 3; //maxProt, min is 12%
         double proteinLow = 0.12 * caloriesRequired / 4 / 3;
         double fatHigh = 0.35 * caloriesRequired / 9 / 3;  //maxFat, min is 20%
         double fatLow = 0.2 * caloriesRequired / 9 / 3;
         double carbsHigh = 0.65 * caloriesRequired / 4 / 3;    //maxcarbs, min is 45%
         double carbsLow = 0.45 * caloriesRequired / 4 / 3;
-
-        double finalCaloriesRequired = caloriesRequired;
         return new HashMap<String, Double>() {{
-            put("calHigh", finalCaloriesRequired);
+            put("calHigh", calHigh);
+            put("calLow", calLow);
             put("fatHigh", fatHigh);
             put("fatLow", fatLow);
             put("proteinHigh", proteinHigh);
@@ -318,5 +323,19 @@ public class UserHandler {
             put("carbsHigh", carbsHigh);
             put("carbsLow", carbsLow);
         }};
+    }
+
+    public void clearNutrientLimits(String userId) {
+        User user = this.userRepo.findUserByUserId(userId);
+        user.setNutrientLimits(new HashMap<>());
+        this.userRepo.save(user);
+    }
+
+    public void setChars(int age, double height, double weight, String userId) {
+        User user = this.userRepo.findUserByUserId(userId);
+        user.setAge(age);
+        user.setHeight(height);
+        user.setWeight(weight);
+        this.userRepo.save(user);
     }
 }

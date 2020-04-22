@@ -82,9 +82,16 @@ public class MealController {
     }
 
     @RequestMapping("/Meal/getRecommended")
-    public ArrayList<Meal> getRecommendedMeals(String userId, String calLow, String calHigh, String fatLow, String fatHigh,
-                                               String proteinLow, String proteinHigh, String carbsLow, String carbsHigh,
-                                               int numMeals) throws IOException {
+    public ArrayList<Meal> getRecommendedMeals(@RequestParam(value = "userId")String userId,
+                                               @RequestParam(value = "calLow")String calLow,
+                                               @RequestParam(value = "calHigh")String calHigh,
+                                               @RequestParam(value = "fatLow")String fatLow,
+                                               @RequestParam(value = "fatHigh")String fatHigh,
+                                               @RequestParam(value = "proteinLow")String proteinLow,
+                                               @RequestParam(value = "proteinHigh")String proteinHigh,
+                                               @RequestParam(value = "carbsLow")String carbsLow,
+                                               @RequestParam(value = "carbsHigh")String carbsHigh,
+                                               @RequestParam(value = "numMeals")int numMeals) throws IOException {
         return mealHandler.getRecommendedMeals(userId, calLow,calHigh, fatLow, fatHigh,
                 proteinLow, proteinHigh, carbsLow, carbsHigh, numMeals);
     }

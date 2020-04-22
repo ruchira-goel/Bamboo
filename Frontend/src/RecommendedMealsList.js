@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  StyleSheet,
-  FlatList,
-} from 'react-native';
+import {Text, View, StyleSheet, FlatList} from 'react-native';
 
 // Sources:
 // https://reactnative.dev/docs/images
@@ -26,11 +21,11 @@ export default class RecommendedMealsList extends React.Component {
 
   render() {
     const {route} = this.props;
-    const {userId} = route.params;
     const {meals} = route.params;
     return (
       <FlatList
         data={meals}
+        //style={{width: '70%'}}
         renderItem={({item}) => (
           <View>
             <View
@@ -41,10 +36,10 @@ export default class RecommendedMealsList extends React.Component {
                 backgroundColor: 'darkseagreen',
               }}>
               <Text>{item.name}</Text>
-              <Text>Calories: {item.calories}</Text>
-              <Text>Fat: {item.fat}g</Text>
-              <Text>Protein: {item.protein}g</Text>
-              <Text>Carbs: {item.carbs}g</Text>
+              {this.renderNutrient('Calories', item.calories.toFixed(2))}
+              {this.renderNutrient('Fat', item.fat.toFixed(2))}
+              {this.renderNutrient('Protein', item.protein.toFixed(2))}
+              {this.renderNutrient('Carbs', item.carbs.toFixed(2))}
             </View>
             <View style={{padding: '2%'}} />
           </View>
@@ -52,6 +47,24 @@ export default class RecommendedMealsList extends React.Component {
       />
     );
   }
+
+  renderNutrient = (nutrient, value) => {
+    console.log(value);
+    if (value !== '0.00') {
+      let unit = 'g';
+      if (nutrient === 'Calories') {
+        unit = '';
+      }
+      return (
+        <View style={{flex: 1}}>
+          <Text>
+            {nutrient}: {value}
+            {unit}
+          </Text>
+        </View>
+      );
+    }
+  };
 }
 
 const styles = StyleSheet.create({

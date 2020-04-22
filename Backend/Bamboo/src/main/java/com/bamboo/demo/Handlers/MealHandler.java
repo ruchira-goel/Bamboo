@@ -23,6 +23,7 @@ import com.bamboo.demo.Repos.UserRepo;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 
 public class MealHandler {
     private MealRepo mealRepo;
@@ -200,12 +201,14 @@ public class MealHandler {
                                                String proteinLow, String proteinHigh, String carbsLow, String carbsHigh,
                                                int numMeals) throws IOException {
         User user = this.userRepo.findById(userId).get();
+        //user.setNutrientLimits(new HashMap<>());
+        //return new ArrayList<>();
         final String CARBS = "CARBS";
         final String PROTEIN = "PROTEIN";
         final String CALORIES = "CALORIES";
         final String FAT = "FAT";
         final String NUMMEALS = "NUMMEALS";
-        HashMap<String, List<Object>> nutrientLimits = new HashMap<>();
+        HashMap<String, String> nutrientLimits = new HashMap<>();
         String request = "https://api.spoonacular.com/recipes/complexSearch?apiKey=5ccdaac983d344338fe187bb2b7e5501";
         StringBuilder intolerances = new StringBuilder();
         ArrayList<String> allergies = user.getAllergies();
@@ -215,79 +218,56 @@ public class MealHandler {
                 intolerances.append(",");
             }
         }
-        request += "&intolerances=" + intolerances;
-        request += "&diet=" + user.getDiet().name();
+        if (allergies.size() > 0) {
+            request += "&intolerances=" + intolerances;
+        }
+        if (user.getDiet() != Diet.UNSPECIFIED) {
+            request += "&diet=" + Diet.valueOfDiet(user.getDiet().toString());
+        }
         if(!carbsLow.equals("")) {
             request += "&minCarbs=";
             //MINCARBS instead of carbs?
-            nutrientLimits.put(CARBS, new ArrayList<Object>() {{
-                add(LimitType.LESSTHAN.name());
-                add(carbsLow);
-            }});
+            nutrientLimits.put("carbsLow", carbsLow);
             request += carbsLow;
         }
         if (!carbsHigh.equals("")) {
             request += "&maxCarbs=";
-            nutrientLimits.put(CARBS, new ArrayList<Object>() {{
-                add(LimitType.GREATERTHAN.name());
-                add(carbsHigh);
-            }});
+            nutrientLimits.put("carbsHigh", carbsHigh);
             request += carbsHigh;
         }
         if(!proteinHigh.equals("")) {
             request += "&maxProtein=";
-            nutrientLimits.put(PROTEIN, new ArrayList<Object>() {{
-                add(LimitType.GREATERTHAN.name());
-                add(proteinHigh);
-            }});
+            nutrientLimits.put("proteinHigh", proteinHigh);
             request += proteinHigh;
         }
         if(!proteinLow.equals("")) {
             request += "&minProtein=";
-            nutrientLimits.put(PROTEIN, new ArrayList<Object>() {{
-                add(LimitType.LESSTHAN.name());
-                add(proteinLow);
-            }});
+            nutrientLimits.put("proteinLow", proteinLow);
             request += proteinLow;
         }
         if(!fatHigh.equals("")) {
             request += "&maxFat=";
-            nutrientLimits.put(FAT, new ArrayList<Object>() {{
-                add(LimitType.GREATERTHAN.name());
-                add(fatHigh);
-            }});
+            nutrientLimits.put("fatHigh", fatHigh);
             request += fatHigh;
         }
         if(!fatLow.equals("")) {
             request += "&minFat=";
-            nutrientLimits.put(FAT, new ArrayList<Object>() {{
-                add(LimitType.LESSTHAN.name());
-                add(fatLow);
-            }});
+            nutrientLimits.put("fatLow", fatLow);
             request += fatLow;
         }
         if(!calLow.equals("")) {
             request += "&minCalories=";
-            nutrientLimits.put(CALORIES, new ArrayList<Object>() {{
-                add(LimitType.LESSTHAN.name());
-                add(calLow);
-            }});
+            nutrientLimits.put("calLow", calLow);
             request += calLow;
         }
         if (!calHigh.equals("")) {
             request += "&maxCalories=";
-            nutrientLimits.put(CALORIES, new ArrayList<Object>() {{
-                add(LimitType.GREATERTHAN.name());
-                add(calHigh);
-            }});
+            nutrientLimits.put("calHigh", calHigh);
             request += calHigh;
         }
         if (numMeals != 0) {
             request += "&number=" + numMeals;
-            nutrientLimits.put(NUMMEALS, new ArrayList<Object>() {{
-                add(LimitType.EQUAL);
-                add(numMeals);
-            }});
+            nutrientLimits.put("numMeals", Integer.toString(numMeals));
         }
         user.setNutrientLimits(nutrientLimits);
         this.userRepo.save(user);
@@ -297,20 +277,34 @@ public class MealHandler {
         connection.setRequestProperty("Content-type", "application/json");
 
         BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        JSONArray mealArray = new JSONArray(input.readLine());
-        ArrayList<Meal> recommended = new ArrayList<>();
-        for (int i = 0; i < mealArray.length(); i++) {
-            JSONObject mealObject = mealArray.getJSONObject(i);
-            String fatString = mealObject.get("fat").toString();
-            String carbsString = mealObject.get("carbs").toString();
-            String proteinString = mealObject.get("protein").toString();
-            Meal meal = new Meal(userId, mealObject.get("title").toString(),
-                    Double.parseDouble(mealObject.get("calories").toString()),
-                    Double.parseDouble(fatString.substring(0, fatString.length() - 1)),
-                    Double.parseDouble(carbsString.substring(0, carbsString.length() - 1)),
-                    Double.parseDouble(proteinString.substring(0, proteinString.length() - 1)));
-            recommended.add(meal);
-        }
+            JSONObject mealResults = new JSONObject(input.readLine());
+            JSONArray mealArray = mealResults.getJSONArray("results");
+            ArrayList<Meal> recommended = new ArrayList<>();
+            for (int i = 0; i < mealArray.length(); i++) {
+                Meal meal = new Meal();
+                JSONObject mealJson = mealArray.getJSONObject(i);
+                JSONArray nutritionArray = mealJson.getJSONArray("nutrition");
+                meal.setName(mealJson.get("title").toString());
+                for (int j = 0; j < nutritionArray.length(); j++) {
+                    JSONObject nutrient = nutritionArray.getJSONObject(j);
+                    String amount = nutrient.get("amount").toString();
+                    switch (nutrient.get("title").toString()) {
+                        case "Calories":
+                            meal.setCalories(Double.parseDouble(amount));
+                            break;
+                        case "Fat":
+                            meal.setFat(Double.parseDouble(amount));
+                            break;
+                        case "Protein":
+                            meal.setProtein(Double.parseDouble(amount));
+                            break;
+                        case "Carbohydrates":
+                            meal.setCarbs(Double.parseDouble(amount));
+                            break;
+                    }
+                }
+                recommended.add(meal);
+            }
         return recommended;
     }
 

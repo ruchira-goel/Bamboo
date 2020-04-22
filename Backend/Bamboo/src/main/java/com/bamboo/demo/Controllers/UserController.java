@@ -70,7 +70,7 @@ public class UserController {
             case "Extremely Active":
                 lStyle = Lifestyle.EXTREME;
                 break;
-            case "Low" :
+            case "Low":
                 lStyle = Lifestyle.LOW;
                 break;
         }
@@ -141,13 +141,26 @@ public class UserController {
     }
 
     @RequestMapping("/User/getSavedRecommendationValues")
-    public HashMap<String, List<Object>> getSavedRecommendationValues(
+    public HashMap<String, String> getSavedRecommendationValues(
             @RequestParam(value = "userId") String userId) {
         return userHandler.getSavedRecommendationValues(userId);
     }
 
     @RequestMapping("/User/getDietRequirements")
-    public HashMap<String, Double> getDietRequirements(@RequestParam(value="userId") String userId) {
+    public HashMap<String, Double> getDietRequirements(@RequestParam(value = "userId") String userId) {
         return userHandler.calculateDietRequirements(userId);
+    }
+
+    @RequestMapping("/User/clearNutrientLimits")
+    public void clearNutrientLimits(@RequestParam(value = "userId") String userId) {
+        userHandler.clearNutrientLimits(userId);
+    }
+
+    @RequestMapping("/User/setChars")
+    public void setChars(@RequestParam(value = "age") int age,
+                         @RequestParam(value = "height") double height,
+                         @RequestParam(value = "weight") double weight,
+                         @RequestParam(value = "userId") String userId) {
+        userHandler.setChars(age, height, weight, userId);
     }
 }

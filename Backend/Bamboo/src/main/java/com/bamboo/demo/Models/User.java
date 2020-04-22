@@ -25,7 +25,8 @@ public class User {
     private ArrayList<String> favMeals;
     private ArrayList<String> favExerciseRoutine;
     private boolean isMetric;
-    private HashMap<String, List<Object>> nutrientLimits;
+    //private HashMap<String, List<Object>> nutrientLimits;
+    private HashMap<String, String> nutrientLimits; //e.g. proteinHigh --> 50
     private ArrayList<String> allergies;
     private Diet diet;
 
@@ -85,17 +86,21 @@ public class User {
         this.favMeals = new ArrayList<>();
         this.favExerciseRoutine = new ArrayList<>();
         this.nutrientLimits = new HashMap<>();
+        this.allergies = new ArrayList<>();
+        this.diet =  Diet.UNSPECIFIED;
+        this.lifestyle = Lifestyle.UNSPECIFIED;
+        this.sex = Sex.OTHER;
     }
 
     public HashMap<String, String> getDailyInfo() {
         return dailyInfo;
     }
 
-    public HashMap<String, List<Object>> getNutrientLimits() {
+    public HashMap<String, String> getNutrientLimits() {
         return nutrientLimits;
     }
 
-    public void setNutrientLimits(HashMap<String, List<Object>> nutrientLimits) {
+    public void setNutrientLimits(HashMap<String, String> nutrientLimits) {
         this.nutrientLimits = nutrientLimits;
     }
 

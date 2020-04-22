@@ -10,7 +10,8 @@ public enum Diet {
     PESCETARIAN("Pescetarian"),
     PALEO("Paleo"),
     PRIMAL("Primal"),
-    WHOLE30("Whole30");
+    WHOLE30("Whole30"),
+    UNSPECIFIED("Unspecified");
 
     String name;
 

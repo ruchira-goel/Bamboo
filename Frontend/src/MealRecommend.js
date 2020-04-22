@@ -52,6 +52,7 @@ export default class MealRecommend extends React.Component {
   }
 
   renderLimits = (nutrient, limit) => {
+
     if (this.state['isChecked' + nutrient]) {
       let checkBoxLimit = 'isChecked' + nutrient + limit;
       let nutrientLimit = nutrient.toLowerCase() + limit;
@@ -84,7 +85,6 @@ export default class MealRecommend extends React.Component {
   };
 
   renderTextInput = (check, value) => {
-    console.log(check);
     if (check) {
       return (
         <View style={{flex: 1, alignItems: 'center'}}>
@@ -108,7 +108,6 @@ export default class MealRecommend extends React.Component {
 
   renderNumMeals = () => {
     if (this.state.isCheckedNumMeals) {
-      console.log('Number: ' + this.state.numMeals);
       return (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <TextInput
@@ -144,7 +143,6 @@ export default class MealRecommend extends React.Component {
       isCheckedFatHigh,
       numMeals,
     } = this.state;
-    console.log('entered');
     if (isCheckedNumMeals && numMeals === '') {
       Alert.alert(
         'Enter Number of Meals',
@@ -183,8 +181,34 @@ export default class MealRecommend extends React.Component {
       Alert.alert('Select Limit', 'Select at least one limit!', [{text: 'OK'}]);
       return;
     }
-    console.log('ended');
+    if (
+      this.renderAlert('Cal') ||
+      this.renderAlert('Fat') ||
+      this.renderAlert('Protein') ||
+      this.renderAlert('Carbs')
+    ) {
+      return;
+    }
     this.getRecommendedMeals();
+  };
+
+  renderAlert = nutrient => {
+    if (
+      this.state['isChecked' + nutrient] &&
+      !this.state['isChecked' + nutrient + 'Low'] &&
+      !this.state['isChecked' + nutrient + 'High']
+    ) {
+      if (nutrient === 'Cal') {
+        nutrient = 'Calories';
+      }
+      Alert.alert(
+        'Select a limit',
+        `Select at least one limit for ${nutrient.toLowerCase()}!`,
+        [{text: 'OK'}],
+      );
+      return true;
+    }
+    return false;
   };
 
   getRecommendedMeals = () => {
@@ -214,72 +238,96 @@ export default class MealRecommend extends React.Component {
       carbsHigh,
     } = this.state;
     let request = `/Meal/getRecommended?userId=${userId}&`;
+    console.log(calLow)
     if (isCheckedCalLow) {
       if (calLow === '') {
-        // TODO: calories lower limit not implemented yet
-      } else {
-        request = request.concat(`calLow=${calLow}&`);
+        if (userRequirements === '') {
+          this.getDietaryRestrictions();
+        }
+        calLow = userRequirements.calLow;//.toFixed(2);
       }
+      request = request.concat(`calLow=${calLow}&`);
+    } else {
+      request = request.concat('calLow=&');
     }
     if (isCheckedCalHigh) {
       if (calHigh === '') {
-        this.getDietaryRestrictions();
-        calHigh = userRequirements.calories;
+        if (userRequirements === '') {
+          this.getDietaryRestrictions();
+        }
+        calHigh = userRequirements.calHigh;//.toFixed(2);
       }
       request = request.concat(`calHigh=${calHigh}&`);
+    } else {
+      request = request.concat('calHigh=&');
     }
     if (isCheckedFatHigh) {
       if (fatHigh === '') {
         if (userRequirements === '') {
           this.getDietaryRestrictions();
+          //
         }
-        fatHigh = userRequirements.fatHigh;
+
+        fatHigh = userRequirements.fatHigh.toFixed(2);
       }
       request = request.concat(`fatHigh=${fatHigh}&`);
+    } else {
+      request = request.concat('fatHigh=&');
     }
     if (isCheckedFatLow) {
       if (fatLow === '') {
         if (userRequirements === '') {
           this.getDietaryRestrictions();
         }
-        fatLow = userRequirements.fatLow;
+        fatLow = userRequirements.fatLow.toFixed(2);
       }
       request = request.concat(`fatLow=${fatLow}&`);
+    } else {
+      request = request.concat('fatLow=&');
     }
     if (isCheckedProteinHigh) {
       if (proteinHigh === '') {
         if (userRequirements === '') {
           this.getDietaryRestrictions();
         }
+        proteinHigh = userRequirements.proteinHigh.toFixed(2);
       }
       request = request.concat(`proteinHigh=${proteinHigh}&`);
+    } else {
+      request = request.concat('proteinHigh=&');
     }
     if (isCheckedProteinLow) {
       if (proteinLow === '') {
         if (userRequirements === '') {
           this.getDietaryRestrictions();
         }
-        proteinLow = userRequirements.proteinLow;
+        proteinLow = userRequirements.proteinLow.toFixed(2);
       }
       request = request.concat(`proteinLow=${proteinLow}&`);
+    } else {
+      request = request.concat('proteinLow=&');
     }
     if (isCheckedCarbsHigh) {
       if (carbsHigh === '') {
         if (userRequirements === '') {
           this.getDietaryRestrictions();
         }
-        carbsHigh = userRequirements.carbsHigh;
+        carbsHigh = userRequirements.carbsHigh.toFixed(2);
       }
       request = request.concat(`carbsHigh=${carbsHigh}&`);
+    } else {
+      request = request.concat('carbsHigh=&');
     }
     if (isCheckedCarbsLow) {
       if (carbsLow === '') {
         if (userRequirements === '') {
           this.getDietaryRestrictions();
         }
-        carbsLow = userRequirements.carbsLow;
+        carbsLow = userRequirements.carbsLow.toFixed(2);
       }
       request = request.concat(`carbsLow=${carbsLow}&`);
+    } else {
+      request = request.concat('carbsLow=&');
     }
     if (isCheckedNumMeals) {
       request = request.concat(`numMeals=${numMeals}`);
@@ -294,7 +342,7 @@ export default class MealRecommend extends React.Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        //console.log(data);
         if (data.error) {
           Alert.alert('Error', data.message, [{text: 'OK'}]);
         } else {
@@ -316,14 +364,23 @@ export default class MealRecommend extends React.Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        //console.log(data);
         if (data.error) {
           Alert.alert('Error', data.message, [{text: 'OK'}]);
         } else {
+          console.log(data)
           this.setState({userRequirements: data});
         }
       });
   };
+
+  setLimits = (limitName, data) => {
+    if ( data[limitName]!== undefined) {
+      this.setState({[limitName]: data[limitName]}, () => {
+        console.log(this.state[limitName]);
+      });
+    }
+  }
 
   componentWillMount(): void {
     const {route} = this.props;
@@ -339,56 +396,6 @@ export default class MealRecommend extends React.Component {
           Alert.alert('Error', data.message, [{text: 'OK'}]);
         } else if (data.isEmpty) {
         } else {
-          console.log('Here: ' + data.calHigh + data.fatHigh);
-          // if (data.calories !== undefined) {
-          //   this.setState({
-          //     calHigh: data.calories,
-          //     isCheckedCal: true,
-          //     isCheckedCalHigh: true,
-          //   });
-          // }
-          // if (data.proteinHigh !== undefined) {
-          //   this.setState({
-          //     proteinHigh: data.proteinHigh,
-          //     isCheckedProtein: true,
-          //     isCheckedProteinHigh: true,
-          //   });
-          // }
-          // if (data.proteinLow !== undefined) {
-          //   this.setState({
-          //     proteinLow: data.proteinLow,
-          //     isCheckedProtein: true,
-          //     isCheckedProteinLow: true,
-          //   });
-          // }
-          // if (data.fatHigh !== undefined) {
-          //   this.setState({
-          //     fatHigh: data.fatHigh,
-          //     isCheckedFat: true,
-          //     isCheckedFatHigh: true,
-          //   });
-          // }
-          // if (data.fatLow !== undefined) {
-          //   this.setState({
-          //     fatLow: data.fatLow,
-          //     isCheckedFat: true,
-          //     isCheckedFatLow: true,
-          //   });
-          // }
-          // if (data.carbsHigh !== undefined) {
-          //   this.setState({
-          //     carbsHigh: data.carbsHigh,
-          //     isCheckedCarbs: true,
-          //     isCheckedCarbsHigh: true,
-          //   });
-          // }
-          // if (data.carbsLow !== undefined) {
-          //   this.setState({
-          //     carbsLow: data.carbsLow,
-          //     isCheckedCarbs: true,
-          //     isCheckedCarbsLow: true,
-          //   });
-          // }
           this.checkDietFields(data, 'Carbs', 'Low');
           this.checkDietFields(data, 'Carbs', 'High');
           this.checkDietFields(data, 'Fat', 'Low');
@@ -396,9 +403,11 @@ export default class MealRecommend extends React.Component {
           this.checkDietFields(data, 'Protein', 'Low');
           this.checkDietFields(data, 'Protein', 'High');
           this.checkDietFields(data, 'Cal', 'High');
-          if (data.NUMMEALS !== undefined) {
+          this.checkDietFields(data, 'Cal', 'Low');
+          //TODO: add calLow check
+          if (data.numMeals !== undefined) {
             this.setState({
-              numMeals: data.NUMMEALS[1],
+              numMeals: data.numMeals,
               isCheckedNumMeals: true,
             });
           }
@@ -409,8 +418,9 @@ export default class MealRecommend extends React.Component {
   //TODO: Test this
   checkDietFields = (data, nutrient, limit) => {
     if (data[nutrient.toLowerCase() + limit] !== undefined) {
+      let value = parseFloat(data[nutrient.toLowerCase() + limit]).toFixed(2);
       this.setState({
-        [nutrient.toLowerCase() + limit]: data[nutrient + limit],
+        [nutrient.toLowerCase() + limit]: value,
         ['isChecked' + nutrient]: true,
         ['isChecked' + nutrient + limit]: true,
       });
@@ -427,8 +437,40 @@ export default class MealRecommend extends React.Component {
     }
   };
 
+  renderCheckBox = nutrient => {
+    let unit = ' (g)';
+    let nutrientName = nutrient;
+    if (nutrient === 'Cal') {
+      unit = '';
+      nutrientName = 'Calories';
+    }
+    return (
+      <CheckBox
+        style={{flex: 0.05, padding: 10}}
+        onClick={() => {
+          this.setState(
+            {
+              ['isChecked' + nutrient]: !this.state['isChecked' + nutrient],
+            },
+            () => {
+              if (!this.state['isChecked' + nutrient]) {
+                this.setState({
+                  [nutrient.toLowerCase() + 'High']: '',
+                  [nutrient.toLowerCase() + 'Low']: '',
+                  ['isChecked' + nutrient + 'Low']: false,
+                  ['isChecked' + nutrient + 'High']: false,
+                });
+              }
+            },
+          );
+        }}
+        isChecked={this.state['isChecked' + nutrient]}
+        leftText={'Set ' + nutrientName + unit}
+      />
+    );
+  };
+
   render() {
-    console.log(this.state.proteinHigh);
     return (
       <View style={{flex: 1}}>
         <Text style={{fontSize: 16, marginTop: '2%'}}>
@@ -453,74 +495,10 @@ export default class MealRecommend extends React.Component {
           isChecked={this.state.isCheckedNumMeals}
           leftText={'Set number of meals'}
         />
-        <CheckBox
-          style={{flex: 0.05, padding: 10}}
-          onClick={() => {
-            this.setState(
-              {
-                isCheckedCal: !this.state.isCheckedCal,
-              },
-              () => {
-                if (!this.state.isCheckedCal) {
-                  this.setState({calories: ''});
-                }
-              },
-            );
-          }}
-          isChecked={this.state.isCheckedCal}
-          leftText={'Set Calories'}
-        />
-        <CheckBox
-          style={{flex: 0.05, padding: 10}}
-          onClick={() => {
-            this.setState(
-              {
-                isCheckedFat: !this.state.isCheckedFat,
-              },
-              () => {
-                if (!this.state.isCheckedFat) {
-                  this.setState({fat: ''});
-                }
-              },
-            );
-          }}
-          isChecked={this.state.isCheckedFat}
-          leftText={'Set Fat'}
-        />
-        <CheckBox
-          style={{flex: 0.05, padding: 10}}
-          onClick={() => {
-            this.setState(
-              {
-                isCheckedProtein: !this.state.isCheckedProtein,
-              },
-              () => {
-                if (!this.state.isCheckedProtein) {
-                  this.setState({protein: ''});
-                }
-              },
-            );
-          }}
-          isChecked={this.state.isCheckedProtein}
-          leftText={'Set Protein'}
-        />
-        <CheckBox
-          style={{flex: 0.05, padding: 10}}
-          onClick={() => {
-            this.setState(
-              {
-                isCheckedCarbs: !this.state.isCheckedCarbs,
-              },
-              () => {
-                if (!this.state.isCheckedCarbs) {
-                  this.setState({carbs: 0});
-                }
-              },
-            );
-          }}
-          isChecked={this.state.isCheckedCarbs}
-          leftText={'Set Carbs'}
-        />
+        {this.renderCheckBox('Cal')}
+        {this.renderCheckBox('Fat')}
+        {this.renderCheckBox('Protein')}
+        {this.renderCheckBox('Carbs')}
         <View style={{flex: 0.2}}>{this.renderNumMeals()}</View>
         <View style={{padding: '3%'}} />
         <View
