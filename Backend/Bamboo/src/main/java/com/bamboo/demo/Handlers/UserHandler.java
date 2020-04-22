@@ -321,7 +321,7 @@ public class UserHandler {
 
         String[] categoryList = categories.split("\\s+");
         if (categoryList[0].equals("true")) {
-            activities.add("General");
+            activities.add("Bicycling");
             activities.add("Stationary Bicycling");
         }
         if (categoryList[1].equals("true")) {
