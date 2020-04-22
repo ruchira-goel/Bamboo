@@ -9,7 +9,7 @@ import {
   Alert,
   Platform,
 } from 'react-native';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute, useIsFocused} from '@react-navigation/native';
 import * as Constants from './Constants';
 
 // Sources:
@@ -31,45 +31,14 @@ class ViewGoals extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   const {fetchGoals, navigation} = this.props;
-  //   this.fetchGoals();
-  //   this.willFocusListener = navigation.addListener('willFocus', () => {
-  //     this.fetchGoals();
-  //   });
-  // }
-  //
-  // componentWillUnmount() {
-  //   this.willFocusListener.remove();
-  // }
-
   componentDidMount() {
-    console.log('RAMYA----->Mounting View Goals');
     this.fetchGoals();
   }
-  //
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps.goals !== this.props.goals) {
-  //     console.log('RAMYA----->Calling componentDidUpdate');
-  //     this.fetchGoals();
-  //   }
-  // }
-  //
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   console.log('RAMYA----->SHould Component Upate, nextState:', nextState);
-  //   console.log('RAMYA----->SHould Component Upate, nextProps:', nextProps);
-  //   return true;
-  // }
-  //
-  // componentWillReceiveProps(nextProps) {
-  //   console.log('RAMYA----->Component will receive props', nextProps);
-  // }
 
   fetchGoals() {
     const {route} = this.props;
     const {userId} = route.params;
     this.setState({userId: userId});
-    console.log('In the view goals page: ' + userId);
     fetch(
       Platform.OS === 'android'
         ? `${Constants.URL.android}/User/fetchGoals?userId=${userId}`
@@ -77,7 +46,7 @@ class ViewGoals extends Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        // console.log(data);
         if (data.error) {
           Alert.alert(
             data.message,
@@ -86,7 +55,7 @@ class ViewGoals extends Component {
           );
         } else {
           this.setState({goals: data});
-          console.log(this.state.goals[0]);
+          // console.log(this.state.goals[0]);
         }
       });
   }
@@ -118,8 +87,8 @@ class ViewGoals extends Component {
     const {route} = this.props;
     const {userId} = route.params;
     this.setState({userId: userId});
-    console.log('delGoal: ' + userId);
-    console.log(item.id);
+    // console.log('delGoal: ' + userId);
+    // console.log(item.id);
     fetch(
       Platform.OS === 'android'
         ? `${Constants.URL.android}/Goal/deleteGoal?userId=${userId}&goalId=${
@@ -131,7 +100,7 @@ class ViewGoals extends Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        // console.log(data);
         if (data.error) {
           Alert.alert(
             'Delete Failed',
@@ -152,7 +121,6 @@ class ViewGoals extends Component {
   }
 
   render() {
-    console.log('User ID: ', this.props.userId);
     const {route} = this.props;
     const {userId} = route.params;
     return (
@@ -229,7 +197,16 @@ class ViewGoals extends Component {
 export default function(props) {
   const navigation = useNavigation();
   const route = useRoute();
-  return <ViewGoals {...props} navigation={navigation} route={route} />;
+  const isFocused = useIsFocused();
+  return (
+    <View>
+      {isFocused ? (
+        <ViewGoals {...props} navigation={navigation} route={route} />
+      ) : (
+        <Text>Loading</Text>
+      )}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
