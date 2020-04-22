@@ -45,14 +45,20 @@ public class MealHandler {
     }
 
     public Meal saveMealFromLink(String link, String userId, String date) throws IOException, JSONException, IllegalAccessException {
-        URL url = new URL("https://api.spoonacular.com/recipes/extract?apiKey=5ccdaac983d344338fe187bb2b7e5501&url=" + link);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
-        connection.setRequestProperty("Content-type", "application/json");
-        connection.setRequestProperty("User-agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
-        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        String jsonText = in.readLine();
-        JSONObject json = new JSONObject(jsonText);
+//        URL url = new URL("https://api.spoonacular.com/recipes/extract?apiKey=5ccdaac983d344338fe187bb2b7e5501&url=" + link);
+//        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//        connection.setRequestMethod("GET");
+//        connection.setRequestProperty("Content-type", "application/json");
+//        connection.setRequestProperty("User-agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+//        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+//        String jsonText = in.readLine();
+//        JSONObject json = new JSONObject(jsonText);
+
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet("https://api.spoonacular.com/recipes/extract?apiKey=5ccdaac983d344338fe187bb2b7e5501&url=" + link);
+        CloseableHttpResponse response = httpClient.execute(httpGet);
+        JSONObject json = new JSONObject(EntityUtils.toString(response.getEntity()));
+
         String mealName = json.get("title").toString();
         String recipeId = json.get("id").toString();
 
@@ -60,13 +66,17 @@ public class MealHandler {
             throw new IllegalAccessException("Meal not found");
         }
 
-        URL nutritionURL = new URL("https://api.spoonacular.com/recipes/" + recipeId + "/nutritionWidget.json?apiKey=5ccdaac983d344338fe187bb2b7e5501");
-        HttpURLConnection con = (HttpURLConnection) nutritionURL.openConnection();
-        con.setRequestMethod("GET");
-        con.setRequestProperty("Content-type", "application/json");
+        httpGet = new HttpGet("https://api.spoonacular.com/recipes/" + recipeId + "/nutritionWidget.json?apiKey=5ccdaac983d344338fe187bb2b7e5501");
+        response = httpClient.execute(httpGet);
+        JSONObject nutritionJson = new JSONObject(EntityUtils.toString(response.getEntity()));
 
-        BufferedReader input = new BufferedReader(new InputStreamReader(con.getInputStream()));
-        JSONObject nutritionJson = new JSONObject(input.readLine());
+//        URL nutritionURL = new URL("https://api.spoonacular.com/recipes/" + recipeId + "/nutritionWidget.json?apiKey=5ccdaac983d344338fe187bb2b7e5501");
+//        HttpURLConnection con = (HttpURLConnection) nutritionURL.openConnection();
+//        con.setRequestMethod("GET");
+//        con.setRequestProperty("Content-type", "application/json");
+//
+//        BufferedReader input = new BufferedReader(new InputStreamReader(con.getInputStream()));
+//        JSONObject nutritionJson = new JSONObject(input.readLine());
 
         //removing last character to get number for nutrition
         String fatStr = nutritionJson.get("fat").toString();
@@ -91,14 +101,18 @@ public class MealHandler {
     public Meal saveMealFromName(String name, String userId,String date) throws IOException, JSONException, IllegalAccessException {
         try {
             User user = this.userRepo.findById(userId).get();
-            System.out.println("the name is " + name);
-            URL url = new URL("https://api.spoonacular.com/recipes/guessNutrition?apiKey=5ccdaac983d344338fe187bb2b7e5501&title=" + name);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setRequestProperty("Content-type", "application/json");
+//            URL url = new URL("https://api.spoonacular.com/recipes/guessNutrition?apiKey=5ccdaac983d344338fe187bb2b7e5501&title=" + name);
+//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+//            connection.setRequestMethod("GET");
+//            connection.setRequestProperty("Content-type", "application/json");
+//
+//            BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+//            JSONObject nutritionJson = new JSONObject(input.readLine());
 
-            BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            JSONObject nutritionJson = new JSONObject(input.readLine());
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            HttpGet httpGet = new HttpGet("https://api.spoonacular.com/recipes/guessNutrition?apiKey=5ccdaac983d344338fe187bb2b7e5501&title=" + name);
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            JSONObject nutritionJson = new JSONObject(EntityUtils.toString(response.getEntity()));
 
             double fat = Double.parseDouble(((JSONObject) nutritionJson.get("fat")).get("value").toString());
             double protein = Double.parseDouble(((JSONObject) nutritionJson.get("protein")).get("value").toString());
