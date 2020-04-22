@@ -30,6 +30,7 @@ import FavActivities from './src/FavActivities';
 import NotifSettings from './src/NotifSettings';
 import MealRecommend from './src/MealRecommend';
 import RecommendedMealsList from './src/RecommendedMealsList';
+import RecoverAccount from './src/RecoverAccount';
 
 const Stack = createStackNavigator();
 
@@ -78,6 +79,11 @@ function App() {
         <Stack.Screen
           name="FavActivities"
           component={FavActivities}
+          headerShown={'false'}
+        />
+        <Stack.Screen
+          name="RecoverAccount"
+          component={RecoverAccount}
           headerShown={'false'}
         />
         <Stack.Screen

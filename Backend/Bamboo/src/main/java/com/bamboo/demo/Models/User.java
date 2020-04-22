@@ -29,6 +29,7 @@ public class User {
     private HashMap<String, String> nutrientLimits; //e.g. proteinHigh --> 50
     private ArrayList<String> allergies;
     private Diet diet;
+    private Token token;
 
     public Diet getDiet() {
         return diet;
@@ -74,6 +75,7 @@ public class User {
         this.dailyInputReminder = dailyInputReminder;
     }
 
+
     public boolean isMetric() {
         return isMetric;
     }
@@ -112,6 +114,15 @@ public class User {
         this.allergies = new ArrayList<>();
         this.diet =  Diet.UNSPECIFIED;
         this.lifestyle = Lifestyle.UNSPECIFIED;
+        this.token = null;
+    }
+
+    public Token getToken() {
+        return token;
+    }
+
+    public void setToken(Token token) {
+        this.token = token;
     }
 
     public HashMap<String, String> getDailyInfo() {

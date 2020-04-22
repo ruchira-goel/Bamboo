@@ -1,16 +1,20 @@
 package com.bamboo.demo.Controllers;
 
+import com.bamboo.demo.EmailSender;
 import com.bamboo.demo.Handlers.DIHandler;
 import com.bamboo.demo.Handlers.UserHandler;
 import com.bamboo.demo.Models.*;
 import com.bamboo.demo.Repos.*;
-import org.json.JSONObject;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.mail.MessagingException;
 import java.util.List;
 
 @RestController
@@ -18,7 +22,10 @@ public class UserController {
     private UserHandler userHandler;
     private DIHandler di;
 
-    public UserController(UserRepo userRepo, DailyInfoRepo di, MealRepo mealRepo, ActivityRepo activityRepo, GoalRepo goalRepo) {
+    @Autowired
+    private EmailSender emailSender;
+
+    public UserController(UserRepo userRepo, DailyInfoRepo di, MealRepo mealRepo, ActivityRepo activityRepo, GoalRepo goalRepo, EmailSender emailSender) {
         this.userHandler = new UserHandler(userRepo, di, mealRepo, activityRepo, goalRepo); //Check
         this.di = new DIHandler(di);
     }
@@ -185,5 +192,16 @@ public class UserController {
                          @RequestParam(value = "weight") double weight,
                          @RequestParam(value = "userId") String userId) {
         userHandler.setChars(age, height, weight, userId);
+    }
+
+    @RequestMapping("/User/recoverAccount")
+    public boolean recoverAccount(@RequestParam(value = "email") String email) throws MessagingException, IllegalAccessException {
+        return this.emailSender.sendSimpleMessage(email);
+    }
+
+    @RequestMapping("/User/resetPass")
+    public User resetPass(@RequestParam(value = "email") String email,
+                            @RequestParam(value = "newPass") String newPass) {
+        return userHandler.resetPass(email, newPass);
     }
 }

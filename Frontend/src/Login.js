@@ -98,15 +98,39 @@ export default class Login extends React.Component {
             <Text>Login</Text>
           </TouchableOpacity>
           <View style={{padding: '2%'}} />
-          <View style={{flex: 1, flexDirection: 'row'}}>
-            <Text style={{padding: 15}}>Don't have an account? </Text>
-            <TouchableOpacity
-              onPress={() => this.props.navigation.replace('SignUp')}
-              style={styles.linkStyle}>
-              <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
-                Signup!
-              </Text>
-            </TouchableOpacity>
+          <View style={{flex: 1, alignItems: 'center'}}>
+            <View
+              style={{
+                flex: 0.1,
+                flexDirection: 'row',
+                //backgroundColor: 'pink',
+              }}>
+              <Text style={{padding: 15}}>Don't have an account? </Text>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.replace('SignUp')}
+                style={styles.linkStyle}>
+                <Text
+                  style={{color: '#0000EE', textDecorationLine: 'underline'}}>
+                  Sign Up!
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{
+                flex: 0.1,
+                flexDirection: 'row',
+                //backgroundColor: 'yellow',
+              }}>
+              <Text style={{padding: 15}}>Forgot password? </Text>
+              <TouchableOpacity
+                onPress={() => this.props.navigation.replace('RecoverAccount')}
+                style={styles.linkStyle}>
+                <Text
+                  style={{color: '#0000EE', textDecorationLine: 'underline'}}>
+                  Click here!
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </View>
@@ -168,7 +192,7 @@ const styles = StyleSheet.create({
     alignItems: 'center', //text in the middle of the button
   },
   linkStyle: {
-    marginBottom: '70%',
+    //marginBottom: '70%',
     padding: 15,
   },
   /*textalign for the text to be in the center for "bamboo."*/

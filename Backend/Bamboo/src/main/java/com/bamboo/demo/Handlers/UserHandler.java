@@ -16,7 +16,8 @@ public class UserHandler {
     private ActivityRepo activityRepo;
     private GoalRepo goalRepo;
 
-    public UserHandler(UserRepo userRepo, DailyInfoRepo dailyInfoRepo, MealRepo mealRepo, ActivityRepo activityRepo, GoalRepo goalRepo) {
+    public UserHandler(UserRepo userRepo, DailyInfoRepo dailyInfoRepo, MealRepo mealRepo, ActivityRepo activityRepo,
+                       GoalRepo goalRepo) {
         this.userRepo = userRepo;
         this.dailyInfoRepo = dailyInfoRepo;
         this.mealRepo = mealRepo;
@@ -405,5 +406,13 @@ public class UserHandler {
         user.setHeight(height);
         user.setWeight(weight);
         this.userRepo.save(user);
+    }
+
+    public User resetPass(String email, String newPass) {
+        User user =  userRepo.findUserByEmail(email).get();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        user.setToken(null);
+        user.setEncryptedPassword(passwordEncoder.encode(newPass));
+        return this.userRepo.save(user);
     }
 }

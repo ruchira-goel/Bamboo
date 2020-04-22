@@ -179,7 +179,6 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-svg')
     implementation project(':react-native-date-picker')
     implementation project(':react-native-duration-picker')
     implementation fileTree(dir: "libs", include: ["*.jar"])
