@@ -46,7 +46,7 @@ export default class Login extends React.Component {
         ? `${
             URL.android
           }/User/login?email=${email}&encryptedPassword=${encryptedPassword}`
-        : `http://localhost:8080/User/login?email=${email}&encryptedPassword=${encryptedPassword}`,
+        : `${URL.ios}/User/login?email=${email}&encryptedPassword=${encryptedPassword}`,
     )
       .then(res => res.json())
       .then(data => {

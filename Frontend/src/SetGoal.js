@@ -9,8 +9,8 @@ import {
   Platform,
 } from 'react-native';
 import {Dropdown} from 'react-native-material-dropdown';
-import URL from './url';
 import NotifService from './NotifService';
+import URL from './url';
 
 // TODO: Submit button needs to be edited to be centered
 
@@ -120,7 +120,7 @@ export default class SetGoal extends React.Component {
     fetch(
       Platform.OS === 'android'
         ? `${URL.android}/Goal/addGoal?userId=${userId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`
-        : `http://localhost:8080/Goal/addGoal?userId=${userId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`,
+        : `${URL.ios}/Goal/addGoal?userId=${userId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`,
     )
       .then(res => res.json())
       .then(data => {

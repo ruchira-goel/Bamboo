@@ -9,6 +9,7 @@ import {
   Platform,
   Image,
 } from 'react-native';
+import URL from './url';
 
 // TODO: Display different Image and message depending on how much of the goal is achieved
 // TODO: Fetch amount corresponding to the goal
@@ -46,8 +47,8 @@ export default class TrackProgress extends React.Component {
     console.log('In the track progress page: ' + userId);
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Goal/fetchGoalProgress?userId=${userId}&goalId=${goalId}`
-        : `http://localhost:8080/Goal/fetchGoalProgress?userId=${userId}&goalId=${goalId}`,
+        ? `${URL.android}/Goal/fetchGoalProgress?userId=${userId}&goalId=${goalId}`
+        : `${URL.ios}/Goal/fetchGoalProgress?userId=${userId}&goalId=${goalId}`,
     )
       .then(res => res.json())
       .then(data => {

@@ -11,6 +11,7 @@ import {
   View,
 } from 'react-native';
 import BUTTONS from './styles/buttons';
+import URL from './url';
 
 export default class NotifSettings extends React.Component {
   constructor(props) {
@@ -34,8 +35,8 @@ export default class NotifSettings extends React.Component {
     this.setState({userId: userId});
     fetch(
       Platform.OS === 'android'
-        ? `10.0.2.2:8080/User/getUser?userId=${userId}`
-        : `http://localhost:8080/User/getUser?userId=${userId}`,
+        ? `${URL.android}/User/getUser?userId=${userId}`
+        : `${URL.ios}/User/getUser?userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -87,12 +88,12 @@ export default class NotifSettings extends React.Component {
   onSave = () => {
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/addNotifSettings?userId=${
+        ? `${URL.android}/User/addNotifSettings?userId=${
             this.state.userId
           }&dailyInput=${this.state.dailyInput}&goalStreak=${
             this.state.goalStreak
           }`
-        : `http://localhost:8080/User/addNotifSettings?userId=${
+        : `${URL.ios}/User/addNotifSettings?userId=${
             this.state.userId
           }&dailyInput=${this.state.dailyInput}&goalStreak=${
             this.state.goalStreak

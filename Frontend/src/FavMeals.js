@@ -9,7 +9,7 @@ import {
   Alert,
   Platform,
 } from 'react-native';
-
+import URL from './url';
 // Sources:
 // https://reactnative.dev/docs/images
 // https://medium.com/react-native-training/position-element-at-the-bottom-of-the-screen-using-flexbox-in-react-native-a00b3790ca42
@@ -54,10 +54,10 @@ export default class FavMeals extends Component {
     console.log("");
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Meal/saveMealFromFavorites?userId=${userId}&mealId=${
+        ? `${URL.android}/Meal/saveMealFromFavorites?userId=${userId}&mealId=${
             item.id
           }&date=${date}`
-        : `http://localhost:8080/Meal/saveMealFromFavorites?userId=${userId}&mealId=${
+        : `${URL.ios}/Meal/saveMealFromFavorites?userId=${userId}&mealId=${
             item.id
           }&date=${date}`,
     )
@@ -86,8 +86,8 @@ export default class FavMeals extends Component {
     console.log('In the favmeals page: ' + userId);
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Meal/getFavorites?userId=${userId}`
-        : `http://localhost:8080/Meal/getFavorites?userId=${userId}`,
+        ? `${URL.android}/Meal/getFavorites?userId=${userId}`
+        : `${URL.ios}/Meal/getFavorites?userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -123,10 +123,10 @@ export default class FavMeals extends Component {
     console.log(item.id);
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Meal/deleteFavorite?userId=${userId}&mealId=${
+        ? `${URL.android}/Meal/deleteFavorite?userId=${userId}&mealId=${
             item.id
           }`
-        : `http://localhost:8080/Meal/deleteFavorite?userId=${userId}&mealId=${
+        : `${URL.ios}/Meal/deleteFavorite?userId=${userId}&mealId=${
             item.id
           }`,
     )

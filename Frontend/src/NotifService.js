@@ -1,5 +1,6 @@
 import PushNotification from 'react-native-push-notification';
 import {Alert, Platform} from 'react-native';
+import URL from './url';
 
 export default class NotifService {
   constructor(onRegister, onNotification) {
@@ -75,8 +76,8 @@ export default class NotifService {
     this.cancelAll();
     fetch(
       Platform.OS === 'android'
-        ? `10.0.2.2:8080/User/getUser?userId=${userId}`
-        : `http://localhost:8080/User/getUser?userId=${userId}`,
+        ? `${URL.android}/User/getUser?userId=${userId}`
+        : `${URL.ios}/User/getUser?userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -94,8 +95,8 @@ export default class NotifService {
             //check if the user actually has any goals:
             fetch(
               Platform.OS === 'android'
-                ? `10.0.2.2:8080//User/hasGoals?userId=${userId}`
-                : `http://localhost:8080//User/hasGoals?userId=${userId}`,
+                ? `${URL.android}/User/hasGoals?userId=${userId}`
+                : `${URL.ios}/User/hasGoals?userId=${userId}`,
             )
               .then(res => res.json())
               .then(hasGoals => {
@@ -124,8 +125,8 @@ export default class NotifService {
     let message = '';
     fetch(
       Platform.OS === 'android'
-        ? `10.0.2.2:8080//User/getGoalStreakNotificationMessage?userId=${userId}`
-        : `http://localhost:8080//User/getGoalStreakNotificationMessage?userId=${userId}`,
+        ? `${URL.android}/User/getGoalStreakNotificationMessage?userId=${userId}`
+        : `${URL.ios}/User/getGoalStreakNotificationMessage?userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {

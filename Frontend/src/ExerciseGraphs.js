@@ -11,6 +11,7 @@ import {
 
 const screenWidth = Dimensions.get('window').width;
 
+
 /*
 https://github.com/sxywu/react-d3-example/blob/master/src/visualizations/LineChart.js
 https://www.npmjs.com/package/react-native-responsive-linechart
@@ -70,7 +71,7 @@ export default class ExerciseGraphs extends Component {
     fetch(
       Platform.OS === 'android'
         ? `${URL.android}/User/weekExerciseTime?userId=${userId}`
-        : `http://localhost:8080/User/weekExerciseTime?userId=${userId}`,
+        : `${URL.ios}/User/weekExerciseTime?userId=${userId}`,
     )
       .then(res => res.text())
       .then(data =>
@@ -98,7 +99,7 @@ export default class ExerciseGraphs extends Component {
     fetch(
       Platform.OS === 'android'
         ? `${URL.android}/User/weekExerciseCalories?userId=${userId}`
-        : `http://localhost:8080/User/weekExerciseCalories?userId=${userId}`,
+        : `${URL.ios}/User/weekExerciseCalories?userId=${userId}`,
     )
       .then(res => res.text())
       .then(data =>

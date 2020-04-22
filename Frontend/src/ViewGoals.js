@@ -10,6 +10,7 @@ import {
   Platform,
 } from 'react-native';
 import NotifService from './NotifService';
+import URL from './url';
 
 // Sources:
 // https://reactnative.dev/docs/images
@@ -71,8 +72,8 @@ class ViewGoals extends Component {
     console.log('In the view goals page: ' + userId);
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/fetchGoals?userId=${userId}`
-        : `http://localhost:8080/User/fetchGoals?userId=${userId}`,
+        ? `${URL.android}/User/fetchGoals?userId=${userId}`
+        : `${URL.ios}/User/fetchGoals?userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -121,10 +122,10 @@ class ViewGoals extends Component {
     console.log(item.id);
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Goal/deleteGoal?userId=${userId}&goalId=${
+        ? `${URL.android}/Goal/deleteGoal?userId=${userId}&goalId=${
             item.id
           }`
-        : `http://localhost:8080/Goal/deleteGoal?userId=${userId}&goalId=${
+        : `${URL.ios}/Goal/deleteGoal?userId=${userId}&goalId=${
             item.id
           }`,
     )

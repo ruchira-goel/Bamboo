@@ -68,7 +68,7 @@ export default class SignUp extends React.Component {
     fetch(
       Platform.OS === 'android'
         ? `${URL.android}/User/signup?name=${name}&email=${email}&password=${password}`
-        : `http://localhost:8080/User/signup?name=${name}&email=${email}&password=${password}`,
+        : `${URL.ios}/User/signup?name=${name}&email=${email}&password=${password}`,
     )
       .then(res => res.json())
       .then(data => {

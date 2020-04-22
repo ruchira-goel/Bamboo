@@ -9,6 +9,7 @@ import {
   Alert,
   Platform,
 } from 'react-native';
+import URL from './url';
 
 // Sources:
 // https://reactnative.dev/docs/images
@@ -54,10 +55,10 @@ export default class FavActivities extends Component {
     console.log('');
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Activity/saveActivityFromFavorites?userId=${userId}&activityId=${
+        ? `${URL.android}/Activity/saveActivityFromFavorites?userId=${userId}&activityId=${
             item.id
           }&date=${date}`
-        : `http://localhost:8080/Activity/saveActivityFromFavorites?userId=${userId}&activityId=${
+        : `${URL.ios}/Activity/saveActivityFromFavorites?userId=${userId}&activityId=${
             item.id
           }&date=${date}`,
     )
@@ -86,8 +87,8 @@ export default class FavActivities extends Component {
     console.log('In the favmeals page: ' + userId);
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Activity/getFavorites?userId=${userId}`
-        : `http://localhost:8080/Activity/getFavorites?userId=${userId}`,
+        ? `${URL.android}/Activity/getFavorites?userId=${userId}`
+        : `${URL.ios}/Activity/getFavorites?userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -122,10 +123,10 @@ export default class FavActivities extends Component {
     console.log(item.id);
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Activity/deleteFavorite?userId=${userId}&activityId=${
+        ? `${URL.android}/Activity/deleteFavorite?userId=${userId}&activityId=${
             item.id
           }`
-        : `http://localhost:8080/Activity/deleteFavorite?userId=${userId}&activityId=${
+        : `${URL.ios}/Activity/deleteFavorite?userId=${userId}&activityId=${
             item.id
           }`,
     )

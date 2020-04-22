@@ -9,6 +9,7 @@ import {
   Platform,
 } from 'react-native';
 import {Dropdown} from 'react-native-material-dropdown';
+import URL from './url';
 
 // TODO: On back press, ViewGoals should be re-rendered i.e. backend should be fetched again (componentDidMount)
 // TODO: Submit button needs to be edited to be centered
@@ -132,8 +133,8 @@ export default class EditGoal extends React.Component {
 
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Goal/editGoal?userId=${userId}&goalId=${goalId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`
-        : `http://localhost:8080/Goal/editGoal?userId=${userId}&goalId=${goalId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`,
+        ? `${URL.android}/Goal/editGoal?userId=${userId}&goalId=${goalId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`
+        : `${URL.ios}/Goal/editGoal?userId=${userId}&goalId=${goalId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -159,8 +160,8 @@ export default class EditGoal extends React.Component {
     console.log('In the edit goals page: ' + userId);
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Goal/fetchGoalInfo?userId=${userId}&goalId=${goalId}`
-        : `http://localhost:8080/Goal/fetchGoalInfo?userId=${userId}&goalId=${goalId}`,
+        ? `${URL.android}/Goal/fetchGoalInfo?userId=${userId}&goalId=${goalId}`
+        : `${URL.ios}/Goal/fetchGoalInfo?userId=${userId}&goalId=${goalId}`,
     )
       .then(res => res.json())
       .then(data => {

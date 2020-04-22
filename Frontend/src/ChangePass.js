@@ -53,7 +53,7 @@ export default class ChangePass extends React.Component {
     fetch(
       Platform.OS === 'android'
         ? `${URL.android}/User/changePass?userId=${userId}&encryptedPassword=${encryptedPassword}`
-        : `http://localhost:8080/User/changePass?userId=${userId}&encryptedPassword=${encryptedPassword}`,
+        : `${URL.ios}/User/changePass?userId=${userId}&encryptedPassword=${encryptedPassword}`,
     )
       .then(res => res.json())
       .then(data => {

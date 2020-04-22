@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import COLORS from './styles/colors';
+import URL from './url';
 
 export default class EnterMealDailyInput extends React.Component {
   constructor(props) {
@@ -54,8 +55,8 @@ export default class EnterMealDailyInput extends React.Component {
     if (pickerSelection === 'Enter link') {
       fetch(
         Platform.OS === 'android'
-          ? `http://10.0.2.2:8080/Meal/infoFromLink?link=${mealInfo}&userId=${userId}&date=${formattedDate}`
-          : `http://localhost:8080/Meal/infoFromLink?link=${mealInfo}&userId=${userId}&date=${formattedDate}`,
+          ? `${URL.android}/Meal/infoFromLink?link=${mealInfo}&userId=${userId}&date=${formattedDate}`
+          : `${URL.ios}/Meal/infoFromLink?link=${mealInfo}&userId=${userId}&date=${formattedDate}`,
       )
         .then(res => res.json())
         .then(data => {
@@ -86,8 +87,8 @@ export default class EnterMealDailyInput extends React.Component {
     } else if (pickerSelection === 'Enter meal name') {
       fetch(
         Platform.OS === 'android'
-          ? `http://10.0.2.2:8080/Meal/infoFromName?name=${mealInfo}&userid=${userId}&date=${formattedDate}`
-          : `http://localhost:8080/Meal/infoFromName?name=${mealInfo}&userid=${userId}&date=${formattedDate}`,
+          ? `${URL.android}/Meal/infoFromName?name=${mealInfo}&userid=${userId}&date=${formattedDate}`
+          : `${URL.ios}/Meal/infoFromName?name=${mealInfo}&userid=${userId}&date=${formattedDate}`,
       )
         .then(res => res.json())
         .then(data => {
@@ -126,8 +127,8 @@ export default class EnterMealDailyInput extends React.Component {
       console.log('Recipe: ' + mealInfo);
       fetch(
         Platform.OS === 'android'
-          ? `http://10.0.2.2:8080/Meal/infoFromRecipe?recipe=${mealInfo}&userId=${userId}&date=${formattedDate}&name=${name}`
-          : `http://localhost:8080/Meal/infoFromRecipe?recipe=${mealInfo}&userId=${userId}&date=${formattedDate}&name=${name}`,
+          ? `${URL.android}/Meal/infoFromRecipe?recipe=${mealInfo}&userId=${userId}&date=${formattedDate}&name=${name}`
+          : `${URL.ios}/Meal/infoFromRecipe?recipe=${mealInfo}&userId=${userId}&date=${formattedDate}&name=${name}`,
       )
         .then(res => res.json())
         .then(data => {
@@ -170,8 +171,8 @@ export default class EnterMealDailyInput extends React.Component {
     console.log('userid from addToFavs: ' + userId);
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/Meal/addToFavorites?mealId=${mealId}&userId=${userId}`
-        : `http://localhost:8080/Meal/addToFavorites?mealId=${mealId}&userId=${userId}`,
+        ? `${URL.android}/Meal/addToFavorites?mealId=${mealId}&userId=${userId}`
+        : `${URL.ios}/Meal/addToFavorites?mealId=${mealId}&userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {

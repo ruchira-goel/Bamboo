@@ -40,8 +40,8 @@ export default class HealthProfile extends Component {
     const {userId} = route.params;
     fetch(
       Platform.OS === 'android'
-        ? `10.0.2.2:8080/User/getCharacteristics?userId=${userId}`
-        : `http://localhost:8080/User/getCharacteristics?userId=${userId}`,
+        ? `${URL.android}/User/getCharacteristics?userId=${userId}`
+        : `${URL.ios}/User/getCharacteristics?userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -109,8 +109,8 @@ export default class HealthProfile extends Component {
     }
     fetch(
       Platform.OS === 'android'
-        ? `http://10.0.2.2:8080/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&isMetric=${isMetric}`
-        : `http://localhost:8080/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&isMetric=${isMetric}`,
+        ? `${URL.android}/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&isMetric=${isMetric}`
+        : `${URL.ios}/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&isMetric=${isMetric}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -218,8 +218,8 @@ export default class HealthProfile extends Component {
     const {userId} = route.params;
     fetch(
       Platform.OS === 'android'
-        ? `10.0.2.2:8080/User/getCharacteristics?userId=${userId}`
-        : `http://localhost:8080/User/getCharacteristics?userId=${userId}`,
+        ? `${URL.android}/User/getCharacteristics?userId=${userId}`
+        : `${URL.ios}/User/getCharacteristics?userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {});
