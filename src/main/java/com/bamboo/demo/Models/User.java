@@ -30,6 +30,7 @@ public class User {
     private ArrayList<String> allergies;
     private Diet diet;
     private Token token;
+    private ArrayList<String> exerciseRoutine;
 
     public Diet getDiet() {
         return diet;
@@ -107,6 +108,7 @@ public class User {
         this.goalIds = new ArrayList<>();
         this.favMeals = new ArrayList<>();
         this.favExerciseRoutine = new ArrayList<>();
+        this.exerciseRoutine = new ArrayList<>();
 
         //initialize all notifications to be true
         this.dailyInputReminder = true;
@@ -212,5 +214,13 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(email, encryptedPassword);
+    }
+
+    public void setExerciseRoutine(ArrayList<String> routine) {
+        exerciseRoutine = routine;
+    }
+
+    public ArrayList<String> getExerciseRoutine() {
+        return exerciseRoutine;
     }
 }
