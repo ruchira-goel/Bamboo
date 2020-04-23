@@ -34,6 +34,9 @@ import SetGoal from './SetGoal';
 import EditGoal from './EditGoal';
 import ExerciseGenerator from './ExerciseGenerator';
 import ExerciseRoutine from './ExerciseRoutine';
+import RecommendedMealsList from './RecommendedMealsList';
+import RecoverAccount from './RecoverAccount';
+import MealRecommend from './MealRecommend';
 
 function MenuHeader({screenName}) {
   const nav = useNavigation();
@@ -187,6 +190,16 @@ function MealScreen({route, navigation}) {
     </View>
   );
 }
+
+function MealRecommendScreen({route, navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <StackHeader screenName={'Meal Recommendation'} />
+      <MealRecommend />
+    </View>
+  );
+}
+
 function FavMealsScreen({route, navigation}) {
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
@@ -281,6 +294,24 @@ function ExerciseRoutineScreen({route, navigation}) {
   );
 }
 
+function RecoverAccountScreen({route, navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <StackHeader screenName={'Recover Account'} />
+      <RecoverAccount />
+    </View>
+  );
+}
+
+function RecommendedMealsListScreen({route, navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <StackHeader screenName={'Recommended Meals'} />
+      <RecommendedMealsList />
+    </View>
+  );
+}
+
 function HomeScreen({route, navigation}) {
   const {userId} = route.params;
   return (
@@ -331,15 +362,14 @@ function HomeScreen({route, navigation}) {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          // onPress={() =>
-          //     navigation.navigate('Root', {
-          //         screen: 'ExerciseRoutine',
-          //         params: {
-          //             userId: userId,
-          //         },
-          //     })
-          // }
-        >
+          onPress={() =>
+            navigation.navigate('Root', {
+              screen: 'MealRecommendation',
+              params: {
+                userId: userId,
+              },
+            })
+          }>
           <Image source={require('./img/meal.png')} style={styles.image} />
           <Text style={styles.text}>Meal Recommendation</Text>
           <Text style={styles.subText}>Get personal recommendations</Text>
@@ -445,10 +475,14 @@ function Root() {
       {/*<Stack.Screen name="EnterCharacteristics" component={EnterCharacteristicsScreen} />*/}
 
       <Stack.Screen name="Home" component={HomeScreen} />
-
+      <Stack.Screen name="RecoverAccount" component={RecoverAccountScreen} />
       <Stack.Screen name="Meal" component={MealScreen} />
+      <Stack.Screen name="MealRecommendation" component={MealRecommendScreen} />
       <Stack.Screen name="FavMeals" component={FavMealsScreen} />
-
+      <Stack.Screen
+        name="RecommendedMealsList"
+        component={RecommendedMealsListScreen}
+      />
       <Stack.Screen name="Exercise" component={ExerciseScreen} />
       <Stack.Screen name="FavActivities" component={FavActivitiesScreen} />
 
