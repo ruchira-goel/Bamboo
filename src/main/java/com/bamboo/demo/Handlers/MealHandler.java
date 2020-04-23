@@ -7,6 +7,7 @@ import java.net.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
