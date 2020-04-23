@@ -37,6 +37,7 @@ class HealthProfile extends Component {
       inches: '',
       weightLb: '',
       isMetric: '',
+      lifestyle: '',
       buttonValue: 'Edit',
       editable: false,
       inputStyle: styles.text,
@@ -64,6 +65,7 @@ class HealthProfile extends Component {
           age: data.age.toString(),
           sex: data.sex,
           isMetric: data.isMetric,
+          lifestyle: data.lifestyle
         });
         let weightLb = Math.round(data.weight * 2.20462).toString();
         this.setState({weightLb: weightLb});
@@ -96,6 +98,7 @@ class HealthProfile extends Component {
       height,
       weight,
       weightLb,
+      lifestyle,
       age,
       sex,
       feet,
@@ -142,14 +145,15 @@ class HealthProfile extends Component {
     }
     // console.log('Metric: ' + height + ',' + weight);
     // console.log('Imperial: ' + feet + ',' + inches + ',' + weightLb);
+    console.log(lifestyle)
     fetch(
       Platform.OS === 'android'
         ? `${
             Constants.URL.android
-          }/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&isMetric=${isMetric}`
+          }/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&lifestyle=${lifestyle}&isMetric=${isMetric}`
         : `${
             Constants.URL.ios
-          }/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&isMetric=${isMetric}`,
+          }/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&lifestyle=${lifestyle}&isMetric=${isMetric}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -238,6 +242,7 @@ class HealthProfile extends Component {
       feet,
       inches,
       isMetric,
+      lifestyle
     } = this.state;
     // console.log('Metric: ' + height + ',' + weight);
     // console.log('Imperial: ' + feet + ',' + inches + ',' + weightLb);
@@ -254,6 +259,12 @@ class HealthProfile extends Component {
       {label: 'female', value: 'FEMALE'},
       {label: 'other', value: 'OTHER'},
     ];
+    const radioLifestyle = [
+      {label: 'sedentary', value: 'SEDENTARY'},
+      {label: 'low active', value: 'LOW'},
+      {label: 'active', value: 'MODERATE'},
+      {label: 'extremely active', value: 'EXTREME'},
+    ]
     fetch(
       Platform.OS === 'android'
         ? `${Constants.URL.android}/User/getCharacteristics?userId=${userId}`
@@ -403,9 +414,37 @@ class HealthProfile extends Component {
                   }}
                 />
               ) : (
-                <Text style={[styles.text, {width: 80}]}>
+                <Text style={[styles.text, {width: 100}]}>
                   {sex.toLowerCase()}
                 </Text>
+              )}
+            </View>
+            <View style={[styles.rowContainer, this.state.padding]}>
+              <Text
+                  style={[
+                    styles.text,
+                    {alignSelf: 'flex-start'},
+                    this.state.paddingTop,
+                  ]}>
+                Lifestyle
+              </Text>
+              {this.state.editable ? (
+                  <RadioForm
+                      radio_props={radioLifestyle}
+                      initial={initialRadio}
+                      formHorizontal={false}
+                      labelHorizontal={true}
+                      buttonColor={Constants.COLORS.gray}
+                      selectedButtonColor={Constants.COLORS.primary.main}
+                      animation={true}
+                      onPress={value => {
+                        this.setState({lifestyle: value});
+                      }}
+                  />
+              ) : (
+                  <Text style={[styles.text, {width: 200}]}>
+                    {lifestyle.toLowerCase()}
+                  </Text>
               )}
             </View>
             {/*<View style={styles.rowContainer}>*/}

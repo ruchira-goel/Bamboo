@@ -10,6 +10,8 @@ import {
   Platform,
 } from 'react-native';
 import {useNavigation, useRoute} from "@react-navigation/native";
+import * as Constants from "./Constants";
+import COLORS from "./styles/colors";
 
 // Sources:
 // https://reactnative.dev/docs/images
@@ -204,7 +206,7 @@ const styles = StyleSheet.create({
     padding: 10,
     height: 100,
     marginTop: 3,
-    backgroundColor: '#3eb245',
+    backgroundColor: COLORS.primaryColor,
     justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
