@@ -123,7 +123,7 @@ export default class Login extends React.Component {
               }}>
               <Text style={{padding: 15}}>Forgot password? </Text>
               <TouchableOpacity
-                onPress={() => this.props.navigation.replace('RecoverAccount')}
+                onPress={() => this.props.navigation.navigate('RecoverAccount')}
                 style={styles.linkStyle}>
                 <Text
                   style={{color: '#0000EE', textDecorationLine: 'underline'}}>

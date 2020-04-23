@@ -52,7 +52,6 @@ export default class MealRecommend extends React.Component {
   }
 
   renderLimits = (nutrient, limit) => {
-
     if (this.state['isChecked' + nutrient]) {
       let checkBoxLimit = 'isChecked' + nutrient + limit;
       let nutrientLimit = nutrient.toLowerCase() + limit;
@@ -241,10 +240,7 @@ export default class MealRecommend extends React.Component {
     console.log(calLow)
     if (isCheckedCalLow) {
       if (calLow === '') {
-        if (userRequirements === '') {
-          this.getDietaryRestrictions();
-        }
-        calLow = userRequirements.calLow;//.toFixed(2);
+        calLow = userRequirements.calLow.toFixed(2);
       }
       request = request.concat(`calLow=${calLow}&`);
     } else {
@@ -252,10 +248,7 @@ export default class MealRecommend extends React.Component {
     }
     if (isCheckedCalHigh) {
       if (calHigh === '') {
-        if (userRequirements === '') {
-          this.getDietaryRestrictions();
-        }
-        calHigh = userRequirements.calHigh;//.toFixed(2);
+        calHigh = userRequirements.calHigh.toFixed(2);
       }
       request = request.concat(`calHigh=${calHigh}&`);
     } else {
@@ -263,11 +256,6 @@ export default class MealRecommend extends React.Component {
     }
     if (isCheckedFatHigh) {
       if (fatHigh === '') {
-        if (userRequirements === '') {
-          this.getDietaryRestrictions();
-          //
-        }
-
         fatHigh = userRequirements.fatHigh.toFixed(2);
       }
       request = request.concat(`fatHigh=${fatHigh}&`);
@@ -276,9 +264,6 @@ export default class MealRecommend extends React.Component {
     }
     if (isCheckedFatLow) {
       if (fatLow === '') {
-        if (userRequirements === '') {
-          this.getDietaryRestrictions();
-        }
         fatLow = userRequirements.fatLow.toFixed(2);
       }
       request = request.concat(`fatLow=${fatLow}&`);
@@ -287,9 +272,6 @@ export default class MealRecommend extends React.Component {
     }
     if (isCheckedProteinHigh) {
       if (proteinHigh === '') {
-        if (userRequirements === '') {
-          this.getDietaryRestrictions();
-        }
         proteinHigh = userRequirements.proteinHigh.toFixed(2);
       }
       request = request.concat(`proteinHigh=${proteinHigh}&`);
@@ -298,9 +280,6 @@ export default class MealRecommend extends React.Component {
     }
     if (isCheckedProteinLow) {
       if (proteinLow === '') {
-        if (userRequirements === '') {
-          this.getDietaryRestrictions();
-        }
         proteinLow = userRequirements.proteinLow.toFixed(2);
       }
       request = request.concat(`proteinLow=${proteinLow}&`);
@@ -309,9 +288,6 @@ export default class MealRecommend extends React.Component {
     }
     if (isCheckedCarbsHigh) {
       if (carbsHigh === '') {
-        if (userRequirements === '') {
-          this.getDietaryRestrictions();
-        }
         carbsHigh = userRequirements.carbsHigh.toFixed(2);
       }
       request = request.concat(`carbsHigh=${carbsHigh}&`);
@@ -320,9 +296,6 @@ export default class MealRecommend extends React.Component {
     }
     if (isCheckedCarbsLow) {
       if (carbsLow === '') {
-        if (userRequirements === '') {
-          this.getDietaryRestrictions();
-        }
         carbsLow = userRequirements.carbsLow.toFixed(2);
       }
       request = request.concat(`carbsLow=${carbsLow}&`);
@@ -385,6 +358,7 @@ export default class MealRecommend extends React.Component {
   componentWillMount(): void {
     const {route} = this.props;
     const {userId} = route.params;
+    this.getDietaryRestrictions();
     fetch(
       Platform.OS === 'android'
         ? `${URL.android}/User/getSavedRecommendationValues?userId=${userId}`
