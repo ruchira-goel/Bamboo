@@ -66,7 +66,7 @@ class HealthProfile extends Component {
           sex: data.sex,
           isMetric: data.isMetric,
           lifestyle: data.lifestyle
-        });
+        }, () => {console.log(data.lifestyle)});
         let weightLb = Math.round(data.weight * 2.20462).toString();
         this.setState({weightLb: weightLb});
         this.calculateFeetInches();

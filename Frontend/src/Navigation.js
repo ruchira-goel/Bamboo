@@ -34,6 +34,9 @@ import SetGoal from './SetGoal';
 import EditGoal from './EditGoal';
 import ExerciseGenerator from './ExerciseGenerator';
 import ExerciseRoutine from './ExerciseRoutine';
+import RecommendedMealsList from "./RecommendedMealsList";
+import RecoverAccount from "./RecoverAccount";
+import MealRecommend from "./MealRecommend";
 
 function MenuHeader({screenName}) {
   const nav = useNavigation();
@@ -187,6 +190,16 @@ function MealScreen({route, navigation}) {
     </View>
   );
 }
+
+function MealRecommendScreen({route, navigation}) {
+    return(
+    <View style={{flex: 1, alignItems: 'center'}}>
+        <StackHeader screenName={'MealRecommendation'} />
+        <MealRecommend/>
+    </View>
+    );
+}
+
 function FavMealsScreen({route, navigation}) {
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
@@ -281,6 +294,25 @@ function ExerciseRoutineScreen({route, navigation}) {
   );
 }
 
+function RecoverAccountScreen({route, navigation}) {
+    return (
+        <View style={{flex: 1, alignItems: 'center'}}>
+            <StackHeader screenName={'RecoverAccount'} />
+            <RecoverAccount />
+        </View>
+    );
+}
+
+function RecommendedMealsListScreen({route, navigation}) {
+    return (
+        <View style={{flex: 1, alignItems: 'center'}}>
+            <StackHeader screenName={'RecommendedMealsList'} />
+            <RecommendedMealsList />
+        </View>
+    );
+}
+
+
 function HomeScreen({route, navigation}) {
   const {userId} = route.params;
   return (
@@ -358,6 +390,18 @@ function HomeScreen({route, navigation}) {
         }>
         <Text style={styles.text}>Exercise Routine</Text>
       </TouchableOpacity>
+        <TouchableOpacity
+            style={styles.button}
+            onPress={() =>
+                navigation.navigate('Root', {
+                    screen: 'MealRecommendation',
+                    params: {
+                        userId: userId,
+                    },
+                })
+            }>
+            <Text style={styles.text}>Meal Recommendation</Text>
+        </TouchableOpacity>
     </View>
   );
 }
@@ -410,10 +454,11 @@ function Root() {
       {/*<Stack.Screen name="EnterCharacteristics" component={EnterCharacteristicsScreen} />*/}
 
       <Stack.Screen name="Home" component={HomeScreen} />
-
+        <Stack.Screen name="RecoverAccount" component={RecoverAccountScreen} />
       <Stack.Screen name="Meal" component={MealScreen} />
+      <Stack.Screen name="MealRecommendation" component={MealRecommendScreen} />
       <Stack.Screen name="FavMeals" component={FavMealsScreen} />
-
+        <Stack.Screen name="RecommendedMealsList" component={RecommendedMealsListScreen} />
       <Stack.Screen name="Exercise" component={ExerciseScreen} />
       <Stack.Screen name="FavActivities" component={FavActivitiesScreen} />
 

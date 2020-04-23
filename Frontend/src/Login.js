@@ -121,7 +121,8 @@ class Login extends React.Component {
           {/*  <Text style={styles.btnText}>Login</Text>*/}
           {/*</LinearGradient>*/}
         </TouchableOpacity>
-        <View style={{flex: 1, flexDirection: 'row'}}>
+        <View style={{flex: 0.7, alignItems: 'center'}}>
+        <View style={{flex: 0.2, flexDirection: 'row'}}>
           <Text style={{padding: 15}}>Don't have an account? </Text>
           <TouchableOpacity
             onPress={() =>
@@ -134,6 +135,22 @@ class Login extends React.Component {
               Sign Up!
             </Text>
           </TouchableOpacity>
+        </View>
+        <View
+            style={{
+              flex: 0.3,
+              flexDirection: 'row',
+            }}>
+          <Text style={{padding: 15}}>Forgot password? </Text>
+          <TouchableOpacity
+              onPress={() => this.props.navigation.navigate('Root', {screen: 'RecoverAccount'})}
+              style={styles.linkStyle}>
+            <Text
+                style={{color: '#0000EE', textDecorationLine: 'underline'}}>
+              Click here!
+            </Text>
+          </TouchableOpacity>
+        </View>
         </View>
       </View>
     );
@@ -180,7 +197,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   linkStyle: {
-    marginBottom: '70%',
     padding: 15,
   },
 });
