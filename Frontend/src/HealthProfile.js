@@ -254,6 +254,21 @@ class HealthProfile extends Component {
     } else if (sex === 'FEMALE') {
       initialRadio = 1;
     }
+    let initialLifestyle = 4;
+    switch (lifestyle) {
+      case 'SEDENTARY':
+        initialLifestyle = 0;
+        break;
+      case 'LOW':
+        initialLifestyle = 1;
+        break;
+      case 'MODERATE':
+        initialLifestyle = 2;
+        break;
+      case 'EXTREME':
+        initialLifestyle = 3;
+        break;
+    }
     const radioProps = [
       {label: 'male', value: 'MALE'},
       {label: 'female', value: 'FEMALE'},
@@ -264,6 +279,7 @@ class HealthProfile extends Component {
       {label: 'low active', value: 'LOW'},
       {label: 'active', value: 'MODERATE'},
       {label: 'extremely active', value: 'EXTREME'},
+      {label: 'unspecified', value: 'UNSPECIFIED'},
     ]
     fetch(
       Platform.OS === 'android'
@@ -431,7 +447,7 @@ class HealthProfile extends Component {
               {this.state.editable ? (
                   <RadioForm
                       radio_props={radioLifestyle}
-                      initial={initialRadio}
+                      initial={initialLifestyle}
                       formHorizontal={false}
                       labelHorizontal={true}
                       buttonColor={Constants.COLORS.gray}

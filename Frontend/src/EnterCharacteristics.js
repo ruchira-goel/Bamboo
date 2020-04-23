@@ -110,7 +110,7 @@ class EnterCharacteristics extends React.Component {
             }
           } else {
             //going to home screen
-              this.props.navigation.replace('Home', {
+              this.props.navigation.navigate('Home', {
                 userId: userId,
               });
             // this.props.navigation.replace('EnterDietaryRestrictions', {
