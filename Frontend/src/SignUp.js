@@ -94,27 +94,13 @@ class SignUp extends React.Component {
             Alert.alert('Invalid password', data.message, [{text: 'OK'}]);
           }
         } else {
-          //going to enter characteristics screen
-          this.props.navigation.replace('Enter Characteristics', {
-            name: name,
-            email: email,
-            userId: data.userId,
-            password: password,
+          this.props.navigation.navigate('Root', {
+            screen: 'Enter Characteristics',
+            params: {
+              userId: data.userId,
+              email: email,
+            },
           });
-          // this.props.navigation.replace('Root', {
-          //   screen: 'EnterCharacteristics',
-          //   params: {
-          //     userId: this.props.userId,
-          //   },
-          // });
-          // this.props.navigation.navigate('Root', {
-          //     screen: 'EnterCharacteristics',
-          //     params: {
-          //         userId: data.userId,
-          //         email: email,
-          //         encryptedPassword: encryptedPassword,
-          //     },
-          // });
         }
       });
   };
