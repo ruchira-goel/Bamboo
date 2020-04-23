@@ -9,6 +9,7 @@ import {
   Alert,
   Platform,
 } from 'react-native';
+
 import {useNavigation, useRoute} from "@react-navigation/native";
 import * as Constants from "./Constants";
 import COLORS from "./styles/colors";
@@ -57,7 +58,9 @@ class FavMeals extends Component {
     console.log("");
     fetch(
       Platform.OS === 'android'
-        ? `${Constants.URL.android}/Meal/saveMealFromFavorites?userId=${userId}&mealId=${
+        ? `${
+            Constants.URL.android
+          }/Meal/saveMealFromFavorites?userId=${userId}&mealId=${
             item.id
           }&date=${date}`
         : `${Constants.URL.ios}/Meal/saveMealFromFavorites?userId=${userId}&mealId=${

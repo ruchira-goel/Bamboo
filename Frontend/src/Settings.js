@@ -14,8 +14,100 @@ import ChangePass from './ChangePass';
 import * as Constants from './Constants';
 import {useNavigation} from '@react-navigation/native';
 import URL from './url';
+import NotifService from './NotifService';
 
 class Settings extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userId: '',
+      dailyInput: '',
+      goalStreak: '',
+      buttonValue: 'Edit',
+    };
+    this.notif = new NotifService(
+      this.onRegister.bind(this),
+      this.onNotif.bind(this),
+    );
+  }
+
+  componentDidMount(): void {
+    // console.log('\n\n\nhere\n\n\n');
+    // const {route} = this.props;
+    // console.log(route.params);
+    // const {userId} = route.params;
+    const userId = '';
+    this.setState({userId: userId});
+    fetch(
+      Platform.OS === 'android'
+        ? `${URL.android}/User/getUser?userId=${userId}`
+        : `${URL.ios}/User/getUser?userId=${userId}`,
+    )
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          dailyInput: data.dailyInputReminder,
+          goalStreak: data.goalStreakNotif,
+        });
+      });
+  }
+
+  onRegister(token) {
+    Alert.alert('Registered !', JSON.stringify(token));
+    console.log(token);
+    this.setState({registerToken: token.token, gcmRegistered: true});
+  }
+
+  onNotif(notif) {
+    console.log(notif);
+    Alert.alert(notif.title, notif.message);
+  }
+
+  handlePerm(perms) {
+    Alert.alert('Permissions', JSON.stringify(perms));
+  }
+
+  toggleDailyInputSwitch = value => {
+    this.setState({dailyInput: value});
+    this.onSave();
+  };
+
+  toggleGoalStreakSwitch = value => {
+    this.setState({goalStreak: value});
+    this.onSave();
+  };
+
+  onSave = () => {
+    fetch(
+      Platform.OS === 'android'
+        ? `${URL.android}/User/addNotifSettings?userId=${
+            this.state.userId
+          }&dailyInput=${this.state.dailyInput}&goalStreak=${
+            this.state.goalStreak
+          }`
+        : `${URL.ios}/User/addNotifSettings?userId=${
+            this.state.userId
+          }&dailyInput=${this.state.dailyInput}&goalStreak=${
+            this.state.goalStreak
+          }`,
+    )
+      .then(res => res.json())
+      .then(data => {
+        if (data.error) {
+          //throwing error when getUser fails (invalid userId)
+          if (data.message === 'There was an error locating your account') {
+            Alert.alert(
+              'Error',
+              'There was an error locating your account, please try changing settings another time',
+              [{text: 'OK'}],
+            );
+          }
+        } else {
+          this.notif.scheduleNotifications(this.state.userId);
+        }
+      });
+  };
+
   delAccountConfirm = () => {
     Alert.alert(
       'Confirm Delete',
@@ -135,12 +227,17 @@ class Settings extends Component {
             },
           ]}>
           <View style={styles.leftContainer}>
-            <Text style={styles.text}>TODO</Text>
+            <Text style={styles.text}>Daily input reminder</Text>
           </View>
           <View style={styles.rightContainer}>
+            {/*<Switch*/}
+            {/*  // onValueChange={this.toggleSwitch}*/}
+            {/*  value={true}*/}
+            {/*/>*/}
             <Switch
-              // onValueChange={this.toggleSwitch}
-              value={true}
+              style={styles.switch}
+              onValueChange={this.toggleDailyInputSwitch}
+              value={this.state.dailyInput}
             />
           </View>
         </TouchableOpacity>
@@ -154,12 +251,17 @@ class Settings extends Component {
             },
           ]}>
           <View style={styles.leftContainer}>
-            <Text style={styles.text}>TODO</Text>
+            <Text style={styles.text}>Goal streaks</Text>
           </View>
           <View style={styles.rightContainer}>
+            {/*<Switch*/}
+            {/*  // onValueChange={this.toggleSwitch}*/}
+            {/*  value={true}*/}
+            {/*/>*/}
             <Switch
-              // onValueChange={this.toggleSwitch}
-              value={true}
+              style={styles.switch}
+              onValueChange={this.toggleGoalStreakSwitch}
+              value={this.state.goalStreak}
             />
           </View>
         </TouchableOpacity>

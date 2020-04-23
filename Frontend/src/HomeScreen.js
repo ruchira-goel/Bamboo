@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Platform,
 } from 'react-native';
+
 import * as Constants from './Constants';
 
 export default class HomeScreen extends React.Component {

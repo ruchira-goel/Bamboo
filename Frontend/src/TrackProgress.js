@@ -10,6 +10,9 @@ import {
   Image,
 } from 'react-native';
 
+
+import * as Constants from './Constants';
+
 // TODO: Display different Image and message depending on how much of the goal is achieved
 // TODO: Fetch amount corresponding to the goal
 // TODO: Fetch meal/exercises corresponding to the goal
