@@ -1,7 +1,8 @@
 import React from 'react';
-import {Text, View, StyleSheet, FlatList, TouchableOpacity, Platform, Alert} from 'react-native';
+import {Text, View, StyleSheet, FlatList, TouchableOpacity, Platform, Alert, ScrollView} from 'react-native';
 import {useNavigation, useRoute} from "@react-navigation/native";
 import * as Constants from "./Constants";
+import {SafeAreaView} from "react-native-safe-area-context";
 
 // Sources:
 // https://reactnative.dev/docs/images
@@ -27,29 +28,40 @@ class MealInstructions extends React.Component {
         const {route} = this.props;
         const {ingredients} = route.params;
         const {instructions} = route.params;
+        console.log(ingredients)
         return (
-            <View>
-            <FlatList
-                data={ingredients}
-                //style={{width: '70%'}}
-                renderItem={({item}) => (
-                    <View>
-                        <View
-                            style={{
-                                flex: 1,
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                backgroundColor: 'darkseagreen',
-                            }}>
-                            <Text>{item}</Text>
-                        </View>
-                        <View style={{padding: '2%'}} />
-                    </View>
-                )}
-            />
-                <FlatList
+            <View style = {{flex: 1}}>
+                <SafeAreaView>
+                    <ScrollView>
+                        <Text style={{}}>Ingredients:{'\n'}</Text>
+
+                        <FlatList
+                            data={ingredients}
+                             scrollEnabled={false}
+                           // style={{backgroundColor: 'yellow'}}
+                            renderItem={({item}) => (
+                            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                                <View
+                                    style={{
+                                        flex: 1,
+                                        //justifyContent: 'center',
+                                        alignItems: 'center',
+                                        alignContent: 'center',
+                                        backgroundColor: 'darkseagreen',
+                                        width: '60%'
+                                    }}>
+                                    <Text style={{textAlign: 'center'}}>{item}</Text>
+                                </View>
+                                <View style={{padding: '2%'}} />
+                            </View>
+                            )}
+                        />
+                        <Text style={{alignContent: 'center'}}>{'\n'}Instructions:</Text>
+
+                    <FlatList
                     data={instructions}
                     //style={{width: '70%'}}
+                    scrollEnabled={false}
                     renderItem={({item}) => (
                         <View>
                             <View
@@ -65,6 +77,9 @@ class MealInstructions extends React.Component {
                         </View>
                     )}
                 />
+                </ScrollView>
+                </SafeAreaView>
+                <View style={{padding: 10}}/>
             </View>
 
         );

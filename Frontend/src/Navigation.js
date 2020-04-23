@@ -492,7 +492,7 @@ function Root() {
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} />
       <Stack.Screen name="Enter Characteristics" component={EnterCharacteristicsScreen} />
-        <Stack.Screen name="MealInstructions" component={RecipeScreen} />
+        <Stack.Screen name="Meal Instructions" component={RecipeScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="RecoverAccount" component={RecoverAccountScreen} />
       <Stack.Screen name="Meal" component={MealScreen} />

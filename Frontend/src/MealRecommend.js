@@ -312,8 +312,8 @@ class MealRecommend extends React.Component {
         console.log('Request: ' + request);
         fetch(
             Platform.OS === 'android'
-                ? `${URL.android}/${request}`
-                : `${URL.ios}/${request}`,
+                ? `${Constants.URL.android}/${request}`
+                : `${Constants.URL.ios}/${request}`,
         )
             .then(res => res.json())
             .then(data => {
@@ -334,8 +334,8 @@ class MealRecommend extends React.Component {
         const {userId} = route.params;
         fetch(
             Platform.OS === 'android'
-                ? `${URL.android}/User/getDietRequirements?userId=${userId}`
-                : `${URL.ios}/User/getDietRequirements?userId=${userId}`,
+                ? `${Constants.URL.android}/User/getDietRequirements?userId=${userId}`
+                : `${Constants.URL.ios}/User/getDietRequirements?userId=${userId}`,
         )
             .then(res => res.json())
             .then(data => {
@@ -363,8 +363,8 @@ class MealRecommend extends React.Component {
         this.getDietaryRestrictions();
         fetch(
             Platform.OS === 'android'
-                ? `${URL.android}/User/getSavedRecommendationValues?userId=${userId}`
-                : `${URL.ios}/User/getSavedRecommendationValues?userId=${userId}`,
+                ? `${Constants.URL.android}/User/getSavedRecommendationValues?userId=${userId}`
+                : `${Constants.URL.ios}/User/getSavedRecommendationValues?userId=${userId}`,
         )
             .then(res => res.json())
             .then(data => {

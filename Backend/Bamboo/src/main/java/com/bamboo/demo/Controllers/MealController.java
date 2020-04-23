@@ -91,4 +91,19 @@ public class MealController {
     public ArrayList<String> getIng(@RequestParam(value = "mealId") String mealId) throws IOException, IllegalAccessException {
         return mealHandler.getInstructions(mealId);
     }
+
+    @RequestMapping("/Meal/getRecommended")
+    public ArrayList<Meal> getRecommendedMeals(@RequestParam(value = "userId")String userId,
+                                               @RequestParam(value = "calLow")String calLow,
+                                               @RequestParam(value = "calHigh")String calHigh,
+                                               @RequestParam(value = "fatLow")String fatLow,
+                                               @RequestParam(value = "fatHigh")String fatHigh,
+                                               @RequestParam(value = "proteinLow")String proteinLow,
+                                               @RequestParam(value = "proteinHigh")String proteinHigh,
+                                               @RequestParam(value = "carbsLow")String carbsLow,
+                                               @RequestParam(value = "carbsHigh")String carbsHigh,
+                                               @RequestParam(value = "numMeals")int numMeals) throws IOException {
+        return mealHandler.getRecommendedMeals(userId, calLow,calHigh, fatLow, fatHigh,
+                proteinLow, proteinHigh, carbsLow, carbsHigh, numMeals);
+    }
 }
