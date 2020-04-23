@@ -210,7 +210,7 @@ public class MealHandler {
         final String FAT = "FAT";
         final String NUMMEALS = "NUMMEALS";
         HashMap<String, String> nutrientLimits = new HashMap<>();
-        String request = "https://api.spoonacular.com/recipes/complexSearch?apiKey=5ccdaac983d344338fe187bb2b7e5501";
+        String request = "https://api.spoonacular.com/recipes/complexSearch?apiKey=ebd1c19dd69a46148a50ea9373e3c539";
         StringBuilder intolerances = new StringBuilder();
         ArrayList<String> allergies = user.getAllergies();
         for (int i = 0; i < allergies.size(); i++) {
@@ -270,6 +270,7 @@ public class MealHandler {
             request += "&number=" + numMeals;
             nutrientLimits.put("numMeals", Integer.toString(numMeals));
         }
+        System.out.println(request);
         user.setNutrientLimits(nutrientLimits);
         this.userRepo.save(user);
 //        URL url = new URL(request);

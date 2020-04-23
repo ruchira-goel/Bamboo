@@ -88,15 +88,15 @@ export default class EnterDietaryRestrictions extends React.Component {
     console.log('in selected allergy items');
     console.log(this.state.selectedDiet);
     console.log(this.state.selectedAllergyItems);
-    if (
-      (this.state.selectedAllergyItems &&
-        this.state.selectedAllergyItems.length) ||
-      this.state.selectedDiet
-    ) {
-      // Array exists and is not empty
-      this.saveDietaryRestrictions();
-    }
-  }
+    // if (
+    //   (this.state.selectedAllergyItems &&
+    //     this.state.selectedAllergyItems.length) ||
+    //   this.state.selectedDiet
+    // ) {
+    // Array exists and is not empty
+    this.saveDietaryRestrictions();
+    // }
+  };
 
   saveDietaryRestrictions = () => {
     const {route} = this.props;
