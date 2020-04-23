@@ -224,7 +224,7 @@ public class MealHandler {
         final String FAT = "FAT";
         final String NUMMEALS = "NUMMEALS";
         HashMap<String, String> nutrientLimits = new HashMap<>();
-        String request = "https://api.spoonacular.com/recipes/complexSearch?apiKey=5ccdaac983d344338fe187bb2b7e5501";
+        String request = "https://api.spoonacular.com/recipes/complexSearch?apiKey=ca45bfcf48da43fca5cc46c4f34ac8b5";
         StringBuilder intolerances = new StringBuilder();
         ArrayList<String> allergies = user.getAllergies();
         for (int i = 0; i < allergies.size(); i++) {
@@ -334,7 +334,7 @@ public class MealHandler {
         }
         User user = this.userRepo.findUserByUserId(userId);
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet("https://api.spoonacular.com/recipes/" + mealId + "/ingredientWidget.json?apiKey=5ccdaac983d344338fe187bb2b7e5501");
+        HttpGet httpGet = new HttpGet("https://api.spoonacular.com/recipes/" + mealId + "/ingredientWidget.json?apiKey=ca45bfcf48da43fca5cc46c4f34ac8b5");
         HttpResponse response = httpClient.execute(httpGet);
         JSONObject nutritionJson = new JSONObject(EntityUtils.toString(response.getEntity()));
 
@@ -360,7 +360,7 @@ public class MealHandler {
             throw new IllegalAccessException("Meal not found");
         }
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet("https://api.spoonacular.com/recipes/" + mealId + "/analyzedInstructions?apiKey=5ccdaac983d344338fe187bb2b7e5501");
+        HttpGet httpGet = new HttpGet("https://api.spoonacular.com/recipes/" + mealId + "/analyzedInstructions?apiKey=ca45bfcf48da43fca5cc46c4f34ac8b5");
         HttpResponse response = httpClient.execute(httpGet);
         JSONArray instructionsJSON = new JSONArray(EntityUtils.toString(response.getEntity()));
 

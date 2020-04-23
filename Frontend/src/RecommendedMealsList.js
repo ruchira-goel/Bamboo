@@ -26,6 +26,7 @@ class RecommendedMealsList extends React.Component {
     render() {
         const {route} = this.props;
         const {meals} = route.params;
+        //const {meals} = ['hi', 'hello']
         return (
             <FlatList
                 data={meals}
@@ -39,7 +40,7 @@ class RecommendedMealsList extends React.Component {
                                 alignItems: 'center',
                                 backgroundColor: 'darkseagreen',
                             }}
-                        onPress={this.getInstructionsAndIngredients(item.id)}>
+                        onPress={() => this.getInstructionsAndIngredients(item.id)}>
                             <Text>{item.name}</Text>
                             {this.renderNutrient('Calories', item.calories.toFixed(2))}
                             {this.renderNutrient('Fat', item.fat.toFixed(2))}
