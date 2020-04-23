@@ -306,6 +306,7 @@ class Settings extends Component {
             />
           </View>
         </TouchableOpacity>
+        <View style={{margin: 10}} />
       </ScrollView>
     );
   }

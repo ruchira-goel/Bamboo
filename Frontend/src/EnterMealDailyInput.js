@@ -58,7 +58,9 @@ class EnterMealDailyInput extends React.Component {
           ? `${
               Constants.URL.android
             }/Meal/infoFromLink?link=${mealInfo}&userId=${userId}&date=${formattedDate}`
-          : `${Constants.URL.ios}/Meal/infoFromLink?link=${mealInfo}&userId=${userId}&date=${formattedDate}`,
+          : `${
+              Constants.URL.ios
+            }/Meal/infoFromLink?link=${mealInfo}&userId=${userId}&date=${formattedDate}`,
       )
         .then(res => res.json())
         .then(data => {
@@ -92,7 +94,9 @@ class EnterMealDailyInput extends React.Component {
           ? `${
               Constants.URL.android
             }/Meal/infoFromName?name=${mealInfo}&userid=${userId}&date=${formattedDate}`
-          : `${Constants.URL.ios}/Meal/infoFromName?name=${mealInfo}&userid=${userId}&date=${formattedDate}`,
+          : `${
+              Constants.URL.ios
+            }/Meal/infoFromName?name=${mealInfo}&userid=${userId}&date=${formattedDate}`,
       )
         .then(res => res.json())
         .then(data => {
@@ -134,7 +138,9 @@ class EnterMealDailyInput extends React.Component {
           ? `${
               Constants.URL.android
             }/Meal/infoFromRecipe?recipe=${mealInfo}&userId=${userId}&date=${formattedDate}&name=${name}`
-          : `${Constants.URL.ios}/Meal/infoFromRecipe?recipe=${mealInfo}&userId=${userId}&date=${formattedDate}&name=${name}`,
+          : `${
+              Constants.URL.ios
+            }/Meal/infoFromRecipe?recipe=${mealInfo}&userId=${userId}&date=${formattedDate}&name=${name}`,
       )
         .then(res => res.json())
         .then(data => {
@@ -180,7 +186,9 @@ class EnterMealDailyInput extends React.Component {
         ? `${
             Constants.URL.android
           }/Meal/addToFavorites?mealId=${mealId}&userId=${userId}`
-        : `${Constants.URL.ios}/Meal/addToFavorites?mealId=${mealId}&userId=${userId}`,
+        : `${
+            Constants.URL.ios
+          }/Meal/addToFavorites?mealId=${mealId}&userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -220,7 +228,7 @@ class EnterMealDailyInput extends React.Component {
           <View style={{padding: '1%'}} />
           <TextInput
             multiline={true}
-            style={styles.textArea}
+            style={styles.text}
             placeholder={
               'Enter your own recipe, for e.g:\n3 oz pork shoulder\n2 tbsp sugar'
             }
@@ -340,7 +348,13 @@ class EnterMealDailyInput extends React.Component {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={{width: '100%', paddingLeft: 50, paddingRight: 50}}>
+        <View
+          style={{
+            width: '100%',
+            paddingHorizontal: 50,
+            position: 'absolute',
+            top: Constants.DIMENSIONS.screenHeight - 180,
+          }}>
           <TouchableOpacity onPress={this.addMeal} style={styles.primaryBtn}>
             <Text>Save Meal</Text>
           </TouchableOpacity>
@@ -368,21 +382,20 @@ const styles = StyleSheet.create({
     flex: 1,
     width: Constants.DIMENSIONS.screenWidth,
     alignItems: 'center',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     // justifyContent: 'center',
   },
   heading: {
-    marginTop: 20,
+    margin: 20,
     textAlign: 'center',
     fontSize: 18,
   },
   rowContainer: {
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     flexDirection: 'row',
     padding: 12,
     alignItems: 'center',
-    marginLeft: 40,
-    marginRight: 40,
+    marginHorizontal: 40,
   },
   leftContainer: {
     flex: 1,
@@ -402,11 +415,9 @@ const styles = StyleSheet.create({
   picker: {
     //TODO
   },
-  textArea: {
-    fontSize: 16,
-  },
   linkStyle: {
     alignItems: 'center',
+    marginVertical: 20,
   },
   text: {
     fontSize: 16,

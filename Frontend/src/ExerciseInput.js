@@ -248,7 +248,9 @@ class ExerciseInput extends Component {
         ? `${
             Constants.URL.android
           }/Activity/saveActivity?&userId=${userId}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`
-        : `${Constants.URL.ios}/Activity/saveActivity?&userId=${userId}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`,
+        : `${
+            Constants.URL.ios
+          }/Activity/saveActivity?&userId=${userId}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -347,7 +349,7 @@ class ExerciseInput extends Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.dropdown}>
+        <View style={[styles.dropdown, {marginBottom: 0}]}>
           <Dropdown
             label="Category"
             data={[
@@ -443,7 +445,6 @@ class ExerciseInput extends Component {
             const {route} = this.props;
             const {userId} = route.params;
             this.setState({userId: userId});
-            // console.log('From meal i/p page: ' + userId);
             this.props.navigation.navigate('FavActivities', {
               userId: userId,
               date: this.state.formattedDate,
@@ -455,7 +456,13 @@ class ExerciseInput extends Component {
           </Text>
         </TouchableOpacity>
 
-        <View style={{width: '100%', paddingLeft: 50, paddingRight: 50}}>
+        <View
+          style={{
+            width: '100%',
+            paddingHorizontal: 50,
+            position: 'absolute',
+            top: Constants.DIMENSIONS.screenHeight - 180,
+          }}>
           <TouchableOpacity
             style={styles.primaryBtn}
             onPress={this.addExercise}>
@@ -483,23 +490,18 @@ const styles = StyleSheet.create({
     flex: 1,
     width: Constants.DIMENSIONS.screenWidth,
     alignItems: 'center',
-    justifyContent: 'space-between',
-    // justifyContent: 'center',
   },
   dropdown: {
-    // marginTop: 20,
-    // textAlign: 'center',
-    // fontSize: 18,
     width: '50%',
+    marginBottom: 20,
   },
   rowContainer: {
     justifyContent: 'space-between',
     flexDirection: 'row',
     padding: 12,
     alignItems: 'center',
-    // marginLeft: 40,
-    // marginRight: 40,
     width: '50%',
+    marginBottom: 20,
   },
   leftContainer: {
     flex: 1,
@@ -513,15 +515,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderBottomWidth: 0.5,
     textAlign: 'center',
-    // alignSelf: 'stretch',
-    // width: '100%',
-    // width: Constants.DIMENSIONS.screenWidth,
   },
   picker: {
     //TODO
-  },
-  textArea: {
-    fontSize: 16,
   },
   linkStyle: {
     alignItems: 'center',

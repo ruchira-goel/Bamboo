@@ -22,10 +22,10 @@ class ExerciseRoutine extends Component {
   }
 
   componentDidMount() {
-    this.fetchGoals();
+    this.fetchRoutine();
   }
 
-  fetchGoals() {
+  fetchRoutine() {
     const {route} = this.props;
     const {userId} = route.params;
     this.setState({userId: userId});
@@ -37,11 +37,12 @@ class ExerciseRoutine extends Component {
       .then(res => res.json())
       .then(data => {
         if (data.error) {
-          Alert.alert(
-            data.message,
-            'Unable to fetch exercise routine at this time, please try again later.',
-            [{text: 'OK'}],
-          );
+          // When they have no routine it errors...
+          // Alert.alert(
+          //   data.message,
+          //   'Unable to fetch exercise routine at this time, please try again later.',
+          //   [{text: 'OK'}],
+          // );
         } else {
           this.setState({routine: data});
         }

@@ -12,13 +12,7 @@ import {
 import React from 'react';
 import * as Constants from './Constants';
 import {Dropdown} from 'react-native-material-dropdown';
-import URL from './url';
-import {useNavigation, useRoute} from "@react-navigation/native";
-
-
-// TODO: In android, toggle switch to change units overlaps with sex dropdown
-
-let {screenHeight, screenWidth} = Dimensions.get('window');
+import {useNavigation, useRoute} from '@react-navigation/native';
 
 class EnterCharacteristics extends React.Component {
   state = {
@@ -73,7 +67,9 @@ class EnterCharacteristics extends React.Component {
       return;
     }
     if (!lifestyle) {
-      Alert.alert('Lifestyle Field empty', 'Please enter your lifestyle.', [{text: 'OK'}]);
+      Alert.alert('Lifestyle Field empty', 'Please enter your lifestyle.', [
+        {text: 'OK'},
+      ]);
       return;
     }
     if (height <= 0 || this.isInvalid(height)) {
@@ -94,31 +90,37 @@ class EnterCharacteristics extends React.Component {
     }
     //sending request to retrieve the corresponding user object for login
     fetch(
-        Platform.OS === 'android'
-            ? `${Constants.URL.android}/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&lifestyle=${lifestyle}&isMetric=${!this.state.switchValue}`
-            : `${Constants.URL.ios}/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&lifestyle=${lifestyle}&isMetric=${!this.state.switchValue}`,
+      Platform.OS === 'android'
+        ? `${
+            Constants.URL.android
+          }/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&lifestyle=${lifestyle}&isMetric=${!this
+            .state.switchValue}`
+        : `${
+            Constants.URL.ios
+          }/User/addCharacteristics?userId=${userId}&height=${height}&weight=${weight}&age=${age}&sex=${sex}&lifestyle=${lifestyle}&isMetric=${!this
+            .state.switchValue}`,
     )
-        .then(res => res.json())
-        .then(data => {
-          console.log(data);
-          if (data.error) {
-            //throwing error when addCharacteristics fails (invalid userId)
-            if (
-                data.message ===
-                'There was an error locating your account, please try signing up again'
-            ) {
-              Alert.alert('User Not Found', data.message, [{text: 'OK'}]);
-            }
-          } else {
-            //going to home screen
-              this.props.navigation.navigate('Home', {
-                userId: userId,
-              });
-            // this.props.navigation.replace('EnterDietaryRestrictions', {
-            //   userId: userId,
-            // });
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        if (data.error) {
+          //throwing error when addCharacteristics fails (invalid userId)
+          if (
+            data.message ===
+            'There was an error locating your account, please try signing up again'
+          ) {
+            Alert.alert('User Not Found', data.message, [{text: 'OK'}]);
           }
-        });
+        } else {
+          //going to home screen
+          this.props.navigation.navigate('Home', {
+            userId: userId,
+          });
+          // this.props.navigation.replace('EnterDietaryRestrictions', {
+          //   userId: userId,
+          // });
+        }
+      });
   };
 
   toggleSwitch = value => {
@@ -128,173 +130,162 @@ class EnterCharacteristics extends React.Component {
   renderHeight() {
     if (!this.state.switchValue) {
       return (
-          <View style={styles.flexRowContainer}>
-            <TextInput
-                onChangeText={height => this.setState({height})}
-                placeholder={'Enter Height'}
-                keyboardType={'numeric'}
-                autoCorrect={false}
-                returnKeyType="done"
-                style={styles.input}
-            />
-            <Text>{this.state.switchValue ? ' inch' : ' cm'}</Text>
-          </View>
+        <View style={styles.flexRowContainer}>
+          <TextInput
+            onChangeText={height => this.setState({height})}
+            placeholder={'Enter Height'}
+            keyboardType={'numeric'}
+            autoCorrect={false}
+            returnKeyType="done"
+            style={styles.input}
+          />
+          <Text>{this.state.switchValue ? ' inch' : ' cm'}</Text>
+        </View>
       );
     } else {
       return (
-          <View style={styles.flexRowContainer}>
-            <TextInput
-                onChangeText={feet => this.setState({feet})}
-                placeholder={'Enter feet'}
-                keyboardType={'numeric'}
-                autoCorrect={false}
-                returnKeyType="done"
-                style={styles.smallInput}
-            />
-            <Text>{' feet '}</Text>
-            <TextInput
-                onChangeText={inches => this.setState({inches})}
-                placeholder={'Enter inches'}
-                keyboardType={'numeric'}
-                autoCorrect={false}
-                returnKeyType="done"
-                style={styles.smallInput}
-            />
-            <Text>{' inches'}</Text>
-          </View>
+        <View style={styles.flexRowContainer}>
+          <TextInput
+            onChangeText={feet => this.setState({feet})}
+            placeholder={'Enter Height'}
+            keyboardType={'numeric'}
+            autoCorrect={false}
+            returnKeyType="done"
+            style={styles.smallInput}
+          />
+          <Text>{' feet '}</Text>
+          <TextInput
+            onChangeText={inches => this.setState({inches})}
+            placeholder={'Enter Height'}
+            keyboardType={'numeric'}
+            autoCorrect={false}
+            returnKeyType="done"
+            style={styles.smallInput}
+          />
+          <Text>{' inches'}</Text>
+        </View>
       );
     }
   }
 
   render() {
     return (
-        <View style={styles.fullContainer}>
-          <Text style={styles.paragraph}>
-            Bamboo does ...
-            {'\n'}...
-            {'\n'}...
-          </Text>
+      <View style={styles.fullContainer}>
+        <Text style={styles.heading}>My Information</Text>
 
-          <View style={styles.flexRowContainer}>{this.renderHeight()}</View>
-          <View style={{padding: '2%'}} />
-          <View style={styles.flexRowContainer}>
-            <TextInput
-                onChangeText={weight => this.setState({weight})}
-                placeholder={'Enter Weight'}
-                keyboardType={'numeric'}
-                autoCorrect={false}
-                returnKeyType="done"
-                style={styles.input}
-            />
-            <Text>{this.state.switchValue ? ' lb' : ' kg'}</Text>
-          </View>
-          <View style={{padding: '2%'}} />
-
-          <View style={styles.flexRowContainer}>
-            <TextInput
-                onChangeText={age => this.setState({age})}
-                placeholder={'Enter Age'}
-                keyboardType={'numeric'}
-                autoCorrect={false}
-                returnKeyType="done"
-                style={styles.input}
-            />
-            <Text> years</Text>
-          </View>
-            <Dropdown
-                selectedItemColor="#3eb245"
-                label="Sex"
-                containerStyle={{width: '50%'}}
-                data={[{value: 'Female'}, {value: 'Male'}, {value: 'Other'}]}
-                onChangeText={value => {
-                  this.setState({sex: value});
-                }}
-            />
-            <Dropdown
-                selectedItemColor="#3eb245"
-                label="Lifestyle"
-                data={[
-                  {value: 'Sedentary'},
-                  {value: 'Low Active'},
-                  {value: 'Moderately Active'},
-                  {value: 'Extremely Active'},
-                ]}
-                containerStyle={{width: '50%'}}
-                onChangeText={value => {
-                  this.setState({lifestyle: value});
-                }}
-            />
-          <View style={{padding: '2%'}} />
-
-          <Text>{this.state.switchValue ? 'Imperial' : 'Metric'}</Text>
-          <Switch
-              style={styles.switch}
-              onValueChange={this.toggleSwitch}
-              value={this.state.switchValue}
+        <View style={styles.flexRowContainer}>{this.renderHeight()}</View>
+        <View style={styles.flexRowContainer}>
+          <TextInput
+            onChangeText={weight => this.setState({weight})}
+            placeholder={'Enter Weight'}
+            keyboardType={'numeric'}
+            autoCorrect={false}
+            returnKeyType="done"
+            style={styles.input}
           />
-          <View style={{padding: '5%'}} />
-          <TouchableOpacity
-              onPress={this.addCharacteristics}
-              style={styles.btnStyle}>
-            <Text>Next</Text>
-          </TouchableOpacity>
+          <Text>{this.state.switchValue ? ' lb' : ' kg'}</Text>
         </View>
+
+        <View style={styles.flexRowContainer}>
+          <TextInput
+            onChangeText={age => this.setState({age})}
+            placeholder={'Enter Age'}
+            keyboardType={'numeric'}
+            autoCorrect={false}
+            returnKeyType="done"
+            style={styles.input}
+          />
+          <Text> years</Text>
+        </View>
+        <Dropdown
+          selectedItemColor={Constants.COLORS.primary.main}
+          label="Sex"
+          containerStyle={{width: '50%'}}
+          data={[{value: 'Female'}, {value: 'Male'}, {value: 'Other'}]}
+          onChangeText={value => {
+            this.setState({sex: value});
+          }}
+        />
+        <Dropdown
+          selectedItemColor={Constants.COLORS.primary.main}
+          label="Lifestyle"
+          data={[
+            {value: 'Sedentary'},
+            {value: 'Low Active'},
+            {value: 'Moderately Active'},
+            {value: 'Extremely Active'},
+          ]}
+          containerStyle={{width: '50%', marginBottom: 20}}
+          onChangeText={value => {
+            this.setState({lifestyle: value});
+          }}
+        />
+
+        <Text>{this.state.switchValue ? 'Imperial' : 'Metric'}</Text>
+        <Switch
+          style={styles.switch}
+          onValueChange={this.toggleSwitch}
+          value={this.state.switchValue}
+        />
+        <TouchableOpacity
+          onPress={this.addCharacteristics}
+          style={styles.btnStyle}>
+          <Text>Next</Text>
+        </TouchableOpacity>
+      </View>
     );
   }
 }
 
 export default function(props) {
-    const navigation = useNavigation();
-    const route = useRoute();
-    return (
-        <EnterCharacteristics {...props} navigation={navigation} route={route} />
-    );
+  const navigation = useNavigation();
+  const route = useRoute();
+  return (
+    <EnterCharacteristics {...props} navigation={navigation} route={route} />
+  );
 }
 
 const styles = StyleSheet.create({
   fullContainer: {
     flex: 1,
     backgroundColor: '#ecf0f1',
-    padding: '5%',
+    padding: 10,
     textAlign: 'center',
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
   },
   flexRowContainer: {
-    width: '80%',
+    // width: '80%',
     flexDirection: 'row',
     textAlign: 'center',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  paragraph: {
-    margin: 24,
+  heading: {
+    margin: 20,
     fontSize: 18,
-    fontWeight: 'bold',
     textAlign: 'center',
   },
   btnStyle: {
-    backgroundColor: '#3eb245',
-    color: 'black',
-    borderRadius: 2,
-    borderColor: '#3eb245',
-    width: '50%',
-    height: '7%',
-    justifyContent: 'center', //text in the middle of the button
-    alignItems: 'center', //text in the middle of the button
+    backgroundColor: Constants.COLORS.primary.main,
+    borderRadius: 4,
+    borderColor: Constants.COLORS.primary.main,
+    padding: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 30,
+      width: Constants.DIMENSIONS.screenWidth * 0.5,
   },
   input: {
-    width: '80%',
-    //height: screenHeight * 0.05,
-    marginBottom: 10,
+    width: Constants.DIMENSIONS.screenWidth * 0.5,
+    marginBottom: 20,
     borderBottomWidth: 1,
     backgroundColor: '#ecf0f1',
     textAlign: 'center',
   },
   smallInput: {
-    width: '50%',
-    //height: screenHeight * 0.05,
-    marginBottom: 10,
+      width: Constants.DIMENSIONS.screenWidth * 0.25,
+    marginBottom: 20,
     borderBottomWidth: 1,
     backgroundColor: '#ecf0f1',
     textAlign: 'center',
