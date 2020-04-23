@@ -90,6 +90,7 @@ class ExerciseRoutine extends Component {
         </TouchableOpacity>
         <ScrollView>
           <View>{this.exerciseRoutine()}</View>
+          <View style={{margin: 40}} />
         </ScrollView>
       </View>
     );
