@@ -312,6 +312,15 @@ function RecommendedMealsListScreen({route, navigation}) {
   );
 }
 
+function EnterCharacteristicsScreen({route, navigation}) {
+    return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+        <StackHeader screenName={'Enter Characteristics'} />
+        <EnterCharacteristics />
+    </View>
+    );
+}
+
 function HomeScreen({route, navigation}) {
   const {userId} = route.params;
   return (
@@ -472,7 +481,7 @@ function Root() {
       }}>
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} />
-      {/*<Stack.Screen name="EnterCharacteristics" component={EnterCharacteristicsScreen} />*/}
+      <Stack.Screen name="Enter Characteristics" component={EnterCharacteristicsScreen} />
 
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="RecoverAccount" component={RecoverAccountScreen} />

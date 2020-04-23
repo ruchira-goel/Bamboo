@@ -95,7 +95,7 @@ class SignUp extends React.Component {
           }
         } else {
           //going to enter characteristics screen
-          this.props.navigation.replace('EnterCharacteristics', {
+          this.props.navigation.replace('Enter Characteristics', {
             name: name,
             email: email,
             userId: data.userId,
