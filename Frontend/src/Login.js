@@ -118,12 +118,25 @@ class Login extends React.Component {
         <TextInput
           onBlur={() => this.onBlur('b')}
           onFocus={() => this.onFocus('b')}
-          style={[styles.fieldText, {borderColor: this.state.borderColorB}]}
+          style={[
+            styles.fieldText,
+            {borderColor: this.state.borderColorB, marginBottom: 10},
+          ]}
           autoCapitalize="none"
           placeholder="Password"
           secureTextEntry={true}
           onChangeText={encryptedPassword => this.setState({encryptedPassword})} //setting the password when user enters it, not encrypted yet
         />
+        <TouchableOpacity
+          onPress={() =>
+            this.props.navigation.navigate('Root', {
+              screen: 'RecoverAccount',
+            })
+          }>
+          <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
+            Forgot password?
+          </Text>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.btnStyle} onPress={this.login}>
           <Text style={styles.btnText}>Login</Text>
           {/*<LinearGradient*/}
@@ -134,19 +147,21 @@ class Login extends React.Component {
           {/*  <Text style={styles.btnText}>Login</Text>*/}
           {/*</LinearGradient>*/}
         </TouchableOpacity>
-        <View style={{flex: 1, flexDirection: 'row'}}>
-          <Text style={{padding: 15}}>Don't have an account? </Text>
-          <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate('Root', {
-                screen: 'SignUp',
-              })
-            }
-            style={styles.linkStyle}>
-            <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
-              Sign Up!
-            </Text>
-          </TouchableOpacity>
+        <View style={{flex: 0.7, alignItems: 'center'}}>
+          <View style={{flex: 0.2, flexDirection: 'row'}}>
+            <Text style={{padding: 15}}>Don't have an account? </Text>
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate('Root', {
+                  screen: 'SignUp',
+                })
+              }
+              style={styles.linkStyle}>
+              <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
+                Sign Up!
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     );
@@ -193,7 +208,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   linkStyle: {
-    marginBottom: '70%',
     padding: 15,
   },
 });

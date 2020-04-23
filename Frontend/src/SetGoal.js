@@ -124,7 +124,9 @@ class SetGoal extends React.Component {
         ? `${
             Constants.URL.android
           }/Goal/addGoal?userId=${userId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`
-        : `${Constants.URL.ios}/Goal/addGoal?userId=${userId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`,
+        : `${
+            Constants.URL.ios
+          }/Goal/addGoal?userId=${userId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -157,11 +159,9 @@ class SetGoal extends React.Component {
     ];
     const {mealOpts, exOpts} = this.state;
     return (
-      <View style={styles.heading}>
+      <View style={styles.container}>
         <Text style={styles.title}>Select the type of goal:</Text>
-        <View style={{padding: '2%'}} />
-        <View
-          style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
+        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
           <TouchableOpacity
             onPress={() => {
               this.setState({
@@ -170,19 +170,18 @@ class SetGoal extends React.Component {
                 trackedItem: '_____',
               });
             }}
-            style={{
-              backgroundColor: this.state.isMealGoal ? '#3eb245' : '#b3c4b4',
-              color: 'black',
-              borderRadius: 2,
-              borderColor: this.state.isMealGoal ? '#3eb245' : '#b3c4b4',
-              width: '40%',
-              height: '100%',
-              justifyContent: 'center', //text in the middle of the button
-              alignItems: 'center',
-            }}>
-            <Text>Diet</Text>
+            style={[
+              styles.typeButton,
+              {
+                backgroundColor: this.state.isMealGoal
+                  ? Constants.COLORS.primary.main
+                  : 'white',
+              },
+            ]}>
+            <Text style={styles.text}>
+              Diet
+            </Text>
           </TouchableOpacity>
-          <View style={{padding: '2%'}} />
           <TouchableOpacity
             onPress={() =>
               this.setState({
@@ -191,79 +190,71 @@ class SetGoal extends React.Component {
                 trackedItem: '_____',
               })
             }
-            style={{
-              backgroundColor: !this.state.isMealGoal ? '#3eb245' : '#b3c4b4',
-              color: 'black',
-              borderRadius: 2,
-              borderColor: !this.state.isMealGoal ? '#3eb245' : '#b3c4b4',
-              width: '40%',
-              height: '100%',
-              justifyContent: 'center', //text in the middle of the button
-              alignItems: 'center',
-            }}>
-            <Text>Exercise</Text>
+            style={[
+              styles.typeButton,
+              {
+                backgroundColor: !this.state.isMealGoal
+                  ? Constants.COLORS.primary.main
+                  : 'white',
+              },
+            ]}>
+            <Text style={styles.text}>
+              Exercise
+            </Text>
           </TouchableOpacity>
         </View>
         <View>
-          <View style={{padding: '4%'}} />
-          <Text
-            style={{
-              fontSize: 16,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginLeft: '15%',
-              marginRight: '15%',
-            }}>
+          <Text style={[styles.text, styles.sentence]}>
             Current Goal: {this.state.limitType} {this.state.amount}{' '}
             {this.state.trackedItem} per {this.state.duration}.
           </Text>
         </View>
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+        <View style={styles.dropdown}>
           <Dropdown
             label="Limit type"
             data={limitOpts}
             onChangeText={value => {
               this.setState({limitType: value});
             }}
-            selectedItemColor="#3eb245"
+            // selectedItemColor="#3eb245"
             containerStyle={{width: '50%'}}
           />
         </View>
-        <View style={{padding: '2%'}} />
         <View>
           <TextInput
-            style={styles.fieldText}
-            // autoCapitalize="none"
+            // style={styles.fieldText}
+            style={[styles.textInput]}
             keyboardType={'numeric'}
             placeholder="Enter amount"
+            maxLength={10}
             onChangeText={amount => this.setState({amount})}
           />
         </View>
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+        <View style={styles.dropdown}>
           <Dropdown
-            label="Goal Options"
+            label="Goal options"
             data={this.state.goalOptions}
             onChangeText={value => {
               this.setState({trackedItem: value});
             }}
-            selectedItemColor="#3eb245"
+            // selectedItemColor="#3eb245"
             containerStyle={{width: '50%'}}
           />
         </View>
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+        <View style={styles.dropdown}>
           <Dropdown
             label="Duration type"
             data={durationOpts}
             onChangeText={value => {
               this.setState({duration: value});
             }}
-            selectedItemColor="#3eb245"
+            // selectedItemColor="#3eb245"
             containerStyle={{width: '50%'}}
           />
         </View>
-        <View style={{alignSelf: 'center', width: '50%', marginBottom: 10}}>
+        <View>
           <TouchableOpacity onPress={this.submit} style={styles.primaryBtn}>
-            <Text>Save Goal</Text>
+            <Text style={styles.text}>Save Goal</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -278,59 +269,62 @@ export default function(props) {
 }
 
 const styles = StyleSheet.create({
-  heading: {
-    fontSize: 24,
-    // fontWeight: '500',
-    flex: 1,
-    marginTop: '7%',
-  },
-  title: {
-    margin: 12,
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    textDecorationColor: 'gray',
-  },
   container: {
     flex: 1,
-    //width: '40%',
-    //height: '20%',
     alignItems: 'center',
-    alignContent: 'center',
-    //backgroundColor: 'blue',
-    //marginBottom: '70%',
-    //marginLeft: '30%',
+    justifyContent: 'space-between',
   },
-  spacingHigh: {
-    padding: 15,
+  dropdown: {
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
-  spacingSmall: {
-    padding: 10,
+  title: {
+    margin: 20,
+    fontSize: 18,
   },
   fieldText: {
     fontSize: 16,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: '25%',
-    marginRight: '25%',
+    marginHorizontal: '25%',
+  },
+  textInput: {
+    width: Constants.DIMENSIONS.screenWidth * 0.5,
+    fontSize: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
     borderBottomWidth: 0.5,
+    marginHorizontal: '25%',
+    marginTop: 20,
+    marginBottom: 10,
   },
-  alignLeftView: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
-  linkStyle: {
-    marginBottom: '70%',
-    padding: 15,
+  sentence: {
+    width: Constants.DIMENSIONS.screenWidth * 0.8,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   primaryBtn: {
     backgroundColor: Constants.COLORS.primary.main,
     borderRadius: 60,
     borderColor: Constants.COLORS.primary.main,
     padding: 12,
+    margin: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%',
+    width: Constants.DIMENSIONS.screenWidth * 0.5,
+  },
+  typeButton: {
+    color: 'black',
+    width: '40%',
+    borderRadius: 60,
+    borderWidth: 2,
+    borderColor: Constants.COLORS.primary.main,
+    padding: 4,
+    alignItems: 'center',
+    marginHorizontal: 10,
+    marginBottom: 20,
+  },
+  text: {
+    fontSize: 16,
   },
 });

@@ -32,6 +32,12 @@ import FavActivities from './FavActivities';
 import ViewGoals from './ViewGoals';
 import SetGoal from './SetGoal';
 import EditGoal from './EditGoal';
+import ExerciseGenerator from './ExerciseGenerator';
+import ExerciseRoutine from './ExerciseRoutine';
+import RecommendedMealsList from './RecommendedMealsList';
+import RecoverAccount from './RecoverAccount';
+import MealRecommend from './MealRecommend';
+import MealInstructions from "./MealInstructions";
 
 function MenuHeader({screenName}) {
   const nav = useNavigation();
@@ -185,6 +191,25 @@ function MealScreen({route, navigation}) {
     </View>
   );
 }
+
+function RecipeScreen({route, navigation}) {
+    return (
+        <View style={{flex: 1, alignItems: 'center'}}>
+            <StackHeader screenName={'Meal Instructions'} />
+            <MealInstructions />
+        </View>
+    );
+}
+
+function MealRecommendScreen({route, navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <StackHeader screenName={'Meal Recommendation'} />
+      <MealRecommend />
+    </View>
+  );
+}
+
 function FavMealsScreen({route, navigation}) {
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
@@ -262,84 +287,161 @@ function ChangePassScreen({route, navigation}) {
     </View>
   );
 }
+function ExerciseGeneratorScreen({route, navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <StackHeader screenName={'Exercise Routine Generator'} />
+      <ExerciseGenerator />
+    </View>
+  );
+}
+function ExerciseRoutineScreen({route, navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <StackHeader screenName={'Exercise Routine'} />
+      <ExerciseRoutine />
+    </View>
+  );
+}
+
+function RecoverAccountScreen({route, navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <StackHeader screenName={'Recover Account'} />
+      <RecoverAccount />
+    </View>
+  );
+}
+
+function RecommendedMealsListScreen({route, navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <StackHeader screenName={'Recommended Meals'} />
+      <RecommendedMealsList />
+    </View>
+  );
+}
+
+function EnterCharacteristicsScreen({route, navigation}) {
+    return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+        <StackHeader screenName={'Enter Characteristics'} />
+        <EnterCharacteristics />
+    </View>
+    );
+}
 
 function HomeScreen({route, navigation}) {
   const {userId} = route.params;
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
       <MenuHeader screenName={'Home'} />
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() =>
-          navigation.navigate('Root', {
-            screen: 'Meal',
-            params: {
-              userId: userId,
-            },
-          })
-        }>
-        <Text style={styles.text}>Meal Input</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() =>
-          navigation.navigate('Root', {
-            screen: 'Exercise',
-            params: {
-              userId: userId,
-            },
-          })
-        }>
-        <Text style={styles.text}>Exercise Input</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() =>
-          navigation.navigate('Root', {
-            screen: 'ExerciseGraphs',
-            params: {
-              userId: userId,
-            },
-          })
-        }>
-        <Text style={styles.text}>Exercise Graphs</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() =>
-          navigation.navigate('Root', {
-            screen: 'DietGraphs',
-            params: {
-              userId: userId,
-            },
-          })
-        }>
-        <Text style={styles.text}>Diet Graphs</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() =>
-          navigation.navigate('Root', {
-            screen: 'ViewGoals',
-            params: {
-              userId: userId,
-            },
-          })
-        }>
-        <Text style={styles.text}>Goals</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() =>
-          navigation.navigate('Root', {
-            screen: 'SetGoal',
-            params: {
-              userId: userId,
-            },
-          })
-        }>
-        <Text style={styles.text}>Set Goals</Text>
-      </TouchableOpacity>
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() =>
+            navigation.navigate('Root', {
+              screen: 'ViewGoals',
+              params: {
+                userId: userId,
+              },
+            })
+          }>
+          <Image source={require('./img/goal.png')} style={styles.image} />
+          <Text style={styles.text}>My Goals</Text>
+          <Text style={styles.subText}>View & set goals</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() =>
+            navigation.navigate('Root', {
+              screen: 'Meal',
+              params: {
+                userId: userId,
+              },
+            })
+          }>
+          <Image source={require('./img/meal.png')} style={styles.image} />
+          <Text style={styles.text}>Add Meal</Text>
+          <Text style={styles.subText}>Complete daily input</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() =>
+            navigation.navigate('Root', {
+              screen: 'Exercise',
+              params: {
+                userId: userId,
+              },
+            })
+          }>
+          <Image source={require('./img/exercise.png')} style={styles.image} />
+          <Text style={styles.text}>Add Exercise</Text>
+          <Text style={styles.subText}>Complete daily input</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() =>
+            navigation.navigate('Root', {
+              screen: 'MealRecommendation',
+              params: {
+                userId: userId,
+              },
+            })
+          }>
+          <Image source={require('./img/meal.png')} style={styles.image} />
+          <Text style={styles.text}>Meal Recommendation</Text>
+          <Text style={styles.subText}>Get personal recommendations</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() =>
+            navigation.navigate('Root', {
+              screen: 'ExerciseRoutine',
+              params: {
+                userId: userId,
+              },
+            })
+          }>
+          <Image source={require('./img/exercise.png')} style={styles.image} />
+          <Text style={styles.text}>Exercise Routine</Text>
+          <Text style={styles.subText}>Generate & view routine</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() =>
+            navigation.navigate('Root', {
+              screen: 'DietGraphs',
+              params: {
+                userId: userId,
+              },
+            })
+          }>
+          <Image
+            source={require('./img/diet-graph.png')}
+            style={styles.image}
+          />
+          <Text style={styles.text}>Track Diet</Text>
+          <Text style={styles.subText}>View calorie graph</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() =>
+            navigation.navigate('Root', {
+              screen: 'ExerciseGraphs',
+              params: {
+                userId: userId,
+              },
+            })
+          }>
+          <Image
+            source={require('./img/exercise-graph.png')}
+            style={styles.image}
+          />
+          <Text style={styles.text}>Track Exercise</Text>
+          <Text style={styles.subText}>View exercise graphs</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -389,13 +491,17 @@ function Root() {
       }}>
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} />
-      {/*<Stack.Screen name="EnterCharacteristics" component={EnterCharacteristicsScreen} />*/}
-
+      <Stack.Screen name="Enter Characteristics" component={EnterCharacteristicsScreen} />
+        <Stack.Screen name="MealInstructions" component={RecipeScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
-
+      <Stack.Screen name="RecoverAccount" component={RecoverAccountScreen} />
       <Stack.Screen name="Meal" component={MealScreen} />
+      <Stack.Screen name="MealRecommendation" component={MealRecommendScreen} />
       <Stack.Screen name="FavMeals" component={FavMealsScreen} />
-
+      <Stack.Screen
+        name="RecommendedMealsList"
+        component={RecommendedMealsListScreen}
+      />
       <Stack.Screen name="Exercise" component={ExerciseScreen} />
       <Stack.Screen name="FavActivities" component={FavActivitiesScreen} />
 
@@ -407,6 +513,12 @@ function Root() {
       <Stack.Screen name="ExerciseGraphs" component={ExerciseGraphsScreen} />
 
       <Stack.Screen name="ChangePass" component={ChangePassScreen} />
+
+      <Stack.Screen
+        name="ExerciseGenerator"
+        component={ExerciseGeneratorScreen}
+      />
+      <Stack.Screen name="ExerciseRoutine" component={ExerciseRoutineScreen} />
       {/*
       TODO:
       enter characteristics
@@ -470,19 +582,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: StatusBar.currentHeight,
+    // marginTop: StatusBar.currentHeight,
     padding: 10,
-    paddingTop: getStatusBarHeight(),
+    paddingTop: getStatusBarHeight() + 10,
     backgroundColor: Constants.COLORS.primary.main,
-    // shadowColor: "#000",
-    // shadowOffset: {
-    //     width: 0,
-    //     height: 4,
-    // },
-    // shadowOpacity: 0.30,
-    // shadowRadius: 4.65,
-    //
-    // elevation: 8,
   },
   leftContainer: {
     flex: 1,
@@ -503,14 +606,40 @@ const styles = StyleSheet.create({
     width: 10,
     resizeMode: 'contain',
   },
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+  },
   button: {
     alignItems: 'center',
-    backgroundColor: '#d9e3bf',
-    padding: 15,
-    margin: 10,
-    width: '100%',
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    justifyContent: 'center',
+    width: Constants.DIMENSIONS.screenWidth - 20,
+    height: 60,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 6,
+  },
+  image: {
+    width: 60,
+    height: 60,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    borderBottomLeftRadius: 8,
+    borderTopLeftRadius: 8,
   },
   text: {
-    fontSize: 16,
+    fontSize: 18,
+  },
+  subText: {
+    fontSize: 14,
   },
 });
