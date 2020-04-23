@@ -286,78 +286,113 @@ function HomeScreen({route, navigation}) {
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
       <MenuHeader screenName={'Home'} />
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() =>
-          navigation.navigate('Root', {
-            screen: 'Meal',
-            params: {
-              userId: userId,
-            },
-          })
-        }>
-        <Text style={styles.text}>Meal Input</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() =>
-          navigation.navigate('Root', {
-            screen: 'Exercise',
-            params: {
-              userId: userId,
-            },
-          })
-        }>
-        <Text style={styles.text}>Exercise Input</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() =>
-          navigation.navigate('Root', {
-            screen: 'ExerciseGraphs',
-            params: {
-              userId: userId,
-            },
-          })
-        }>
-        <Text style={styles.text}>Exercise Graphs</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() =>
-          navigation.navigate('Root', {
-            screen: 'DietGraphs',
-            params: {
-              userId: userId,
-            },
-          })
-        }>
-        <Text style={styles.text}>Diet Graphs</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() =>
-          navigation.navigate('Root', {
-            screen: 'ViewGoals',
-            params: {
-              userId: userId,
-            },
-          })
-        }>
-        <Text style={styles.text}>Goals</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() =>
-          navigation.navigate('Root', {
-            screen: 'ExerciseRoutine',
-            params: {
-              userId: userId,
-            },
-          })
-        }>
-        <Text style={styles.text}>Exercise Routine</Text>
-      </TouchableOpacity>
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() =>
+            navigation.navigate('Root', {
+              screen: 'ViewGoals',
+              params: {
+                userId: userId,
+              },
+            })
+          }>
+          <Image source={require('./img/goal.png')} style={styles.image} />
+          <Text style={styles.text}>My Goals</Text>
+          <Text style={styles.subText}>View & set goals</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() =>
+            navigation.navigate('Root', {
+              screen: 'Meal',
+              params: {
+                userId: userId,
+              },
+            })
+          }>
+          <Image source={require('./img/meal.png')} style={styles.image} />
+          <Text style={styles.text}>Add Meal</Text>
+          <Text style={styles.subText}>Complete daily input</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() =>
+            navigation.navigate('Root', {
+              screen: 'Exercise',
+              params: {
+                userId: userId,
+              },
+            })
+          }>
+          <Image source={require('./img/exercise.png')} style={styles.image} />
+          <Text style={styles.text}>Add Exercise</Text>
+          <Text style={styles.subText}>Complete daily input</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          // onPress={() =>
+          //     navigation.navigate('Root', {
+          //         screen: 'ExerciseRoutine',
+          //         params: {
+          //             userId: userId,
+          //         },
+          //     })
+          // }
+        >
+          <Image source={require('./img/meal.png')} style={styles.image} />
+          <Text style={styles.text}>Meal Recommendation</Text>
+          <Text style={styles.subText}>Get personal recommendations</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() =>
+            navigation.navigate('Root', {
+              screen: 'ExerciseRoutine',
+              params: {
+                userId: userId,
+              },
+            })
+          }>
+          <Image source={require('./img/exercise.png')} style={styles.image} />
+          <Text style={styles.text}>Exercise Routine</Text>
+          <Text style={styles.subText}>Generate & view routine</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() =>
+            navigation.navigate('Root', {
+              screen: 'DietGraphs',
+              params: {
+                userId: userId,
+              },
+            })
+          }>
+          <Image
+            source={require('./img/diet-graph.png')}
+            style={styles.image}
+          />
+          <Text style={styles.text}>Track Diet</Text>
+          <Text style={styles.subText}>View calorie graph</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() =>
+            navigation.navigate('Root', {
+              screen: 'ExerciseGraphs',
+              params: {
+                userId: userId,
+              },
+            })
+          }>
+          <Image
+            source={require('./img/exercise-graph.png')}
+            style={styles.image}
+          />
+          <Text style={styles.text}>Track Exercise</Text>
+          <Text style={styles.subText}>View exercise graphs</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -498,15 +533,6 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingTop: getStatusBarHeight() + 10,
     backgroundColor: Constants.COLORS.primary.main,
-    // shadowColor: "#000",
-    // shadowOffset: {
-    //     width: 0,
-    //     height: 4,
-    // },
-    // shadowOpacity: 0.30,
-    // shadowRadius: 4.65,
-    //
-    // elevation: 8,
   },
   leftContainer: {
     flex: 1,
@@ -527,14 +553,40 @@ const styles = StyleSheet.create({
     width: 10,
     resizeMode: 'contain',
   },
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+  },
   button: {
     alignItems: 'center',
-    backgroundColor: '#d9e3bf',
-    padding: 15,
-    margin: 10,
-    width: '100%',
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    justifyContent: 'center',
+    width: Constants.DIMENSIONS.screenWidth - 20,
+    height: 60,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 6,
+  },
+  image: {
+    width: 60,
+    height: 60,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    borderBottomLeftRadius: 8,
+    borderTopLeftRadius: 8,
   },
   text: {
-    fontSize: 16,
+    fontSize: 18,
+  },
+  subText: {
+    fontSize: 14,
   },
 });
