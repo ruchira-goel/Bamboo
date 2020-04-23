@@ -350,18 +350,6 @@ function HomeScreen({route, navigation}) {
         style={styles.button}
         onPress={() =>
           navigation.navigate('Root', {
-            screen: 'ExerciseGenerator',
-            params: {
-              userId: userId,
-            },
-          })
-        }>
-        <Text style={styles.text}>Exercise Routine Generator</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() =>
-          navigation.navigate('Root', {
             screen: 'ExerciseRoutine',
             params: {
               userId: userId,
