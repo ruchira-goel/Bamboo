@@ -9,7 +9,9 @@ import {
   Alert,
   Platform,
 } from 'react-native';
-import {useNavigation, useRoute} from "@react-navigation/native";
+import {useNavigation, useRoute} from '@react-navigation/native';
+
+import * as Constants from './Constants';
 
 // Sources:
 // https://reactnative.dev/docs/images
@@ -55,7 +57,9 @@ class FavMeals extends Component {
     console.log("");
     fetch(
       Platform.OS === 'android'
-        ? `${Constants.URL.android}/Meal/saveMealFromFavorites?userId=${userId}&mealId=${
+        ? `${
+            Constants.URL.android
+          }/Meal/saveMealFromFavorites?userId=${userId}&mealId=${
             item.id
           }&date=${date}`
         : `${Constants.URL.ios}/Meal/saveMealFromFavorites?userId=${userId}&mealId=${

@@ -7,7 +7,8 @@ import {
   StyleSheet,
   Platform,
 } from 'react-native';
-import URL from './url';
+
+import * as Constants from './Constants';
 
 export default class HomeScreen extends React.Component {
   logout = () => {
@@ -32,7 +33,7 @@ export default class HomeScreen extends React.Component {
     console.log(userId);
     fetch(
       Platform.OS === 'android'
-        ? `${URL.android}/User/delAccount?userId=${userId}`
+        ? `${Constants.URL.android}/User/delAccount?userId=${userId}`
         : `${Constants.URL.ios}/User/delAccount?userId=${userId}`,
     )
       .then(res => res.json())

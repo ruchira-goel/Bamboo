@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 // import {LinearGradient} from 'expo-linear-gradient';
+import NotifService from './NotifService';
 
 import * as Constants from './Constants';
 
@@ -22,7 +23,17 @@ class Login extends React.Component {
       borderColorA: Constants.COLORS.gray,
       borderColorB: Constants.COLORS.gray,
     };
+    this.notif = new NotifService(
+      this.onRegister.bind(this),
+    );
   }
+
+  onRegister(token) {
+    Alert.alert('Registered !', JSON.stringify(token));
+    console.log(token);
+    this.setState({registerToken: token.token, gcmRegistered: true});
+  }
+
 
   login = () => {
     const {email, encryptedPassword} = this.state;
@@ -57,6 +68,8 @@ class Login extends React.Component {
             Alert.alert('Incorrect password', data.message, [{text: 'OK'}]);
           }
         } else {
+          //set up notifications
+          this.notif.scheduleNotifications(data.userId);
           //going to home screen
           this.props.navigation.navigate('Root', {
             screen: 'Home',

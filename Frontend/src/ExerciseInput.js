@@ -278,7 +278,9 @@ class ExerciseInput extends Component {
         ? `${
             Constants.URL.android
           }/Activity/addToFavorites?activityId=${activityId}&userId=${userId}`
-        : `${Constants.URL.ios}/Activity/addToFavorites?activityId=${activityId}&userId=${userId}`,
+        : `${
+            Constants.URL.ios
+          }/Activity/addToFavorites?activityId=${activityId}&userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {

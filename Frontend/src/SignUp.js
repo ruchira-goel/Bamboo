@@ -101,6 +101,12 @@ class SignUp extends React.Component {
             userId: data.userId,
             password: password,
           });
+          this.props.navigation.replace('Root', {
+            screen: 'EnterCharacteristics',
+            params: {
+              userId: this.props.userId,
+            },
+          });
           // this.props.navigation.navigate('Root', {
           //     screen: 'EnterCharacteristics',
           //     params: {
