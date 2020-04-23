@@ -326,6 +326,70 @@ public class MealHandler {
         return recommended;
     }
 
+
+    public ArrayList<String> getIngredients(String mealId, String userId) throws IOException, IllegalAccessException {
+        if (mealId.equals("-1")) {
+            throw new IllegalAccessException("Meal not found");
+        }
+        User user = this.userRepo.findUserByUserId(userId);
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet("https://api.spoonacular.com/recipes/" + mealId + "/ingredientWidget.json?apiKey=5ccdaac983d344338fe187bb2b7e5501");
+        HttpResponse response = httpClient.execute(httpGet);
+        JSONObject nutritionJson = new JSONObject(EntityUtils.toString(response.getEntity()));
+
+        JSONArray ingredientArray = nutritionJson.getJSONArray("ingredients");
+        ArrayList<String> ingredients = new ArrayList<>();
+        for (int i = 0; i < ingredientArray.length(); i++) {
+            JSONObject ingredient = ingredientArray.getJSONObject(i);
+            String units;
+            if (user.isMetric()) {
+                units = "metric";
+            } else {
+                units = "us";
+            }
+            JSONObject amount = ingredient.getJSONObject("amount").getJSONObject(units);
+            String amountWithUnitAndName = amount.get("value") + " " + amount.get("unit") + " "+ingredient.get("name");
+            ingredients.add(amountWithUnitAndName);
+        }
+        return ingredients;
+    }
+
+    public ArrayList<String> getInstructions(String mealId) throws IllegalAccessException, IOException {
+        if (mealId.equals("-1")) {
+            throw new IllegalAccessException("Meal not found");
+        }
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet httpGet = new HttpGet("https://api.spoonacular.com/recipes/" + mealId + "/analyzedInstructions?apiKey=5ccdaac983d344338fe187bb2b7e5501");
+        HttpResponse response = httpClient.execute(httpGet);
+        JSONArray instructionsJSON = new JSONArray(EntityUtils.toString(response.getEntity()));
+
+        ArrayList<String> instructions = new ArrayList<>();
+        for (int i = 0; i < instructionsJSON.length(); i++) {
+            JSONObject object = instructionsJSON.getJSONObject(i);
+            JSONArray steps = object.getJSONArray("steps");
+            for (int j = 0; j < steps.length(); j++) {
+                JSONObject step = steps.getJSONObject(j);
+
+                //add instructions and equipments
+//                JSONArray ingArray = step.getJSONArray("ingredients");
+//                JSONArray equipArray = step.getJSONArray("equipment");
+//                for (int k = 0; k < equipArray.length(); k++) {
+//                    JSONObject equipment = equipArray.getJSONObject(k);
+//                    String name = equipment.get("name").toString();
+//                    //add
+//                }
+//                for (int k = 0; k < ingArray.length(); k++) {
+//                    JSONObject ingredient = ingArray.getJSONObject(k);
+//                    String name = ingredient.get("name").toString();
+//                    //add
+//                }
+                String stepInstruction = step.get("step").toString();
+                instructions.add(stepInstruction);
+            }
+        }
+        return instructions;
+    }
+
     public List<Meal> display() {
         return this.mealRepo.findAll();
     }

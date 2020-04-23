@@ -95,4 +95,15 @@ public class MealController {
         return mealHandler.getRecommendedMeals(userId, calLow,calHigh, fatLow, fatHigh,
                 proteinLow, proteinHigh, carbsLow, carbsHigh, numMeals);
     }
+
+    @RequestMapping("/Meal/getIng")
+    public ArrayList<String> getIng(@RequestParam(value = "userId") String userId,
+                                    @RequestParam(value = "mealId") String mealId) throws IOException, IllegalAccessException {
+        return mealHandler.getIngredients(mealId, userId);
+    }
+
+    @RequestMapping("/Meal/getIns")
+    public ArrayList<String> getIng(@RequestParam(value = "mealId") String mealId) throws IOException, IllegalAccessException {
+        return mealHandler.getInstructions(mealId);
+    }
 }
