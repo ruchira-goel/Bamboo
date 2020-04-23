@@ -7,9 +7,10 @@ import {
   Dimensions,
   Platform,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 import * as Constants from './Constants';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute, useIsFocused} from '@react-navigation/native';
 
 class ExerciseRoutine extends Component {
   constructor(props) {
@@ -66,16 +67,30 @@ class ExerciseRoutine extends Component {
   }
 
   render() {
+    const {route} = this.props;
+    const {userId} = route.params;
     return (
       <View
         style={{
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          paddingTop: 10,
         }}>
+        <TouchableOpacity
+          style={styles.primaryBtn}
+          onPress={() =>
+            this.props.navigation.navigate('Root', {
+              screen: 'ExerciseGenerator',
+              params: {
+                userId: userId,
+              },
+            })
+          }>
+          <Text>Generate a new exercise routine</Text>
+        </TouchableOpacity>
         <ScrollView>
           <View>{this.exerciseRoutine()}</View>
+          <View style={{margin: 40}} />
         </ScrollView>
       </View>
     );
@@ -85,7 +100,16 @@ class ExerciseRoutine extends Component {
 export default function(props) {
   const navigation = useNavigation();
   const route = useRoute();
-  return <ExerciseRoutine {...props} navigation={navigation} route={route} />;
+  const isFocused = useIsFocused();
+  return (
+    <View>
+      {isFocused ? (
+        <ExerciseRoutine {...props} navigation={navigation} route={route} />
+      ) : (
+        <Text>Loading</Text>
+      )}
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -110,5 +134,15 @@ const styles = StyleSheet.create({
   },
   activity: {
     width: (Constants.DIMENSIONS.screenWidth - 20) / 2,
+  },
+  primaryBtn: {
+    backgroundColor: '#fff',
+    borderRadius: 60,
+    borderWidth: 2,
+    borderColor: Constants.COLORS.accent.main,
+    padding: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10,
   },
 });

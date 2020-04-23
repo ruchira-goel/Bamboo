@@ -231,7 +231,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   heading: {
-    margin: '10%',
+    marginHorizontal: '10%',
+    marginVertical: 12,
     // textAlign: 'left',
     fontSize: 18,
   },
@@ -268,8 +269,9 @@ const styles = StyleSheet.create({
     width: 25,
   },
   primaryBtn: {
-    backgroundColor: Constants.COLORS.accent.main,
+    backgroundColor: '#fff',
     borderRadius: 60,
+    borderWidth: 2,
     borderColor: Constants.COLORS.accent.main,
     padding: 12,
     justifyContent: 'center',

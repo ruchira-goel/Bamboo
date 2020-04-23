@@ -445,12 +445,13 @@ const styles = StyleSheet.create({
     lineHeight: 16 - (Platform.OS === 'ios' ? 2 * 2 : 2),
   },
   button: {
-    backgroundColor: '#81c784',
+    backgroundColor: Constants.COLORS.primary.main,
     borderRadius: 60,
-    borderColor: '#81c784',
     padding: 12,
     margin: 10,
     alignItems: 'center',
+    alignSelf: 'center',
+    width: Constants.DIMENSIONS.screenWidth - 80,
   },
   categoryList: {
     width: Constants.DIMENSIONS.screenWidth - 80,
