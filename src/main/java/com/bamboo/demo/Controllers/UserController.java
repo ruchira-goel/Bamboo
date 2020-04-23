@@ -91,16 +91,16 @@ public class UserController {
         }
         Lifestyle lStyle = Lifestyle.UNSPECIFIED;
         switch (lifestyle) {
-            case "Sedentary":
+            case "SEDENTARY":
                 lStyle = Lifestyle.SEDENTARY;
                 break;
-            case "Moderately Active":
+            case "MODERATE":
                 lStyle = Lifestyle.MODERATE;
                 break;
-            case "Extremely Active":
+            case "EXTREME":
                 lStyle = Lifestyle.EXTREME;
                 break;
-            case "Low":
+            case "LOW":
                 lStyle = Lifestyle.LOW;
                 break;
         }
