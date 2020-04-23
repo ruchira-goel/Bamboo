@@ -304,6 +304,8 @@ public class MealHandler {
             JSONObject mealJson = mealArray.getJSONObject(i);
             JSONArray nutritionArray = mealJson.getJSONArray("nutrition");
             meal.setName(mealJson.get("title").toString());
+            meal.setId(mealJson.get("id").toString());
+
             for (int j = 0; j < nutritionArray.length(); j++) {
                 JSONObject nutrient = nutritionArray.getJSONObject(j);
                 String amount = nutrient.get("amount").toString();
