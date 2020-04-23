@@ -37,6 +37,7 @@ import ExerciseRoutine from './ExerciseRoutine';
 import RecommendedMealsList from './RecommendedMealsList';
 import RecoverAccount from './RecoverAccount';
 import MealRecommend from './MealRecommend';
+import MealInstructions from "./MealInstructions";
 
 function MenuHeader({screenName}) {
   const nav = useNavigation();
@@ -189,6 +190,15 @@ function MealScreen({route, navigation}) {
       <EnterMealDailyInput />
     </View>
   );
+}
+
+function RecipeScreen({route, navigation}) {
+    return (
+        <View style={{flex: 1, alignItems: 'center'}}>
+            <StackHeader screenName={'Meal Instructions'} />
+            <MealInstructions />
+        </View>
+    );
 }
 
 function MealRecommendScreen({route, navigation}) {
@@ -482,7 +492,7 @@ function Root() {
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} />
       <Stack.Screen name="Enter Characteristics" component={EnterCharacteristicsScreen} />
-
+        <Stack.Screen name="MealInstructions" component={RecipeScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="RecoverAccount" component={RecoverAccountScreen} />
       <Stack.Screen name="Meal" component={MealScreen} />

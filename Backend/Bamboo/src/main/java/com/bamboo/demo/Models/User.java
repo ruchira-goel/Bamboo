@@ -14,6 +14,15 @@ public class User {
     private String userId;
     private String name;
     private String email;
+
+    public Diet getDiet() {
+        return diet;
+    }
+
+    public void setDiet(Diet diet) {
+        this.diet = diet;
+    }
+
     private String encryptedPassword;
     private double height;                       //unit - cms, kgs
     private double weight;
@@ -28,6 +37,7 @@ public class User {
     //private HashMap<String, List<Object>> nutrientLimits;
     private HashMap<String, String> nutrientLimits; //e.g. proteinHigh --> 50
     private ArrayList<String> allergies;
+    private Diet diet;
 
     public ArrayList<String> getAllergies() {
         return allergies;
@@ -103,6 +113,7 @@ public class User {
         this.nutrientLimits = new HashMap<>();
         this.allergies = new ArrayList<>();
         this.lifestyle = Lifestyle.UNSPECIFIED;
+        this.diet = Diet.UNSPECIFIED;
     }
 
 

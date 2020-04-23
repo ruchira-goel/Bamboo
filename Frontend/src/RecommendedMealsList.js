@@ -1,6 +1,7 @@
 import React from 'react';
-import {Text, View, StyleSheet, FlatList} from 'react-native';
+import {Text, View, StyleSheet, FlatList, TouchableOpacity, Platform, Alert} from 'react-native';
 import {useNavigation, useRoute} from "@react-navigation/native";
+import * as Constants from "./Constants";
 
 // Sources:
 // https://reactnative.dev/docs/images
@@ -16,6 +17,8 @@ class RecommendedMealsList extends React.Component {
         super(props);
         this.state = {
             userId: '',
+            ingredients: '',
+            instructions: '',
             meals: [],
         };
     }
@@ -29,24 +32,77 @@ class RecommendedMealsList extends React.Component {
                 //style={{width: '70%'}}
                 renderItem={({item}) => (
                     <View>
-                        <View
+                        <TouchableOpacity
                             style={{
                                 flex: 1,
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 backgroundColor: 'darkseagreen',
-                            }}>
+                            }}
+                        onPress={this.getInstructionsAndIngredients(item.id)}>
                             <Text>{item.name}</Text>
                             {this.renderNutrient('Calories', item.calories.toFixed(2))}
                             {this.renderNutrient('Fat', item.fat.toFixed(2))}
                             {this.renderNutrient('Protein', item.protein.toFixed(2))}
                             {this.renderNutrient('Carbs', item.carbs.toFixed(2))}
-                        </View>
+                        </TouchableOpacity>
                         <View style={{padding: '2%'}} />
                     </View>
                 )}
             />
         );
+    }
+
+    getInstructionsAndIngredients = (mealId) => {
+        const {route} = this.props;
+        const {userId} = route.params;
+        fetch(
+            Platform.OS === 'android'
+                ? `${
+                    Constants.URL.android
+                }/Meal/getIng?mealId=${mealId}&userId=${userId}`
+                : `${Constants.URL.ios}/Meal/getIng?mealId=${mealId}&userId=${userId}`,
+        )
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.error) {
+                    Alert.alert(
+                        data.message,
+                        'Unable to find this meal',
+                        [{text: 'OK'}],
+                    );
+                    return;
+                } else {
+                    this.setState({ingredients: data})
+                }
+            });
+        fetch(
+            Platform.OS === 'android'
+                ? `${
+                    Constants.URL.android
+                }/Meal/getIns?mealId=${mealId}`
+                : `${Constants.URL.ios}/Meal/getIns?mealId=${mealId}`,
+        )
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.error) {
+                    Alert.alert(
+                        data.message,
+                        'Unable to find this meal',
+                        [{text: 'OK'}],
+                    );
+                    return;
+                } else {
+                    this.setState({instructions: data}, () => {
+                        this.props.navigation.navigate('Meal Instructions', {
+                            instructions: data,
+                            ingredients: this.state.ingredients
+                        })
+                    })
+                }
+            });
     }
 
     renderNutrient = (nutrient, value) => {

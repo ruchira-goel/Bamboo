@@ -80,4 +80,15 @@ public class MealController {
     public void del() {
         this.mealHandler.del();
     }
+
+    @RequestMapping("/Meal/getIng")
+    public ArrayList<String> getIng(@RequestParam(value = "userId") String userId,
+                                    @RequestParam(value = "mealId") String mealId) throws IOException, IllegalAccessException {
+        return mealHandler.getIngredients(mealId, userId);
+    }
+
+    @RequestMapping("/Meal/getIns")
+    public ArrayList<String> getIng(@RequestParam(value = "mealId") String mealId) throws IOException, IllegalAccessException {
+        return mealHandler.getInstructions(mealId);
+    }
 }
