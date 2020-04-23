@@ -31,6 +31,8 @@ import NotifSettings from './src/NotifSettings';
 import MealRecommend from './src/MealRecommend';
 import RecommendedMealsList from './src/RecommendedMealsList';
 import RecoverAccount from './src/RecoverAccount';
+import EnterDietaryRestrictions from './src/EnterDietaryRestrictions';
+import EditDietaryRestrictions from './src/EditDietaryRestrictions';
 
 const Stack = createStackNavigator();
 
@@ -72,8 +74,18 @@ function App() {
           headerShown={'false'}
         />
         <Stack.Screen
+          name="EnterDietaryRestrictions"
+          component={EnterDietaryRestrictions}
+          headerShown={'false'}
+        />
+        <Stack.Screen
           name="HealthProfile"
           component={HealthProfile}
+          headerShown={'false'}
+        />
+        <Stack.Screen
+          name="EditDietaryRestrictions"
+          component={EditDietaryRestrictions}
           headerShown={'false'}
         />
         <Stack.Screen

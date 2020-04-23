@@ -108,7 +108,7 @@ export default class EnterCharacteristics extends React.Component {
           }
         } else {
           //going to home screen
-          this.props.navigation.replace('HomeScreen', {
+          this.props.navigation.replace('EnterDietaryRestrictions', {
             userId: userId,
           });
         }

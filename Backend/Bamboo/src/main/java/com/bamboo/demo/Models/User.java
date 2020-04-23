@@ -39,14 +39,6 @@ public class User {
         this.diet = diet;
     }
 
-    public ArrayList<String> getAllergies() {
-        return allergies;
-    }
-
-    public void setAllergies(ArrayList<String> allergies) {
-        this.allergies = allergies;
-    }
-
     public Lifestyle getLifestyle() {
         return lifestyle;
     }
@@ -74,7 +66,6 @@ public class User {
     public void setDailyInputReminder(boolean dailyInputReminder) {
         this.dailyInputReminder = dailyInputReminder;
     }
-
 
     public boolean isMetric() {
         return isMetric;
@@ -107,7 +98,6 @@ public class User {
         this.goalIds = new ArrayList<>();
         this.favMeals = new ArrayList<>();
         this.favExerciseRoutine = new ArrayList<>();
-
         //initialize all notifications to be true
         this.dailyInputReminder = true;
         this.nutrientLimits = new HashMap<>();
@@ -212,5 +202,13 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(email, encryptedPassword);
+    }
+
+    public ArrayList<String> getAllergies() {
+        return allergies;
+    }
+
+    public void setAllergies(ArrayList<String> allergies) {
+        this.allergies = allergies;
     }
 }
