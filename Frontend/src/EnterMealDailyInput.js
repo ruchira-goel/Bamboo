@@ -291,83 +291,85 @@ class EnterMealDailyInput extends React.Component {
       );
     };
     return (
-      <Scrollview>
-      <View style={styles.container}>
-        <Text style={styles.heading}>What did you eat?</Text>
-        <View style={styles.rowContainer}>
-          <View style={styles.leftContainer}>
-            <Text style={styles.text}>Date:</Text>
+      <ScrollView>
+        <View style={styles.container}>
+          <Text style={styles.heading}>What did you eat?</Text>
+          <View style={styles.rowContainer}>
+            <View style={styles.leftContainer}>
+              <Text style={styles.text}>Date:</Text>
+            </View>
+            <View style={styles.rightContainer}>
+              <DatePicker />
+            </View>
           </View>
-          <View style={styles.rightContainer}>
-            <DatePicker />
+          <View style={styles.rowContainer}>
+            <Text style={styles.text}>Input Type:</Text>
+            <View style={styles.rightContainer}>
+              <Picker
+                style={styles.picker}
+                itemStyle={{fontSize: 16}}
+                selectedValue={this.state.pickerSelection}
+                onValueChange={(itemValue, itemIndex) =>
+                  this.setState({pickerSelection: itemValue})
+                }>
+                <Picker.Item
+                  label="Enter link to recipe"
+                  value="Enter link to recipe"
+                />
+                <Picker.Item
+                  label="Enter my own recipe"
+                  value="Enter your own recipe"
+                />
+                <Picker.Item
+                  label="Enter a meal name"
+                  value="Enter meal name"
+                />
+              </Picker>
+            </View>
+          </View>
+          <View
+            style={{
+              width: '100%',
+              paddingLeft: 50,
+              paddingRight: 50,
+            }}>
+            {this.renderTextInput()}
+          </View>
+          <View>
+            <TouchableOpacity
+              onPress={() => {
+                const {route} = this.props;
+                const {userId} = route.params;
+                this.setState({userId: userId});
+                // console.log('From meal i/p page: ' + userId);
+                this.props.navigation.navigate('FavMeals', {
+                  userId: userId,
+                  date: this.state.formattedDate,
+                });
+              }}
+              style={styles.linkStyle}>
+              <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
+                Or select a meal from your favorites!
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              width: '100%',
+              paddingHorizontal: 50,
+              marginTop: 50,
+            }}>
+            <TouchableOpacity onPress={this.addMeal} style={styles.primaryBtn}>
+              <Text>Save Meal</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={this.props.navigation.goBack}
+              style={styles.secondaryBtn}>
+              <Text>Done</Text>
+            </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.rowContainer}>
-          <Text style={styles.text}>Input Type:</Text>
-          <View style={styles.rightContainer}>
-            <Picker
-              style={styles.picker}
-              itemStyle={{fontSize: 16}}
-              selectedValue={this.state.pickerSelection}
-              onValueChange={(itemValue, itemIndex) =>
-                this.setState({pickerSelection: itemValue})
-              }>
-              <Picker.Item
-                label="Enter link to recipe"
-                value="Enter link to recipe"
-              />
-              <Picker.Item
-                label="Enter my own recipe"
-                value="Enter your own recipe"
-              />
-              <Picker.Item label="Enter a meal name" value="Enter meal name" />
-            </Picker>
-          </View>
-        </View>
-        <View
-          style={{
-            width: '100%',
-            paddingLeft: 50,
-            paddingRight: 50,
-          }}>
-          {this.renderTextInput()}
-        </View>
-        <View>
-          <TouchableOpacity
-            onPress={() => {
-              const {route} = this.props;
-              const {userId} = route.params;
-              this.setState({userId: userId});
-              // console.log('From meal i/p page: ' + userId);
-              this.props.navigation.navigate('FavMeals', {
-                userId: userId,
-                date: this.state.formattedDate,
-              });
-            }}
-            style={styles.linkStyle}>
-            <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
-              Or select a meal from your favorites!
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View
-          style={{
-            width: '100%',
-            paddingHorizontal: 50,
-            position: 'absolute',
-            top: Constants.DIMENSIONS.screenHeight - 180,
-          }}>
-          <TouchableOpacity onPress={this.addMeal} style={styles.primaryBtn}>
-            <Text>Save Meal</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={this.props.navigation.goBack}
-            style={styles.secondaryBtn}>
-            <Text>Done</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      </Scrollview>
+      </ScrollView>
     );
   }
 }

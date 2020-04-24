@@ -124,25 +124,23 @@ class ViewGoals extends Component {
     const {route} = this.props;
     const {userId} = route.params;
     return (
-      <View>
-        <ScrollView style={styles.container}>
+      <ScrollView>
+        <View style={styles.container}>
           <Text style={styles.heading}>
             Here are all the goals you've saved!
           </Text>
-          <View style={{alignSelf: 'center', width: '50%', marginBottom: 10}}>
-            <TouchableOpacity
-              style={styles.primaryBtn}
-              onPress={() =>
-                this.props.navigation.navigate('Root', {
-                  screen: 'SetGoal',
-                  params: {
-                    userId: userId,
-                  },
-                })
-              }>
-              <Text>Set a new goal</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            style={styles.primaryBtn}
+            onPress={() =>
+              this.props.navigation.navigate('Root', {
+                screen: 'SetGoal',
+                params: {
+                  userId: userId,
+                },
+              })
+            }>
+            <Text>Set a new goal</Text>
+          </TouchableOpacity>
           {this.state.goals.map((item, index) => (
             <TouchableOpacity
               key={item.id}
@@ -151,15 +149,17 @@ class ViewGoals extends Component {
               <View style={{flex: 1}}>
                 <Text style={styles.text}>{item.name}</Text>
               </View>
-              <View style={styles.rowView}>
+              <View style={styles.row}>
                 <TouchableOpacity onPress={() => this.edit(item)}>
                   <Image
+                    resizeMode={'contain'}
                     source={require('./img/edit.png')}
                     style={styles.imageIconStyle}
                   />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.deleteConfirm(item)}>
                   <Image
+                    resizeMode={'contain'}
                     source={require('./img/delete.png')}
                     style={styles.imageIconStyle}
                   />
@@ -167,29 +167,9 @@ class ViewGoals extends Component {
               </View>
             </TouchableOpacity>
           ))}
-          {/*<View style={styles.fabView}>*/}
-          {/*  <TouchableOpacity*/}
-          {/*    style={styles.floatingActionButton}*/}
-          {/*    onPress={() =>*/}
-          {/*      this.props.navigation.navigate('Root', {*/}
-          {/*        screen: 'SetGoal',*/}
-          {/*        params: {*/}
-          {/*          userId: this.props.userId,*/}
-          {/*        },*/}
-          {/*      })*/}
-          {/*    }>*/}
-          {/*    <Image*/}
-          {/*      source={require('./img/plus.png')}*/}
-          {/*      style={{*/}
-          {/*        width: 30,*/}
-          {/*        height: 30,*/}
-          {/*        resizeMode: 'contain',*/}
-          {/*      }}*/}
-          {/*    />*/}
-          {/*  </TouchableOpacity>*/}
-          {/*</View>*/}
-        </ScrollView>
-      </View>
+          <View style={{margin: 80}} />
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -211,51 +191,32 @@ export default function(props) {
 
 const styles = StyleSheet.create({
   container: {
-    // fontSize: 24,
-    // fontWeight: '500',
-    // marginBottom: 100,
-    // height: Constants.DIMENSIONS.screenHeight,
+    flex: 1,
+    alignItems: 'center',
   },
   rowContainer: {
+    // flex: 1,
     padding: 10,
-    height: 100,
-    marginTop: 3,
+    margin: 3,
     backgroundColor: '#fff',
+    borderWidth: 2,
+    borderColor: Constants.COLORS.accent.main,
     justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
   },
-  rowView: {
-    // position: 'absolute',
-    // right: 0,
+  row: {
     flexDirection: 'row',
   },
   heading: {
     marginHorizontal: '10%',
-    marginVertical: 12,
-    // textAlign: 'left',
+    marginVertical: 20,
+    textAlign: 'center',
     fontSize: 18,
-  },
-  fabView: {
-    position: 'absolute',
-    top: '10%',
-    right: 10,
-    flex: 1,
-  },
-  floatingActionButton: {
-    // borderWidth: 1,
-    // borderColor: 'rgba(0,0,0,0.2)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 60,
-    height: 60,
-    backgroundColor: Constants.COLORS.accent.main,
-    borderRadius: 100,
   },
   text: {
-    margin: 7,
     color: 'black',
-    fontSize: 18,
+    fontSize: 16,
     textAlign: 'center',
     justifyContent: 'center',
     textAlignVertical: 'center',
@@ -269,13 +230,13 @@ const styles = StyleSheet.create({
     width: 25,
   },
   primaryBtn: {
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     borderRadius: 60,
-    borderWidth: 2,
-    borderColor: Constants.COLORS.accent.main,
+    // borderWidth: 2,
+    backgroundColor: Constants.COLORS.accent.main,
     padding: 12,
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%',
+    marginBottom: 20,
   },
 });

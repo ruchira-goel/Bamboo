@@ -161,19 +161,19 @@ class FavMeals extends Component {
   render() {
     return (
       <ScrollView>
-        <View style={styles.heading}>
-          <Text style={styles.textheader}>
+        <View style={styles.container}>
+          <Text style={styles.heading}>
             Here are all your favorite meals!
           </Text>
           {this.state.meals.map((item, index) => (
             <TouchableOpacity
               key={item.id}
-              style={styles.rowcontainer}
+              style={styles.rowContainer}
               onPress={() => this.confirmAdd(item)}>
               <View style={{flex: 1}}>
                 <Text style={styles.text}>{item.name}</Text>
               </View>
-              <View style={styles.rowview}>
+              <View style={styles.row}>
                 <TouchableOpacity onPress={() => this.deleteConfirm(item)}>
                   <Image
                     source={require('./img/delete.png')}
@@ -198,35 +198,30 @@ export default function(props) {
 }
 
 const styles = StyleSheet.create({
-  heading: {
-    fontSize: 24,
-    fontWeight: '500',
+  container: {
     flex: 1,
-    marginTop: '10%',
   },
-  rowcontainer: {
+  rowContainer: {
     flex: 1,
     padding: 10,
-    height: 100,
-    marginTop: 3,
-    backgroundColor: COLORS.primaryColor,
+    margin: 3,
+    backgroundColor: '#fff',
+    borderWidth: 2,
+    borderColor: Constants.COLORS.accent.main,
     justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
   },
-  rowview: {
-    // position: 'absolute',
-    // right: 0,
+  row: {
     flexDirection: 'row',
   },
-  textheader: {
+  heading: {
     color: 'black',
     margin: '10%',
     textAlign: 'center',
-    fontSize: 24,
+    fontSize: 20,
   },
   text: {
-    margin: 7,
     color: 'black',
     fontSize: 18,
     textAlign: 'center',
@@ -234,10 +229,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   ImageIconStyle: {
-    marginTop: 10,
-    marginLeft: 10,
-    marginRight: 5,
-    marginBottom: 10,
+    margin: 10,
     height: 25,
     width: 25,
   },

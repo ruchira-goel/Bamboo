@@ -458,12 +458,11 @@ class ExerciseInput extends Component {
         </TouchableOpacity>
 
         <View
-          style={{
-            width: '100%',
-            paddingHorizontal: 50,
-            position: 'absolute',
-            top: Constants.DIMENSIONS.screenHeight - 180,
-          }}>
+            style={{
+              width: '100%',
+              paddingHorizontal: 50,
+              marginTop: 50,
+            }}>
           <TouchableOpacity
             style={styles.primaryBtn}
             onPress={this.addExercise}>
