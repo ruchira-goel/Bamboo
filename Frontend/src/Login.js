@@ -66,11 +66,15 @@ class Login extends React.Component {
         console.log(data);
         if (data.error) {
           //throwing error when login fails - wrong password / email not registered yet
-          if (data.message === "This email isn't registered yet") {
-            Alert.alert('Not registered', data.message, [{text: 'OK'}]);
-          } else if (data.message === 'You entered the wrong password!') {
-            Alert.alert('Incorrect password', data.message, [{text: 'OK'}]);
-          }
+          // if (data.message === "This email isn't registered yet") {
+          //   Alert.alert('Not registered', data.message, [{text: 'OK'}]);
+          // } else if (data.message === 'You entered the wrong password!') {
+          //   Alert.alert('Incorrect password', data.message, [{text: 'OK'}]);
+          // }
+          // generic error message
+          Alert.alert('Login Failed', 'Your email or password do not match.', [
+            {text: 'OK'},
+          ]);
         } else {
           //set up notifications
           this.notif.scheduleNotifications(data.userId);
