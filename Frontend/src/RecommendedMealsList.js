@@ -75,35 +75,37 @@ class RecommendedMealsList extends React.Component {
                     );
                     return;
                 } else {
-                    this.setState({ingredients: data})
-                }
-            });
-        fetch(
-            Platform.OS === 'android'
-                ? `${
-                    Constants.URL.android
-                }/Meal/getIns?mealId=${mealId}`
-                : `${Constants.URL.ios}/Meal/getIns?mealId=${mealId}`,
-        )
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                if (data.error) {
-                    Alert.alert(
-                        data.message,
-                        'Unable to find this meal',
-                        [{text: 'OK'}],
-                    );
-                    return;
-                } else {
-                    this.setState({instructions: data}, () => {
-                        this.props.navigation.navigate('Meal Instructions', {
-                            instructions: data,
-                            ingredients: this.state.ingredients
-                        })
+                    this.setState({ingredients: data}, () => {
+                        fetch(
+                            Platform.OS === 'android'
+                                ? `${
+                                    Constants.URL.android
+                                }/Meal/getIns?mealId=${mealId}`
+                                : `${Constants.URL.ios}/Meal/getIns?mealId=${mealId}`,
+                        )
+                            .then(res => res.json())
+                            .then(data => {
+                                console.log(data);
+                                if (data.error) {
+                                    Alert.alert(
+                                        data.message,
+                                        'Unable to find this meal',
+                                        [{text: 'OK'}],
+                                    );
+                                    return;
+                                } else {
+                                    this.setState({instructions: data}, () => {
+                                        this.props.navigation.navigate('Meal Instructions', {
+                                            instructions: data,
+                                            ingredients: this.state.ingredients
+                                        })
+                                    })
+                                }
+                            });
                     })
                 }
             });
+
     }
 
     renderNutrient = (nutrient, value) => {
