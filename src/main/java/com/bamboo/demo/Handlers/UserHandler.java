@@ -62,6 +62,17 @@ public class UserHandler {
         return userObj;
     }
 
+    public User changeUnit(String userId, boolean isMetric) throws IllegalAccessException {
+        Optional<User> user = this.userRepo.findByUserId(userId);
+        if (!user.isPresent()) {
+            throw new IllegalAccessException("There was an error locating your account");
+        }
+        User userObj = user.get();
+        userObj.setMetric(isMetric);
+        this.userRepo.save(userObj);
+        return userObj;
+    }
+
     public User addDailyInfo(String userId, DailyInfo dailyInfo) throws IllegalAccessException {
         Optional<User> user = this.userRepo.findByUserId(userId);
         if (!user.isPresent()) {
