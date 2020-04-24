@@ -23,7 +23,7 @@ class Settings extends Component {
       userId: '',
       dailyInput: '',
       goalStreak: '',
-      buttonValue: 'Edit',
+      isMetric: '',
     };
     this.notif = new NotifService(
       this.onRegister.bind(this),
@@ -36,7 +36,7 @@ class Settings extends Component {
     // const {route} = this.props;
     // console.log(route.params);
     // const {userId} = route.params;
-    const userId = '';
+    const userId = this.props.userId;
     this.setState({userId: userId});
     fetch(
       Platform.OS === 'android'
@@ -48,6 +48,7 @@ class Settings extends Component {
         this.setState({
           dailyInput: data.dailyInputReminder,
           goalStreak: data.goalStreakNotif,
+          isMetric: data.metric,
         });
       });
   }
@@ -69,27 +70,23 @@ class Settings extends Component {
 
   toggleDailyInputSwitch = value => {
     this.setState({dailyInput: value});
-    this.onSave();
+    this.onSave(value, this.state.goalStreak);
   };
 
   toggleGoalStreakSwitch = value => {
     this.setState({goalStreak: value});
-    this.onSave();
+    this.onSave(this.state.dailyInput, value);
   };
 
-  onSave = () => {
+  onSave = (dailyInput, goalStreak) => {
     fetch(
       Platform.OS === 'android'
         ? `${URL.android}/User/addNotifSettings?userId=${
             this.state.userId
-          }&dailyInput=${this.state.dailyInput}&goalStreak=${
-            this.state.goalStreak
-          }`
+          }&dailyInput=${dailyInput}&goalStreak=${goalStreak}`
         : `${URL.ios}/User/addNotifSettings?userId=${
             this.state.userId
-          }&dailyInput=${this.state.dailyInput}&goalStreak=${
-            this.state.goalStreak
-          }`,
+          }&dailyInput=${dailyInput}&goalStreak=${goalStreak}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -119,7 +116,7 @@ class Settings extends Component {
   delAccount = () => {
     console.log('here');
     const {route} = this.props;
-    const {userId} = route.params;
+    const {userId} = route.userId;
     console.log(userId);
     fetch(
       Platform.OS === 'android'
@@ -246,8 +243,9 @@ class Settings extends Component {
           style={[
             styles.selectBox,
             {
-              borderBottomWidth: 0,
-              borderRadius: 0,
+              borderTopLeftRadius: 0,
+              borderTopRightRadius: 0,
+              marginBottom: 20,
             },
           ]}>
           <View style={styles.leftContainer}>
@@ -265,26 +263,26 @@ class Settings extends Component {
             />
           </View>
         </TouchableOpacity>
-        <TouchableOpacity
-          disabled={true}
-          style={[
-            styles.selectBox,
-            {
-              borderTopLeftRadius: 0,
-              borderTopRightRadius: 0,
-              marginBottom: 20,
-            },
-          ]}>
-          <View style={styles.leftContainer}>
-            <Text style={styles.text}>TODO</Text>
-          </View>
-          <View style={styles.rightContainer}>
-            <Switch
-              // onValueChange={this.toggleSwitch}
-              value={true}
-            />
-          </View>
-        </TouchableOpacity>
+        {/*<TouchableOpacity*/}
+        {/*  disabled={true}*/}
+        {/*  style={[*/}
+        {/*    styles.selectBox,*/}
+        {/*    {*/}
+        {/*      borderTopLeftRadius: 0,*/}
+        {/*      borderTopRightRadius: 0,*/}
+        {/*      marginBottom: 20,*/}
+        {/*    },*/}
+        {/*  ]}>*/}
+        {/*  <View style={styles.leftContainer}>*/}
+        {/*    <Text style={styles.text}>TODO</Text>*/}
+        {/*  </View>*/}
+        {/*  <View style={styles.rightContainer}>*/}
+        {/*    <Switch*/}
+        {/*      // onValueChange={this.toggleSwitch}*/}
+        {/*      value={true}*/}
+        {/*    />*/}
+        {/*  </View>*/}
+        {/*</TouchableOpacity>*/}
         <Text style={styles.heading}>Danger Zone</Text>
         <TouchableOpacity
           onPress={this.delAccountConfirm}
