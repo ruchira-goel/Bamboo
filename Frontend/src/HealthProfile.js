@@ -300,11 +300,28 @@ class HealthProfile extends Component {
       <View style={styles.container}>
         <View style={styles.contentContainer}>
           {/*<Text style={styles.header}>[name]'s Health Profile</Text>*/}
+          <TouchableOpacity
+              disabled={this.state.editable}
+              style={[
+                styles.primaryBtn,
+                {
+                  backgroundColor: this.state.editable
+                      ? 'silver'
+                      : Constants.COLORS.accent.main,
+                },
+              ]}
+              onPress={() =>
+                  this.props.navigation.navigate('EditDietaryRestrictions', {
+                    userId: userId,
+                  })
+              }>
+            <Text style={styles.btnText}>View Dietary Profile</Text>
+          </TouchableOpacity>
           <ScrollView>
             <View>
               {/*<View>{this.renderHeight()}</View>*/}
               {isMetric ? (
-                <View style={[styles.rowContainer, this.state.padding]}>
+                <View style={[styles.rowContainer, this.state.padding, {marginTop: 0,}]}>
                   <Text style={[styles.text]}>Height</Text>
                   <TextInput
                     onBlur={() => this.onBlur('a')}
@@ -471,17 +488,6 @@ class HealthProfile extends Component {
                 </Text>
               )}
             </View>
-            <View style={[this.state.padding]}>
-              <TouchableOpacity
-                style={styles.primaryBtn}
-                onPress={() =>
-                  this.props.navigation.navigate('EditDietaryRestrictions', {
-                    userId: userId,
-                  })
-                }>
-                <Text>View Dietary Profile</Text>
-              </TouchableOpacity>
-            </View>
             {/*<View style={styles.rowContainer}>*/}
             {/*  <Text style={styles.text}>*/}
             {/*    {this.state.isMetric ? 'Metric' : 'Imperial'}*/}
@@ -494,9 +500,10 @@ class HealthProfile extends Component {
             {/*</View>*/}
           </ScrollView>
         </View>
-        <TouchableOpacity onPress={this.onPress} style={styles.btnStyle}>
+        <TouchableOpacity onPress={this.onPress} style={[styles.btnStyle, {backgroundColor: this.state.editable ? Constants.COLORS.primary.main : '#E0E0E0'}]}>
           <Text style={styles.btnText}>{this.state.buttonValue}</Text>
         </TouchableOpacity>
+
       </View>
     );
   }
@@ -518,18 +525,12 @@ const styles = StyleSheet.create({
     backgroundColor: Constants.COLORS.background,
     justifyContent: 'space-evenly',
   },
-  header: {
-    marginTop: 20,
-    marginBottom: 20,
-    fontSize: 18,
-    textAlign: 'center',
-    margin: 10,
-  },
   btnStyle: {
     backgroundColor: Constants.COLORS.primary.main,
     borderRadius: 4,
+    borderWidth: 2,
     borderColor: Constants.COLORS.primary.main,
-    padding: 12,
+    padding: 10,
     justifyContent: 'center',
     alignItems: 'center',
     margin: 20,
@@ -565,12 +566,14 @@ const styles = StyleSheet.create({
   },
   primaryBtn: {
     // backgroundColor: '#fff',
-    borderRadius: 60,
+    borderRadius: 4,
     // borderWidth: 2,
     backgroundColor: Constants.COLORS.accent.main,
     padding: 12,
     justifyContent: 'center',
     alignItems: 'center',
     margin: 20,
+    marginLeft: 40,
+    marginRight: 40,
   },
 });
