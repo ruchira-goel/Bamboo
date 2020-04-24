@@ -55,11 +55,11 @@ public class UserController {
         return userHandler.getGoalStreakNotificationMessage(userId);
     }
 
-//    @RequestMapping("/User/changeUnit")
-//    public String getGoalStreakNotificationMessage(@RequestParam(value = "userId") String userId,
-//                                                   @RequestParam(value = "isMetric") boolean isMetric) {
-//        return userHandler.changeUnit(userId, isMetric);
-//    }
+    @RequestMapping("/User/changeUnit")
+    public User getGoalStreakNotificationMessage(@RequestParam(value = "userId") String userId,
+                                                   @RequestParam(value = "isMetric") boolean isMetric) throws IllegalAccessException {
+        return userHandler.changeUnit(userId, isMetric);
+    }
 
     @RequestMapping("/User/hasGoals")
     public boolean hasGoals (@RequestParam(value = "userId") String userId) {
