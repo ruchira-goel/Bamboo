@@ -262,7 +262,7 @@ class HealthProfile extends Component {
     } else if (sex === 'FEMALE') {
       initialRadio = 1;
     }
-    let initialLifestyle = 4;
+    let initialLifestyle = 3;
     switch (lifestyle) {
       case 'SEDENTARY':
         initialLifestyle = 0;
@@ -287,7 +287,7 @@ class HealthProfile extends Component {
       {label: 'low active', value: 'LOW'},
       {label: 'active', value: 'MODERATE'},
       {label: 'extremely active', value: 'EXTREME'},
-      {label: 'unspecified', value: 'UNSPECIFIED'},
+      //{label: 'unspecified', value: 'UNSPECIFIED'},
     ];
     fetch(
       Platform.OS === 'android'
