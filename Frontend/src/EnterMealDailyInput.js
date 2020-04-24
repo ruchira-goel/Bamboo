@@ -291,7 +291,7 @@ class EnterMealDailyInput extends React.Component {
       );
     };
     return (
-      <Scrollview>
+      <ScrollView>
       <View style={styles.container}>
         <Text style={styles.heading}>What did you eat?</Text>
         <View style={styles.rowContainer}>
@@ -367,7 +367,7 @@ class EnterMealDailyInput extends React.Component {
           </TouchableOpacity>
         </View>
       </View>
-      </Scrollview>
+      </ScrollView>
     );
   }
 }
