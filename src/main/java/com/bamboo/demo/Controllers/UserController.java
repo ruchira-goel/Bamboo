@@ -103,14 +103,17 @@ public class UserController {
                 lStyle = Lifestyle.SEDENTARY;
                 break;
             case "Moderate":
+            case "Moderately Active":
             case "MODERATE":
                 lStyle = Lifestyle.MODERATE;
                 break;
             case "Extreme":
+            case "Extremely Active":
             case "EXTREME":
                 lStyle = Lifestyle.EXTREME;
                 break;
             case "Low":
+            case "Low Active":
             case "LOW":
                 lStyle = Lifestyle.LOW;
                 break;
