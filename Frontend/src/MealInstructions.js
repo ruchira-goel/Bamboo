@@ -28,13 +28,12 @@ class MealInstructions extends React.Component {
         const {route} = this.props;
         const {ingredients} = route.params;
         const {instructions} = route.params;
-        console.log(ingredients)
+        console.log(ingredients);
         return (
             <View style = {{flex: 1}}>
                 <SafeAreaView>
                     <ScrollView>
-                        <Text style={{}}>Ingredients:{'\n'}</Text>
-
+                        <Text style={{fontSize: 16}}>Ingredients:{'\n'}</Text>
                         <FlatList
                             data={ingredients}
                              scrollEnabled={false}
@@ -50,13 +49,13 @@ class MealInstructions extends React.Component {
                                         backgroundColor: 'darkseagreen',
                                         width: '60%'
                                     }}>
-                                    <Text style={{textAlign: 'center'}}>{item}</Text>
+                                    <Text style={{textAlign: 'center', fontSize: 16}}>{item}</Text>
                                 </View>
                                 <View style={{padding: '2%'}} />
                             </View>
                             )}
                         />
-                        <Text style={{alignContent: 'center'}}>{'\n'}Instructions:</Text>
+                        <Text style={{alignContent: 'center', fontSize: 16}}>{'\n'}Instructions:{'\n'}</Text>
 
                     <FlatList
                     data={instructions}
@@ -67,11 +66,11 @@ class MealInstructions extends React.Component {
                             <View
                                 style={{
                                     flex: 1,
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
+                                    //justifyContent: 'center',
+                                    //alignItems: 'center',
                                     //backgroundColor: 'darkseagreen',
                                 }}>
-                                <Text>{item}</Text>
+                                <Text style={{fontSize: 16}}>{item}</Text>
                             </View>
                             <View style={{padding: '2%'}} />
                         </View>
