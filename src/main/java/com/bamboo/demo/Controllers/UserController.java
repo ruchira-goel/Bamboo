@@ -227,4 +227,17 @@ public class UserController {
     public ArrayList<String> getExerciseRoutine(@RequestParam(value = "userId") String userId) {
         return userHandler.getExerciseRoutine(userId);
     }
+    
+    
+    @RequestMapping("/User/saveDietaryRestrictions")
+    public boolean saveDietaryRestrictions(@RequestParam(value = "userId") String userId,
+                                           @RequestParam(value = "allergies") ArrayList<String> allergies,
+                                           @RequestParam(value = "diet") String diet) {
+        return userHandler.saveDietaryRestrictions(userId, allergies, diet);
+    }
+
+    @RequestMapping("/User/getDietaryRestrictions")
+    public User getDietaryRestrictions(@RequestParam(value = "userId") String userId) throws IllegalAccessException {
+        return userHandler.getDietaryRestrictions(userId);
+    }
 }
