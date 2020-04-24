@@ -2,7 +2,6 @@ import PushNotification from 'react-native-push-notification';
 import {Alert, Platform} from 'react-native';
 import URL from './url';
 
-
 import * as Constants from './Constants';
 
 export default class NotifService {
@@ -92,6 +91,26 @@ export default class NotifService {
           );
         } else {
           if (data.dailyInputReminder) {
+            //check if the user has entered information today:
+            let date = new Date();
+            let formattedDate =
+              `${new Date().getDate()}/` +
+              (new Date().getMonth() + 1 < 10 ? '0' : '') +
+              `${new Date().getMonth() + 1}/${new Date().getFullYear()}`;
+            console.log('the formatted date is ' + formattedDate);
+
+            fetch(
+              Platform.OS === 'android'
+                ? `${URL.android}/User/hasDailyInfo?userId=${userId}&date=${formattedDate}`
+                : `${URL.ios}/User/hasDailyInfo?userId=${userId}&date=${formattedDate}`,
+            )
+              .then(res => res.json())
+              .then(hasDailyInfo => {
+                console.log('the has daily info is ' + hasDailyInfo);
+                if (hasDailyInfo.toString() === 'false') {
+                  this.scheduleGoalStreakNotification(userId);
+                }
+              });
             this.scheduleDailyInputReminder();
           }
           if (data.goalStreakNotif) {
@@ -103,6 +122,7 @@ export default class NotifService {
             )
               .then(res => res.json())
               .then(hasGoals => {
+                console.log('the has goals is ' + hasGoals);
                 if (hasGoals.toString() === 'true') {
                   this.scheduleGoalStreakNotification(userId);
                 }
@@ -111,8 +131,6 @@ export default class NotifService {
         }
       });
   }
-
-
 
   scheduleGoalStreakNotification(userId) {
     let time = new Date();
@@ -125,7 +143,9 @@ export default class NotifService {
     let message = '';
     fetch(
       Platform.OS === 'android'
-        ? `${URL.android}/User/getGoalStreakNotificationMessage?userId=${userId}`
+        ? `${
+            URL.android
+          }/User/getGoalStreakNotificationMessage?userId=${userId}`
         : `${URL.ios}/User/getGoalStreakNotificationMessage?userId=${userId}`,
     )
       .then(res => res.json())
