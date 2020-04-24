@@ -56,7 +56,7 @@ public class UserController {
     }
 
     @RequestMapping("/User/changeUnit")
-    public String getGoalStreakNotificationMessage(@RequestParam(value = "userId") String userId
+    public String getGoalStreakNotificationMessage(@RequestParam(value = "userId") String userId,
                                                    @RequestParam(value = "isMetric") boolean isMetric) {
         return userHandler.changeUnit(userId, isMetric);
     }
