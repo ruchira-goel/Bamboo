@@ -176,14 +176,14 @@ function ProfileScreen({navigation}) {
 }
 
 function DietaryRestrictionsScreen({navigation}) {
-  const nav = useNavigation();
-  const {userId} = nav.dangerouslyGetState().routes[0].params.params;
-  console.log(userId);
-  console.log(nav.dangerouslyGetState().routes[0].params.params);
+  //const nav = useNavigation();
+  //const {userId} = nav.dangerouslyGetState().routes[0].params.params;
+  //console.log(userId);
+  //console.log(nav.dangerouslyGetState().routes[0].params.params);
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
       <MenuHeader screenName={'Dietary Profile'} />
-      <EditDietaryRestrictions userId={userId} />
+      <EditDietaryRestrictions />
     </View>
   );
 }

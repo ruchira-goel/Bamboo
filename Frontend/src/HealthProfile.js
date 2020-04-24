@@ -475,11 +475,8 @@ class HealthProfile extends Component {
               <TouchableOpacity
                 style={styles.primaryBtn}
                 onPress={() =>
-                  this.props.navigation.navigate('Root', {
-                    screen: 'EditDietaryRestrictions',
-                    params: {
-                      userId: userId,
-                    },
+                  this.props.navigation.navigate('EditDietaryRestrictions', {
+                    userId: userId,
                   })
                 }>
                 <Text>View Dietary Profile</Text>
