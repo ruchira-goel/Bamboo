@@ -12,12 +12,13 @@ import {
 
 
 import * as Constants from './Constants';
+import {useNavigation, useRoute} from "@react-navigation/native";
 
 // TODO: Display different Image and message depending on how much of the goal is achieved
 // TODO: Fetch amount corresponding to the goal
 // TODO: Fetch meal/exercises corresponding to the goal
 
-export default class TrackProgress extends React.Component {
+class TrackProgress extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -101,7 +102,7 @@ export default class TrackProgress extends React.Component {
 
   render() {
     return (
-      <View style={styles.heading}>
+      <View style={styles.container}>
         <Text style={styles.title}>{this.state.goalProgress}%</Text>
         {/*<View style={styles.container}>*/}
         {/*  <Image*/}
@@ -114,62 +115,47 @@ export default class TrackProgress extends React.Component {
             ? 'You did it! Keep up the good work :)'
             : "You're almost there, keep it up!"}
         </Text>
-        <View style={{padding: '4%'}} />
         <Text style={styles.regText}>Goal: {this.state.goalName}.</Text>
-        <View style={{padding: '2%'}} />
-        <Text style={styles.title} />
       </View>
     );
   }
 }
 
+export default function(props) {
+  const navigation = useNavigation();
+  const route = useRoute();
+  return <TrackProgress {...props} navigation={navigation} route={route} />;
+}
+
 const styles = StyleSheet.create({
-  heading: {
-    fontSize: 24,
-    fontWeight: '500',
-    flex: 1,
-    marginTop: '7%',
-  },
   title: {
-    margin: 12,
+    marginVertical: 20,
+    paddingTop: 20,
     fontSize: 50,
     fontWeight: 'bold',
     textAlign: 'center',
     textDecorationColor: 'gray',
+    borderTopWidth: 0.5,
   },
   container: {
-    // flex: 1,
-    //width: '40%',
-    //height: '20%',
-    alignItems: 'center',
-    alignContent: 'center',
-    //backgroundColor: 'blue',
-    //marginBottom: '70%',
-    //marginLeft: '30%',
+    flex: 1,
+    justifyContent: 'center',
   },
   fieldText: {
     fontSize: 16,
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
+    paddingBottom: 20,
     borderBottomWidth: 0.5,
   },
   regText: {
     fontSize: 20,
-    padding: 15,
+    padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
     borderBottomWidth: 0.5,
-  },
-  alignLeftView: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
-  linkStyle: {
-    marginBottom: '70%',
-    padding: 15,
   },
   ImageIconStyle: {
     justifyContent: 'center',
@@ -177,5 +163,4 @@ const styles = StyleSheet.create({
     width: 100,
     alignItems: 'center',
   },
-  /*textalign for the text to be in the center for "bamboo."*/
 });

@@ -7,6 +7,7 @@ import {
   TextInput,
   Alert,
   Platform,
+  ScrollView,
 } from 'react-native';
 import {Dropdown} from 'react-native-material-dropdown';
 import * as Constants from './Constants';
@@ -159,6 +160,7 @@ class SetGoal extends React.Component {
     ];
     const {mealOpts, exOpts} = this.state;
     return (
+      <ScrollView>
       <View style={styles.container}>
         <Text style={styles.title}>Select the type of goal:</Text>
         <View style={{flexDirection: 'row', justifyContent: 'center'}}>
@@ -258,6 +260,7 @@ class SetGoal extends React.Component {
           </TouchableOpacity>
         </View>
       </View>
+      </ScrollView>
     );
   }
 }
@@ -281,12 +284,6 @@ const styles = StyleSheet.create({
   title: {
     margin: 20,
     fontSize: 18,
-  },
-  fieldText: {
-    fontSize: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: '25%',
   },
   textInput: {
     width: Constants.DIMENSIONS.screenWidth * 0.5,

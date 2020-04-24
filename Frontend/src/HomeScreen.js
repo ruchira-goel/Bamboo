@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Platform,
+  ScrollView,
 } from 'react-native';
 
 import * as Constants from './Constants';
@@ -57,6 +58,7 @@ export default class HomeScreen extends React.Component {
     const {userId} = route.params;
     console.log('User ID: ', this.props.userId);
     return (
+      <ScrollView>
       <View style={styles.heading}>
         <TouchableOpacity
           onPress={() =>
@@ -148,6 +150,7 @@ export default class HomeScreen extends React.Component {
           <Text>Diet Graphs</Text>
         </TouchableOpacity>
       </View>
+      </ScrollView>
     );
   }
 }

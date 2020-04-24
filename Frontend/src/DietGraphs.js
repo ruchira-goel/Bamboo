@@ -72,6 +72,21 @@ class DietGraphs extends Component {
           <Text>Loading...</Text>
         </View>
       );
+    } else if (
+      this.state.caloriesGraphData[0].calories === 0 &&
+      this.state.caloriesGraphData[1].calories === 0 &&
+      this.state.caloriesGraphData[2].calories === 0 &&
+      this.state.caloriesGraphData[3].calories === 0 &&
+      this.state.caloriesGraphData[4].calories === 0 &&
+      this.state.caloriesGraphData[5].calories === 0 &&
+      this.state.caloriesGraphData[6].calories === 0
+    ) {
+      return (
+        <View style={styles.container}>
+          <Text>Looks like you have no meal data :(</Text>
+          <Text>Try adding a meal from the home screen.</Text>
+        </View>
+      );
     }
     return (
       <View style={styles.container}>

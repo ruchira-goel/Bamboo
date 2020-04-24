@@ -8,6 +8,7 @@ import {
   TextInput,
   Alert,
   Platform,
+  ScrollView,
 } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import * as Constants from './Constants';
@@ -290,6 +291,7 @@ class EnterMealDailyInput extends React.Component {
       );
     };
     return (
+      <Scrollview>
       <View style={styles.container}>
         <Text style={styles.heading}>What did you eat?</Text>
         <View style={styles.rowContainer}>
@@ -365,6 +367,7 @@ class EnterMealDailyInput extends React.Component {
           </TouchableOpacity>
         </View>
       </View>
+      </Scrollview>
     );
   }
 }

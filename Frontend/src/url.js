@@ -1,5 +1,5 @@
 const URL = {
-  android: '${Constants.URL.android}',
+  android: 'http://bamboo-307.herokuapp.com',
   ios: 'http://bamboo-307.herokuapp.com',
 };
 
