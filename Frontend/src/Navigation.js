@@ -182,7 +182,7 @@ function DietaryRestrictionsScreen({navigation}) {
   //console.log(nav.dangerouslyGetState().routes[0].params.params);
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
-      <MenuHeader screenName={'Dietary Profile'} />
+      <StackHeader screenName={'Dietary Profile'} />
       <EditDietaryRestrictions />
     </View>
   );
