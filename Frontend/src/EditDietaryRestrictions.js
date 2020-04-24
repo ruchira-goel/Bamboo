@@ -112,7 +112,7 @@ class EditDietaryRestrictions extends Component {
     let {allergies, diet} = this.state;
     const {route} = this.props;
     const {userId} = route.params;
-    console.log('In onsave');
+    console.log('In on save');
     fetch(
       Platform.OS === 'android'
         ? `${
@@ -170,7 +170,7 @@ class EditDietaryRestrictions extends Component {
         ? `${
             Constants.URL.android
           }/User/getDietaryRestrictions?userId=${userId}`
-        : `${Constants.URL.ios}/User/getDietaryRetsrictions?userId=${userId}`,
+        : `${Constants.URL.ios}/User/getDietaryRestrictions?userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {});
@@ -251,12 +251,8 @@ class EditDietaryRestrictions extends Component {
               />
             </View>
             <View style={{padding: '5%'}} />
-            <TouchableOpacity
-              style={BUTTONS.primaryButton}
-              onPress={this.onPress}>
-              <Text style={BUTTONS.primaryButtonText}>
-                {this.state.buttonValue}
-              </Text>
+            <TouchableOpacity onPress={this.onPress} style={styles.btnStyle}>
+              <Text style={styles.btnText}>{this.state.buttonValue}</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -299,12 +295,8 @@ class EditDietaryRestrictions extends Component {
               </View>
             </ScrollView>
           </View>
-          <TouchableOpacity
-            style={BUTTONS.primaryButton}
-            onPress={this.onPress}>
-            <Text style={BUTTONS.primaryButtonText}>
-              {this.state.buttonValue}
-            </Text>
+          <TouchableOpacity onPress={this.onPress} style={styles.btnStyle}>
+            <Text style={styles.btnText}>{this.state.buttonValue}</Text>
           </TouchableOpacity>
         </View>
       );
@@ -324,6 +316,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 45,
+  },
+  btnStyle: {
+    backgroundColor: Constants.COLORS.primary.main,
+    borderRadius: 4,
+    borderColor: Constants.COLORS.primary.main,
+    padding: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 20,
+    marginLeft: 40,
+    marginRight: 40,
+  },
+  btnText: {
+    fontSize: 16,
   },
   contentContainer: {
     flex: 1,
