@@ -245,8 +245,12 @@ export default class ExerciseInput extends Component {
 
     fetch(
       Platform.OS === 'android'
-        ? `${URL.android}/Activity/saveActivity?&userId=${userId}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`
-        : `${URL.ios}/Activity/saveActivity?&userId=${userId}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`,
+        ? `${
+            URL.android
+          }/Activity/saveActivity?&userId=${userId}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`
+        : `${
+            URL.ios
+          }/Activity/saveActivity?&userId=${userId}&activityName=${activity}&time=${timeInMinutes}&distance=${distance}&date=${date}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -273,8 +277,12 @@ export default class ExerciseInput extends Component {
   addToFavorites = (activityId, userId) => {
     fetch(
       Platform.OS === 'android'
-        ? `${URL.android}/Activity/addToFavorites?activityId=${activityId}&userId=${userId}`
-        : `${URL.ios}/Activity/addToFavorites?activityId=${activityId}&userId=${userId}`,
+        ? `${
+            URL.android
+          }/Activity/addToFavorites?activityId=${activityId}&userId=${userId}`
+        : `${
+            URL.ios
+          }/Activity/addToFavorites?activityId=${activityId}&userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {
