@@ -233,9 +233,14 @@ class Settings extends Component {
             </Text>
           </View>
           <View style={styles.rightContainer}>
+            {/*<Switch*/}
+            {/*  // onValueChange={this.toggleSwitch}*/}
+            {/*  value={true}*/}
+            {/*/>*/}
             <Switch
-              // onValueChange={this.toggleSwitch}
-              value={true}
+              style={styles.switch}
+              onValueChange={this.toggleMetricSwitch}
+              value={this.state.isMetric}
             />
           </View>
         </TouchableOpacity>
