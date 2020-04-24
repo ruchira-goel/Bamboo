@@ -105,13 +105,14 @@ public class MealHandler {
 //
 //            BufferedReader input = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 //            JSONObject nutritionJson = new JSONObject(input.readLine());
+            name = name.replaceAll(" ", "+");
 
             CloseableHttpClient httpClient = HttpClients.createDefault();
             HttpGet httpGet = new HttpGet("https://api.spoonacular.com/recipes/guessNutrition?apiKey=5ccdaac983d344338fe187bb2b7e5501&title=" + name);
             CloseableHttpResponse response = httpClient.execute(httpGet);
             JSONObject nutritionJson = new JSONObject(EntityUtils.toString(response.getEntity()));
 
-
+            name = name.replaceAll("\\+", " ");
             double fat = Double.parseDouble(((JSONObject) nutritionJson.get("fat")).get("value").toString());
             double protein = Double.parseDouble(((JSONObject) nutritionJson.get("protein")).get("value").toString());
             double carb = Double.parseDouble(((JSONObject) nutritionJson.get("carbs")).get("value").toString());
@@ -351,7 +352,7 @@ public class MealHandler {
                 units = "us";
             }
             JSONObject amount = ingredient.getJSONObject("amount").getJSONObject(units);
-            String amountWithUnitAndName = amount.get("value") + " " + amount.get("unit") + " "+ingredient.get("name");
+            String amountWithUnitAndName = amount.get("value") + " " + amount.get("unit") + " " + ingredient.get("name");
             ingredients.add(amountWithUnitAndName);
         }
         return ingredients;
