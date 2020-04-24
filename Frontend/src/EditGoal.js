@@ -7,6 +7,7 @@ import {
   TextInput,
   Alert,
   Platform,
+  ScrollView,
 } from 'react-native';
 import {Dropdown} from 'react-native-material-dropdown';
 import * as Constants from './Constants';
@@ -229,75 +230,76 @@ class EditGoal extends React.Component {
     ];
     const {mealOpts, exOpts} = this.state;
     return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Goal Type:</Text>
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <TouchableOpacity
-            disabled={true}
-            style={
-              styles.typeButton}>
-            <Text style={styles.text}>{this.state.isMealGoal ? 'Meal' : 'Exercise'}</Text>
-          </TouchableOpacity>
-        </View>
-        <View>
-          <Text style={[styles.text, styles.sentence]}>
-            Current Goal: {this.state.limitType} {this.state.amount} of{' '}
-            {this.state.trackedItem} per {this.state.duration}.
-          </Text>
-        </View>
-        <View style={styles.dropdown}>
-          <Dropdown
-            label="Limit type"
-            data={limitOpts}
-            defaultValue={this.state.limitType}
-            onChangeText={value => {
-              this.setState({limitType: value});
-            }}
-            selectedItemColor="#3eb245"
-            containerStyle={{width: '50%'}}
-          />
-        </View>
-        <View>
-          <TextInput
+      <ScrollView>
+        <View style={styles.container}>
+          <Text style={styles.title}>Goal Type:</Text>
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <TouchableOpacity disabled={true} style={styles.typeButton}>
+              <Text style={styles.text}>
+                {this.state.isMealGoal ? 'Meal' : 'Exercise'}
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <Text style={[styles.text, styles.sentence]}>
+              Current Goal: {this.state.limitType} {this.state.amount} of{' '}
+              {this.state.trackedItem} per {this.state.duration}.
+            </Text>
+          </View>
+          <View style={styles.dropdown}>
+            <Dropdown
+              label="Limit type"
+              data={limitOpts}
+              defaultValue={this.state.limitType}
+              onChangeText={value => {
+                this.setState({limitType: value});
+              }}
+              selectedItemColor="#3eb245"
+              containerStyle={{width: '50%'}}
+            />
+          </View>
+          <View>
+            <TextInput
               style={[styles.textInput]}
-            keyboardType={'numeric'}
-            placeholder="Enter amount"
-            defaultValue={this.state.amount.toString()}
-            onChangeText={amount => this.setState({amount})}
-          />
+              keyboardType={'numeric'}
+              placeholder="Enter amount"
+              defaultValue={this.state.amount.toString()}
+              onChangeText={amount => this.setState({amount})}
+            />
+          </View>
+          <View style={styles.dropdown}>
+            <Dropdown
+              label="Goal Options"
+              data={
+                this.state.isMealGoal ? this.state.mealOpts : this.state.exOpts
+              }
+              defaultValue={this.state.trackedItem}
+              onChangeText={value => {
+                this.setState({trackedItem: value});
+              }}
+              selectedItemColor="#3eb245"
+              containerStyle={{width: '50%'}}
+            />
+          </View>
+          <View style={styles.dropdown}>
+            <Dropdown
+              label="Duration type"
+              data={durationOpts}
+              defaultValue={this.state.duration}
+              onChangeText={value => {
+                this.setState({duration: value});
+              }}
+              selectedItemColor="#3eb245"
+              containerStyle={{width: '50%'}}
+            />
+          </View>
+          <View>
+            <TouchableOpacity onPress={this.submit} style={styles.primaryBtn}>
+              <Text style={styles.text}>Update Goal</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={styles.dropdown}>
-          <Dropdown
-            label="Goal Options"
-            data={
-              this.state.isMealGoal ? this.state.mealOpts : this.state.exOpts
-            }
-            defaultValue={this.state.trackedItem}
-            onChangeText={value => {
-              this.setState({trackedItem: value});
-            }}
-            selectedItemColor="#3eb245"
-            containerStyle={{width: '50%'}}
-          />
-        </View>
-        <View style={styles.dropdown}>
-          <Dropdown
-            label="Duration type"
-            data={durationOpts}
-            defaultValue={this.state.duration}
-            onChangeText={value => {
-              this.setState({duration: value});
-            }}
-            selectedItemColor="#3eb245"
-            containerStyle={{width: '50%'}}
-          />
-        </View>
-        <View>
-          <TouchableOpacity onPress={this.submit} style={styles.primaryBtn}>
-            <Text style={styles.text}>Update Goal</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      </ScrollView>
     );
   }
 }

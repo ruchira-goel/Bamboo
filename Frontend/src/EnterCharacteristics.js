@@ -8,6 +8,7 @@ import {
   Alert,
   TouchableOpacity,
   Platform,
+  ScrollView,
 } from 'react-native';
 import React from 'react';
 import * as Constants from './Constants';
@@ -170,69 +171,71 @@ class EnterCharacteristics extends React.Component {
 
   render() {
     return (
-      <View style={styles.fullContainer}>
-        <Text style={styles.heading}>My Information</Text>
+      <ScrollView>
+        <View style={styles.fullContainer}>
+          <Text style={styles.heading}>My Information</Text>
 
-        <View style={styles.flexRowContainer}>{this.renderHeight()}</View>
-        <View style={styles.flexRowContainer}>
-          <TextInput
-            onChangeText={weight => this.setState({weight})}
-            placeholder={'Enter Weight'}
-            keyboardType={'numeric'}
-            autoCorrect={false}
-            returnKeyType="done"
-            style={styles.input}
+          <View style={styles.flexRowContainer}>{this.renderHeight()}</View>
+          <View style={styles.flexRowContainer}>
+            <TextInput
+              onChangeText={weight => this.setState({weight})}
+              placeholder={'Enter Weight'}
+              keyboardType={'numeric'}
+              autoCorrect={false}
+              returnKeyType="done"
+              style={styles.input}
+            />
+            <Text>{this.state.switchValue ? ' lb' : ' kg'}</Text>
+          </View>
+
+          <View style={styles.flexRowContainer}>
+            <TextInput
+              onChangeText={age => this.setState({age})}
+              placeholder={'Enter Age'}
+              keyboardType={'numeric'}
+              autoCorrect={false}
+              returnKeyType="done"
+              style={styles.input}
+            />
+            <Text> years</Text>
+          </View>
+          <Dropdown
+            selectedItemColor={Constants.COLORS.primary.main}
+            label="Sex"
+            containerStyle={{width: '50%'}}
+            data={[{value: 'Female'}, {value: 'Male'}, {value: 'Other'}]}
+            onChangeText={value => {
+              this.setState({sex: value});
+            }}
           />
-          <Text>{this.state.switchValue ? ' lb' : ' kg'}</Text>
-        </View>
-
-        <View style={styles.flexRowContainer}>
-          <TextInput
-            onChangeText={age => this.setState({age})}
-            placeholder={'Enter Age'}
-            keyboardType={'numeric'}
-            autoCorrect={false}
-            returnKeyType="done"
-            style={styles.input}
+          <Dropdown
+            selectedItemColor={Constants.COLORS.primary.main}
+            label="Lifestyle"
+            data={[
+              {value: 'Sedentary'},
+              {value: 'Low Active'},
+              {value: 'Moderately Active'},
+              {value: 'Extremely Active'},
+            ]}
+            containerStyle={{width: '50%', marginBottom: 20}}
+            onChangeText={value => {
+              this.setState({lifestyle: value});
+            }}
           />
-          <Text> years</Text>
-        </View>
-        <Dropdown
-          selectedItemColor={Constants.COLORS.primary.main}
-          label="Sex"
-          containerStyle={{width: '50%'}}
-          data={[{value: 'Female'}, {value: 'Male'}, {value: 'Other'}]}
-          onChangeText={value => {
-            this.setState({sex: value});
-          }}
-        />
-        <Dropdown
-          selectedItemColor={Constants.COLORS.primary.main}
-          label="Lifestyle"
-          data={[
-            {value: 'Sedentary'},
-            {value: 'Low Active'},
-            {value: 'Moderately Active'},
-            {value: 'Extremely Active'},
-          ]}
-          containerStyle={{width: '50%', marginBottom: 20}}
-          onChangeText={value => {
-            this.setState({lifestyle: value});
-          }}
-        />
 
-        <Text>{this.state.switchValue ? 'Imperial' : 'Metric'}</Text>
-        <Switch
-          style={styles.switch}
-          onValueChange={this.toggleSwitch}
-          value={this.state.switchValue}
-        />
-        <TouchableOpacity
-          onPress={this.addCharacteristics}
-          style={styles.btnStyle}>
-          <Text>Next</Text>
-        </TouchableOpacity>
-      </View>
+          <Text>{this.state.switchValue ? 'Imperial' : 'Metric'}</Text>
+          <Switch
+            style={styles.switch}
+            onValueChange={this.toggleSwitch}
+            value={this.state.switchValue}
+          />
+          <TouchableOpacity
+            onPress={this.addCharacteristics}
+            style={styles.btnStyle}>
+            <Text>Next</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -274,7 +277,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 30,
-      width: Constants.DIMENSIONS.screenWidth * 0.5,
+    width: Constants.DIMENSIONS.screenWidth * 0.5,
   },
   input: {
     width: Constants.DIMENSIONS.screenWidth * 0.5,
@@ -284,7 +287,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   smallInput: {
-      width: Constants.DIMENSIONS.screenWidth * 0.25,
+    width: Constants.DIMENSIONS.screenWidth * 0.25,
     marginBottom: 20,
     borderBottomWidth: 1,
     backgroundColor: '#ecf0f1',

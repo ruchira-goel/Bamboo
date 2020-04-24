@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, StyleSheet, FlatList, TouchableOpacity, Platform, Alert} from 'react-native';
+import {Text, View, StyleSheet, FlatList, TouchableOpacity, Platform, Alert, ScrollView} from 'react-native';
 import {useNavigation, useRoute} from "@react-navigation/native";
 import * as Constants from "./Constants";
 
@@ -28,6 +28,7 @@ class RecommendedMealsList extends React.Component {
         const {meals} = route.params;
         //const {meals} = ['hi', 'hello']
         return (
+          <ScrollView>
             <FlatList
                 data={meals}
                 //style={{width: '70%'}}
@@ -51,6 +52,7 @@ class RecommendedMealsList extends React.Component {
                     </View>
                 )}
             />
+          </ScrollView>
         );
     }
 

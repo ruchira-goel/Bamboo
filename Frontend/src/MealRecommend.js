@@ -7,6 +7,7 @@ import {
     TextInput,
     Alert,
     Platform,
+  ScrollView,
 } from 'react-native';
 import {Dropdown} from 'react-native-material-dropdown';
 import CheckBox from 'react-native-check-box';
@@ -448,6 +449,7 @@ class MealRecommend extends React.Component {
 
     render() {
         return (
+          <ScrollView>
             <View style={{flex: 1}}>
                 <Text style={{fontSize: 16, marginTop: '2%'}}>
                     Check a box, select limit type(s) and enter value(s) to limit a
@@ -581,6 +583,7 @@ class MealRecommend extends React.Component {
                     </TouchableOpacity>
                 </View>
             </View>
+          </ScrollView>
         );
     }
 }

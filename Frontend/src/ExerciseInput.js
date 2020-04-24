@@ -348,6 +348,7 @@ class ExerciseInput extends Component {
     };
 
     return (
+      <ScrollView>
       <View style={styles.container}>
         <View style={[styles.dropdown, {marginBottom: 0}]}>
           <Dropdown
@@ -475,6 +476,7 @@ class ExerciseInput extends Component {
           </TouchableOpacity>
         </View>
       </View>
+      </ScrollView>
     );
   }
 }

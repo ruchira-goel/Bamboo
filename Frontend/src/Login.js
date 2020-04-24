@@ -7,6 +7,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
+  ScrollView,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 // import {LinearGradient} from 'expo-linear-gradient';
@@ -105,6 +106,7 @@ class Login extends React.Component {
 
   render() {
     return (
+      <ScrollView>
       <View styles={styles.container}>
         <Text style={styles.title}>Bamboo.</Text>
         <TextInput
@@ -164,6 +166,7 @@ class Login extends React.Component {
           </View>
         </View>
       </View>
+      </ScrollView>
     );
   }
 }

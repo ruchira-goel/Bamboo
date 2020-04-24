@@ -7,6 +7,7 @@ import {
   Alert,
   TouchableOpacity,
   Platform,
+  ScrollView,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 // import {LinearGradient} from 'expo-linear-gradient';
@@ -157,6 +158,7 @@ class SignUp extends React.Component {
 
   render() {
     return (
+      <ScrollView>
       <View style={styles.container}>
         <Text style={styles.title}>Bamboo.</Text>
         <Text style={styles.paragraph}>Create a Bamboo account</Text>
@@ -229,6 +231,7 @@ class SignUp extends React.Component {
           </TouchableOpacity>
         </View>
       </View>
+      </ScrollView>
     );
   }
 }

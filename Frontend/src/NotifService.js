@@ -104,10 +104,7 @@ export default class NotifService {
               .then(res => res.json())
               .then(hasGoals => {
                 if (hasGoals.toString() === 'true') {
-                  console.log('it will actually schedule');
                   this.scheduleGoalStreakNotification(userId);
-                } else {
-                  console.log('it thinks user has no goals');
                 }
               });
           }
