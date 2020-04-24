@@ -159,78 +159,78 @@ class SignUp extends React.Component {
   render() {
     return (
       <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.title}>Bamboo.</Text>
-        <Text style={styles.paragraph}>Create a Bamboo account</Text>
-        <TextInput
-          onBlur={() => this.onBlur('a')}
-          onFocus={() => this.onFocus('a')}
-          style={[styles.fieldText, {borderColor: this.state.borderColorA}]}
-          autoCorrect={false}
-          placeholder="name"
-          autoCompleteType="name"
-          returnKeyLabel="Done"
-          autoCapitalize="words"
-          onChangeText={name => this.setState({name})}
-        />
-        <TextInput
-          onBlur={() => this.onBlur('b')}
-          onFocus={() => this.onFocus('b')}
-          style={[styles.fieldText, {borderColor: this.state.borderColorB}]}
-          autoCorrect={false}
-          placeholder="email@example.com"
-          autoCompleteType="email"
-          returnKeyLabel="Done"
-          autoCapitalize="none"
-          onChangeText={email => this.setState({email})}
-        />
-        <TextInput
-          onBlur={() => this.onBlur('c')}
-          onFocus={() => this.onFocus('c')}
-          style={[styles.fieldText, {borderColor: this.state.borderColorC}]}
-          autoCorrect={false}
-          placeholder="password"
-          returnKeyLabel="Done"
-          secureTextEntry={true}
-          autoCapitalize="none"
-          onChangeText={password => this.setState({password})}
-        />
-        <TextInput
-          onBlur={() => this.onBlur('d')}
-          onFocus={() => this.onFocus('d')}
-          style={[styles.fieldText, {borderColor: this.state.borderColorD}]}
-          autoCorrect={false}
-          placeholder="confirm password"
-          returnKeyLabel="Done"
-          secureTextEntry={true}
-          autoCapitalize="none"
-          onChangeText={confirmPassword => this.setState({confirmPassword})}
-        />
-        <TouchableOpacity style={styles.btnStyle} onPress={this.signUp}>
-          <Text style={styles.btnText}>Sign Up</Text>
-          {/*<LinearGradient*/}
-          {/*  colors={['#aaddaa', '#96d297', '#00c880']}*/}
-          {/*  style={styles.btnStyle}*/}
-          {/*  start={[0.0, 0.0]}*/}
-          {/*  end={[1.0, 1.0]}>*/}
-          {/*  <Text style={styles.btnText}>Sign Up</Text>*/}
-          {/*</LinearGradient>*/}
-        </TouchableOpacity>
-        <View style={{flex: 1, flexDirection: 'row'}}>
-          <Text style={{padding: 15}}>Already have an account? </Text>
-          <TouchableOpacity
-            onPress={() =>
-              this.props.navigation.navigate('Root', {
-                screen: 'Login',
-              })
-            }
-            style={styles.linkStyle}>
-            <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
-              Login!
-            </Text>
+        <View style={styles.container}>
+          <Text style={styles.title}>Bamboo.</Text>
+          <Text style={styles.paragraph}>Create a Bamboo account</Text>
+          <TextInput
+            onBlur={() => this.onBlur('a')}
+            onFocus={() => this.onFocus('a')}
+            style={[styles.fieldText, {borderColor: this.state.borderColorA}]}
+            autoCorrect={false}
+            placeholder="name"
+            autoCompleteType="name"
+            returnKeyLabel="Done"
+            autoCapitalize="words"
+            onChangeText={name => this.setState({name})}
+          />
+          <TextInput
+            onBlur={() => this.onBlur('b')}
+            onFocus={() => this.onFocus('b')}
+            style={[styles.fieldText, {borderColor: this.state.borderColorB}]}
+            autoCorrect={false}
+            placeholder="email@example.com"
+            autoCompleteType="email"
+            returnKeyLabel="Done"
+            autoCapitalize="none"
+            onChangeText={email => this.setState({email})}
+          />
+          <TextInput
+            onBlur={() => this.onBlur('c')}
+            onFocus={() => this.onFocus('c')}
+            style={[styles.fieldText, {borderColor: this.state.borderColorC}]}
+            autoCorrect={false}
+            placeholder="password"
+            returnKeyLabel="Done"
+            secureTextEntry={true}
+            autoCapitalize="none"
+            onChangeText={password => this.setState({password})}
+          />
+          <TextInput
+            onBlur={() => this.onBlur('d')}
+            onFocus={() => this.onFocus('d')}
+            style={[styles.fieldText, {borderColor: this.state.borderColorD}]}
+            autoCorrect={false}
+            placeholder="confirm password"
+            returnKeyLabel="Done"
+            secureTextEntry={true}
+            autoCapitalize="none"
+            onChangeText={confirmPassword => this.setState({confirmPassword})}
+          />
+          <TouchableOpacity style={styles.btnStyle} onPress={this.signUp}>
+            <Text style={styles.btnText}>Sign Up</Text>
+            {/*<LinearGradient*/}
+            {/*  colors={['#aaddaa', '#96d297', '#00c880']}*/}
+            {/*  style={styles.btnStyle}*/}
+            {/*  start={[0.0, 0.0]}*/}
+            {/*  end={[1.0, 1.0]}>*/}
+            {/*  <Text style={styles.btnText}>Sign Up</Text>*/}
+            {/*</LinearGradient>*/}
           </TouchableOpacity>
+          <View style={{flex: 1, flexDirection: 'row'}}>
+            <Text style={{padding: 15}}>Already have an account? </Text>
+            <TouchableOpacity
+              onPress={() =>
+                this.props.navigation.navigate('Root', {
+                  screen: 'Login',
+                })
+              }
+              style={styles.linkStyle}>
+              <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
+                Login!
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
       </ScrollView>
     );
   }

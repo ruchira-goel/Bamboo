@@ -471,6 +471,20 @@ class HealthProfile extends Component {
                 </Text>
               )}
             </View>
+            <View style={[this.state.padding]}>
+              <TouchableOpacity
+                style={styles.primaryBtn}
+                onPress={() =>
+                  this.props.navigation.navigate('Root', {
+                    screen: 'EditDietaryRestrictions',
+                    params: {
+                      userId: userId,
+                    },
+                  })
+                }>
+                <Text>View Dietary Profile</Text>
+              </TouchableOpacity>
+            </View>
             {/*<View style={styles.rowContainer}>*/}
             {/*  <Text style={styles.text}>*/}
             {/*    {this.state.isMetric ? 'Metric' : 'Imperial'}*/}
@@ -551,5 +565,15 @@ const styles = StyleSheet.create({
     width: 100,
     paddingLeft: 10.5,
     paddingRight: 10.5,
+  },
+  primaryBtn: {
+    // backgroundColor: '#fff',
+    borderRadius: 60,
+    // borderWidth: 2,
+    backgroundColor: Constants.COLORS.accent.main,
+    padding: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 20,
   },
 });

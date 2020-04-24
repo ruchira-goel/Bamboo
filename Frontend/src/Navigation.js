@@ -39,6 +39,8 @@ import RecoverAccount from './RecoverAccount';
 import MealRecommend from './MealRecommend';
 import MealInstructions from './MealInstructions';
 import TrackProgress from './TrackProgress';
+import EnterDietaryRestrictions from './EnterDietaryRestrictions';
+import EditDietaryRestrictions from './EditDietaryRestrictions';
 
 function MenuHeader({screenName}) {
   const nav = useNavigation();
@@ -172,6 +174,20 @@ function ProfileScreen({navigation}) {
     </View>
   );
 }
+
+function DietaryRestrictionsScreen({navigation}) {
+  const nav = useNavigation();
+  const {userId} = nav.dangerouslyGetState().routes[0].params.params;
+  console.log(userId);
+  console.log(nav.dangerouslyGetState().routes[0].params.params);
+  return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <MenuHeader screenName={'Dietary Profile'} />
+      <EditDietaryRestrictions userId={userId} />
+    </View>
+  );
+}
+
 function SettingsScreen({route, navigation}) {
   const nav = useNavigation();
   const {userId} = nav.dangerouslyGetState().routes[0].params.params;
@@ -336,6 +352,15 @@ function EnterCharacteristicsScreen({route, navigation}) {
     <View style={{flex: 1, alignItems: 'center'}}>
       <StackHeader screenName={'Enter Characteristics'} />
       <EnterCharacteristics />
+    </View>
+  );
+}
+
+function EnterDietaryRestrictionsScreen({route, navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <StackHeader screenName={'Enter Dietary Restrictions'} />
+      <EnterDietaryRestrictions />
     </View>
   );
 }
@@ -511,6 +536,10 @@ function Root() {
         name="Enter Characteristics"
         component={EnterCharacteristicsScreen}
       />
+      <Stack.Screen
+        name="Enter Dietary Restrictions"
+        component={EnterDietaryRestrictionsScreen}
+      />
       <Stack.Screen name="Meal Instructions" component={RecipeScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="RecoverAccount" component={RecoverAccountScreen} />
@@ -533,6 +562,10 @@ function Root() {
       <Stack.Screen name="ExerciseGraphs" component={ExerciseGraphsScreen} />
 
       <Stack.Screen name="ChangePass" component={ChangePassScreen} />
+      <Stack.Screen
+        name="EditDietaryRestrictions"
+        component={DietaryRestrictionsScreen}
+      />
 
       <Stack.Screen
         name="ExerciseGenerator"

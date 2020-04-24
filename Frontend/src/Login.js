@@ -12,8 +12,14 @@ import {
 import {useNavigation} from '@react-navigation/native';
 // import {LinearGradient} from 'expo-linear-gradient';
 import NotifService from './NotifService';
+import {getTimeSinceStartup} from 'react-native-startup-time';
 
 import * as Constants from './Constants';
+
+// when your app is ready:
+getTimeSinceStartup().then(time => {
+  console.log(`Time since startup: ${time} ms`);
+});
 
 class Login extends React.Component {
   constructor(props) {
