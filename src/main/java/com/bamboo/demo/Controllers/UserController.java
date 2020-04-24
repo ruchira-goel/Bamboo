@@ -55,6 +55,12 @@ public class UserController {
         return userHandler.getGoalStreakNotificationMessage(userId);
     }
 
+    @RequestMapping("/User/hasDailyInfo")
+    public boolean hasDailyInfo(@RequestParam(value = "userId") String userId,
+                                @RequestParam(value = "date") String date) throws IllegalAccessException {
+        return userHandler.hasDailyInfo(userId, date);
+    }
+
     @RequestMapping("/User/changeUnit")
     public User getGoalStreakNotificationMessage(@RequestParam(value = "userId") String userId,
                                                    @RequestParam(value = "isMetric") boolean isMetric) throws IllegalAccessException {

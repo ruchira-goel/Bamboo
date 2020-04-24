@@ -559,4 +559,16 @@ public class UserHandler {
         User userObj = user.get();
         return userObj;
     }
+
+    public boolean hasDailyInfo(String userId, String date) throws IllegalAccessException {
+        Optional<User> user = this.userRepo.findByUserId(userId);
+        if (!user.isPresent()) {
+            throw new IllegalAccessException("There was an error locating your account, please try changing notification settings later");
+        }
+        User userObj = user.get();
+        if (userObj.getDailyInfo().containsKey(date)) {
+            return true;
+        }
+        return false;
+    }
 }
