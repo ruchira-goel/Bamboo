@@ -74,6 +74,7 @@ class Settings extends Component {
   };
 
   toggleGoalStreakSwitch = value => {
+    console.log('changing to ' + value);
     this.setState({goalStreak: value});
     this.onSave(this.state.dailyInput, value);
   };
@@ -104,6 +105,11 @@ class Settings extends Component {
   };
 
   onSave = (dailyInput, goalStreak) => {
+    console.log('in save the goal streak is ' + goalStreak);
+    if (goalStreak == undefined) {
+      console.log('it is undefined');
+      return;
+    }
     fetch(
       Platform.OS === 'android'
         ? `${URL.android}/User/addNotifSettings?userId=${
