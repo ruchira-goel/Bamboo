@@ -59,14 +59,19 @@ class HealthProfile extends Component {
     )
       .then(res => res.json())
       .then(data => {
-        this.setState({
-          height: data.height.toString(),
-          weight: data.weight.toString(),
-          age: data.age.toString(),
-          sex: data.sex,
-          isMetric: data.isMetric,
-          lifestyle: data.lifestyle
-        }, () => {console.log(data.lifestyle)});
+        this.setState(
+          {
+            height: data.height.toString(),
+            weight: data.weight.toString(),
+            age: data.age.toString(),
+            sex: data.sex,
+            isMetric: data.isMetric,
+            lifestyle: data.lifestyle,
+          },
+          () => {
+            console.log(data.lifestyle);
+          },
+        );
         let weightLb = Math.round(data.weight * 2.20462).toString();
         this.setState({weightLb: weightLb});
         this.calculateFeetInches();
@@ -145,7 +150,7 @@ class HealthProfile extends Component {
     }
     // console.log('Metric: ' + height + ',' + weight);
     // console.log('Imperial: ' + feet + ',' + inches + ',' + weightLb);
-    console.log(lifestyle)
+    console.log(lifestyle);
     fetch(
       Platform.OS === 'android'
         ? `${
@@ -158,15 +163,18 @@ class HealthProfile extends Component {
       .then(res => res.json())
       .then(data => {
         if (data.error) {
-          //throwing error when addCharacteristics fails (invalid userId)
-          if (
-            data.message ===
-            'There was an error locating your account, please try signing up again'
-          ) {
-            Alert.alert('User Not Found', data.message, [{text: 'OK'}]);
-          }
+          // throwing error when addCharacteristics fails
+          Alert.alert('Error', data.message, [{text: 'OK'}]);
+          // if (
+          //   data.message ===
+          //   'There was an error locating your account, please try signing up again'
+          // ) {
+          //   Alert.alert('User Not Found', data.message, [{text: 'OK'}]);
+          // }
         } else {
-          //going to home screen
+          Alert.alert('Success', 'Your information has been updated.', [
+            {text: 'OK'},
+          ]);
         }
       });
   };
@@ -242,7 +250,7 @@ class HealthProfile extends Component {
       feet,
       inches,
       isMetric,
-      lifestyle
+      lifestyle,
     } = this.state;
     // console.log('Metric: ' + height + ',' + weight);
     // console.log('Imperial: ' + feet + ',' + inches + ',' + weightLb);
@@ -280,7 +288,7 @@ class HealthProfile extends Component {
       {label: 'active', value: 'MODERATE'},
       {label: 'extremely active', value: 'EXTREME'},
       {label: 'unspecified', value: 'UNSPECIFIED'},
-    ]
+    ];
     fetch(
       Platform.OS === 'android'
         ? `${Constants.URL.android}/User/getCharacteristics?userId=${userId}`
@@ -437,30 +445,30 @@ class HealthProfile extends Component {
             </View>
             <View style={[styles.rowContainer, this.state.padding]}>
               <Text
-                  style={[
-                    styles.text,
-                    {alignSelf: 'flex-start'},
-                    this.state.paddingTop,
-                  ]}>
+                style={[
+                  styles.text,
+                  {alignSelf: 'flex-start'},
+                  this.state.paddingTop,
+                ]}>
                 Lifestyle
               </Text>
               {this.state.editable ? (
-                  <RadioForm
-                      radio_props={radioLifestyle}
-                      initial={initialLifestyle}
-                      formHorizontal={false}
-                      labelHorizontal={true}
-                      buttonColor={Constants.COLORS.gray}
-                      selectedButtonColor={Constants.COLORS.primary.main}
-                      animation={true}
-                      onPress={value => {
-                        this.setState({lifestyle: value});
-                      }}
-                  />
+                <RadioForm
+                  radio_props={radioLifestyle}
+                  initial={initialLifestyle}
+                  formHorizontal={false}
+                  labelHorizontal={true}
+                  buttonColor={Constants.COLORS.gray}
+                  selectedButtonColor={Constants.COLORS.primary.main}
+                  animation={true}
+                  onPress={value => {
+                    this.setState({lifestyle: value});
+                  }}
+                />
               ) : (
-                  <Text style={[styles.text, {width: 200}]}>
-                    {lifestyle.toLowerCase()}
-                  </Text>
+                <Text style={[styles.text, {width: 200}]}>
+                  {lifestyle.toLowerCase()}
+                </Text>
               )}
             </View>
             {/*<View style={styles.rowContainer}>*/}
