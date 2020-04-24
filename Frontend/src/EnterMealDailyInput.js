@@ -9,6 +9,7 @@ import {
   Alert,
   Platform,
   ScrollView,
+  Image,
 } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import * as Constants from './Constants';
@@ -278,6 +279,10 @@ class EnterMealDailyInput extends React.Component {
       return (
         <View>
           <TouchableOpacity style={styles.datePicker} onPress={showDatePicker}>
+            <Image
+              source={require('./img/calendar.png')}
+              style={styles.image}
+            />
             <Text style={styles.text}>{this.state.formattedDate}</Text>
           </TouchableOpacity>
           <DateTimePickerModal
@@ -448,7 +453,14 @@ const styles = StyleSheet.create({
   },
   datePicker: {
     alignItems: 'center',
-    borderWidth: 2,
-    borderColor: Constants.COLORS.primary.main,
+    borderWidth: 1,
+    borderRadius: 4,
+    flexDirection: 'row',
+    padding: 4,
+  },
+  image: {
+    width: 25,
+    height: 25,
+    marginRight: 4,
   },
 });
