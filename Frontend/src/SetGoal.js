@@ -282,12 +282,6 @@ const styles = StyleSheet.create({
     margin: 20,
     fontSize: 18,
   },
-  fieldText: {
-    fontSize: 16,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: '25%',
-  },
   textInput: {
     width: Constants.DIMENSIONS.screenWidth * 0.5,
     fontSize: 16,

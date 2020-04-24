@@ -37,7 +37,8 @@ import ExerciseRoutine from './ExerciseRoutine';
 import RecommendedMealsList from './RecommendedMealsList';
 import RecoverAccount from './RecoverAccount';
 import MealRecommend from './MealRecommend';
-import MealInstructions from "./MealInstructions";
+import MealInstructions from './MealInstructions';
+import TrackProgress from './TrackProgress';
 
 function MenuHeader({screenName}) {
   const nav = useNavigation();
@@ -193,12 +194,12 @@ function MealScreen({route, navigation}) {
 }
 
 function RecipeScreen({route, navigation}) {
-    return (
-        <View style={{flex: 1, alignItems: 'center'}}>
-            <StackHeader screenName={'Meal Instructions'} />
-            <MealInstructions />
-        </View>
-    );
+  return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <StackHeader screenName={'Meal Instructions'} />
+      <MealInstructions />
+    </View>
+  );
 }
 
 function MealRecommendScreen({route, navigation}) {
@@ -259,6 +260,14 @@ function EditGoalScreen({route, navigation}) {
     <View style={{flex: 1, alignItems: 'center'}}>
       <StackHeader screenName={'Edit Goal'} />
       <EditGoal />
+    </View>
+  );
+}
+function GoalProgressScreen({route, navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center'}}>
+      <StackHeader screenName={'Goal Progress'} />
+      <TrackProgress />
     </View>
   );
 }
@@ -323,12 +332,12 @@ function RecommendedMealsListScreen({route, navigation}) {
 }
 
 function EnterCharacteristicsScreen({route, navigation}) {
-    return (
+  return (
     <View style={{flex: 1, alignItems: 'center'}}>
-        <StackHeader screenName={'Enter Characteristics'} />
-        <EnterCharacteristics />
+      <StackHeader screenName={'Enter Characteristics'} />
+      <EnterCharacteristics />
     </View>
-    );
+  );
 }
 
 function HomeScreen({route, navigation}) {
@@ -491,8 +500,11 @@ function Root() {
       }}>
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} />
-      <Stack.Screen name="Enter Characteristics" component={EnterCharacteristicsScreen} />
-        <Stack.Screen name="Meal Instructions" component={RecipeScreen} />
+      <Stack.Screen
+        name="Enter Characteristics"
+        component={EnterCharacteristicsScreen}
+      />
+      <Stack.Screen name="Meal Instructions" component={RecipeScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="RecoverAccount" component={RecoverAccountScreen} />
       <Stack.Screen name="Meal" component={MealScreen} />
@@ -508,6 +520,7 @@ function Root() {
       <Stack.Screen name="ViewGoals" component={ViewGoalsScreen} />
       <Stack.Screen name="SetGoal" component={SetGoalScreen} />
       <Stack.Screen name="EditGoal" component={EditGoalScreen} />
+      <Stack.Screen name="TrackProgress" component={GoalProgressScreen} />
 
       <Stack.Screen name="DietGraphs" component={DietGraphsScreen} />
       <Stack.Screen name="ExerciseGraphs" component={ExerciseGraphsScreen} />

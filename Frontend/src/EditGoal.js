@@ -12,7 +12,6 @@ import {Dropdown} from 'react-native-material-dropdown';
 import * as Constants from './Constants';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
-
 // TODO: On back press, ViewGoals should be re-rendered i.e. backend should be fetched again (componentDidMount)
 // TODO: Submit button needs to be edited to be centered
 
@@ -98,7 +97,9 @@ class EditGoal extends React.Component {
     }
 
     if (amount <= 0 || this.isAmountInvalid(amount)) {
-      Alert.alert('Invalid amount', 'Please enter a valid amount.', [{text: 'OK'}]);
+      Alert.alert('Invalid amount', 'Please enter a valid amount.', [
+        {text: 'OK'},
+      ]);
       return;
     }
     // Second condition taken from user Andy
@@ -135,8 +136,12 @@ class EditGoal extends React.Component {
 
     fetch(
       Platform.OS === 'android'
-        ? `${Constants.URL.android}/Goal/editGoal?userId=${userId}&goalId=${goalId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`
-        : `${Constants.URL.ios}/Goal/editGoal?userId=${userId}&goalId=${goalId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`,
+        ? `${
+            Constants.URL.android
+          }/Goal/editGoal?userId=${userId}&goalId=${goalId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`
+        : `${
+            Constants.URL.ios
+          }/Goal/editGoal?userId=${userId}&goalId=${goalId}&type=${type}&limitType=${limitType}&amount=${amount}&trackedItem=${trackedItem}&duration=${duration}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -162,8 +167,12 @@ class EditGoal extends React.Component {
     console.log('In the edit goals page: ' + userId);
     fetch(
       Platform.OS === 'android'
-        ? `${Constants.URL.android}/Goal/fetchGoalInfo?userId=${userId}&goalId=${goalId}`
-        : `${Constants.URL.ios}/Goal/fetchGoalInfo?userId=${userId}&goalId=${goalId}`,
+        ? `${
+            Constants.URL.android
+          }/Goal/fetchGoalInfo?userId=${userId}&goalId=${goalId}`
+        : `${
+            Constants.URL.ios
+          }/Goal/fetchGoalInfo?userId=${userId}&goalId=${goalId}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -220,58 +229,23 @@ class EditGoal extends React.Component {
     ];
     const {mealOpts, exOpts} = this.state;
     return (
-      <View style={styles.heading}>
+      <View style={styles.container}>
         <Text style={styles.title}>Goal Type:</Text>
-        <View style={{padding: '2%'}} />
-        <View
-          style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
+        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
           <TouchableOpacity
             disabled={true}
-            style={{
-              backgroundColor: this.state.isMealGoal ? '#3eb245' : '#b3c4b4',
-              color: 'black',
-              borderRadius: 2,
-              borderWidth: this.state.isMealGoal ? 2 : 0,
-              borderColor: this.state.isMealGoal ? 'navy' : '#3eb245',
-              width: '40%',
-              height: '100%',
-              justifyContent: 'center', //text in the middle of the button
-              alignItems: 'center',
-            }}>
-            <Text>Diet</Text>
-          </TouchableOpacity>
-          <View style={{padding: '2%'}} />
-          <TouchableOpacity
-            disabled={true}
-            style={{
-              backgroundColor: !this.state.isMealGoal ? '#3eb245' : '#b3c4b4',
-              color: 'black',
-              borderRadius: 2,
-              borderWidth: !this.state.isMealGoal ? 2 : 0,
-              borderColor: !this.state.isMealGoal ? 'navy' : '#3eb245',
-              width: '40%',
-              height: '100%',
-              justifyContent: 'center', //text in the middle of the button
-              alignItems: 'center',
-            }}>
-            <Text>Exercise</Text>
+            style={
+              styles.typeButton}>
+            <Text style={styles.text}>{this.state.isMealGoal ? 'Meal' : 'Exercise'}</Text>
           </TouchableOpacity>
         </View>
         <View>
-          <View style={{padding: '4%'}} />
-          <Text
-            style={{
-              fontSize: 16,
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginLeft: '15%',
-              marginRight: '15%',
-            }}>
+          <Text style={[styles.text, styles.sentence]}>
             Current Goal: {this.state.limitType} {this.state.amount} of{' '}
             {this.state.trackedItem} per {this.state.duration}.
           </Text>
         </View>
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+        <View style={styles.dropdown}>
           <Dropdown
             label="Limit type"
             data={limitOpts}
@@ -283,18 +257,16 @@ class EditGoal extends React.Component {
             containerStyle={{width: '50%'}}
           />
         </View>
-        <View style={{padding: '2%'}} />
         <View>
           <TextInput
-            style={styles.fieldText}
-            // autoCapitalize="none"
+              style={[styles.textInput]}
             keyboardType={'numeric'}
             placeholder="Enter amount"
             defaultValue={this.state.amount.toString()}
             onChangeText={amount => this.setState({amount})}
           />
         </View>
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+        <View style={styles.dropdown}>
           <Dropdown
             label="Goal Options"
             data={
@@ -308,7 +280,7 @@ class EditGoal extends React.Component {
             containerStyle={{width: '50%'}}
           />
         </View>
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+        <View style={styles.dropdown}>
           <Dropdown
             label="Duration type"
             data={durationOpts}
@@ -320,9 +292,9 @@ class EditGoal extends React.Component {
             containerStyle={{width: '50%'}}
           />
         </View>
-        <View style={{flex: 1}}>
-          <TouchableOpacity onPress={this.submit} style={styles.linkStyle}>
-            <Text>Submit</Text>
+        <View>
+          <TouchableOpacity onPress={this.submit} style={styles.primaryBtn}>
+            <Text style={styles.text}>Update Goal</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -337,51 +309,57 @@ export default function(props) {
 }
 
 const styles = StyleSheet.create({
-  heading: {
-    fontSize: 24,
-    fontWeight: '500',
-    flex: 1,
-    marginTop: '7%',
-  },
-  title: {
-    margin: 12,
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    textDecorationColor: 'gray',
-  },
   container: {
     flex: 1,
-    //width: '40%',
-    //height: '20%',
     alignItems: 'center',
-    alignContent: 'center',
-    //backgroundColor: 'blue',
-    //marginBottom: '70%',
-    //marginLeft: '30%',
+    justifyContent: 'space-between',
   },
-  spacingHigh: {
-    padding: 15,
+  dropdown: {
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
-  spacingSmall: {
-    padding: 10,
+  title: {
+    margin: 20,
+    fontSize: 18,
   },
-  fieldText: {
+  textInput: {
+    width: Constants.DIMENSIONS.screenWidth * 0.5,
     fontSize: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottomWidth: 0.5,
+    marginHorizontal: '25%',
+    marginTop: 20,
+    marginBottom: 10,
+  },
+  sentence: {
+    width: Constants.DIMENSIONS.screenWidth * 0.8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  primaryBtn: {
+    backgroundColor: Constants.COLORS.primary.main,
+    borderRadius: 60,
+    borderColor: Constants.COLORS.primary.main,
+    padding: 12,
+    margin: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: '25%',
-    marginRight: '25%',
-    borderBottomWidth: 0.5,
+    width: Constants.DIMENSIONS.screenWidth * 0.5,
   },
-  alignLeftView: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
+  typeButton: {
+    color: 'black',
+    width: '40%',
+    borderRadius: 60,
+    borderWidth: 2,
+    borderColor: Constants.COLORS.primary.main,
+    padding: 4,
+    alignItems: 'center',
+    marginHorizontal: 10,
+    marginBottom: 20,
+    backgroundColor: Constants.COLORS.primary.main,
   },
-  linkStyle: {
-    marginBottom: '70%',
-    padding: 15,
+  text: {
+    fontSize: 16,
   },
-  /*textalign for the text to be in the center for "bamboo."*/
 });
