@@ -10,11 +10,19 @@ import {
 } from 'react-native';
 
 import * as Constants from './Constants';
+import NotifService from './NotifService';
 
 export default class HomeScreen extends React.Component {
   logout = () => {
     Alert.alert('Confirm Logout', 'Are you sure you want to logout?', [
-      {text: 'Yes', onPress: () => this.props.navigation.replace('Login')},
+      {
+        text: 'Yes',
+        onPress: () => {
+          this.props.navigation.replace('Login');
+          let notif = new NotifService();
+          notif.cancelAll();
+        },
+      },
       {text: 'No'},
     ]);
   };

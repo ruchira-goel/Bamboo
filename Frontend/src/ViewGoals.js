@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {useNavigation, useRoute, useIsFocused} from '@react-navigation/native';
 import * as Constants from './Constants';
+import NotifService from './NotifService';
 
 // Sources:
 // https://reactnative.dev/docs/images
@@ -116,6 +117,8 @@ class ViewGoals extends Component {
             [{text: 'OK'}],
           );
           this.fetchGoals();
+          let notif = new NotifService();
+          notif.scheduleNotifications(userId);
         }
       });
   }

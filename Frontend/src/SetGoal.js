@@ -12,6 +12,7 @@ import {
 import {Dropdown} from 'react-native-material-dropdown';
 import * as Constants from './Constants';
 import {useNavigation, useRoute} from '@react-navigation/native';
+import NotifService from './NotifService';
 
 // TODO: Submit button needs to be edited to be centered
 
@@ -137,6 +138,8 @@ class SetGoal extends React.Component {
           Alert.alert('Error', data.message, [{text: 'OK'}]);
         } else {
           Alert.alert('Success', 'Goal successfully saved.', [{text: 'OK'}]);
+          let notif = new NotifService();
+          notif.scheduleNotifications(userId);
         }
       });
   };

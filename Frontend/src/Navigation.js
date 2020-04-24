@@ -509,6 +509,13 @@ function CustomDrawerContent(props) {
             {text: 'No'},
           ])
         }
+        icon={({tintColor}) => (
+          <Image
+            source={require('./img/home.png')}
+            resizeMode="contain"
+            style={[styles.drawerIcon, {tintColor: tintColor}]}
+          />
+        )}
       />
     </DrawerContentScrollView>
   );
@@ -594,7 +601,7 @@ export default function Navigation() {
       <Drawer.Navigator
         initialRouteName="Root"
         drawerContentOptions={{
-          activeTintColor: Constants.COLORS.primary.main,
+          activeTintColor: '#00c880',
         }}
         drawerContent={props => CustomDrawerContent(props)}
         edgeWidth={0}>
@@ -603,11 +610,28 @@ export default function Navigation() {
           component={Root}
           options={{
             title: 'Home',
+            drawerIcon: ({tintColor}) => (
+              <Image
+                source={require('./img/home.png')}
+                resizeMode="contain"
+                style={[styles.drawerIcon, {tintColor: tintColor}]}
+              />
+            ),
+            // drawerLabel: () => <Text style={styles.drawerLabel}>Home</Text>,
           }}
         />
         <Drawer.Screen
           name="Profile"
           component={ProfileScreen}
+          options={{
+            drawerIcon: ({tintColor}) => (
+              <Image
+                source={require('./img/profile.png')}
+                resizeMode="contain"
+                style={[styles.drawerIcon, {tintColor: tintColor}]}
+              />
+            ),
+          }}
           drawerContent={props => CustomDrawerContent(props)}
         />
         {/*<Drawer.Screen*/}
@@ -617,7 +641,19 @@ export default function Navigation() {
         {/*    title: 'Settings',*/}
         {/*  }}*/}
         {/*/>*/}
-        <Drawer.Screen name="Settings" component={SettingsScreen} />
+        <Drawer.Screen
+          name="Settings"
+          component={SettingsScreen}
+          options={{
+            drawerIcon: ({tintColor}) => (
+              <Image
+                source={require('./img/settings.png')}
+                resizeMode="contain"
+                style={[styles.drawerIcon, {tintColor: tintColor}]}
+              />
+            ),
+          }}
+        />
       </Drawer.Navigator>
     </NavigationContainer>
   );
@@ -687,5 +723,13 @@ const styles = StyleSheet.create({
   },
   subText: {
     fontSize: 14,
+  },
+  drawerIcon: {
+    width: 25,
+    height: 25,
+    margin: 5,
+  },
+  drawerLabel: {
+    fontSize: 16,
   },
 });

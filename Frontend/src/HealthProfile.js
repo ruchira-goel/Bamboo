@@ -65,7 +65,7 @@ class HealthProfile extends Component {
             weight: data.weight.toString(),
             age: data.age.toString(),
             sex: data.sex,
-            isMetric: data.isMetric,
+            isMetric: data.metric,
             lifestyle: data.lifestyle,
           },
           () => {
