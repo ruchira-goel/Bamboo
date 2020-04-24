@@ -85,7 +85,7 @@ class SignUp extends React.Component {
           //throwing error when signup fails - email already registered / invalid password
           if (
             data.message ===
-            'This email is already registered. Try the login page instead'
+            'This email is already registered. Try the login page instead.'
           ) {
             Alert.alert('Already registered', data.message, [{text: 'OK'}]);
           } else if (
