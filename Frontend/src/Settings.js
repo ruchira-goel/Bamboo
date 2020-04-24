@@ -140,8 +140,9 @@ class Settings extends Component {
 
   delAccount = () => {
     console.log('here');
-    const {route} = this.props;
-    const {userId} = route.userId;
+    // const {route} = this.props;
+    // const {userId} = route.userId;
+    const userId = this.props.userId
     console.log(userId);
     fetch(
       Platform.OS === 'android'
@@ -159,7 +160,11 @@ class Settings extends Component {
           );
         } else {
           //going to home screen
-          this.props.navigation.replace('Login');
+          // this.props.navigation.replace('Login');
+
+                this.props.navigation.navigate('Root', {
+                    screen: 'Login',
+                })
         }
       });
   };
