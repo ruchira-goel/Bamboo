@@ -24,9 +24,7 @@ class Login extends React.Component {
       borderColorA: Constants.COLORS.gray,
       borderColorB: Constants.COLORS.gray,
     };
-    this.notif = new NotifService(
-      this.onRegister.bind(this),
-    );
+    this.notif = new NotifService(this.onRegister.bind(this));
   }
 
   onRegister(token) {
@@ -34,7 +32,6 @@ class Login extends React.Component {
     console.log(token);
     this.setState({registerToken: token.token, gcmRegistered: true});
   }
-
 
   login = () => {
     const {email, encryptedPassword} = this.state;
@@ -107,65 +104,68 @@ class Login extends React.Component {
   render() {
     return (
       <ScrollView>
-      <View styles={styles.container}>
-        <Text style={styles.title}>Bamboo.</Text>
-        <TextInput
-          onBlur={() => this.onBlur('a')}
-          onFocus={() => this.onFocus('a')}
-          style={[styles.fieldText, {borderColor: this.state.borderColorA}]}
-          autoCapitalize="none"
-          placeholder="Email"
-          onChangeText={email => this.setState({email})} //setting the email when user enters it
-        />
-        <TextInput
-          onBlur={() => this.onBlur('b')}
-          onFocus={() => this.onFocus('b')}
-          style={[
-            styles.fieldText,
-            {borderColor: this.state.borderColorB, marginBottom: 10},
-          ]}
-          autoCapitalize="none"
-          placeholder="Password"
-          secureTextEntry={true}
-          onChangeText={encryptedPassword => this.setState({encryptedPassword})} //setting the password when user enters it, not encrypted yet
-        />
-        <TouchableOpacity
-          onPress={() =>
-            this.props.navigation.navigate('Root', {
-              screen: 'RecoverAccount',
-            })
-          }>
-          <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
-            Forgot password?
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.btnStyle} onPress={this.login}>
-          <Text style={styles.btnText}>Login</Text>
-          {/*<LinearGradient*/}
-          {/*  colors={['#aaddaa', '#96d297', '#00c880']}*/}
-          {/*  style={styles.btnStyle}*/}
-          {/*  start={[0.0, 0.0]}*/}
-          {/*  end={[1.0, 1.0]}>*/}
-          {/*  <Text style={styles.btnText}>Login</Text>*/}
-          {/*</LinearGradient>*/}
-        </TouchableOpacity>
-        <View style={{flex: 0.7, alignItems: 'center'}}>
-          <View style={{flex: 0.2, flexDirection: 'row'}}>
-            <Text style={{padding: 15}}>Don't have an account? </Text>
-            <TouchableOpacity
-              onPress={() =>
-                this.props.navigation.navigate('Root', {
-                  screen: 'SignUp',
-                })
-              }
-              style={styles.linkStyle}>
-              <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
-                Sign Up!
-              </Text>
-            </TouchableOpacity>
+        <View styles={styles.container}>
+          <Text style={styles.title}>Bamboo.</Text>
+          <TextInput
+            onBlur={() => this.onBlur('a')}
+            onFocus={() => this.onFocus('a')}
+            style={[styles.fieldText, {borderColor: this.state.borderColorA}]}
+            autoCapitalize="none"
+            placeholder="Email"
+            onChangeText={email => this.setState({email})} //setting the email when user enters it
+          />
+          <TextInput
+            onBlur={() => this.onBlur('b')}
+            onFocus={() => this.onFocus('b')}
+            style={[
+              styles.fieldText,
+              {borderColor: this.state.borderColorB, marginBottom: 10},
+            ]}
+            autoCapitalize="none"
+            placeholder="Password"
+            secureTextEntry={true}
+            onChangeText={encryptedPassword =>
+              this.setState({encryptedPassword})
+            } //setting the password when user enters it, not encrypted yet
+          />
+          <TouchableOpacity
+            onPress={() =>
+              this.props.navigation.navigate('Root', {
+                screen: 'RecoverAccount',
+              })
+            }>
+            <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
+              Forgot password?
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btnStyle} onPress={this.login}>
+            <Text style={styles.btnText}>Login</Text>
+            {/*<LinearGradient*/}
+            {/*  colors={['#aaddaa', '#96d297', '#00c880']}*/}
+            {/*  style={styles.btnStyle}*/}
+            {/*  start={[0.0, 0.0]}*/}
+            {/*  end={[1.0, 1.0]}>*/}
+            {/*  <Text style={styles.btnText}>Login</Text>*/}
+            {/*</LinearGradient>*/}
+          </TouchableOpacity>
+          <View style={{flex: 0.7, alignItems: 'center'}}>
+            <View style={{flex: 0.2, flexDirection: 'row'}}>
+              <Text style={{padding: 15}}>Don't have an account? </Text>
+              <TouchableOpacity
+                onPress={() =>
+                  this.props.navigation.navigate('Root', {
+                    screen: 'SignUp',
+                  })
+                }
+                style={styles.linkStyle}>
+                <Text
+                  style={{color: '#0000EE', textDecorationLine: 'underline'}}>
+                  Sign Up!
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-      </View>
       </ScrollView>
     );
   }
