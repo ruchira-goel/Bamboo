@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlign: 'center',
     alignItems: 'center',
-    width: '100%',
+    width: Constants.DIMENSIONS.screenWidth,
   },
   flexRowContainer: {
     // width: '80%',

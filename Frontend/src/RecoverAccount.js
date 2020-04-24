@@ -9,14 +9,27 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import URL from './url';
-import * as Constants from "./Constants";
+import * as Constants from './Constants';
 
 export default class RecoverAccount extends Component {
     constructor(props) {
         super(props);
         this.state = {
             email: '',
+            borderColor: Constants.COLORS.gray,
         };
+    }
+
+    onFocus() {
+        this.setState({
+            borderColor: Constants.COLORS.primary.main,
+        });
+    }
+
+    onBlur() {
+        this.setState({
+            borderColor: Constants.COLORS.gray,
+        });
     }
 
     sendEmail = () => {
@@ -63,23 +76,22 @@ export default class RecoverAccount extends Component {
 
     enterEmail = () => {
         return (
-            <View style={{flex: 1, alignItems: 'center', marginTop: '10%'}}>
-                <View style={{}}>
-                    <Text style={{fontSize: 20}}>Recover your account</Text>
-                </View>
-                <View style={{padding: '3%'}} />
+            <View style={{flex: 1, alignItems: 'center'}}>
+                <Text style={styles.heading}>Forgot your password?</Text>
+                <Text style={styles.text}>
+                    Enter your email and we'll send you a password reset link.
+                </Text>
                 <TextInput
-                    style={styles.fieldText}
+                    onBlur={() => this.onBlur()}
+                    onFocus={() => this.onFocus()}
+                    style={[styles.fieldText, {borderColor: this.state.borderColor}]}
                     autoCapitalize="none"
                     placeholder="Enter email"
                     onChangeText={email => this.setState({email})}
                 />
-                <View style={{padding: '3%'}} />
-                <View style={{flex: 0.8, width: '70%'}}>
-                    <TouchableOpacity style={styles.btnStyle} onPress={this.sendEmail}>
-                        <Text>Send email</Text>
-                    </TouchableOpacity>
-                </View>
+                <TouchableOpacity style={styles.btnStyle} onPress={this.sendEmail}>
+                    <Text style={styles.btnText}>Send email</Text>
+                </TouchableOpacity>
             </View>
         );
     };
@@ -94,39 +106,44 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: 45,
     },
-    contentContainer: {
-        flex: 1,
-    },
-    header: {
-        fontSize: 25,
-        textAlign: 'center',
-        margin: 10,
-        fontWeight: 'bold',
-    },
-    textEdit: {
-        borderBottomWidth: 2,
+    heading: {
+        fontSize: 20,
+        marginTop: 20,
+        marginBottom: 10,
     },
     inputContainer: {
         flexDirection: 'row',
-        // alignSelf: 'center',
-        paddingTop: 35,
-        paddingLeft: '20%',
     },
     text: {
-        fontSize: 20,
-        width: 100,
+        fontSize: 16,
+        textAlign: 'center',
+        width: Constants.DIMENSIONS.screenWidth * 0.75,
+    },
+    btnText: {
+        fontSize: 16,
+        textAlign: 'center',
     },
     switch: {
         textAlign: 'center',
         justifyContent: 'center',
     },
+    fieldText: {
+        fontSize: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 1.5,
+        borderRadius: 4,
+        padding: 10,
+        marginVertical: 30,
+        width: Constants.DIMENSIONS.screenWidth * 0.75,
+    },
     btnStyle: {
+        width: Constants.DIMENSIONS.screenWidth * 0.75,
         backgroundColor: Constants.COLORS.primary.main,
         borderRadius: 4,
         borderColor: Constants.COLORS.primary.main,
         padding: 12,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 30,
     },
 });
