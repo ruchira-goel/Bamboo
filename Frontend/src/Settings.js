@@ -78,6 +78,31 @@ class Settings extends Component {
     this.onSave(this.state.dailyInput, value);
   };
 
+  toggleMetricSwitch = value => {
+    fetch(
+      Platform.OS === 'android'
+        ? `${URL.android}/User/changeUnit?userId=${
+            this.state.userId
+          }&isMetric=${value}`
+        : `${URL.ios}/User/changeUnit?userId=${
+            this.state.userId
+          }&isMetric=${value}`,
+    )
+      .then(res => res.json())
+      .then(data => {
+        if (data.error) {
+          //throwing error when changeUnit fails (invalid userId)
+          Alert.alert(
+            'Error',
+            'There was an error locating your account, please try changing unit settings another time',
+            [{text: 'OK'}],
+          );
+        } else {
+          this.setState({isMetric: value});
+        }
+      });
+  };
+
   onSave = (dailyInput, goalStreak) => {
     fetch(
       Platform.OS === 'android'
@@ -203,7 +228,9 @@ class Settings extends Component {
           disabled={true}
           style={[styles.selectBox, {marginBottom: 20}]}>
           <View style={styles.leftContainer}>
-            <Text style={styles.text}>TODO</Text>
+            <Text style={styles.text}>
+              {this.state.isMetric ? 'Metric' : 'Imperial'}
+            </Text>
           </View>
           <View style={styles.rightContainer}>
             <Switch
