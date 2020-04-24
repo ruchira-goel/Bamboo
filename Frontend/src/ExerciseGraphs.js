@@ -143,13 +143,13 @@ class ExerciseGraphs extends Component {
         </View>
       );
     } else if (
-      this.state.caloriesGraphData[0].calories === 0 &&
-      this.state.caloriesGraphData[1].calories === 0 &&
-      this.state.caloriesGraphData[2].calories === 0 &&
-      this.state.caloriesGraphData[3].calories === 0 &&
-      this.state.caloriesGraphData[4].calories === 0 &&
-      this.state.caloriesGraphData[5].calories === 0 &&
-      this.state.caloriesGraphData[6].calories === 0
+      this.state.caloriesGraphData[0].minutes === 0 &&
+      this.state.caloriesGraphData[1].minutes === 0 &&
+      this.state.caloriesGraphData[2].minutes === 0 &&
+      this.state.caloriesGraphData[3].minutes === 0 &&
+      this.state.caloriesGraphData[4].minutes === 0 &&
+      this.state.caloriesGraphData[5].minutes === 0 &&
+      this.state.caloriesGraphData[6].minutes === 0
     ) {
       return (
         <View style={styles.container}>
