@@ -167,8 +167,10 @@ class EditDietaryRestrictions extends Component {
     const {userId} = route.params;
     fetch(
       Platform.OS === 'android'
-        ? `10.0.2.2:8080/User/getDietaryRestrictions?userId=${userId}`
-        : `http://localhost:8080/User/getDietaryRetsrictions?userId=${userId}`,
+        ? `${
+            Constants.URL.android
+          }/User/getDietaryRestrictions?userId=${userId}`
+        : `${Constants.URL.ios}/User/getDietaryRetsrictions?userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {});
