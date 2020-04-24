@@ -15,14 +15,6 @@ public class User {
     private String name;
     private String email;
 
-    public Diet getDiet() {
-        return diet;
-    }
-
-    public void setDiet(Diet diet) {
-        this.diet = diet;
-    }
-
     private String encryptedPassword;
     private double height;                       //unit - cms, kgs
     private double weight;
@@ -75,6 +67,13 @@ public class User {
         this.dailyInputReminder = dailyInputReminder;
     }
 
+    public Diet getDiet() {
+        return diet;
+    }
+
+    public void setDiet(Diet diet) {
+        this.diet = diet;
+    }
 
     public boolean isMetric() {
         return isMetric;
@@ -107,7 +106,6 @@ public class User {
         this.goalIds = new ArrayList<>();
         this.favMeals = new ArrayList<>();
         this.favExerciseRoutine = new ArrayList<>();
-
         //initialize all notifications to be true
         this.dailyInputReminder = true;
         this.nutrientLimits = new HashMap<>();

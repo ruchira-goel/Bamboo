@@ -1,4 +1,8 @@
 rootProject.name = 'Frontend'
+include ':react-native-vector-icons'
+project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-vector-icons/android')
+include ':react-native-startup-time'
+project(':react-native-startup-time').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-startup-time/android')
 include ':react-native-push-notification'
 project(':react-native-push-notification').projectDir = file('../node_modules/react-native-push-notification/android')
 apply from: '../node_modules/react-native-unimodules/gradle.groovy'

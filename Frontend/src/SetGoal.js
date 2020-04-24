@@ -161,105 +161,101 @@ class SetGoal extends React.Component {
     const {mealOpts, exOpts} = this.state;
     return (
       <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.title}>Select the type of goal:</Text>
-        <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-          <TouchableOpacity
-            onPress={() => {
-              this.setState({
-                goalOptions: mealOpts,
-                isMealGoal: true,
-                trackedItem: '_____',
-              });
-            }}
-            style={[
-              styles.typeButton,
-              {
-                backgroundColor: this.state.isMealGoal
-                  ? Constants.COLORS.primary.main
-                  : 'white',
-              },
-            ]}>
-            <Text style={styles.text}>
-              Diet
+        <View style={styles.container}>
+          <Text style={styles.title}>Select the type of goal:</Text>
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+            <TouchableOpacity
+              onPress={() => {
+                this.setState({
+                  goalOptions: mealOpts,
+                  isMealGoal: true,
+                  trackedItem: '_____',
+                });
+              }}
+              style={[
+                styles.typeButton,
+                {
+                  backgroundColor: this.state.isMealGoal
+                    ? Constants.COLORS.primary.main
+                    : 'white',
+                },
+              ]}>
+              <Text style={styles.text}>Diet</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                this.setState({
+                  goalOptions: exOpts,
+                  isMealGoal: false,
+                  trackedItem: '_____',
+                })
+              }
+              style={[
+                styles.typeButton,
+                {
+                  backgroundColor: !this.state.isMealGoal
+                    ? Constants.COLORS.primary.main
+                    : 'white',
+                },
+              ]}>
+              <Text style={styles.text}>Exercise</Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <Text style={[styles.text, styles.sentence]}>
+              Current Goal: {this.state.limitType} {this.state.amount}{' '}
+              {this.state.trackedItem} per {this.state.duration}.
             </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() =>
-              this.setState({
-                goalOptions: exOpts,
-                isMealGoal: false,
-                trackedItem: '_____',
-              })
-            }
-            style={[
-              styles.typeButton,
-              {
-                backgroundColor: !this.state.isMealGoal
-                  ? Constants.COLORS.primary.main
-                  : 'white',
-              },
-            ]}>
-            <Text style={styles.text}>
-              Exercise
-            </Text>
-          </TouchableOpacity>
+          </View>
+          <View style={styles.dropdown}>
+            <Dropdown
+              label="Limit type"
+              data={limitOpts}
+              onChangeText={value => {
+                this.setState({limitType: value});
+              }}
+              // selectedItemColor="#3eb245"
+              containerStyle={{width: '50%'}}
+            />
+          </View>
+          <View>
+            <TextInput
+              // style={styles.fieldText}
+              style={[styles.textInput]}
+              keyboardType={'numeric'}
+              placeholder="Enter amount"
+              maxLength={10}
+              onChangeText={amount => this.setState({amount})}
+            />
+          </View>
+          <View style={styles.dropdown}>
+            <Dropdown
+              label="Goal options"
+              data={this.state.goalOptions}
+              onChangeText={value => {
+                this.setState({trackedItem: value});
+              }}
+              // selectedItemColor="#3eb245"
+              containerStyle={{width: '50%'}}
+            />
+          </View>
+          <View style={styles.dropdown}>
+            <Dropdown
+              label="Duration type"
+              data={durationOpts}
+              onChangeText={value => {
+                this.setState({duration: value});
+              }}
+              // selectedItemColor="#3eb245"
+              containerStyle={{width: '50%'}}
+            />
+          </View>
+          <View>
+            <TouchableOpacity onPress={this.submit} style={styles.primaryBtn}>
+              <Text style={styles.text}>Save Goal</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View>
-          <Text style={[styles.text, styles.sentence]}>
-            Current Goal: {this.state.limitType} {this.state.amount}{' '}
-            {this.state.trackedItem} per {this.state.duration}.
-          </Text>
-        </View>
-        <View style={styles.dropdown}>
-          <Dropdown
-            label="Limit type"
-            data={limitOpts}
-            onChangeText={value => {
-              this.setState({limitType: value});
-            }}
-            // selectedItemColor="#3eb245"
-            containerStyle={{width: '50%'}}
-          />
-        </View>
-        <View>
-          <TextInput
-            // style={styles.fieldText}
-            style={[styles.textInput]}
-            keyboardType={'numeric'}
-            placeholder="Enter amount"
-            maxLength={10}
-            onChangeText={amount => this.setState({amount})}
-          />
-        </View>
-        <View style={styles.dropdown}>
-          <Dropdown
-            label="Goal options"
-            data={this.state.goalOptions}
-            onChangeText={value => {
-              this.setState({trackedItem: value});
-            }}
-            // selectedItemColor="#3eb245"
-            containerStyle={{width: '50%'}}
-          />
-        </View>
-        <View style={styles.dropdown}>
-          <Dropdown
-            label="Duration type"
-            data={durationOpts}
-            onChangeText={value => {
-              this.setState({duration: value});
-            }}
-            // selectedItemColor="#3eb245"
-            containerStyle={{width: '50%'}}
-          />
-        </View>
-        <View>
-          <TouchableOpacity onPress={this.submit} style={styles.primaryBtn}>
-            <Text style={styles.text}>Save Goal</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
       </ScrollView>
     );
   }
