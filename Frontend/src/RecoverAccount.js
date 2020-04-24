@@ -25,6 +25,15 @@ export default class RecoverAccount extends Component {
             Alert.alert('Email Empty', 'Please enter an email.', [{text: 'OK'}]);
             return;
         }
+        const expression = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+        if (!expression.test(String(email).toLowerCase())) {
+            Alert.alert(
+                'Not Valid',
+                'Ensure that the email is valid.',
+                [{text: 'OK'}],
+            );
+            return;
+        }
         fetch(
             Platform.OS === 'android'
                 ? `${URL.android}/User/recoverAccount?email=${email}`
