@@ -96,9 +96,10 @@ class EditDietaryRestrictions extends Component {
     )
       .then(res => res.json())
       .then(data => {
+        let newDiet = data.diet;
         this.setState({
           allergies: data.allergies,
-          diet: data.diet.toString(),
+          diet: newDiet,
         });
         console.log(this.state.allergies);
         this.state.allergies.map(item => {

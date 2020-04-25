@@ -74,8 +74,31 @@ export default class NotifService {
     });
   }
 
+  scheduleNotificationsFromSettings(userId, dailyInput, goalStreak) {
+    this.cancelAll();
+    if (dailyInput) {
+      this.scheduleDailyInputReminder();
+    }
+    if (goalStreak) {
+      //check if the user actually has any goals:
+      fetch(
+        Platform.OS === 'android'
+          ? `${URL.android}/User/hasGoals?userId=${userId}`
+          : `${URL.ios}/User/hasGoals?userId=${userId}`,
+      )
+        .then(res => res.json())
+        .then(hasGoals => {
+          console.log('the has goals is ' + hasGoals);
+          if (hasGoals.toString() === 'true') {
+            this.scheduleGoalStreakNotification(userId);
+          }
+        });
+    }
+  }
+
   scheduleNotifications(userId) {
     this.cancelAll();
+    console.log('it is going to get user');
     fetch(
       Platform.OS === 'android'
         ? `${URL.android}/User/getUser?userId=${userId}`
@@ -91,26 +114,28 @@ export default class NotifService {
           );
         } else {
           if (data.dailyInputReminder) {
-            //check if the user has entered information today:
-            let date = new Date();
-            let formattedDate =
-              `${new Date().getDate()}/` +
-              (new Date().getMonth() + 1 < 10 ? '0' : '') +
-              `${new Date().getMonth() + 1}/${new Date().getFullYear()}`;
-            console.log('the formatted date is ' + formattedDate);
-
-            fetch(
-              Platform.OS === 'android'
-                ? `${URL.android}/User/hasDailyInfo?userId=${userId}&date=${formattedDate}`
-                : `${URL.ios}/User/hasDailyInfo?userId=${userId}&date=${formattedDate}`,
-            )
-              .then(res => res.json())
-              .then(hasDailyInfo => {
-                console.log('the has daily info is ' + hasDailyInfo);
-                if (hasDailyInfo.toString() === 'false') {
-                  this.scheduleDailyInputReminder(userId);
-                }
-              });
+            // //check if the user has entered information today:
+            // let date = new Date();
+            // let formattedDate =
+            //   `${new Date().getDate()}/` +
+            //   (new Date().getMonth() + 1 < 10 ? '0' : '') +
+            //   `${new Date().getMonth() + 1}/${new Date().getFullYear()}`;
+            // console.log('the formatted date is ' + formattedDate);
+            //
+            // fetch(
+            //   Platform.OS === 'android'
+            //     ? `${URL.android}/User/hasDailyInfo?userId=${userId}&date=${formattedDate}`
+            //     : `${URL.ios}/User/hasDailyInfo?userId=${userId}&date=${formattedDate}`,
+            // )
+            //   .then(res => res.json())
+            //   .then(hasDailyInfo => {
+            //     console.log('the has daily info is ' + hasDailyInfo);
+            //     if (hasDailyInfo.toString() === 'false') {
+            //       console.log('it evaluated correctly');
+            //       this.scheduleDailyInputReminder(userId);
+            //     }
+            //   });
+            this.scheduleDailyInputReminder();
           }
           if (data.goalStreakNotif) {
             //check if the user actually has any goals:
