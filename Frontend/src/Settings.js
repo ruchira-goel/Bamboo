@@ -105,7 +105,6 @@ class Settings extends Component {
   };
 
   onSave = (dailyInput, goalStreak) => {
-    console.log('in save the goal streak is ' + goalStreak);
     if (goalStreak == undefined) {
       console.log('it is undefined');
       return;
@@ -121,6 +120,7 @@ class Settings extends Component {
     )
       .then(res => res.json())
       .then(data => {
+        console.log('the data after it added notif settings ' + data.goalStreakNotif);
         if (data.error) {
           //throwing error when getUser fails (invalid userId)
           if (data.message === 'There was an error locating your account') {
@@ -131,7 +131,7 @@ class Settings extends Component {
             );
           }
         } else {
-          this.notif.scheduleNotifications(this.state.userId);
+          this.notif.scheduleNotificationsFromSettings(this.state.userId, dailyInput, goalStreak);
         }
       });
   };
