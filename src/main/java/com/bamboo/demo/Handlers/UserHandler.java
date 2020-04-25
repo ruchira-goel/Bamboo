@@ -7,6 +7,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class UserHandler {
@@ -227,14 +229,16 @@ public class UserHandler {
 
         User user = this.userRepo.findUserByUserId(userId);
         HashMap<String, String> dailyInfos = user.getDailyInfo();
+        ZonedDateTime date = ZonedDateTime.now();
 
         for (int i = 0; i < 7; i++) {
-            Date date = new Date(System.currentTimeMillis() - (offset * i));
-            System.out.println("date without fomat is " + new Date(System.currentTimeMillis()));
-            System.out.println("the date is " + format.format(date) + " and i is " + i);
+            //Date date = new Date(System.currentTimeMillis() - (offset * i));
+            //System.out.println("date without fomat is " + new Date(System.currentTimeMillis()));
+            //System.out.println("the date is " + format.format(date) + " and i is " + i);
+            String formatted = DateTimeFormatter.ofPattern("dd/MM/yyyy").format(date);
 
             Optional<DailyInfo> info = Optional.empty();
-            if (dailyInfos.get(format.format(date)) != null) {
+            if (dailyInfos.get(formatted) != null) {
                 info = this.dailyInfoRepo.findById(dailyInfos.get(format.format(date)));
             }
 
@@ -248,6 +252,7 @@ public class UserHandler {
                 }
                 calories[6 - i] = cals;
             }
+            date.minusDays(1);
         }
 
         StringBuilder str = new StringBuilder();
