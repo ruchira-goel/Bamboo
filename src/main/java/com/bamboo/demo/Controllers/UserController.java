@@ -101,7 +101,6 @@ public class UserController {
                 break;
 
         }
-        System.out.println("=============================Lifestyle================================: " + lifestyle);
         Lifestyle lStyle = Lifestyle.UNSPECIFIED;
         switch (lifestyle) {
             case "Sedentary":

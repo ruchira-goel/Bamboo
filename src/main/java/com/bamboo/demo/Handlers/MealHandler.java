@@ -120,8 +120,6 @@ public class MealHandler {
 
             Meal meal = new Meal(userId, name, calories, fat, carb, protein);
             this.mealRepo.save(meal);
-
-            System.out.println("Date: HERE " + date);
             addToDate(date, meal);
             return meal;
         } catch (IOException e) {
@@ -192,7 +190,6 @@ public class MealHandler {
         User user = this.userRepo.findById(userId).get();
         String dailyInfoId;
         DailyInfo dailyInfo;
-        System.out.println(date);
         if (!user.getDailyInfo().containsKey(date)) {
             dailyInfo = new DailyInfo(userId, date);
             this.dailyInfoRepo.save(dailyInfo);

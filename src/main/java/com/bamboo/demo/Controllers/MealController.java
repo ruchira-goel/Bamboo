@@ -42,7 +42,6 @@ public class MealController {
                                @RequestParam(value = "userId") String userId,
                                @RequestParam(value = "date") String date,
                                @RequestParam(value = "name") String name) throws IOException, IllegalAccessException {
-        System.out.println(recipe);
         return mealHandler.saveMealFromRecipe(date, userId, recipe, name);
     }
 
@@ -60,7 +59,6 @@ public class MealController {
     @RequestMapping("/Meal/deleteFavorite")
     public boolean deleteFavorite(@RequestParam(value = "userId") String userId,
                                   @RequestParam(value = "mealId") String mealId) {
-        System.out.println("Returned from mealhandler");
         return mealHandler.deleteFavorite(userId, mealId);
     }
 

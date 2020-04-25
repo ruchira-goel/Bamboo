@@ -71,7 +71,6 @@ public class GoalHandler {
 
     public Goal editGoal(String userId, String goalId, String type, String limitType, int amount,
                          String trackedItem, String duration) throws IllegalAccessException {
-        System.out.println("User ID" + userId);
         User user = this.userRepo.findUserByUserId(userId);
         Optional<Goal> goal = this.goalRepo.findById(goalId);
         if (!goal.isPresent()) {
@@ -119,7 +118,6 @@ public class GoalHandler {
                 cal.add(Calendar.DAY_OF_WEEK, -(cal.get(Calendar.DAY_OF_WEEK) - 2));
                 Date newDate = cal.getTime();
                 String newDateF = formatter.format(newDate);
-                System.out.println(newDateF);
                 while (!newDateF.equals(dateFormat)) {
                     goalObj.checkMealProgress(mealRepo, dailyInfoRepo, goalRepo, newDateF);
                     goalProgress = goalProgress + goalObj.getGoalProgress(newDateF);

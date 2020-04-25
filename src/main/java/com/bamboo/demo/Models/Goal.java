@@ -103,7 +103,6 @@ public class Goal {
     }
 
     public double getGoalProgress(String date) {
-        System.out.println(goalProgress.get(date));
         if (!goalProgress.containsKey(date)) {
             return 0.0;
         }
