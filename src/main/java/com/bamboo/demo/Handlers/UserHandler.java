@@ -193,6 +193,7 @@ public class UserHandler {
 
         for (int i = 0; i < 7; i++) {
             Date date = new Date(System.currentTimeMillis() - offset * i);
+            System.out.println("in exercise the date is " + format.format(date) + " and i is " + i);
 
             Optional<DailyInfo> info = Optional.empty();
             if (dailyInfos.get(format.format(date)) != null) {
