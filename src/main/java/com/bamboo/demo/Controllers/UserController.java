@@ -247,7 +247,7 @@ public class UserController {
     }
 
     @RequestMapping("/User/getDietaryRestrictions")
-    public User getDietaryRestrictions(@RequestParam(value = "userId") String userId) throws IllegalAccessException {
+    public ArrayList<ArrayList<String>> getDietaryRestrictions(@RequestParam(value = "userId") String userId) throws IllegalAccessException {
         return userHandler.getDietaryRestrictions(userId);
     }
 }

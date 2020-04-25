@@ -551,13 +551,19 @@ public class UserHandler {
         return true;
     }
 
-    public User getDietaryRestrictions(String userId) throws IllegalAccessException {
+    public ArrayList<ArrayList<String>> getDietaryRestrictions(String userId) throws IllegalAccessException {
         Optional<User> user = this.userRepo.findByUserId(userId);
         if (!user.isPresent()) {
             throw new IllegalAccessException("There was an error locating your account, please try signing up again");
         }
         User userObj = user.get();
-        return userObj;
+        ArrayList<String> allergies = userObj.getAllergies();
+        ArrayList<String> diet = new ArrayList<>();
+        diet.add(userObj.getDiet().toString());
+        ArrayList<ArrayList<String>> returnVal = new ArrayList<>();
+        returnVal.add(allergies);
+        returnVal.add(diet);
+        return returnVal;
     }
 
     public boolean hasDailyInfo(String userId, String date) throws IllegalAccessException {
