@@ -8,19 +8,13 @@ import {
   ScrollView,
   Alert,
   Platform,
-    Image,
+  Image,
 } from 'react-native';
 import * as Constants from './Constants';
-// import DatePicker from './DatePicker';
 import {Dropdown} from 'react-native-material-dropdown';
 
-import BUTTONS from './styles/buttons';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import COLORS from './styles/colors';
 import {useNavigation, useRoute} from '@react-navigation/native';
-
-// TODO:
-// 2. choose from prev/existing exercise
 
 class ExerciseInput extends Component {
   constructor(props) {
@@ -46,7 +40,7 @@ class ExerciseInput extends Component {
     };
   }
 
-  setformattedDate() {
+  setFormattedDate() {
     this.setState({
       formattedDate:
         `${this.state.date.getDate()}/` +
@@ -255,7 +249,6 @@ class ExerciseInput extends Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         if (data.error) {
           Alert.alert('Error', 'Sorry, try again later!', [{text: 'OK'}]);
         } else {
@@ -287,7 +280,6 @@ class ExerciseInput extends Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         if (data.error) {
           Alert.alert(
             'Save Failed',
@@ -326,7 +318,7 @@ class ExerciseInput extends Component {
             date: date,
           },
           function() {
-            this.setformattedDate();
+            this.setFormattedDate();
           },
         );
         hideDatePicker();
@@ -336,8 +328,8 @@ class ExerciseInput extends Component {
         <View>
           <TouchableOpacity style={styles.datePicker} onPress={showDatePicker}>
             <Image
-                source={require('./img/calendar.png')}
-                style={styles.image}
+              source={require('./img/calendar.png')}
+              style={styles.image}
             />
             <Text style={styles.text}>{this.state.formattedDate}</Text>
           </TouchableOpacity>
@@ -354,132 +346,132 @@ class ExerciseInput extends Component {
 
     return (
       <ScrollView>
-      <View style={styles.container}>
-        <View style={[styles.dropdown, {marginBottom: 0}]}>
-          <Dropdown
-            label="Category"
-            data={[
-              {
-                value: 'Bicycling',
-              },
-              {
-                value: 'Conditioning Exercise',
-              },
-              {
-                value: 'Running',
-              },
-              {
-                value: 'Sports',
-              },
-              {
-                value: 'Water Activities',
-              },
-              {
-                value: 'Winter Activities',
-              },
-            ]}
-            onChangeText={value => {
-              this.setState({category: value});
-              this.setState({
-                activityList: this.getActivityList(this.state.category),
-              });
-            }}
-          />
-        </View>
-        <View style={styles.dropdown}>
-          <Dropdown
-            label="Activity"
-            disabled={this.state.activityDisabled}
-            data={this.state.activityList}
-            onChangeText={value => {
-              this.setState({activity: value});
-              this.setState({
-                showDistance: this.setDistanceVisibility(this.state.activity),
-              });
-            }}
-          />
-        </View>
+        <View style={styles.container}>
+          <View style={[styles.dropdown, {marginBottom: 0}]}>
+            <Dropdown
+              label="Category"
+              data={[
+                {
+                  value: 'Bicycling',
+                },
+                {
+                  value: 'Conditioning Exercise',
+                },
+                {
+                  value: 'Running',
+                },
+                {
+                  value: 'Sports',
+                },
+                {
+                  value: 'Water Activities',
+                },
+                {
+                  value: 'Winter Activities',
+                },
+              ]}
+              onChangeText={value => {
+                this.setState({category: value});
+                this.setState({
+                  activityList: this.getActivityList(this.state.category),
+                });
+              }}
+            />
+          </View>
+          <View style={styles.dropdown}>
+            <Dropdown
+              label="Activity"
+              disabled={this.state.activityDisabled}
+              data={this.state.activityList}
+              onChangeText={value => {
+                this.setState({activity: value});
+                this.setState({
+                  showDistance: this.setDistanceVisibility(this.state.activity),
+                });
+              }}
+            />
+          </View>
 
-        <View style={styles.rowContainer}>
-          {/*<View style={styles.leftContainer}>*/}
-          <Text style={styles.text}>Date:</Text>
-          {/*</View>*/}
-          {/*<View style={styles.rightContainer}>*/}
-          <DatePicker />
-          {/*</View>*/}
-        </View>
-
-        <View style={styles.rowContainer}>
-          {/*<View style={styles.leftContainer}>*/}
-          <Text style={styles.text}>Duration:</Text>
-          {/*</View>*/}
-          {/*<View style={styles.rightContainer}>*/}
-          <TextInput
-            onChangeText={hours => this.setState({hours})}
-            style={[styles.textInput, {width: 40}]}
-            keyboardType={'numeric'}
-            placeholder="hh"
-            maxLength={2}
-          />
-          <Text style={styles.text}>:</Text>
-          <TextInput
-            onChangeText={minutes => this.setState({minutes})}
-            style={[styles.textInput, {width: 40}]}
-            keyboardType={'numeric'}
-            placeholder="mm"
-            maxLength={2}
-          />
-          {/*</View>*/}
-        </View>
-
-        {this.state.showDistance && (
           <View style={styles.rowContainer}>
-            <Text style={[styles.text]}>Distance:</Text>
+            {/*<View style={styles.leftContainer}>*/}
+            <Text style={styles.text}>Date:</Text>
+            {/*</View>*/}
+            {/*<View style={styles.rightContainer}>*/}
+            <DatePicker />
+            {/*</View>*/}
+          </View>
+
+          <View style={styles.rowContainer}>
+            {/*<View style={styles.leftContainer}>*/}
+            <Text style={styles.text}>Duration:</Text>
+            {/*</View>*/}
+            {/*<View style={styles.rightContainer}>*/}
             <TextInput
-              onChangeText={distance => this.setState({distance})}
+              onChangeText={hours => this.setState({hours})}
               style={[styles.textInput, {width: 40}]}
               keyboardType={'numeric'}
-              placeholder="00"
-              maxLength={10}
+              placeholder="hh"
+              maxLength={2}
             />
-            <Text style={styles.text}>km</Text>
+            <Text style={styles.text}>:</Text>
+            <TextInput
+              onChangeText={minutes => this.setState({minutes})}
+              style={[styles.textInput, {width: 40}]}
+              keyboardType={'numeric'}
+              placeholder="mm"
+              maxLength={2}
+            />
+            {/*</View>*/}
           </View>
-        )}
 
-        <TouchableOpacity
-          onPress={() => {
-            const {route} = this.props;
-            const {userId} = route.params;
-            this.setState({userId: userId});
-            this.props.navigation.navigate('FavActivities', {
-              userId: userId,
-              date: this.state.formattedDate,
-            });
-          }}
-          style={styles.linkStyle}>
-          <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
-            Or select an activity from your favorites!
-          </Text>
-        </TouchableOpacity>
+          {this.state.showDistance && (
+            <View style={styles.rowContainer}>
+              <Text style={[styles.text]}>Distance:</Text>
+              <TextInput
+                onChangeText={distance => this.setState({distance})}
+                style={[styles.textInput, {width: 40}]}
+                keyboardType={'numeric'}
+                placeholder="00"
+                maxLength={10}
+              />
+              <Text style={styles.text}>km</Text>
+            </View>
+          )}
 
-        <View
+          <TouchableOpacity
+            onPress={() => {
+              const {route} = this.props;
+              const {userId} = route.params;
+              this.setState({userId: userId});
+              this.props.navigation.navigate('FavActivities', {
+                userId: userId,
+                date: this.state.formattedDate,
+              });
+            }}
+            style={styles.linkStyle}>
+            <Text style={{color: '#0000EE', textDecorationLine: 'underline'}}>
+              Or select an activity from your favorites!
+            </Text>
+          </TouchableOpacity>
+
+          <View
             style={{
               width: '100%',
               paddingHorizontal: 50,
               marginTop: 50,
             }}>
-          <TouchableOpacity
-            style={styles.primaryBtn}
-            onPress={this.addExercise}>
-            <Text>Save Activity</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={this.props.navigation.goBack}
-            style={styles.secondaryBtn}>
-            <Text>Done</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.primaryBtn}
+              onPress={this.addExercise}>
+              <Text>Save Activity</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={this.props.navigation.goBack}
+              style={styles.secondaryBtn}>
+              <Text>Done</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
       </ScrollView>
     );
   }
@@ -521,9 +513,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderBottomWidth: 0.5,
     textAlign: 'center',
-  },
-  picker: {
-    //TODO
   },
   linkStyle: {
     alignItems: 'center',

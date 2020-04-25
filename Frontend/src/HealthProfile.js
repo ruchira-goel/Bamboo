@@ -8,22 +8,15 @@ import {
   TextInput,
   TouchableOpacity,
   Platform,
-  Switch,
 } from 'react-native';
 import * as Constants from './Constants';
 import {useNavigation, useRoute} from '@react-navigation/native';
 // import {LinearGradient} from 'expo-linear-gradient';
-import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-  RadioButtonLabel,
-} from 'react-native-simple-radio-button';
-
-// TODO:
-// 1. put user's name in header?
-// 2. validate inputs (feet & inches), display errors
-// 3. slight rounding errors
-// 4. sometimes on edit -> toggle -> values don't stay in input boxes
+// import RadioForm, {
+//   RadioButton,
+//   RadioButtonInput,
+//   RadioButtonLabel,
+// } from 'react-native-simple-radio-button';
 
 class HealthProfile extends Component {
   constructor(props) {
@@ -69,7 +62,7 @@ class HealthProfile extends Component {
             lifestyle: data.lifestyle,
           },
           () => {
-            console.log(data.lifestyle);
+            // console.log(data.lifestyle);
           },
         );
         let weightLb = Math.round(data.weight * 2.20462).toString();
@@ -150,7 +143,7 @@ class HealthProfile extends Component {
     }
     // console.log('Metric: ' + height + ',' + weight);
     // console.log('Imperial: ' + feet + ',' + inches + ',' + weightLb);
-    console.log(lifestyle);
+    // console.log(lifestyle);
     fetch(
       Platform.OS === 'android'
         ? `${
@@ -301,27 +294,31 @@ class HealthProfile extends Component {
         <View style={styles.contentContainer}>
           {/*<Text style={styles.header}>[name]'s Health Profile</Text>*/}
           <TouchableOpacity
-              disabled={this.state.editable}
-              style={[
-                styles.primaryBtn,
-                {
-                  backgroundColor: this.state.editable
-                      ? 'silver'
-                      : Constants.COLORS.accent.main,
-                },
-              ]}
-              onPress={() =>
-                  this.props.navigation.navigate('EditDietaryRestrictions', {
-                    userId: userId,
-                  })
-              }>
+            disabled={this.state.editable}
+            style={[
+              styles.primaryBtn,
+              {
+                backgroundColor: this.state.editable
+                  ? 'silver'
+                  : Constants.COLORS.accent.main,
+              },
+            ]}
+            onPress={() =>
+              this.props.navigation.navigate('EditDietaryRestrictions', {
+                userId: userId,
+              })
+            }>
             <Text style={styles.btnText}>View Dietary Profile</Text>
           </TouchableOpacity>
           <ScrollView>
             <View>
-              {/*<View>{this.renderHeight()}</View>*/}
               {isMetric ? (
-                <View style={[styles.rowContainer, this.state.padding, {marginTop: 0,}]}>
+                <View
+                  style={[
+                    styles.rowContainer,
+                    this.state.padding,
+                    {marginTop: 0},
+                  ]}>
                   <Text style={[styles.text]}>Height</Text>
                   <TextInput
                     onBlur={() => this.onBlur('a')}
@@ -385,7 +382,6 @@ class HealthProfile extends Component {
                   <Text style={[styles.text, {paddingLeft: 4}]}>in</Text>
                 </View>
               )}
-              {/*<Text style={[styles.text]}>{isMetric ? 'cm' : '??'}</Text>*/}
             </View>
             <View style={[styles.rowContainer, this.state.padding]}>
               <Text style={[styles.text]}>Weight</Text>
@@ -500,10 +496,18 @@ class HealthProfile extends Component {
             {/*</View>*/}
           </ScrollView>
         </View>
-        <TouchableOpacity onPress={this.onPress} style={[styles.btnStyle, {backgroundColor: this.state.editable ? Constants.COLORS.primary.main : '#E0E0E0'}]}>
+        <TouchableOpacity
+          onPress={this.onPress}
+          style={[
+            styles.btnStyle,
+            {
+              backgroundColor: this.state.editable
+                ? Constants.COLORS.primary.main
+                : '#E0E0E0',
+            },
+          ]}>
           <Text style={styles.btnText}>{this.state.buttonValue}</Text>
         </TouchableOpacity>
-
       </View>
     );
   }
@@ -565,9 +569,7 @@ const styles = StyleSheet.create({
     paddingRight: 10.5,
   },
   primaryBtn: {
-    // backgroundColor: '#fff',
     borderRadius: 4,
-    // borderWidth: 2,
     backgroundColor: Constants.COLORS.accent.main,
     padding: 12,
     justifyContent: 'center',

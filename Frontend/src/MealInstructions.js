@@ -4,13 +4,9 @@ import {
   View,
   StyleSheet,
   FlatList,
-  TouchableOpacity,
-  Platform,
-  Alert,
   ScrollView,
 } from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import * as Constants from './Constants';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 // Sources:

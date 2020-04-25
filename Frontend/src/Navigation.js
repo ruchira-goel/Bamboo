@@ -1,5 +1,4 @@
 import * as React from 'react';
-import {useState, useEffect} from 'react';
 import {Alert, StatusBar} from 'react-native';
 import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
 import {
@@ -240,10 +239,6 @@ function ExerciseScreen({route, navigation}) {
     <View style={{flex: 1, alignItems: 'center'}}>
       <StackHeader screenName={'Exercise Input'} />
       <ExerciseInput />
-      {/*<Button*/}
-      {/*  title="Go to Profile"*/}
-      {/*  onPress={() => navigation.navigate('Profile')}*/}
-      {/*/>*/}
     </View>
   );
 }
@@ -291,7 +286,6 @@ function DietGraphsScreen({route, navigation}) {
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
       <StackHeader screenName={'Diet Graphs'} />
-      {/*<Text>temporary text</Text>*/}
       <DietGraphs />
     </View>
   );
@@ -485,16 +479,6 @@ function CustomDrawerContent(props) {
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
-      {/*<DrawerItem*/}
-      {/*  label="Profile"*/}
-      {/*  onPress={() =>*/}
-      {/*    props.navigation.jumpTo('Profile', {*/}
-      {/*      params: {*/}
-      {/*        userId: props.userId,*/}
-      {/*      },*/}
-      {/*    })*/}
-      {/*  }*/}
-      {/*/>*/}
       <DrawerItem
         label="Logout"
         onPress={() =>
@@ -540,23 +524,32 @@ function Root() {
         name="Enter Dietary Restrictions"
         component={EnterDietaryRestrictionsScreen}
       />
-      <Stack.Screen name="Meal Instructions" component={RecipeScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="RecoverAccount" component={RecoverAccountScreen} />
-      <Stack.Screen name="Meal" component={MealScreen} />
-      <Stack.Screen name="MealRecommendation" component={MealRecommendScreen} />
-      <Stack.Screen name="FavMeals" component={FavMealsScreen} />
-      <Stack.Screen
-        name="RecommendedMealsList"
-        component={RecommendedMealsListScreen}
-      />
-      <Stack.Screen name="Exercise" component={ExerciseScreen} />
-      <Stack.Screen name="FavActivities" component={FavActivitiesScreen} />
 
       <Stack.Screen name="ViewGoals" component={ViewGoalsScreen} />
       <Stack.Screen name="SetGoal" component={SetGoalScreen} />
       <Stack.Screen name="EditGoal" component={EditGoalScreen} />
       <Stack.Screen name="TrackProgress" component={GoalProgressScreen} />
+
+      <Stack.Screen name="Meal" component={MealScreen} />
+      <Stack.Screen name="FavMeals" component={FavMealsScreen} />
+
+      <Stack.Screen name="Exercise" component={ExerciseScreen} />
+      <Stack.Screen name="FavActivities" component={FavActivitiesScreen} />
+
+      <Stack.Screen name="MealRecommendation" component={MealRecommendScreen} />
+      <Stack.Screen
+        name="RecommendedMealsList"
+        component={RecommendedMealsListScreen}
+      />
+      <Stack.Screen name="Meal Instructions" component={RecipeScreen} />
+
+      <Stack.Screen name="ExerciseRoutine" component={ExerciseRoutineScreen} />
+      <Stack.Screen
+        name="ExerciseGenerator"
+        component={ExerciseGeneratorScreen}
+      />
 
       <Stack.Screen name="DietGraphs" component={DietGraphsScreen} />
       <Stack.Screen name="ExerciseGraphs" component={ExerciseGraphsScreen} />
@@ -566,34 +559,9 @@ function Root() {
         name="EditDietaryRestrictions"
         component={DietaryRestrictionsScreen}
       />
-
-      <Stack.Screen
-        name="ExerciseGenerator"
-        component={ExerciseGeneratorScreen}
-      />
-      <Stack.Screen name="ExerciseRoutine" component={ExerciseRoutineScreen} />
-      {/*
-      TODO:
-      enter characteristics
-      view goals
-      edit goal
-      track progress
-      set goal
-      */}
     </Stack.Navigator>
   );
 }
-// function SettingsRoot() {
-//   return (
-//     <Stack.Navigator
-//       screenOptions={{
-//         headerShown: false,
-//       }}>
-//       <Stack.Screen name="Settings" component={SettingsScreen} />
-//       <Stack.Screen name="ChangePass" component={ChangePassScreen} />
-//     </Stack.Navigator>
-//   );
-// }
 
 export default function Navigation() {
   return (
@@ -634,13 +602,6 @@ export default function Navigation() {
           }}
           drawerContent={props => CustomDrawerContent(props)}
         />
-        {/*<Drawer.Screen*/}
-        {/*  name="Settings"*/}
-        {/*  component={SettingsRoot}*/}
-        {/*  options={{*/}
-        {/*    title: 'Settings',*/}
-        {/*  }}*/}
-        {/*/>*/}
         <Drawer.Screen
           name="Settings"
           component={SettingsScreen}

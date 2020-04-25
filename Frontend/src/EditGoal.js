@@ -13,9 +13,6 @@ import {Dropdown} from 'react-native-material-dropdown';
 import * as Constants from './Constants';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
-// TODO: On back press, ViewGoals should be re-rendered i.e. backend should be fetched again (componentDidMount)
-// TODO: Submit button needs to be edited to be centered
-
 class EditGoal extends React.Component {
   constructor(props) {
     super(props);
@@ -69,7 +66,6 @@ class EditGoal extends React.Component {
       amount,
       trackedItem,
       duration,
-      goalOptions,
       isMealGoal,
       mealOpts,
       exOpts,
@@ -106,7 +102,6 @@ class EditGoal extends React.Component {
     // Second condition taken from user Andy
     // from https://stackoverflow.com/questions/22844560/check-if-object-value-exists-within-a-javascript-array-of-objects-and-if-not-add
     if (isMealGoal && !mealOpts.some(value => value.value === trackedItem)) {
-      console.log(trackedItem);
       Alert.alert('Meal Option', 'Please select a meal option', [{text: 'OK'}]);
       return;
     }
@@ -127,13 +122,13 @@ class EditGoal extends React.Component {
     } else {
       type = 'Exercise';
     }
-    console.log('userid = ' + userId);
-    console.log('goalid = ' + goalId);
-    console.log('type = ' + type);
-    console.log('limitType = ' + limitType);
-    console.log('amount = ' + amount);
-    console.log('trackeditem = ' + trackedItem);
-    console.log('duration = ' + duration);
+    // console.log('userid = ' + userId);
+    // console.log('goalid = ' + goalId);
+    // console.log('type = ' + type);
+    // console.log('limitType = ' + limitType);
+    // console.log('amount = ' + amount);
+    // console.log('trackeditem = ' + trackedItem);
+    // console.log('duration = ' + duration);
 
     fetch(
       Platform.OS === 'android'
@@ -146,7 +141,6 @@ class EditGoal extends React.Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         if (data.error) {
           //throwing error when login fails - wrong password / email not registered yet
           Alert.alert('Error', data.message, [{text: 'OK'}]);
@@ -165,7 +159,6 @@ class EditGoal extends React.Component {
     const {route} = this.props;
     const {userId, goalId} = route.params;
     this.setState({userId: userId});
-    console.log('In the edit goals page: ' + userId);
     fetch(
       Platform.OS === 'android'
         ? `${
@@ -177,7 +170,6 @@ class EditGoal extends React.Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         if (data.error) {
           Alert.alert(
             data.message,
@@ -185,18 +177,18 @@ class EditGoal extends React.Component {
             [{text: 'OK'}],
           );
         } else {
-          console.log('Now no errors, printing data:\n' + data);
+          // console.log('Now no errors, printing data:\n' + data);
           this.setState({
             goals: data,
           });
-          console.log('Printing out goals:\n' + this.state.goals);
-          var isMealGoal = this.state.goals[3] === 'Meal';
-          var limitType = this.state.goals[5];
-          var amount = parseInt(this.state.goals[7]);
-          var trackedItem = this.state.goals[6];
-          var duration = this.state.goals[4];
-          var userId = this.state.goals[1];
-          var goalId = this.state.goals[0];
+          // console.log('Printing out goals:\n' + this.state.goals);
+          let isMealGoal = this.state.goals[3] === 'Meal';
+          let limitType = this.state.goals[5];
+          let amount = parseInt(this.state.goals[7]);
+          let trackedItem = this.state.goals[6];
+          let duration = this.state.goals[4];
+          let userId = this.state.goals[1];
+          let goalId = this.state.goals[0];
           this.setState({
             userId: userId,
             goalId: goalId,
@@ -206,7 +198,6 @@ class EditGoal extends React.Component {
             trackedItem: trackedItem,
             duration: duration,
           });
-          console.log(this.state);
         }
       });
   }
@@ -228,7 +219,6 @@ class EditGoal extends React.Component {
         value: 'Greater than',
       },
     ];
-    const {mealOpts, exOpts} = this.state;
     return (
       <ScrollView>
         <View style={styles.container}>

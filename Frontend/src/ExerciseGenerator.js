@@ -8,7 +8,6 @@ import {
   Alert,
   Platform,
   ScrollView,
-  Dimensions,
 } from 'react-native';
 import * as Constants from './Constants';
 import {useNavigation, useRoute} from '@react-navigation/native';

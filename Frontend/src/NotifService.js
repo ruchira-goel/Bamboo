@@ -1,7 +1,5 @@
 import PushNotification from 'react-native-push-notification';
 import {Alert, Platform} from 'react-native';
-import URL from './url';
-
 import * as Constants from './Constants';
 
 export default class NotifService {
@@ -83,12 +81,12 @@ export default class NotifService {
       //check if the user actually has any goals:
       fetch(
         Platform.OS === 'android'
-          ? `${URL.android}/User/hasGoals?userId=${userId}`
-          : `${URL.ios}/User/hasGoals?userId=${userId}`,
+          ? `${Constants.URL.android}/User/hasGoals?userId=${userId}`
+          : `${Constants.URL.ios}/User/hasGoals?userId=${userId}`,
       )
         .then(res => res.json())
         .then(hasGoals => {
-          console.log('the has goals is ' + hasGoals);
+          // console.log('the has goals is ' + hasGoals);
           if (hasGoals.toString() === 'true') {
             this.scheduleGoalStreakNotification(userId);
           }
@@ -98,11 +96,11 @@ export default class NotifService {
 
   scheduleNotifications(userId) {
     this.cancelAll();
-    console.log('it is going to get user');
+    // console.log('it is going to get user');
     fetch(
       Platform.OS === 'android'
-        ? `${URL.android}/User/getUser?userId=${userId}`
-        : `${URL.ios}/User/getUser?userId=${userId}`,
+        ? `${Constants.URL.android}/User/getUser?userId=${userId}`
+        : `${Constants.URL.ios}/User/getUser?userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -141,12 +139,12 @@ export default class NotifService {
             //check if the user actually has any goals:
             fetch(
               Platform.OS === 'android'
-                ? `${URL.android}/User/hasGoals?userId=${userId}`
-                : `${URL.ios}/User/hasGoals?userId=${userId}`,
+                ? `${Constants.URL.android}/User/hasGoals?userId=${userId}`
+                : `${Constants.URL.ios}/User/hasGoals?userId=${userId}`,
             )
               .then(res => res.json())
               .then(hasGoals => {
-                console.log('the has goals is ' + hasGoals);
+                // console.log('the has goals is ' + hasGoals);
                 if (hasGoals.toString() === 'true') {
                   this.scheduleGoalStreakNotification(userId);
                 }
@@ -168,9 +166,11 @@ export default class NotifService {
     fetch(
       Platform.OS === 'android'
         ? `${
-            URL.android
+            Constants.URL.android
           }/User/getGoalStreakNotificationMessage?userId=${userId}`
-        : `${URL.ios}/User/getGoalStreakNotificationMessage?userId=${userId}`,
+        : `${
+            Constants.URL.ios
+          }/User/getGoalStreakNotificationMessage?userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {

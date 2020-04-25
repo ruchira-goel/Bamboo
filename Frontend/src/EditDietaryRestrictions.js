@@ -101,11 +101,11 @@ class EditDietaryRestrictions extends Component {
           allergies: data.allergies,
           diet: newDiet,
         });
-        console.log(this.state.allergies);
+        // console.log(this.state.allergies);
         this.state.allergies.map(item => {
-          console.log(item);
+          // console.log(item);
         });
-        console.log(this.state.diet);
+        // console.log(this.state.diet);
       });
   }
 
@@ -113,7 +113,7 @@ class EditDietaryRestrictions extends Component {
     let {allergies, diet} = this.state;
     const {route} = this.props;
     const {userId} = route.params;
-    console.log('In on save');
+    // console.log('In on save');
     fetch(
       Platform.OS === 'android'
         ? `${
@@ -159,7 +159,7 @@ class EditDietaryRestrictions extends Component {
 
   onSelectedAllergyChange = selectedItems => {
     this.setState({allergies: selectedItems});
-    console.log(this.state.allergies);
+    // console.log(this.state.allergies);
   };
 
   render() {
@@ -211,7 +211,7 @@ class EditDietaryRestrictions extends Component {
                   selectedItems={allergies}
                   selectText="Pick Items"
                   searchInputPlaceholderText="Search Items..."
-                  onChangeInput={text => console.log(text)}
+                  // onChangeInput={text => console.log(text)}
                   tagRemoveIconColor="#CCC"
                   tagBorderColor="#CCC"
                   tagTextColor="#CCC"

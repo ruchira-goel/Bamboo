@@ -25,7 +25,6 @@ export const COLORS = {
 
 export const URL = {
   android: 'http://bamboo-307.herokuapp.com',
-  // android: '${Constants.URL.android}',
   ios: 'http://bamboo-307.herokuapp.com',
 };
 

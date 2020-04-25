@@ -13,7 +13,6 @@ import {
 import ChangePass from './ChangePass';
 import * as Constants from './Constants';
 import {useNavigation} from '@react-navigation/native';
-import URL from './url';
 import NotifService from './NotifService';
 
 class Settings extends Component {
@@ -40,8 +39,8 @@ class Settings extends Component {
     this.setState({userId: userId});
     fetch(
       Platform.OS === 'android'
-        ? `${URL.android}/User/getUser?userId=${userId}`
-        : `${URL.ios}/User/getUser?userId=${userId}`,
+        ? `${Constants.URL.android}/User/getUser?userId=${userId}`
+        : `${Constants.URL.ios}/User/getUser?userId=${userId}`,
     )
       .then(res => res.json())
       .then(data => {
@@ -55,12 +54,12 @@ class Settings extends Component {
 
   onRegister(token) {
     Alert.alert('Registered !', JSON.stringify(token));
-    console.log(token);
+    // console.log(token);
     this.setState({registerToken: token.token, gcmRegistered: true});
   }
 
   onNotif(notif) {
-    console.log(notif);
+    // console.log(notif);
     Alert.alert(notif.title, notif.message);
   }
 
@@ -74,7 +73,7 @@ class Settings extends Component {
   };
 
   toggleGoalStreakSwitch = value => {
-    console.log('changing to ' + value);
+    // console.log('changing to ' + value);
     this.setState({goalStreak: value});
     this.onSave(this.state.dailyInput, value);
   };
@@ -82,10 +81,10 @@ class Settings extends Component {
   toggleMetricSwitch = value => {
     fetch(
       Platform.OS === 'android'
-        ? `${URL.android}/User/changeUnit?userId=${
+        ? `${Constants.URL.android}/User/changeUnit?userId=${
             this.state.userId
           }&isMetric=${value}`
-        : `${URL.ios}/User/changeUnit?userId=${
+        : `${Constants.URL.ios}/User/changeUnit?userId=${
             this.state.userId
           }&isMetric=${value}`,
     )
@@ -106,21 +105,21 @@ class Settings extends Component {
 
   onSave = (dailyInput, goalStreak) => {
     if (goalStreak == undefined) {
-      console.log('it is undefined');
+      // console.log('it is undefined');
       return;
     }
     fetch(
       Platform.OS === 'android'
-        ? `${URL.android}/User/addNotifSettings?userId=${
+        ? `${Constants.URL.android}/User/addNotifSettings?userId=${
             this.state.userId
           }&dailyInput=${dailyInput}&goalStreak=${goalStreak}`
-        : `${URL.ios}/User/addNotifSettings?userId=${
+        : `${Constants.URL.ios}/User/addNotifSettings?userId=${
             this.state.userId
           }&dailyInput=${dailyInput}&goalStreak=${goalStreak}`,
     )
       .then(res => res.json())
       .then(data => {
-        console.log('the data after it added notif settings ' + data.goalStreakNotif);
+        // console.log('the data after it added notif settings ' + data.goalStreakNotif);
         if (data.error) {
           //throwing error when getUser fails (invalid userId)
           if (data.message === 'There was an error locating your account') {
@@ -145,11 +144,10 @@ class Settings extends Component {
   };
 
   delAccount = () => {
-    console.log('here');
     // const {route} = this.props;
     // const {userId} = route.userId;
     const userId = this.props.userId
-    console.log(userId);
+    // console.log(userId);
     fetch(
       Platform.OS === 'android'
         ? `${Constants.URL.android}/User/delAccount?userId=${userId}`
@@ -157,7 +155,7 @@ class Settings extends Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        // console.log(data);
         if (!data) {
           Alert.alert(
             'Error',
@@ -362,8 +360,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: Constants.DIMENSIONS.screenWidth,
-    // justifyContent: 'center',
-    // alignItems: 'center',
     backgroundColor: Constants.COLORS.background,
     padding: 20,
   },
@@ -373,7 +369,6 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 16,
-    // margin: 10,
   },
   selectBox: {
     fontSize: 16,
@@ -383,17 +378,14 @@ const styles = StyleSheet.create({
     borderColor: Constants.COLORS.gray,
     backgroundColor: '#fff',
     padding: 10,
-    // marginBottom: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   leftContainer: {
-    // flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
   },
   rightContainer: {
-    // flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },

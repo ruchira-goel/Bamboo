@@ -14,8 +14,6 @@ import * as Constants from './Constants';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import NotifService from './NotifService';
 
-// TODO: Submit button needs to be edited to be centered
-
 class SetGoal extends React.Component {
   constructor(props) {
     super(props);
@@ -66,7 +64,6 @@ class SetGoal extends React.Component {
       amount,
       trackedItem,
       duration,
-      goalOptions,
       isMealGoal,
       mealOpts,
       exOpts,
@@ -100,7 +97,6 @@ class SetGoal extends React.Component {
     // Second condition taken from user Andy
     // from https://stackoverflow.com/questions/22844560/check-if-object-value-exists-within-a-javascript-array-of-objects-and-if-not-add
     if (isMealGoal && !mealOpts.some(value => value.value === trackedItem)) {
-      console.log(trackedItem);
       Alert.alert('Meal Option', 'Please select a meal option', [{text: 'OK'}]);
       return;
     }
@@ -132,7 +128,6 @@ class SetGoal extends React.Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         if (data.error) {
           //throwing error when login fails - wrong password / email not registered yet
           Alert.alert('Error', data.message, [{text: 'OK'}]);

@@ -198,7 +198,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   rowContainer: {
-    // flex: 1,
     padding: 10,
     margin: 3,
     backgroundColor: '#fff',
@@ -233,9 +232,7 @@ const styles = StyleSheet.create({
     width: 25,
   },
   primaryBtn: {
-    // backgroundColor: '#fff',
     borderRadius: 60,
-    // borderWidth: 2,
     backgroundColor: Constants.COLORS.accent.main,
     padding: 12,
     justifyContent: 'center',

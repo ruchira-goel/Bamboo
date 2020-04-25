@@ -9,9 +9,7 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
-import {Dropdown} from 'react-native-material-dropdown';
 import CheckBox from 'react-native-check-box';
-import URL from './url';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import * as Constants from './Constants';
 
@@ -240,7 +238,7 @@ class MealRecommend extends React.Component {
       carbsHigh,
     } = this.state;
     let request = `/Meal/getRecommended?userId=${userId}&`;
-    console.log(calLow);
+    // console.log(calLow);
     if (isCheckedCalLow) {
       if (calLow === '') {
         calLow = userRequirements.calLow.toFixed(2);
@@ -310,7 +308,7 @@ class MealRecommend extends React.Component {
     } else {
       request = request.concat('numMeals=0');
     }
-    console.log('Request: ' + request);
+    // console.log('Request: ' + request);
     fetch(
       Platform.OS === 'android'
         ? `${Constants.URL.android}/${request}`
@@ -344,7 +342,7 @@ class MealRecommend extends React.Component {
         if (data.error) {
           Alert.alert('Error', data.message, [{text: 'OK'}]);
         } else {
-          console.log(data);
+          // console.log(data);
           this.setState({userRequirements: data});
         }
       });
@@ -353,7 +351,7 @@ class MealRecommend extends React.Component {
   setLimits = (limitName, data) => {
     if (data[limitName] !== undefined) {
       this.setState({[limitName]: data[limitName]}, () => {
-        console.log(this.state[limitName]);
+        // console.log(this.state[limitName]);
       });
     }
   };

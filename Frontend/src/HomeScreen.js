@@ -36,10 +36,10 @@ export default class HomeScreen extends React.Component {
   };
 
   delAccount = () => {
-    console.log('here');
+    // console.log('here');
     const {route} = this.props;
     const {userId} = route.params;
-    console.log(userId);
+    // console.log(userId);
     fetch(
       Platform.OS === 'android'
         ? `${Constants.URL.android}/User/delAccount?userId=${userId}`
@@ -47,7 +47,7 @@ export default class HomeScreen extends React.Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        // console.log(data);
         if (!data) {
           Alert.alert(
             'Error',
@@ -64,7 +64,7 @@ export default class HomeScreen extends React.Component {
   render() {
     const {route} = this.props;
     const {userId} = route.params;
-    console.log('User ID: ', this.props.userId);
+    // console.log('User ID: ', this.props.userId);
     return (
       <ScrollView>
         <View style={styles.heading}>

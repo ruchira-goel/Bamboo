@@ -9,7 +9,6 @@ import {
   Alert,
   Platform,
 } from 'react-native';
-import FavMeals from './FavMeals';
 import * as Constants from './Constants';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
@@ -55,10 +54,7 @@ class FavActivities extends Component {
     const {route} = this.props;
     const {userId} = route.params;
     const {date} = route.params;
-    console.log('Date: ' + date);
     this.setState({userId: userId});
-    console.log('In the savemealsfromfavs function: ' + userId);
-    console.log('');
     fetch(
       Platform.OS === 'android'
         ? `${
@@ -72,8 +68,6 @@ class FavActivities extends Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
-        console.log(data);
         if (data.error) {
           Alert.alert(
             'Error',
@@ -92,7 +86,7 @@ class FavActivities extends Component {
     const {route} = this.props;
     const {userId} = route.params;
     this.setState({userId: userId});
-    console.log('In the favmeals page: ' + userId);
+    // console.log('In the favmeals page: ' + userId);
     fetch(
       Platform.OS === 'android'
         ? `${Constants.URL.android}/Activity/getFavorites?userId=${userId}`
@@ -100,7 +94,6 @@ class FavActivities extends Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         if (data.error) {
           Alert.alert(
             'Error',
@@ -127,8 +120,7 @@ class FavActivities extends Component {
     const {route} = this.props;
     const {userId} = route.params;
     this.setState({userId: userId});
-    console.log('delFav: ' + userId);
-    console.log(item.id);
+    // console.log('delFav: ' + userId);
     fetch(
       Platform.OS === 'android'
         ? `${
@@ -140,7 +132,6 @@ class FavActivities extends Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         if (data.error) {
           Alert.alert(
             'Delete Failed',

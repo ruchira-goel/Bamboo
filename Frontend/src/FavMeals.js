@@ -10,9 +10,8 @@ import {
   Platform,
 } from 'react-native';
 
-import {useNavigation, useRoute} from "@react-navigation/native";
-import * as Constants from "./Constants";
-import COLORS from "./styles/colors";
+import {useNavigation, useRoute} from '@react-navigation/native';
+import * as Constants from './Constants';
 
 // Sources:
 // https://reactnative.dev/docs/images
@@ -39,7 +38,11 @@ class FavMeals extends Component {
     const {date} = route.params;
     Alert.alert(
       'Adding Meal',
-      "'Are you sure you want to add meal '" + item.name + "' to " + date + " ?",
+      "'Are you sure you want to add meal '" +
+        item.name +
+        "' to " +
+        date +
+        ' ?',
       [
         {text: 'Yes', onPress: () => this.saveMealFromFavorties(item)},
         {text: 'No'},
@@ -52,10 +55,7 @@ class FavMeals extends Component {
     const {route} = this.props;
     const {userId} = route.params;
     const {date} = route.params;
-    console.log("Date: " + date);
     this.setState({userId: userId});
-    console.log('In the savemealsfromfavs function: ' + userId);
-    console.log("");
     fetch(
       Platform.OS === 'android'
         ? `${
@@ -63,14 +63,14 @@ class FavMeals extends Component {
           }/Meal/saveMealFromFavorites?userId=${userId}&mealId=${
             item.id
           }&date=${date}`
-        : `${Constants.URL.ios}/Meal/saveMealFromFavorites?userId=${userId}&mealId=${
+        : `${
+            Constants.URL.ios
+          }/Meal/saveMealFromFavorites?userId=${userId}&mealId=${
             item.id
           }&date=${date}`,
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
-        console.log(data);
         if (data.error) {
           Alert.alert(
             'Error',
@@ -89,7 +89,6 @@ class FavMeals extends Component {
     const {route} = this.props;
     const {userId} = route.params;
     this.setState({userId: userId});
-    console.log('In the favmeals page: ' + userId);
     fetch(
       Platform.OS === 'android'
         ? `${Constants.URL.android}/Meal/getFavorites?userId=${userId}`
@@ -97,7 +96,7 @@ class FavMeals extends Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        // console.log(data);
         if (data.error) {
           Alert.alert(
             data.message,
@@ -106,7 +105,7 @@ class FavMeals extends Component {
           );
         } else {
           this.setState({meals: data});
-          console.log(this.state.meals[0]);
+          // console.log(this.state.meals[0]);
         }
       });
   };
@@ -125,20 +124,17 @@ class FavMeals extends Component {
     const {route} = this.props;
     const {userId} = route.params;
     this.setState({userId: userId});
-    console.log('delFav: ' + userId);
-    console.log(item.id);
     fetch(
       Platform.OS === 'android'
-        ? `${Constants.URL.android}/Meal/deleteFavorite?userId=${userId}&mealId=${
-            item.id
-          }`
+        ? `${
+            Constants.URL.android
+          }/Meal/deleteFavorite?userId=${userId}&mealId=${item.id}`
         : `${Constants.URL.ios}/Meal/deleteFavorite?userId=${userId}&mealId=${
             item.id
           }`,
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         if (data.error) {
           Alert.alert(
             'Delete Failed',
@@ -162,9 +158,7 @@ class FavMeals extends Component {
     return (
       <ScrollView>
         <View style={styles.container}>
-          <Text style={styles.heading}>
-            Here are all your favorite meals!
-          </Text>
+          <Text style={styles.heading}>Here are all your favorite meals!</Text>
           {this.state.meals.map((item, index) => (
             <TouchableOpacity
               key={item.id}
@@ -192,9 +186,7 @@ class FavMeals extends Component {
 export default function(props) {
   const navigation = useNavigation();
   const route = useRoute();
-  return (
-      <FavMeals {...props} navigation={navigation} route={route} />
-  );
+  return <FavMeals {...props} navigation={navigation} route={route} />;
 }
 
 const styles = StyleSheet.create({

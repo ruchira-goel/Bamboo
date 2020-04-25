@@ -44,10 +44,10 @@ class TrackProgress extends React.Component {
     const {userId, goalId, goalName} = route.params;
     // this.setState({userId: userId});
     // this.setState({goalName: goalName});
-    console.log('userId ' + userId);
-    console.log('goalId ' + goalId);
-    console.log('goalName ' + goalName);
-    console.log('In the track progress page: ' + userId);
+    // console.log('userId ' + userId);
+    // console.log('goalId ' + goalId);
+    // console.log('goalName ' + goalName);
+    // console.log('In the track progress page: ' + userId);
     fetch(
       Platform.OS === 'android'
         ? `${Constants.URL.android}/Goal/fetchGoalProgress?userId=${userId}&goalId=${goalId}`
@@ -63,15 +63,12 @@ class TrackProgress extends React.Component {
             [{text: 'OK'}],
           );
         } else {
-          console.log('Now no errors, printing data:\n' + data);
-          console.log('goalProgress ' + parseFloat(data));
           this.setState({
             goalProgress: data,
             goalId: goalId,
             userId: userId,
             goalName: goalName,
           });
-          console.log('goalName ' + goalName);
         }
       });
     // fetch(

@@ -3,8 +3,6 @@ import {
   View,
   StyleSheet,
   Dimensions,
-  TextInput,
-  Switch,
   Alert,
   TouchableOpacity,
   Platform,
@@ -16,9 +14,6 @@ import * as Constants from './Constants';
 import {Dropdown} from 'react-native-material-dropdown';
 import MultiSelect from 'react-native-multiple-select';
 import {useNavigation, useRoute} from '@react-navigation/native';
-// TODO: In android, toggle switch to change units overlaps with sex dropdown
-
-let {screenHeight, screenWidth} = Dimensions.get('window');
 
 const allergies = [
   {
@@ -86,9 +81,9 @@ class EnterDietaryRestrictions extends React.Component {
   }
 
   next = () => {
-    console.log('in selected allergy items');
-    console.log(this.state.selectedDiet);
-    console.log(this.state.selectedAllergyItems);
+    // console.log('in selected allergy items');
+    // console.log(this.state.selectedDiet);
+    // console.log(this.state.selectedAllergyItems);
     // if (
     //   (this.state.selectedAllergyItems &&
     //     this.state.selectedAllergyItems.length) ||
@@ -100,14 +95,13 @@ class EnterDietaryRestrictions extends React.Component {
   };
 
   saveDietaryRestrictions = () => {
-    console.log('Route ', this.props);
+    // console.log('Route ', this.props);
     const {route} = this.props;
     let {selectedAllergyItems, selectedDiet} = this.state;
-    console.log(selectedAllergyItems);
-    console.log(selectedDiet);
+    // console.log(selectedAllergyItems);
+    // console.log(selectedDiet);
     const {userId} = route.params;
     this.setState({userId: userId});
-    console.log('id: ' + userId);
     //sending request to retrieve the corresponding user object for login
     fetch(
       Platform.OS === 'android'
@@ -142,7 +136,7 @@ class EnterDietaryRestrictions extends React.Component {
 
   onSelectedAllergyChange = selectedItems => {
     this.setState({selectedAllergyItems: selectedItems});
-    console.log(this.state.selectedAllergyItems);
+    // console.log(this.state.selectedAllergyItems);
   };
 
   render() {
@@ -266,29 +260,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 30,
     width: Constants.DIMENSIONS.screenWidth * 0.5,
-  },
-  input: {
-    width: '80%',
-    //height: screenHeight * 0.05,
-    marginBottom: 10,
-    borderBottomWidth: 1,
-    backgroundColor: '#ecf0f1',
-    textAlign: 'center',
-  },
-  smallInput: {
-    width: '50%',
-    //height: screenHeight * 0.05,
-    marginBottom: 10,
-    borderBottomWidth: 1,
-    backgroundColor: '#ecf0f1',
-    textAlign: 'center',
-  },
-  nextButton: {
-    position: 'absolute',
-    // resizeMode: 'stretch',
-    height: 100,
-    width: 100,
-    bottom: 30,
-    right: 30,
   },
 });

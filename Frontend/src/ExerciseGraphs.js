@@ -3,22 +3,9 @@ import {
   Text,
   View,
   StyleSheet,
-  Dimensions,
-  ScrollView,
   Platform,
   TouchableOpacity,
 } from 'react-native';
-
-/*
-https://github.com/sxywu/react-d3-example/blob/master/src/visualizations/LineChart.js
-https://www.npmjs.com/package/react-native-responsive-linechart
-https://formidable.com/open-source/victory/docs/native/
- */
-
-/*
-TODO (Important note): do not demo graphs without inputting activity/meal data, i.e. do not demo graphs when all data values will be 0
- */
-
 import {
   VictoryBar,
   VictoryChart,
@@ -28,6 +15,12 @@ import {
 } from 'victory-native';
 import * as Constants from './Constants';
 import {useNavigation, useRoute} from '@react-navigation/native';
+
+/*
+https://github.com/sxywu/react-d3-example/blob/master/src/visualizations/LineChart.js
+https://www.npmjs.com/package/react-native-responsive-linechart
+https://formidable.com/open-source/victory/docs/native/
+ */
 
 let today = new Date();
 let day = today.getDay();
@@ -186,14 +179,10 @@ class ExerciseGraphs extends Component {
           />
           <VictoryAxis
             dependentAxis
-            // tickValues={[30, 60, 90, 120, 150, 180]}
             label={this.state.timeGraph ? 'minutes' : 'calories'}
-            // scale={{y: 'time'}}
             style={{
               axisLabel: {padding: 40},
             }}
-            // tickFormat specifies how ticks should be displayed
-            // tickFormat={x => `${x} min`}
           />
           <VictoryBar data={this.state.currentGraph} x="day" y="minutes" />
         </VictoryChart>
@@ -228,7 +217,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: Constants.COLORS.background,
   },
   active: {
     backgroundColor: Constants.COLORS.accent.main,

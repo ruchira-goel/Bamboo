@@ -2,7 +2,6 @@ import {
   Text,
   View,
   StyleSheet,
-  Dimensions,
   TextInput,
   Switch,
   Alert,
@@ -44,7 +43,7 @@ class EnterCharacteristics extends React.Component {
     const {route} = this.props;
     let {height, weight, age, sex, feet, inches, lifestyle} = this.state;
     const {userId} = route.params;
-    console.log('id: ' + userId);
+    // console.log('id: ' + userId);
 
     if (this.state.switchValue) {
       //imperial
@@ -103,7 +102,7 @@ class EnterCharacteristics extends React.Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        // console.log(data);
         if (data.error) {
           //throwing error when addCharacteristics fails (invalid userId)
           if (

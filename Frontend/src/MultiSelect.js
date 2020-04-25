@@ -71,7 +71,7 @@ export default class MultiSelect extends React.Component {
 
   getStyle(item) {
     try {
-      console.log(thisObj.state.selectedItems[item.key]);
+      // console.log(thisObj.state.selectedItems[item.key]);
       return thisObj.state.selectedItems[item.key]
         ? styles.itemTextSelected
         : styles.itemText;

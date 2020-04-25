@@ -4,9 +4,7 @@ import {
   View,
   ScrollView,
   StyleSheet,
-  Dimensions,
   Platform,
-  Alert,
   TouchableOpacity,
 } from 'react-native';
 import * as Constants from './Constants';

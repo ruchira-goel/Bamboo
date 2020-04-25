@@ -35,7 +35,7 @@ class Login extends React.Component {
 
   onRegister(token) {
     Alert.alert('Registered !', JSON.stringify(token));
-    console.log(token);
+    // console.log(token);
     this.setState({registerToken: token.token, gcmRegistered: true});
   }
 
@@ -63,7 +63,7 @@ class Login extends React.Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        // console.log(data);
         if (data.error) {
           //throwing error when login fails - wrong password / email not registered yet
           // if (data.message === "This email isn't registered yet") {

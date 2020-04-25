@@ -46,7 +46,7 @@ class EnterMealDailyInput extends React.Component {
     const {route} = this.props;
     const {userId} = route.params;
     this.setState({userId: userId});
-    console.log('id: ' + userId + ' Link: ' + mealInfo);
+    // console.log('id: ' + userId + ' Link: ' + mealInfo);
 
     if (!mealInfo) {
       Alert.alert('Meal Information Empty', 'Please enter meal information.', [
@@ -66,7 +66,6 @@ class EnterMealDailyInput extends React.Component {
       )
         .then(res => res.json())
         .then(data => {
-          console.log(data);
           if (data.error) {
             Alert.alert(
               data.message,
@@ -102,7 +101,6 @@ class EnterMealDailyInput extends React.Component {
       )
         .then(res => res.json())
         .then(data => {
-          console.log(data);
           if (data.error) {
             Alert.alert(
               data.message,
@@ -134,7 +132,7 @@ class EnterMealDailyInput extends React.Component {
         ]);
         return;
       }
-      console.log('Recipe: ' + mealInfo);
+      // console.log('Recipe: ' + mealInfo);
       fetch(
         Platform.OS === 'android'
           ? `${
@@ -146,7 +144,6 @@ class EnterMealDailyInput extends React.Component {
       )
         .then(res => res.json())
         .then(data => {
-          console.log(data);
           if (data.error) {
             if (data.message === 'Ingredients not found') {
               Alert.alert(
@@ -182,7 +179,6 @@ class EnterMealDailyInput extends React.Component {
   };
 
   addToFavorites = (mealId, userId) => {
-    console.log('userid from addToFavs: ' + userId);
     fetch(
       Platform.OS === 'android'
         ? `${
@@ -194,7 +190,6 @@ class EnterMealDailyInput extends React.Component {
     )
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         if (data.error) {
           Alert.alert(
             'Save Failed',
@@ -218,7 +213,6 @@ class EnterMealDailyInput extends React.Component {
 
   renderTextInput() {
     if (this.state.pickerSelection === 'Enter your own recipe') {
-      console.log('inside');
       return (
         <View>
           <TextInput
@@ -392,8 +386,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: Constants.DIMENSIONS.screenWidth,
     alignItems: 'center',
-    // justifyContent: 'space-between',
-    // justifyContent: 'center',
   },
   heading: {
     margin: 20,
@@ -401,7 +393,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   rowContainer: {
-    // justifyContent: 'space-between',
     flexDirection: 'row',
     padding: 12,
     alignItems: 'center',
@@ -418,12 +409,6 @@ const styles = StyleSheet.create({
   fieldText: {
     fontSize: 16,
     borderBottomWidth: 0.5,
-    // alignSelf: 'stretch',
-    // width: '100%',
-    // width: Constants.DIMENSIONS.screenWidth,
-  },
-  picker: {
-    //TODO
   },
   linkStyle: {
     alignItems: 'center',

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, StyleSheet, Dimensions, Platform} from 'react-native';
+import {Text, View, StyleSheet, Platform} from 'react-native';
 
 import {
   VictoryBar,
@@ -108,8 +108,6 @@ class DietGraphs extends Component {
           />
           <VictoryAxis
             dependentAxis
-            // TODO: if all y axis entries are 0, tick values will default to decimal points, but if you specify tick values, it won't auto adjust
-            // tickValues={[500, 1000, 1500, 2000, 2500, 3000]}
             label={'calories'}
             style={{
               axisLabel: {padding: 50},
@@ -137,6 +135,5 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: '#f5fcff',
   },
 });
