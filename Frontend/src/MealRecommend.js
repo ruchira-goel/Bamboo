@@ -60,7 +60,7 @@ class MealRecommend extends React.Component {
       let nutrientLimit = nutrient.toLowerCase() + limit;
       let label = limit === 'High' ? 'Upper Limit' : 'Lower Limit';
       return (
-        <View style={{flex: 0.5}}>
+        <View>
           <View style={{flex: 0.5, flexDirection: 'row'}}>
             <CheckBox
               style={{width: '50%', height: '50%'}}
@@ -455,7 +455,7 @@ class MealRecommend extends React.Component {
     return (
       <ScrollView>
         <View style={{flex: 1}}>
-          <Text style={{fontSize: 16, marginTop: '2%'}}>
+          <Text style={{fontSize: 16, margin: 10}}>
             Check a box, select limit type(s) and enter value(s) to limit a
             nutrient. Note that if you select a limit and do not enter any
             value, it will be calculated based on your health characteristics.
@@ -568,24 +568,9 @@ class MealRecommend extends React.Component {
               {this.renderLimits('Carbs', 'Low')}
             </View>
           </View>
-          <View style={styles.button}>
-            <TouchableOpacity
-              onPress={this.inputCheck}
-              style={{
-                backgroundColor: Constants.COLORS.primary.main,
-                borderRadius: 4,
-                borderColor: Constants.COLORS.primary.main,
-                padding: 12,
-                justifyContent: 'center',
-                alignItems: 'center',
-                margin: 20,
-                width: '40%',
-              }}>
-              <Text style={{justifyContent: 'center', textAlign: 'center'}}>
-                Submit
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity onPress={this.inputCheck} style={styles.button}>
+            <Text style={{fontSize: 16}}>Get Recommendations</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     );
@@ -599,48 +584,13 @@ export default function(props) {
 }
 
 const styles = StyleSheet.create({
-  heading: {
-    fontSize: 24,
-    fontWeight: '500',
-    flex: 1,
-    marginTop: '15%',
-  },
-  title: {
-    margin: 12,
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    textDecorationColor: 'gray',
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    alignContent: 'center',
-  },
-  spacingHigh: {
-    padding: 15,
-  },
-  spacingSmall: {
-    padding: 10,
-  },
-  fieldText: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderBottomWidth: 0.5,
-  },
-  alignLeftView: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
-  linkStyle: {
-    marginBottom: '70%',
-    padding: 15,
-  },
   button: {
-    flex: 1,
-    marginTop: '10%',
+    marginHorizontal: '10%',
+    marginBottom: 10,
+    marginTop: 30,
+    padding: 12,
     alignItems: 'center',
+    borderRadius: 4,
+    backgroundColor: Constants.COLORS.primary.main,
   },
-  /*textalign for the text to be in the center for "bamboo."*/
 });
