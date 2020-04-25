@@ -12,11 +12,11 @@ import {
 import * as Constants from './Constants';
 import {useNavigation, useRoute} from '@react-navigation/native';
 // import {LinearGradient} from 'expo-linear-gradient';
-// import RadioForm, {
-//   RadioButton,
-//   RadioButtonInput,
-//   RadioButtonLabel,
-// } from 'react-native-simple-radio-button';
+import RadioForm, {
+  RadioButton,
+  RadioButtonInput,
+  RadioButtonLabel,
+} from 'react-native-simple-radio-button';
 
 class HealthProfile extends Component {
   constructor(props) {
