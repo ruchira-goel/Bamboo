@@ -7,8 +7,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class UserHandler {
@@ -195,7 +193,6 @@ public class UserHandler {
 
         for (int i = 0; i < 7; i++) {
             Date date = new Date(System.currentTimeMillis() - offset * i);
-            System.out.println("in exercise the date is " + format.format(date) + " and i is " + i);
 
             Optional<DailyInfo> info = Optional.empty();
             if (dailyInfos.get(format.format(date)) != null) {
@@ -229,16 +226,12 @@ public class UserHandler {
 
         User user = this.userRepo.findUserByUserId(userId);
         HashMap<String, String> dailyInfos = user.getDailyInfo();
-        ZonedDateTime date = ZonedDateTime.now();
 
         for (int i = 0; i < 7; i++) {
-            //Date date = new Date(System.currentTimeMillis() - (offset * i));
-            System.out.println("date without fomat is " + date);
-            System.out.println("the date is " + DateTimeFormatter.ofPattern("dd/MM/yyyy").format(date) + " and i is " + i);
-            String formatted = DateTimeFormatter.ofPattern("dd/MM/yyyy").format(date);
+            Date date = new Date(System.currentTimeMillis() - offset * i);
 
             Optional<DailyInfo> info = Optional.empty();
-            if (dailyInfos.get(formatted) != null) {
+            if (dailyInfos.get(format.format(date)) != null) {
                 info = this.dailyInfoRepo.findById(dailyInfos.get(format.format(date)));
             }
 
@@ -252,7 +245,6 @@ public class UserHandler {
                 }
                 calories[6 - i] = cals;
             }
-            date.minusDays(1);
         }
 
         StringBuilder str = new StringBuilder();
