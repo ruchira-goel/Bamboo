@@ -229,7 +229,8 @@ public class UserHandler {
         HashMap<String, String> dailyInfos = user.getDailyInfo();
 
         for (int i = 0; i < 7; i++) {
-            Date date = new Date(System.currentTimeMillis() - offset * i);
+            Date date = new Date(System.currentTimeMillis() - (offset * i));
+            System.out.println("date without fomat is " + new Date(System.currentTimeMillis()));
             System.out.println("the date is " + format.format(date) + " and i is " + i);
 
             Optional<DailyInfo> info = Optional.empty();
