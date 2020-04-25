@@ -16,6 +16,7 @@ import * as Constants from './Constants';
 import MultiSelect from 'react-native-multiple-select';
 import {Dropdown} from 'react-native-material-dropdown';
 import {useNavigation, useRoute} from '@react-navigation/native';
+import {Contacts} from 'expo/build/removed.web';
 
 // TODO:
 // 1. put user's name in header
@@ -96,15 +97,15 @@ class EditDietaryRestrictions extends Component {
     )
       .then(res => res.json())
       .then(data => {
-        let newDiet = data.diet;
+        let allergies = data[0];
+        let newDiet = data[1][0];
+        console.log(newDiet);
+        console.log(allergies);
         this.setState({
-          allergies: data.allergies,
+          allergies: allergies,
           diet: newDiet,
         });
         console.log(this.state.allergies);
-        this.state.allergies.map(item => {
-          console.log(item);
-        });
         console.log(this.state.diet);
       });
   }
@@ -264,7 +265,7 @@ class EditDietaryRestrictions extends Component {
           <View style={styles.contentContainer}>
             {/*<Text style={styles.header}>[Name]'s Health Profile</Text>*/}
             <ScrollView>
-              <View style={{paddingTop: 35}}>
+              <View style={{marginTop: 35, padding: 10, backgroundColor: 'white',}}>
                 <Text
                   style={{fontSize: 20, textAlign: 'center', paddingBottom: 5}}>
                   Allergies/Intolerances:
@@ -284,15 +285,7 @@ class EditDietaryRestrictions extends Component {
               </View>
               <View style={styles.inputContainer}>
                 <Text style={[styles.text, {padding: 2}]}>Diet:</Text>
-                <Text
-                  style={[
-                    styles.textInput,
-                    this.state.inputStyle,
-                    styles.text,
-                    {width: 200},
-                  ]}>
-                  {diet}
-                </Text>
+                <Text style={[styles.textInput]}>{diet}</Text>
               </View>
             </ScrollView>
           </View>
@@ -317,6 +310,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 45,
+  },
+  textInput: {
+    fontSize: 20,
+    padding: 2,
   },
   btnStyle: {
     backgroundColor: Constants.COLORS.primary.main,
@@ -347,12 +344,17 @@ const styles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     // alignSelf: 'center',
-    paddingTop: 35,
-    paddingLeft: '20%',
+    alignContent: 'space-between',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    marginTop: 25,
+    width: 'auto',
+    padding: 10,
   },
   text: {
     fontSize: 20,
     width: 50,
+    backgroundColor: 'white',
   },
   fullContainer: {
     flex: 1,
