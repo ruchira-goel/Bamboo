@@ -233,8 +233,8 @@ public class UserHandler {
 
         for (int i = 0; i < 7; i++) {
             //Date date = new Date(System.currentTimeMillis() - (offset * i));
-            //System.out.println("date without fomat is " + new Date(System.currentTimeMillis()));
-            //System.out.println("the date is " + format.format(date) + " and i is " + i);
+            System.out.println("date without fomat is " + date);
+            System.out.println("the date is " + DateTimeFormatter.ofPattern("dd/MM/yyyy").format(date) + " and i is " + i);
             String formatted = DateTimeFormatter.ofPattern("dd/MM/yyyy").format(date);
 
             Optional<DailyInfo> info = Optional.empty();
