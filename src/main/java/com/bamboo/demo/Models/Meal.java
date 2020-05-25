@@ -35,6 +35,10 @@ public class Meal {
             return this.protein;
         } else if (trackedItem == TrackedItem.CALORIES) {
             return this.calories;
+        } else if (trackedItem == TrackedItem.G_OF_CARBS) {
+            return this.carbs;
+        } else if (trackedItem == TrackedItem.G_OF_FAT) {
+            return this.fat;
         }
         return 0;
     }

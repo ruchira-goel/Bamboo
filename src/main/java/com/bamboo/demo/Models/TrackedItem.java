@@ -3,6 +3,8 @@ package com.bamboo.demo.Models;
 public enum TrackedItem {
     G_OF_PROTEIN("Grams of Protein"),
     CALORIES("Calories"),
+    G_OF_FAT("Grams of Fat"),
+    G_OF_CARBS("Grams of Carbohydrates"),
     MINUTES_OF_ACTIVITY("Minutes of exercise"),
     HOURS_OF_ACTIVITY("Hours of exercise"),
     CALORIES_BURNED("Calories burned");
