@@ -30,7 +30,7 @@ public class GoalHandler {
     public Goal addGoal(String userId, String type, String limitType, int amount,
                         String trackedItem, String duration) {
 
-        String name = limitType + " " + amount + " of " + trackedItem + " per " + duration;
+        String name = limitType + " " + amount + " " + trackedItem + " per " + duration;
         Goal goal = new Goal(userId, Type.valueOfType(type), Duration.valueOfDuration(duration),
                 LimitType.valueOfLimitType(limitType), TrackedItem.valueOfTrackedItem(trackedItem), amount);
         goal.setName(name);
