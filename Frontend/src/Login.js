@@ -79,6 +79,8 @@ class Login extends React.Component {
           //set up notifications
           this.notif.scheduleNotifications(data.userId);
           //going to home screen
+          this.emailInput.clear();
+          this.passwordInput.clear();
           this.props.navigation.navigate('Root', {
             screen: 'Home',
             params: {
@@ -117,6 +119,7 @@ class Login extends React.Component {
         <View styles={styles.container}>
           <Text style={styles.title}>Bamboo.</Text>
           <TextInput
+            ref={input => { this.emailInput = input }}
             onBlur={() => this.onBlur('a')}
             onFocus={() => this.onFocus('a')}
             style={[styles.fieldText, {borderColor: this.state.borderColorA}]}
@@ -125,6 +128,7 @@ class Login extends React.Component {
             onChangeText={email => this.setState({email})} //setting the email when user enters it
           />
           <TextInput
+            ref={input => { this.passwordInput = input }}
             onBlur={() => this.onBlur('b')}
             onFocus={() => this.onFocus('b')}
             style={[

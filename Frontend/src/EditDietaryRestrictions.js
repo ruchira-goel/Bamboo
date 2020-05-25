@@ -10,7 +10,7 @@ import {
   SafeAreaView,
 } from 'react-native';
 import * as Constants from './Constants';
-import MultiSelect from 'react-native-multiple-select';
+import MultiSelect from 'react-native-multiple-select-expo';
 import {Dropdown} from 'react-native-material-dropdown';
 import {useNavigation, useRoute} from '@react-navigation/native';
 
