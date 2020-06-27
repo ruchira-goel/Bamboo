@@ -17,6 +17,7 @@ import NotifService from './NotifService';
 class SetGoal extends React.Component {
   constructor(props) {
     super(props);
+    //this.goalOptsDropdown = null;
     this.state = {
       userId: '',
       goalOptions: [
@@ -164,11 +165,15 @@ class SetGoal extends React.Component {
           <View style={{flexDirection: 'row', justifyContent: 'center'}}>
             <TouchableOpacity
               onPress={() => {
-                this.setState({
-                  goalOptions: mealOpts,
-                  isMealGoal: true,
-                  trackedItem: '_____',
-                });
+                 if (this.state.goalOptions !== mealOpts) {
+                   this.goalOptsDropdown.setState({ value: '' });
+                   this.setState({
+                     goalOptions: mealOpts,
+                     isMealGoal: true,
+                     trackedItem: '_____',
+                   });
+                 }
+
               }}
               style={[
                 styles.typeButton,
@@ -181,13 +186,16 @@ class SetGoal extends React.Component {
               <Text style={styles.text}>Diet</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() =>
-                this.setState({
-                  goalOptions: exOpts,
-                  isMealGoal: false,
-                  trackedItem: '_____',
-                })
-              }
+              onPress={() => {
+                if (this.state.goalOptions !== exOpts) {
+                  this.goalOptsDropdown.setState({ value: '' });
+                  this.setState({
+                    goalOptions: exOpts,
+                    isMealGoal: false,
+                    trackedItem: '_____',
+                  })
+                }
+              }}
               style={[
                 styles.typeButton,
                 {
@@ -228,7 +236,8 @@ class SetGoal extends React.Component {
           </View>
           <View style={styles.dropdown}>
             <Dropdown
-              label="Goal options"
+                ref={input => { this.goalOptsDropdown = input }}
+                label="Goal options"
               data={this.state.goalOptions}
               onChangeText={value => {
                 this.setState({trackedItem: value});
