@@ -22,10 +22,16 @@ class SetGoal extends React.Component {
       userId: '',
       goalOptions: [
         {
+          value: 'Calories',
+        },
+        {
           value: 'Grams of Protein',
         },
         {
-          value: 'Calories',
+          value: 'Grams of Carbohydrates',
+        },
+        {
+          value: 'Grams of Fat',
         },
       ],
       isMealGoal: true,
@@ -35,10 +41,16 @@ class SetGoal extends React.Component {
       duration: '____',
       mealOpts: [
         {
+          value: 'Calories',
+        },
+        {
           value: 'Grams of Protein',
         },
         {
-          value: 'Calories',
+          value: 'Grams of Carbohydrates',
+        },
+        {
+          value: 'Grams of Fat',
         },
       ],
       exOpts: [
